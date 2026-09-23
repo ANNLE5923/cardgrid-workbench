@@ -1,0 +1,80 @@
+{
+  "version": 1,
+  "tasks": [],
+  "rules": [
+    {
+      "id": "r-routine-a",
+      "name": "日常练习 A",
+      "title": "学习 30 分钟",
+      "weekdays": [0, 1, 2, 3, 4, 5, 6],
+      "status": "active",
+      "start": "2026-01-01",
+      "criteria": "完成一个小步骤",
+      "minimum": true,
+      "goals": [],
+      "projects": []
+    },
+    {
+      "id": "r-routine-b",
+      "name": "日常练习 B",
+      "title": "日常练习 B",
+      "weekdays": [1, 3, 5],
+      "status": "active",
+      "start": "2026-01-01",
+      "criteria": "完成 20 分钟练习",
+      "minimum": true,
+      "goals": [],
+      "projects": []
+    }
+  ],
+  "occurrences": [],
+  "templates": [
+    {
+      "id": "t-free",
+      "name": "普通日型 A",
+      "weekdays": [1, 3, 4, 6],
+      "blocks": [
+        { "id": "b-deep", "title": "专注工作", "start": 540, "end": 660, "kind": "flexible", "task": "", "cancelled": false },
+        { "id": "b-routine-b", "title": "运动", "start": 840, "end": 900, "kind": "flexible", "task": "", "cancelled": false }
+      ]
+    },
+    {
+      "id": "t-heavy",
+      "name": "固定安排日型",
+      "weekdays": [2],
+      "blocks": [
+        { "id": "b-fixed-am", "title": "固定安排一", "start": 480, "end": 720, "kind": "fixed", "task": "", "cancelled": false },
+        { "id": "b-fixed-pm", "title": "固定安排二", "start": 840, "end": 960, "kind": "fixed", "task": "", "cancelled": false },
+        { "id": "b-dinner", "title": "休息时间", "start": 1020, "end": 1080, "kind": "flexible", "task": "", "cancelled": false },
+        { "id": "b-walk", "title": "休息活动", "start": 1080, "end": 1140, "kind": "flexible", "task": "", "cancelled": false },
+        { "id": "b-flex-study", "title": "个人学习", "start": 1140, "end": 1200, "kind": "flexible", "task": "", "cancelled": false },
+        { "id": "b-light", "title": "弹性安排", "start": 1230, "end": 1290, "kind": "flexible", "task": "", "cancelled": false }
+      ]
+    },
+    {
+      "id": "t-half",
+      "name": "普通日型 B",
+      "weekdays": [5],
+      "blocks": [
+        { "id": "b-lab", "title": "固定安排三", "start": 840, "end": 960, "kind": "fixed", "task": "", "cancelled": false },
+        { "id": "b-weekly", "title": "每周整理", "start": 1140, "end": 1230, "kind": "flexible", "task": "", "cancelled": false },
+        { "id": "b-free", "title": "自由时间", "start": 1260, "end": 1320, "kind": "flexible", "task": "", "cancelled": false }
+      ]
+    },
+    {
+      "id": "t-rest",
+      "name": "轻量日型",
+      "weekdays": [0],
+      "blocks": [
+        { "id": "b-review", "title": "每周整理", "start": 600, "end": 660, "kind": "flexible", "task": "", "cancelled": false },
+        { "id": "b-sunday-walk", "title": "休息活动", "start": 900, "end": 960, "kind": "flexible", "task": "", "cancelled": false }
+      ]
+    }
+  ],
+  "days": [],
+  "captures": [],
+  "history": [],
+  "refs": [],
+  "goals": [],
+  "legacyImported": false
+}

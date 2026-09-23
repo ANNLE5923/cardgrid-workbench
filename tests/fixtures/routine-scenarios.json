@@ -1,0 +1,222 @@
+{
+  "_comment": "Routine 生命周期样例：错过(missed)、补做(makeup)、跳过(skipped)、完成(completed)、暂停(paused)、归档(archived)。日期锚定 2026-09-21 周一。加载后可直接观察各状态，或调用 bootstrap() 推进到后续日期。",
+  "version": 1,
+  "tasks": [
+    {
+      "id": "t-routine-a-yesterday",
+      "title": "学习 30 分钟",
+      "date": "2026-09-20",
+      "status": "planned",
+      "criteria": "完成一个小步骤",
+      "minimum": true,
+      "goals": [],
+      "projects": [],
+      "source": "routine",
+      "occurrence": "o-routine-a-yesterday",
+      "makeupOf": ""
+    },
+    {
+      "id": "t-routine-a-today",
+      "title": "学习 30 分钟",
+      "date": "2026-09-21",
+      "status": "planned",
+      "criteria": "完成一个小步骤",
+      "minimum": true,
+      "goals": [],
+      "projects": [],
+      "source": "routine",
+      "occurrence": "o-routine-a-today",
+      "makeupOf": ""
+    },
+    {
+      "id": "t-routine-b-today",
+      "title": "日常练习 B",
+      "date": "2026-09-21",
+      "status": "planned",
+      "criteria": "完成 20 分钟练习",
+      "minimum": true,
+      "goals": [],
+      "projects": [],
+      "source": "routine",
+      "occurrence": "o-routine-b-today",
+      "makeupOf": ""
+    },
+    {
+      "id": "t-reading-yesterday",
+      "title": "阅读 30 分钟",
+      "date": "2026-09-20",
+      "status": "skipped",
+      "criteria": "非虚构类",
+      "minimum": false,
+      "goals": [],
+      "projects": [],
+      "source": "routine",
+      "occurrence": "o-reading-yesterday",
+      "makeupOf": ""
+    },
+    {
+      "id": "t-makeup-routine-a",
+      "title": "补做 · 2026-09-20 学习 30 分钟",
+      "date": "2026-09-21",
+      "status": "planned",
+      "criteria": "完成一个小步骤",
+      "minimum": false,
+      "goals": [],
+      "projects": [],
+      "source": "makeup",
+      "occurrence": "",
+      "makeupOf": "o-routine-a-yesterday"
+    }
+  ],
+  "rules": [
+    {
+      "id": "r-routine-a",
+      "name": "日常练习 A",
+      "title": "学习 30 分钟",
+      "weekdays": [0, 1, 2, 3, 4, 5, 6],
+      "status": "active",
+      "start": "2026-01-01",
+      "criteria": "完成一个小步骤",
+      "minimum": true,
+      "goals": [],
+      "projects": []
+    },
+    {
+      "id": "r-routine-b",
+      "name": "日常练习 B",
+      "title": "日常练习 B",
+      "weekdays": [1, 3, 5],
+      "status": "active",
+      "start": "2026-01-01",
+      "criteria": "完成 20 分钟练习",
+      "minimum": true,
+      "goals": [],
+      "projects": []
+    },
+    {
+      "id": "r-reading",
+      "name": "阅读",
+      "title": "阅读 30 分钟",
+      "weekdays": [0, 1, 2, 3, 4, 5, 6],
+      "status": "paused",
+      "start": "2026-01-01",
+      "criteria": "非虚构类",
+      "minimum": false,
+      "goals": [],
+      "projects": []
+    },
+    {
+      "id": "r-meditate",
+      "name": "冥想",
+      "title": "晨间冥想",
+      "weekdays": [0, 1, 2, 3, 4, 5, 6],
+      "status": "archived",
+      "start": "2026-01-01",
+      "criteria": "10 分钟",
+      "minimum": false,
+      "goals": [],
+      "projects": []
+    }
+  ],
+  "occurrences": [
+    {
+      "id": "o-routine-a-yesterday",
+      "rule": "r-routine-a",
+      "date": "2026-09-20",
+      "task": "t-routine-a-yesterday",
+      "status": "missed"
+    },
+    {
+      "id": "o-routine-a-today",
+      "rule": "r-routine-a",
+      "date": "2026-09-21",
+      "task": "t-routine-a-today",
+      "status": "generated"
+    },
+    {
+      "id": "o-routine-b-today",
+      "rule": "r-routine-b",
+      "date": "2026-09-21",
+      "task": "t-routine-b-today",
+      "status": "generated"
+    },
+    {
+      "id": "o-reading-yesterday",
+      "rule": "r-reading",
+      "date": "2026-09-20",
+      "task": "t-reading-yesterday",
+      "status": "skipped"
+    }
+  ],
+  "templates": [],
+  "days": [],
+  "captures": [],
+  "history": [
+    {
+      "id": "h-001",
+      "at": "2026-09-20T08:00:00.000Z",
+      "date": "2026-09-20",
+      "type": "RoutineOccurrenceGenerated",
+      "entity": "o-routine-a-yesterday",
+      "before": null,
+      "after": null
+    },
+    {
+      "id": "h-002",
+      "at": "2026-09-20T08:00:00.000Z",
+      "date": "2026-09-20",
+      "type": "RoutineOccurrenceGenerated",
+      "entity": "o-reading-yesterday",
+      "before": null,
+      "after": null
+    },
+    {
+      "id": "h-003",
+      "at": "2026-09-20T09:00:00.000Z",
+      "date": "2026-09-20",
+      "type": "CardSkipped",
+      "entity": "t-reading-yesterday",
+      "before": null,
+      "after": null
+    },
+    {
+      "id": "h-004",
+      "at": "2026-09-21T00:05:00.000Z",
+      "date": "2026-09-21",
+      "type": "RoutineOccurrenceMissed",
+      "entity": "o-routine-a-yesterday",
+      "before": { "date": "2026-09-20" },
+      "after": null
+    },
+    {
+      "id": "h-005",
+      "at": "2026-09-21T00:05:00.000Z",
+      "date": "2026-09-21",
+      "type": "RoutineOccurrenceGenerated",
+      "entity": "o-routine-a-today",
+      "before": null,
+      "after": null
+    },
+    {
+      "id": "h-006",
+      "at": "2026-09-21T00:05:00.000Z",
+      "date": "2026-09-21",
+      "type": "RoutineOccurrenceGenerated",
+      "entity": "o-routine-b-today",
+      "before": null,
+      "after": null
+    },
+    {
+      "id": "h-007",
+      "at": "2026-09-21T09:00:00.000Z",
+      "date": "2026-09-21",
+      "type": "RoutineOccurrenceMakeupCreated",
+      "entity": "o-routine-a-yesterday",
+      "before": null,
+      "after": null
+    }
+  ],
+  "refs": [],
+  "goals": [],
+  "legacyImported": false
+}

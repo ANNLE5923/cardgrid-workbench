@@ -1,0 +1,20 @@
+import type {Data} from './domain.ts';
+import {emptyPlanner,newTask,validatePlanner,type Planner,type Rule} from './planner.ts';
+// Retain every legacy field in Data; migrate only facts that actually exist.
+export function fromLegacy(d:Omit<Data,'planner'>):Planner{
+ const p=emptyPlanner();p.refs=structuredClone(d.projects);let active=0;
+ for(const r of p.refs)if(r.status==='active'&&++active>3)r.status='paused';
+ const ruleIds=new Set([...d.routines.map(r=>r.id),...d.occurrences.map(o=>o.routineId)]);
+ for(const id of ruleIds){const r=d.routines.find(r=>r.id===id),o=d.occurrences.find(o=>o.routineId===id),c=d.config.cards.find(c=>c.id===(r?.cardId||o?.cardId));p.rules.push({id,name:r?.title||c?.title||'旧例行',title:c?.title||r?.title||'旧例行',weekdays:r?.weekdays||[0,1,2,3,4,5,6],status:r?.enabled===false?'paused':'active',start:o?.plannedDate||'1900-01-01',criteria:c?.steps||'',minimum:false,goals:[],projects:[]})}
+ const keyMap=new Map<string,string>();
+ for(const o of d.occurrences.filter(o=>!o.makeupOf)){const key=o.routineId+'|'+o.plannedDate;if(keyMap.has(key))continue;keyMap.set(key,o.id);const c=d.config.cards.find(c=>c.id===o.cardId),t=newTask(c?.title||'旧例行事项',o.plannedDate,'migration');t.id='task-'+o.id;t.occurrence=o.id;t.criteria=c?.steps||'';t.status=o.status==='done'?'done':o.status==='skipped'?'skipped':'planned';p.tasks.push(t);p.occurrences.push({id:o.id,rule:o.routineId,date:o.plannedDate,task:t.id,status:o.status==='done'?'completed':o.status==='pending'?'generated':o.status})}
+ for(const o of d.occurrences.filter(o=>o.makeupOf)){const origin=p.occurrences.find(x=>x.id===o.makeupOf);if(!origin||p.tasks.some(t=>t.makeupOf===origin.id))continue;const t=newTask('补做 · '+origin.date+' '+(d.config.cards.find(c=>c.id===o.cardId)?.title||'旧事项'),o.plannedDate,'migration');t.makeupOf=origin.id;t.status=o.status==='done'?'done':'planned';p.tasks.push(t)}
+ for(const c of d.inbox){const capture={id:c.id,text:c.text,at:c.createdAt,source:'quick_capture',status:c.status==='converted'?'resolved' as const:c.status==='discarded'?'discarded' as const:'unprocessed' as const,target:''};if(c.status==='converted'){const t=newTask(d.config.cards.find(x=>x.id===c.targetId)?.title||c.text,'',c.id);p.tasks.push(t);capture.target=t.id}p.captures.push(capture)}
+ for(const old of d.days){const template=d.config.schedules.find(t=>t.id===old.scheduleId);p.days.push({date:old.date,name:template?.name||'未选择日型',template:'',blocks:(template?.entries||[]).map((b,i)=>{const override=old.overrides[String(i)]||old.overrides[b.cardId];const start=(override?.start||b.start).split(':').map(Number);return {id:'old-block-'+i,title:d.config.cards.find(c=>c.id===b.cardId)?.title||'旧安排',start:start[0]*60+start[1],end:start[0]*60+start[1]+(override?.minutes||b.minutes),kind:'flexible',task:'',cancelled:false}}),top3:old.top3.map(id=>{let t=p.tasks.find(t=>t.date===old.date&&d.occurrences.some(o=>o.cardId===id&&o.id===t.occurrence));if(!t){t=newTask(d.config.cards.find(c=>c.id===id)?.title||'旧重点任务',old.date,'migration');p.tasks.push(t)}return t.id}).filter((id,i,a)=>a.indexOf(id)===i).slice(0,3),minimum:old.minimumMode,overrides:[]})}
+ p.history=d.events.map(e=>({id:e.id,at:e.at,date:e.date,type:e.type,entity:e.entityId,before:null,after:e.details||null}));return validatePlanner(p);
+}
+export function importDefinitions(p:Planner,d:Data){
+ if(p.legacyImported)return;
+ for(const c of d.config.cards.filter(c=>c.kind==='habit'&&c.enabled)){if(p.rules.some(r=>r.id==='legacy-'+c.id))continue;const r:Rule={id:'legacy-'+c.id,name:c.title,title:c.title,weekdays:[0,1,2,3,4,5,6],status:'active',start:'1900-01-01',criteria:c.steps,minimum:false,goals:[],projects:[]};p.rules.push(r)}
+ for(const t of d.config.schedules){p.templates.push({id:'legacy-'+t.id,name:t.name,weekdays:[],blocks:t.entries.map((b,i)=>{const [h,m]=b.start.split(':').map(Number);return {id:'entry-'+i,title:d.config.cards.find(c=>c.id===b.cardId)?.title||'旧安排',start:h*60+m,end:h*60+m+b.minutes,kind:'flexible',task:'',cancelled:false}})})}p.legacyImported=true;
+}
