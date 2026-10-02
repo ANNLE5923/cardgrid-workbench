@@ -1,0 +1,27 @@
+[
+  {
+    "script": "action-2g",
+    "status": 0,
+    "tail": "PASS G2-fixed-close-is-write-free\nPASS G2-fixed-move-at-initial-focus\nPASS G2-fixed-change-dialog-focus\nPASS G2-fixed-explicit-cancel\nPASS G2-actual-new-overlap-needs-new-ack\nPASS G2-actual-minute-precision\nPASS G2-no-duration-unplanned-actual-entry\nPASS G2-future-actual-warning\nPASS G2-epoch-replacement-clears-dialog\nPASS G2-actual-storage-failure-retains-input\nPASS G2-double-confirm-produces-one-fact\nPASS G2-backup-restore-preserves-fact-data\nPASS G2-actual-DST-offset-selection\nEvidence: tests/fixtures/action/g3-final-evidence/independent/final-action-2g\n2G independent: 13/13\n"
+  },
+  {
+    "script": "action-2g-closure",
+    "status": 0,
+    "tail": "PASS G2-selection-redraw-manual-sort-through-entry\nPASS G2-crowded-full-duration-protects-fixed-and-fact\nPASS G2-keyboard-dialog-containment-and-focus-return\nPASS G2-small-screen-320-plan-fact-annotation\nPASS G2-small-screen-390-plan-fact-annotation\nPASS G2-past-plan-cross-midnight-does-not-auto-confirm\nPASS G2-cross-midnight-has-next-day-label-and-same-record\nEvidence: tests/fixtures/action/g3-final-evidence/independent/final-action-2g-closure\n2G closure: 7/7\n"
+  },
+  {
+    "script": "action-2g-save-failures",
+    "status": 0,
+    "tail": "PASS S05-definition-input-and-resave\nPASS S05-hand-placement-and-retract-retry\nPASS S05-annotation-failure-retains-text-and-fact\nPASS S05-external-revision-keeps-actual-input-and-repreviews\nPASS G2-two-window-actual-confirm-produces-one-fact\nPASS G2-fact-edit-refused-and-original-retained\nEvidence: tests/fixtures/action/g3-final-evidence/independent/final-action-2g-save-failures\n2G save failures: 6/6\n"
+  },
+  {
+    "script": "action-2g-annotation",
+    "status": 0,
+    "tail": "PASS G2-annotation-busy-protects-own-input-and-other-draft\nPASS G2-annotations-two-pending-facts-stay-independently-busy\nEvidence: tests/fixtures/action/g3-final-evidence/independent/final-action-2g-annotation\n2G annotation: 2/2\n"
+  },
+  {
+    "script": "action-3g-hook-faults",
+    "status": 0,
+    "tail": "E01-serial-coalesce-pending passed\nE02-late-preview-cancelled passed\nE03-storage-retry-complete-command passed\nE04-new-input-clears-retry-command passed\nE05-lost-response-idempotent-replay passed\nE06-fixed-repreview-fresh-unlock passed\nE07-late-fixed-unlock-released passed\nE08-fixed-invalid-preview-cleans-unlock passed\nE09-pending-cannot-commit passed\nE10-double-submit-one-command passed\n{\"total\":10,\"passed\":10,\"out\":\"C:\\\\Users\\\\arstot\\\\Documents\\\\Codex\\\\2026-09-20\\\\抽卡人生\\\\cardgrid\\\\tests\\\\fixtures\\\\action\\\\g3-final-evidence\"}\n"
+  }
+]

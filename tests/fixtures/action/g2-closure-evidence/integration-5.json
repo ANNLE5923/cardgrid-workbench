@@ -1,0 +1,37 @@
+[
+  {
+    "name": "2E-1 definitions-nav-creates-definition",
+    "status": "pass",
+    "detail": {
+      "mountedDefinitions": 1
+    }
+  },
+  {
+    "name": "2E-2 hand-nav-draw-accept",
+    "status": "pass",
+    "detail": {
+      "acceptedThroughRealEntry": true
+    }
+  },
+  {
+    "name": "2E-3 legacy-tabs-still-render",
+    "status": "pass",
+    "detail": {
+      "legacyIntact": true
+    }
+  },
+  {
+    "name": "2E-4 prepare-day-after-cross-entry-save",
+    "status": "pass",
+    "detail": {
+      "prepareDayAcceptedAfterSync": true
+    }
+  },
+  {
+    "name": "2E-5 settings-merge-keeps-both-windows-edits",
+    "status": "pass",
+    "detail": {
+      "mergedKeptBoth": true
+    }
+  }
+]

@@ -1,0 +1,35 @@
+{
+  "task": "G3-Codex",
+  "origin": "http://127.0.0.1:53495",
+  "version": "156.0.8072.0",
+  "at": "2026-10-02T05:49:11.642Z",
+  "passed": 5,
+  "failed": 0,
+  "results": [
+    {
+      "id": "P01-next-day-scene-conflict-cancel-restores",
+      "status": "passed",
+      "observations": {}
+    },
+    {
+      "id": "P02-cross-source-same-id-overlap-painted",
+      "status": "passed",
+      "observations": {}
+    },
+    {
+      "id": "P03-real-fixed-prefix-id-explicit-unlock",
+      "status": "passed",
+      "observations": {}
+    },
+    {
+      "id": "P04-plan-pointercancel-never-retracts",
+      "status": "passed",
+      "observations": {}
+    },
+    {
+      "id": "P05-adjust-tab-trap-and-focus-return",
+      "status": "passed",
+      "observations": {}
+    }
+  ]
+}

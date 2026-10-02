@@ -1,0 +1,19 @@
+diff --git a/tests/fixtures/action/g3-final-evidence/before/hand.css b/src/components/hand/hand.css
+index ec29ee2..4e76078 100644
+--- a/tests/fixtures/action/g3-final-evidence/before/hand.css
++++ b/src/components/hand/hand.css
+@@ -227,3 +227,14 @@
+     animation: none !important;
+   }
+ }
++
++/* The pointer owns the original card; a non-interactive copy follows its real top edge. */
++.fan-card.dragging { transform: rotate(var(--fan-angle)); transform-origin: 50% 260px; }
++.drag-card-ghost {
++  position: fixed; z-index: 100; pointer-events: none; box-sizing: border-box;
++  border: 1px solid var(--line); border-top: 8px solid; border-radius: 12px;
++  background: var(--surface); color: var(--ink); padding: 12px;
++  box-shadow: 0 16px 32px rgba(44, 66, 57, 0.28); overflow: hidden;
++}
++.drag-card-ghost strong, .drag-card-ghost small { display: block; margin-bottom: 8px; }
++.drag-card-ghost [data-card-top-edge] { position: absolute; top: -8px; left: 50%; width: 0; height: 0; }

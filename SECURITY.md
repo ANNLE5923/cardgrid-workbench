@@ -2,4 +2,6 @@
 
 CardGrid stores workspace data in browser IndexedDB and has no application account or remote sync service. Treat exported backup files as private user data.
 
-Please do not publish real backups, screenshots containing personal schedules, browser profiles, or local database files in issues. For a suspected security issue, contact the repository owner privately after the GitHub repository has been created; do not include private workspace exports in a public report.
+Do not attach real backups, screenshots containing personal schedules, browser profiles, local database files, or credentials to public issues. Reproduce problems with synthetic data.
+
+For suspected security issues, use the repository's private vulnerability reporting option if available, or contact the owner through a private channel you already have. No dedicated security email is currently published. Do not disclose private workspace exports in a public report.

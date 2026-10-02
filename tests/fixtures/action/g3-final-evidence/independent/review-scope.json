@@ -1,0 +1,15 @@
+{
+  "at": "2026-10-02T06:13:00.735Z",
+  "sourceChangesAgainstHandoff": [
+    "src/components/action-flow.tsx",
+    "src/components/day-board.tsx",
+    "src/components/hand/hand.css",
+    "src/components/hand/HandFan.tsx",
+    "src/components/time-dial/DayOverview.tsx",
+    "src/components/time-dial/interaction.ts",
+    "src/components/time-dial/projection-adapter.ts",
+    "src/components/time-dial/TimeDial.tsx",
+    "src/components/time-dial/use-placement-session.ts"
+  ],
+  "expectedCount": 9
+}

@@ -1,0 +1,22 @@
+[
+  {
+    "script": "action-3g-gate-main",
+    "status": 0,
+    "tail": "te-change passed \nB16-single-placement-owner passed \nB17-external-preview-invalidated passed \nB18-dst-explicit-choice passed \nB19-dst-duration-offset-self-overlap passed \nB20-fixed-button-cancel-save passed \nB21-fact-readonly-annotation passed \nB22-cross-day-full-description passed \nB23-now-reset-date passed \nB24-idle-midnight passed \nB25-manual-midnight-notice passed \nB26-layout-320 passed \nB26-layout-390 passed \nB26-layout-720 passed \nB26-layout-1280 passed \nB27-night-reduced-motion passed \n{\"total\":30,\"passed\":30,\"failed\":0,\"out\":\"C:\\\\Users\\\\arstot\\\\Documents\\\\Codex\\\\2026-09-20\\\\抽卡人生\\\\cardgrid\\\\tests\\\\fixtures\\\\action\\\\3g-codex-evidence\"}\n"
+  },
+  {
+    "script": "action-3g-gate-additional",
+    "status": 0,
+    "tail": "C01-crowded-select-all passed \nC02-crowded-45-full-save passed \nC03-cross-day-no-loss-navigation passed \nC04-pointercancel-no-write passed \nC05-many-hand-small-screen passed \nC06-page-headings-paper passed \nC06-page-headings-night passed \nC07-dst-button-explicit-choice passed \n{\"total\":8,\"passed\":8,\"failed\":0,\"out\":\"C:\\\\Users\\\\arstot\\\\Documents\\\\Codex\\\\2026-09-20\\\\抽卡人生\\\\cardgrid\\\\tests\\\\fixtures\\\\action\\\\3g-codex-evidence\"}\n"
+  },
+  {
+    "script": "action-3g-gate-supplement",
+    "status": 0,
+    "tail": "D01-button-24-preview-date passed \nD02-next-day-scene-and-save passed \nD03-zone-change-cancels-preview passed \nD04-adjust-focus-and-escape passed \nD05-dial-cw-quarter-turn passed \nD06-saved-plan-pull-retracts passed \nD07-preview-pull-cancels passed \nD08-midnight-active-preview-keeps-date passed \n{\"total\":8,\"passed\":8,\"failed\":0,\"out\":\"C:\\\\Users\\\\arstot\\\\Documents\\\\Codex\\\\2026-09-20\\\\抽卡人生\\\\cardgrid\\\\tests\\\\fixtures\\\\action\\\\3g-codex-evidence\"}\n"
+  },
+  {
+    "script": "action-3g-final-extra",
+    "status": 0,
+    "tail": "P01-next-day-scene-conflict-cancel-restores passed \nP02-cross-source-same-id-overlap-painted passed \nP03-real-fixed-prefix-id-explicit-unlock passed \nP04-plan-pointercancel-never-retracts passed \nP05-adjust-tab-trap-and-focus-return passed \nP06-button-24-saves-complete-next-day-range passed \n{\"total\":6,\"passed\":6,\"failed\":0,\"out\":\"C:\\\\Users\\\\arstot\\\\Documents\\\\Codex\\\\2026-09-20\\\\抽卡人生\\\\cardgrid\\\\tests\\\\fixtures\\\\action\\\\g3-final-evidence\"}\n"
+  }
+]

@@ -1,0 +1,22 @@
+{
+  "at": "2026-10-01T14:07:50.372Z",
+  "head": "b7eb94e817382975a0e5d16d86f51cf8b1134681",
+  "scope": "最终批注P2修复快照；待只读分离检查核对15个哈希",
+  "hashes": {
+    "src/components/action-flow.tsx": "09e41bdfa1b9b3026dea3215ca5262272de216686206b0c97d94d919590152b5",
+    "src/components/use-flow-focus.ts": "92eb8fcf095267b118920f0b97fe3f5b6062d7b27152ec97d70b26c3895241cf",
+    "src/components/day-board.tsx": "25587680c4b5adb9b9ba2d3f42cae0baa590afe44e962efd9ff0847d512f7009",
+    "src/action-time.ts": "361231eedf539f6bbeb4fdddfe88a94e351a9b39481d2e51495c0fe0effe91a5",
+    "src/main.tsx": "afbdf0c57e64f7506227084e4864f6f64faedaaab722d63b877869d66d809183",
+    "src/action.css": "6b1a1bc39433acdd635daa53a95796b2304365dfac2c0d0b55d927c2da246e57",
+    "src/style.css": "e7058958c8f5d8665cc1248533cbe47e05da2d602e50edadb2102c5386edc8f8",
+    "src/action-commands.ts": "bcb7f2fab5bc62702c622e465d4899cf1e132167a4cf4e95620d565c1963abff",
+    "src/action-contract.ts": "a40818c3e4461d3855da72548f6af0eba21d3309dc468026b80cdea1aab6ae7e",
+    "src/workspace-client.ts": "f5b482235f2d29dd16198a4933eadf49858a5215582a1e160178a2a3c8182864",
+    "tests/browser/action-2g.mjs": "95fa48054d9f010ccc018907a5c5af18172948624d10ecce558172f83d95fae3",
+    "tests/browser/action-2h-review.mjs": "0afcb206916820345bbd3b83ff5dfbdeb53c0c4ce4c573df71f0e846ba394f17",
+    "tests/browser/action-2g-closure.mjs": "7a09851dd74a7aef66008709e841c2e0a1f8a101c9282ee8ec5539d40f699528",
+    "tests/browser/action-2g-save-failures.mjs": "beeb2e70e6a9495e2035ca0d0bca60afe8629ea3aa961bb01bc4a28450f58c64",
+    "tests/browser/action-2g-annotation.mjs": "ad74cf0f31b96a301202273f912c3634d942e533d1694a4d4b55bcf77a396bcb"
+  }
+}

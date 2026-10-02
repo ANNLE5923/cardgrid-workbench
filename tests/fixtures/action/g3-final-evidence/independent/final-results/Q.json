@@ -1,0 +1,65 @@
+{
+  "task": "G3-Codex",
+  "origin": "http://127.0.0.1:52113",
+  "version": "156.0.8072.0",
+  "at": "2026-10-02T06:10:58.196Z",
+  "passed": 3,
+  "failed": 0,
+  "results": [
+    {
+      "id": "Q01-view-only-does-not-retain-placement-origin",
+      "status": "passed",
+      "observations": {
+        "beforeCancel": "11:00",
+        "afterCancel": "11:00"
+      }
+    },
+    {
+      "id": "Q02-first-entry-push-threshold",
+      "status": "passed",
+      "observations": {
+        "outer": "选择落点\n2026-09-28T21:00—2026-09-28T21:30\n+08:00/+08:00 · valid\n取消\n确认排期",
+        "outerEdge": {
+          "x": 716,
+          "y": 208.328125,
+          "width": 138,
+          "height": 168
+        },
+        "after38": "选择落点\n2026-09-28T21:00—2026-09-28T21:30\n+08:00/+08:00 · valid\n取消\n确认排期",
+        "after38Edge": {
+          "x": 716,
+          "y": 173.65625,
+          "width": 138,
+          "height": 168
+        },
+        "after75": "选择落点\n2026-09-28T09:00—2026-09-28T09:30\n+08:00/+08:00 · valid\n取消\n确认排期"
+      }
+    },
+    {
+      "id": "Q03-scaled-card-real-top-edge",
+      "status": "passed",
+      "observations": {
+        "expected": {
+          "x": 166,
+          "y": 224.92437744140625
+        },
+        "actual": {
+          "x": 165.984375,
+          "y": 224.921875
+        },
+        "source": {
+          "x": 113.19999694824219,
+          "y": 224.92437744140625,
+          "width": 93.60000610351562,
+          "height": 118.55999755859375
+        },
+        "ghost": {
+          "x": 119.1875,
+          "y": 224.921875,
+          "width": 93.59375,
+          "height": 118.546875
+        }
+      }
+    }
+  ]
+}

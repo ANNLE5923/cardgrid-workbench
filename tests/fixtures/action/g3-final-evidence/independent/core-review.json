@@ -1,0 +1,61 @@
+{
+  "at": "2026-10-02T05:57:46.850Z",
+  "count": 9,
+  "changed": [],
+  "core": [
+    {
+      "file": "src/action-commands.ts",
+      "sha256": "bcb7f2fab5bc62702c622e465d4899cf1e132167a4cf4e95620d565c1963abff",
+      "expected": "bcb7f2fab5bc62702c622e465d4899cf1e132167a4cf4e95620d565c1963abff",
+      "same": true
+    },
+    {
+      "file": "src/action-contract.ts",
+      "sha256": "a40818c3e4461d3855da72548f6af0eba21d3309dc468026b80cdea1aab6ae7e",
+      "expected": "a40818c3e4461d3855da72548f6af0eba21d3309dc468026b80cdea1aab6ae7e",
+      "same": true
+    },
+    {
+      "file": "src/action-domain.ts",
+      "sha256": "f618a065198fe46a39ee012413bee5fb161556318033746344204aa00b05b395",
+      "expected": "f618a065198fe46a39ee012413bee5fb161556318033746344204aa00b05b395",
+      "same": true
+    },
+    {
+      "file": "src/action-projection.ts",
+      "sha256": "31d88d048f04341b33ec8b1bfe1b8dc57250c6c4212e51d47440f0ccb25b256b",
+      "expected": "31d88d048f04341b33ec8b1bfe1b8dc57250c6c4212e51d47440f0ccb25b256b",
+      "same": true
+    },
+    {
+      "file": "src/action-time.ts",
+      "sha256": "361231eedf539f6bbeb4fdddfe88a94e351a9b39481d2e51495c0fe0effe91a5",
+      "expected": "361231eedf539f6bbeb4fdddfe88a94e351a9b39481d2e51495c0fe0effe91a5",
+      "same": true
+    },
+    {
+      "file": "src/workspace-client.ts",
+      "sha256": "f5b482235f2d29dd16198a4933eadf49858a5215582a1e160178a2a3c8182864",
+      "expected": "f5b482235f2d29dd16198a4933eadf49858a5215582a1e160178a2a3c8182864",
+      "same": true
+    },
+    {
+      "file": "src/workspace-format.ts",
+      "sha256": "d982141211b8d88e5b940e8d304e0057443446898ebee2f2a02bf9b36438e808",
+      "expected": "d982141211b8d88e5b940e8d304e0057443446898ebee2f2a02bf9b36438e808",
+      "same": true
+    },
+    {
+      "file": "src/workspace-migration.ts",
+      "sha256": "ed40e4ffc641affc4747a4b5f702e72b4b63a062aecbccefed9551432e981274",
+      "expected": "ed40e4ffc641affc4747a4b5f702e72b4b63a062aecbccefed9551432e981274",
+      "same": true
+    },
+    {
+      "file": "src/store.ts",
+      "sha256": "8560f032207a0ef36740f7a8bc5a077eda6767f7ef2e4539537caf9fa3e224aa",
+      "expected": "8560f032207a0ef36740f7a8bc5a077eda6767f7ef2e4539537caf9fa3e224aa",
+      "same": true
+    }
+  ]
+}

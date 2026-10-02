@@ -1,0 +1,22 @@
+{
+  "at": "2026-10-01T14:08:48.999Z",
+  "results": [
+    {
+      "name": "independent-annotation-pending-disables-own-input-preserves-other-draft",
+      "status": "pass",
+      "detail": {
+        "ownInputDisabled": true,
+        "otherDraftPreserved": true
+      }
+    },
+    {
+      "name": "independent-two-annotation-requests-keep-separate-busy-and-drafts",
+      "status": "pass",
+      "detail": {
+        "separatePendingState": true,
+        "firstNewDraftRetained": true,
+        "eachSavedOnce": true
+      }
+    }
+  ]
+}

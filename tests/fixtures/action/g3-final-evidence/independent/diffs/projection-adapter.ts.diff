@@ -1,0 +1,73 @@
+diff --git a/tests/fixtures/action/g3-final-evidence/before/projection-adapter.ts b/src/components/time-dial/projection-adapter.ts
+index cfd9c6f..3da02e8 100644
+--- a/tests/fixtures/action/g3-final-evidence/before/projection-adapter.ts
++++ b/src/components/time-dial/projection-adapter.ts
+@@ -42,15 +42,15 @@ function absoluteMinute(seg: Segment, edge: 'start' | 'end'): number {
+ }
+ 
+ // Unprepared day-template projections are read-only previews, never saved fixed sources (N06).
+-function effectiveSource(seg: Segment): DialSource {
+-  if (seg.kind === 'fixed' && seg.sourceId?.startsWith('template-projection:')) {
++function effectiveSource(seg: Segment, day?: ProductionDayView): DialSource {
++  if (seg.kind === 'fixed' && day && !day.fixed.some(f => f.commitmentId === seg.sourceId)) {
+     return 'projected-readonly';
+   }
+   return seg.kind;
+ }
+ 
+-function segmentFragment(seg: Segment): DialFragment {
+-  const source = effectiveSource(seg);
++function segmentFragment(seg: Segment, day?: ProductionDayView): DialFragment {
++  const source = effectiveSource(seg, day);
+   const startMinute = absoluteMinute(seg, 'start');
+   const endMinute = absoluteMinute(seg, 'end');
+   const readOnly =
+@@ -92,7 +92,7 @@ function legacyFragments(
+     const { absStart, absEnd } = sliceWall(slice, zone);
+     return {
+       source: 'legacy' as const,
+-      id: `legacy:${li.source.sourceId}:${li.source.path}:${i}`,
++      id: JSON.stringify(['legacy', li.source.sourceId, li.source.path, i]),
+       title: li.title,
+       color: SEMANTIC_COLOR.legacy,
+       startMinute: absStart,
+@@ -130,11 +130,11 @@ export const projectionAdapter: DialProjectionPort = {
+     };
+ 
+     for (const seg of day.segments) {
+-      const source = effectiveSource(seg);
+-      const fragment = segmentFragment(seg);
++      const source = effectiveSource(seg, day);
++      const fragment = segmentFragment(seg, day);
+       if (seg.kind === 'empty' || !seg.sourceId) {
+         // Empty-time arcs are derived (no source id); each is its own red item.
+-        addFragment(`empty:${seg.id}`, fragment, {
++        addFragment(JSON.stringify(['empty', seg.id]), fragment, {
+           source: 'empty',
+           id: seg.id,
+           title: seg.title,
+@@ -146,7 +146,7 @@ export const projectionAdapter: DialProjectionPort = {
+           readOnly: true,
+         });
+       } else {
+-        addFragment(`${source}:${seg.sourceId}`, fragment, {
++        addFragment(JSON.stringify([source, seg.sourceId]), fragment, {
+           source,
+           id: seg.sourceId,
+           title: seg.title,
+@@ -164,7 +164,7 @@ export const projectionAdapter: DialProjectionPort = {
+     day.legacyItems.forEach(li => {
+       const fragments = legacyFragments(li, day.date, day.zone);
+       if (!fragments.length) return;
+-      const key = `legacy:${li.source.sourceId}:${li.source.path}`;
++      const key = JSON.stringify(['legacy', li.source.sourceId, li.source.path]);
+       addFragment(key, fragments[0], {
+         source: 'legacy',
+         id: key,
+@@ -245,5 +245,5 @@ export const projectionAdapter: DialProjectionPort = {
+ 
+ // Convert a placement candidate's projected segments to dial fragments for the live overlay.
+ export function candidateFragments(candidate: Candidate): readonly DialFragment[] {
+-  return candidate.segments.map(segmentFragment);
++  return candidate.segments.map(seg => segmentFragment(seg));
+ }

@@ -13,3 +13,15 @@ test-results/
 Thumbs.db
 .vscode/
 .idea/
+
+# Local workspace exports and browser profiles
+/backups/
+/private-data/
+/browser-profiles/
+/playwright-report/
+*.tsbuildinfo
+
+# Bulk browser-run images and pre-fix source snapshots stay local.
+# Keep result JSON, acceptance reports, scripts and synthetic fixtures.
+tests/fixtures/action/*evidence*/**/*.png
+tests/fixtures/action/g3-final-evidence/before/

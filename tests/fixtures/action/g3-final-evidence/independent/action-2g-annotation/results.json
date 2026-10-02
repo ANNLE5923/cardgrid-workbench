@@ -1,0 +1,21 @@
+{
+  "at": "2026-10-02T05:49:18.747Z",
+  "results": [
+    {
+      "name": "G2-annotation-busy-protects-own-input-and-other-draft",
+      "status": "pass",
+      "detail": {
+        "ownInputProtected": true,
+        "otherDraftPreserved": true
+      }
+    },
+    {
+      "name": "G2-annotations-two-pending-facts-stay-independently-busy",
+      "status": "pass",
+      "detail": {
+        "perFactBusy": true,
+        "eachSavedOnce": true
+      }
+    }
+  ]
+}

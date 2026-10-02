@@ -1,0 +1,67 @@
+[
+  {
+    "name": "2F-1 create-two-definitions",
+    "status": "pass",
+    "detail": {
+      "definitions": 2
+    }
+  },
+  {
+    "name": "2F-2 draw-and-accept-two",
+    "status": "pass",
+    "detail": {
+      "hand": 2,
+      "titles": [
+        "任务乙",
+        "任务甲"
+      ]
+    }
+  },
+  {
+    "name": "2F-3 place-jia-valid",
+    "status": "pass",
+    "detail": {
+      "plans": 1,
+      "hand": 1
+    }
+  },
+  {
+    "name": "2F-4 place-yi-overlap-requires-ack",
+    "status": "pass",
+    "detail": {
+      "plans": 2,
+      "hand": 0,
+      "overlapAcknowledged": true
+    }
+  },
+  {
+    "name": "2F-5 retract-jia-to-hand",
+    "status": "pass",
+    "detail": {
+      "hand": 1,
+      "plans": 1
+    }
+  },
+  {
+    "name": "2F-6 confirm-actual-for-yi",
+    "status": "pass",
+    "detail": {
+      "facts": 1
+    }
+  },
+  {
+    "name": "2F-7 fact-read-only-and-annotate",
+    "status": "pass",
+    "detail": {
+      "factReadOnly": true,
+      "annotationAppended": true
+    }
+  },
+  {
+    "name": "2F-8 fact-persists-after-reload",
+    "status": "pass",
+    "detail": {
+      "persisted": true
+    }
+  }
+]

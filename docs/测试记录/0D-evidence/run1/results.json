@@ -1,0 +1,147 @@
+{
+  "executedAt": "2026-09-24T07:16:00.817Z",
+  "gitHead": "511710dd328a3aae558015b8582b2ef98df81e7c",
+  "browserVersion": "156.0.8063.3",
+  "origin": "http://127.0.0.1:55618",
+  "fixedDate": "2026-09-24",
+  "fixtureHash": "0c25d95a189c75a8ac38a4afb7bfd8fdb7958e82714a0da621830590f15a7aa3",
+  "sourceHashes": {
+    "src/domain.ts": "33b83eb737c088e6736272aa0e101f3982c1ddb2620f1339425337701964c557",
+    "src/planner.ts": "89ea2be14946d7a859c9ab89ac419f2f67c7b1a9c4afbb9ac1d0db7e97e81453",
+    "src/planner-migration.ts": "02e335497698c6bf25f2adcc4ce66bace827c60ad3cbab553caee94e24be31ce",
+    "src/store.ts": "87d864898d97cf4d041218218861273422f75a19d0360e52c0831a332484b731",
+    "src/main.tsx": "0e377d9f31c0feb504610cfc8560f5bb5153c7e41eb891eb30704274ec3200ef",
+    "src/today.tsx": "875d6439a14f1d0d955f158e31dec3d5c427e9e6365ee437dff781e90065437c",
+    "src/schedule.tsx": "451e11fde7adbe9fb63ddca865237fddb6536876f73c0852674b906b4c0a783a"
+  },
+  "records": [
+    {
+      "id": "A01-A04",
+      "status": "pass",
+      "durationMs": 3292,
+      "detail": {
+        "dataHash": "0c25d95a189c75a8ac38a4afb7bfd8fdb7958e82714a0da621830590f15a7aa3",
+        "beforeRevision": 10,
+        "afterRevision": 12,
+        "days": 2,
+        "cancelledBlocks": 1
+      }
+    },
+    {
+      "id": "A05",
+      "status": "pass",
+      "durationMs": 1077,
+      "detail": {
+        "recoveryDataHash": "0c25d95a189c75a8ac38a4afb7bfd8fdb7958e82714a0da621830590f15a7aa3",
+        "reason": "已放入收件箱"
+      }
+    },
+    {
+      "id": "A06",
+      "status": "pass",
+      "durationMs": 838,
+      "detail": {
+        "rawHash": "77615ed9df09f2d909d831114f200555ea166b77de707436095dd07aca096458",
+        "version": 3,
+        "legacyImported": true
+      }
+    },
+    {
+      "id": "A07-A08",
+      "status": "pass",
+      "durationMs": 1125,
+      "detail": {
+        "mergePreview": "卡片定义\n1 → 2\n分类\n1 → 2\n日程模板\n1 → 2\n旧版档案\n0 → 0\n同ID卡片覆盖：0 个。偏好使用导入值。",
+        "replacePreview": "卡片定义\n2 → 1\n分类\n2 → 1\n日程模板\n2 → 1\n旧版档案\n0 → 0\n同ID卡片覆盖：1 个。偏好使用导入值。"
+      }
+    },
+    {
+      "id": "B01-B04",
+      "status": "pass",
+      "durationMs": 17106,
+      "detail": {
+        "conflictRevision": 11,
+        "retryRevision": 12
+      }
+    },
+    {
+      "id": "B05-B06",
+      "status": "pass",
+      "durationMs": 14160,
+      "detail": {
+        "fourCapturesAndEvents": true,
+        "reopenedNotification": true
+      }
+    },
+    {
+      "id": "C-capture",
+      "status": "pass",
+      "durationMs": 942,
+      "detail": {
+        "workspaceAndRecoveryUnchanged": true,
+        "revision": 11,
+        "confirmedError": "本次没有覆盖",
+        "draft": "capture"
+      }
+    },
+    {
+      "id": "C-inbox",
+      "status": "pass",
+      "durationMs": 10999,
+      "detail": {
+        "workspaceAndRecoveryUnchanged": true,
+        "revision": 11,
+        "confirmedError": "本次没有覆盖",
+        "draft": "inbox"
+      }
+    },
+    {
+      "id": "C-block",
+      "status": "pass",
+      "durationMs": 10020,
+      "detail": {
+        "workspaceAndRecoveryUnchanged": true,
+        "revision": 11,
+        "confirmedError": "本次没有覆盖",
+        "draft": "block"
+      }
+    },
+    {
+      "id": "C-template",
+      "status": "pass",
+      "durationMs": 6105,
+      "detail": {
+        "workspaceAndRecoveryUnchanged": true,
+        "revision": 11,
+        "confirmedError": "本次没有覆盖",
+        "draft": "template"
+      }
+    },
+    {
+      "id": "C-config",
+      "status": "fail",
+      "durationMs": 31010,
+      "error": "locator.selectOption: Timeout 30000ms exceeded.\nCall log:\n\u001b[2m  - waiting for getByLabel('主题', { exact: true })\u001b[22m\n\n    at C:\\Users\\arstot\\Documents\\Codex\\2026-09-20\\抽卡人生\\cardgrid\\tests\\browser\\g0.mjs:69:1197\n    at async test (C:\\Users\\arstot\\Documents\\Codex\\2026-09-20\\抽卡人生\\cardgrid\\tests\\browser\\g0.mjs:61:98)\n    at async file:///C:/Users/arstot/Documents/Codex/2026-09-20/%E6%8A%BD%E5%8D%A1%E4%BA%BA%E7%94%9F/cardgrid/tests/browser/g0.mjs:69:76"
+    },
+    {
+      "id": "C-top3",
+      "status": "pass",
+      "durationMs": 969,
+      "detail": {
+        "workspaceAndRecoveryUnchanged": true,
+        "revision": 11,
+        "confirmedError": "本次没有覆盖",
+        "draft": "top3"
+      }
+    },
+    {
+      "id": "transaction-abort",
+      "status": "pass",
+      "durationMs": 535,
+      "detail": {
+        "atomicRollback": true,
+        "retryExactlyOnce": true
+      }
+    }
+  ]
+}

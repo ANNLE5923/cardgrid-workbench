@@ -1,0 +1,139 @@
+{
+  "at": "2026-10-01T13:52:06.245Z",
+  "node": "v24.19.0",
+  "results": [
+    {
+      "name": "C01/C19/C34 read-catalog-suggest-preview-cancel-do-not-write",
+      "status": "pass",
+      "detail": {
+        "readsAndPreviewsWriteFree": true,
+        "draws": 12
+      }
+    },
+    {
+      "name": "C02/C03/C04/C07 full-duration-touching-overlap-and-cross-preview-ack",
+      "status": "pass",
+      "detail": {
+        "completeDuration": 30,
+        "oldAckRefused": true,
+        "oneAbsoluteLanding": true
+      }
+    },
+    {
+      "name": "C08/C40 real-two-window-confirm-and-response-loss-replay-after-reopen",
+      "status": "pass",
+      "detail": {
+        "singleFact": true,
+        "replayAfterReopen": true,
+        "singleHistory": true
+      }
+    },
+    {
+      "name": "C42 fixed-unlock-is-object-version-token-bound-and-navigation-cancel-invalidates",
+      "status": "pass",
+      "detail": {
+        "wrongObjectRejected": true,
+        "cancelInvalidates": true,
+        "navigationInvalidates": true
+      }
+    },
+    {
+      "name": "C16/C40 storage-aborts-before-after-each-put-have-no-notification-or-partial-receipt",
+      "status": "pass",
+      "detail": {
+        "faultSites": 4,
+        "atomicRetry": true,
+        "noFailureNotification": true
+      }
+    },
+    {
+      "name": "C27/C42 fixed-storage-failure-consumes-unlock-requires-new-preview",
+      "status": "pass",
+      "detail": {
+        "newAuthorizationRequired": true,
+        "unrelatedObjectPreserved": true
+      }
+    },
+    {
+      "name": "C37/C28 legacy-dispatch-blocks-every-ordinary-command-and-keeps-exact-raw",
+      "status": "pass",
+      "detail": {
+        "oldEnvelopeVariants": 3,
+        "commandChecks": 75
+      }
+    },
+    {
+      "name": "C38/C45 lifecycle-failure-at-clear-and-workspace-put-restores-all-keys-and-epoch",
+      "status": "pass",
+      "detail": {
+        "lifecycleFaultSites": 6,
+        "everyRecoveryKeyRemoved": true,
+        "laterWritesPreserved": true
+      }
+    },
+    {
+      "name": "C20/C26/C27/C45 revision-conflict-retains-input-and-backup-token-is-exact",
+      "status": "pass",
+      "detail": {
+        "staleBackupAndOrderRefused": true,
+        "forgedEvidenceRefused": true
+      }
+    },
+    {
+      "name": "C20/C21 stale-accept-and-sort-refused-after-definition-retirement-or-new-hand",
+      "status": "pass",
+      "detail": {
+        "staleDefinitionRevisionFirst": true,
+        "disabledAfterRefresh": true,
+        "staleHandCannotOmitNewCard": true
+      }
+    },
+    {
+      "name": "C05/C30/C40 retract-storage-failure-retry-and-replace-retain-same-instance-old-plan",
+      "status": "pass",
+      "detail": {
+        "sameInstance": true,
+        "sealedPlanPreserved": true,
+        "failureRetryAndReplay": true
+      }
+    },
+    {
+      "name": "C18/C23/C43 past-routine-makeup-once-keeps-original-and-no-midnight-write",
+      "status": "pass",
+      "detail": {
+        "oneMakeup": true,
+        "originalUnchanged": true,
+        "noFactInvented": true
+      }
+    },
+    {
+      "name": "C13/C36 repeated-local-time-preview-and-independently-selected-actual-endpoints",
+      "status": "pass",
+      "detail": {
+        "twoActualIdentities": true,
+        "endpointsChosenIndependently": true
+      }
+    },
+    {
+      "name": "2B-F01 C42/C44 day-template-spill-from-unprepared-previous-day-requires-overlap-ack",
+      "status": "pass",
+      "detail": {
+        "crossDayProjectionAcknowledged": true
+      }
+    },
+    {
+      "name": "2B-F01b C42/C44 day-template-spill-into-unprepared-next-day-requires-overlap-ack",
+      "status": "pass",
+      "detail": {
+        "crossDayNextProjectionAcknowledged": true
+      }
+    },
+    {
+      "name": "2B-F02 C11/C16 non-grid-new-template-is-refused-at-the-save-boundary",
+      "status": "pass",
+      "detail": {
+        "invalidGridRefusedBeforeWrite": true
+      }
+    }
+  ]
+}

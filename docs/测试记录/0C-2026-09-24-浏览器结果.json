@@ -1,0 +1,118 @@
+{
+  "date": "2026-09-24T07:05:51.425Z",
+  "url": "http://127.0.0.1:5187/",
+  "day": "2026-09-24",
+  "yesterday": "2026-09-23",
+  "results": [
+    {
+      "id": "A01",
+      "status": "pass",
+      "detail": "CardGrid-完整备份-2026-09-24.json"
+    },
+    {
+      "id": "A02",
+      "status": "pass",
+      "detail": "templates=3, captures=3"
+    },
+    {
+      "id": "A03",
+      "status": "pass",
+      "detail": "revision 1→3; preview=卡片定义 | 0 → 0 | 分类 | 0 → 0 | 日程模板 | 0 → 0 | 旧版档案 | 0 → 0"
+    },
+    {
+      "id": "A04",
+      "status": "pass",
+      "detail": "refresh data and UI stable"
+    },
+    {
+      "id": "A05",
+      "status": "pass",
+      "detail": "previous recovery restored"
+    },
+    {
+      "id": "A07",
+      "status": "pass",
+      "detail": "merge and replace; planner stable"
+    },
+    {
+      "id": "A08",
+      "status": "pass",
+      "detail": "卡片定义 | 1 → 1 | 分类 | 1 → 1 | 日程模板 | 1 → 1 | 旧版档案 | 0 → 0 | 同ID卡片覆盖：1 个。偏好使用导入值。"
+    },
+    {
+      "id": "B01",
+      "status": "pass",
+      "detail": "notification visible; stale UI retained"
+    },
+    {
+      "id": "B02",
+      "status": "pass",
+      "detail": "shared IndexedDB revision=2; 0B expected stale store.load revision is incorrect"
+    },
+    {
+      "id": "B03",
+      "status": "pass",
+      "detail": "stale commit rejected; input retained"
+    },
+    {
+      "id": "B04",
+      "status": "pass",
+      "detail": "reload then commit succeeded"
+    },
+    {
+      "id": "B05",
+      "status": "pass",
+      "detail": "four alternating captures persisted"
+    },
+    {
+      "id": "B06",
+      "status": "pass",
+      "detail": "new tab sees saved data"
+    },
+    {
+      "id": "C01",
+      "status": "pass",
+      "detail": "draft kept; no IndexedDB write"
+    },
+    {
+      "id": "C02",
+      "status": "pass",
+      "detail": "Inbox panel and title retained"
+    },
+    {
+      "id": "C03",
+      "status": "pass",
+      "detail": "day block draft retained"
+    },
+    {
+      "id": "C04",
+      "status": "pass",
+      "detail": "template draft retained"
+    },
+    {
+      "id": "C05",
+      "status": "pass",
+      "detail": "config draft retained"
+    },
+    {
+      "id": "C06",
+      "status": "pass",
+      "detail": "top3 remains unselected in persisted state; retry available"
+    },
+    {
+      "id": "B06-schedule",
+      "status": "pass",
+      "detail": "Schedule write survives reopening tab"
+    },
+    {
+      "id": "C03-edit",
+      "status": "pass",
+      "detail": "existing block edit draft retained"
+    },
+    {
+      "id": "A06",
+      "status": "pass",
+      "detail": "v1 raw preserved, v3 opened; bootstrap sets legacyImported=true"
+    }
+  ]
+}

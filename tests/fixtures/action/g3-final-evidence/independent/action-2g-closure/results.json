@@ -1,0 +1,550 @@
+{
+  "at": "2026-10-02T05:48:53.685Z",
+  "results": [
+    {
+      "name": "G2-selection-redraw-manual-sort-through-entry",
+      "status": "pass",
+      "detail": {
+        "drawIsReadOnly": true,
+        "sortPreservesIds": true
+      }
+    },
+    {
+      "name": "G2-crowded-full-duration-protects-fixed-and-fact",
+      "status": "fail",
+      "error": "locator.waitFor: Timeout 5000ms exceeded.\nCall log:\n\u001b[2m  - waiting for getByRole('dialog').getByRole('alert') to be visible\u001b[22m\n\n    at C:\\Users\\arstot\\Documents\\Codex\\2026-09-20\\抽卡人生\\cardgrid\\tests\\browser\\action-2g-closure.mjs:44:1494\n    at async check (C:\\Users\\arstot\\Documents\\Codex\\2026-09-20\\抽卡人生\\cardgrid\\tests\\browser\\action-2g-closure.mjs:19:129)\n    at async file:///C:/Users/arstot/Documents/Codex/2026-09-20/%E6%8A%BD%E5%8D%A1%E4%BA%BA%E7%94%9F/cardgrid/tests/browser/action-2g-closure.mjs:43:2",
+      "state": {
+        "schemaVersion": 4,
+        "epoch": "independent-epoch",
+        "revision": 10,
+        "mode": "current",
+        "dataFormat": "action-v2",
+        "data": {
+          "version": 2,
+          "settings": {
+            "zone": "Asia/Shanghai",
+            "preferences": {
+              "theme": "paper",
+              "density": "comfortable",
+              "startHour": 8,
+              "endHour": 23,
+              "defaultMinutes": 15
+            },
+            "categories": []
+          },
+          "planner": {
+            "version": 2,
+            "definitions": [],
+            "instances": [
+              {
+                "id": "i",
+                "version": 7,
+                "definition": null,
+                "creationSnapshot": {
+                  "title": "独立合成行动",
+                  "criteria": "完成一个可核对结果",
+                  "presetMinutes": 30,
+                  "minimum": false,
+                  "color": "#336699",
+                  "categoryId": null,
+                  "categoryLabel": null,
+                  "projectIds": [],
+                  "goalIds": [],
+                  "projectLabels": [],
+                  "goalLabels": []
+                },
+                "currentContent": {
+                  "title": "独立合成行动",
+                  "criteria": "完成一个可核对结果",
+                  "presetMinutes": 30,
+                  "minimum": false,
+                  "color": "#336699",
+                  "categoryId": null,
+                  "categoryLabel": null,
+                  "projectIds": [],
+                  "goalIds": [],
+                  "projectLabels": [],
+                  "goalLabels": []
+                },
+                "source": {
+                  "kind": "manual"
+                },
+                "createdAt": "2026-09-28T02:00:00Z",
+                "targetDate": null,
+                "state": "open",
+                "occurrenceId": null,
+                "makeupOf": null
+              },
+              {
+                "id": "new",
+                "version": 1,
+                "definition": null,
+                "creationSnapshot": {
+                  "title": "拥挤45",
+                  "criteria": "完成一个可核对结果",
+                  "presetMinutes": 45,
+                  "minimum": false,
+                  "color": "#336699",
+                  "categoryId": null,
+                  "categoryLabel": null,
+                  "projectIds": [],
+                  "goalIds": [],
+                  "projectLabels": [],
+                  "goalLabels": []
+                },
+                "currentContent": {
+                  "title": "拥挤45",
+                  "criteria": "完成一个可核对结果",
+                  "presetMinutes": 45,
+                  "minimum": false,
+                  "color": "#336699",
+                  "categoryId": null,
+                  "categoryLabel": null,
+                  "projectIds": [],
+                  "goalIds": [],
+                  "projectLabels": [],
+                  "goalLabels": []
+                },
+                "source": {
+                  "kind": "manual"
+                },
+                "createdAt": "2026-09-28T02:00:00Z",
+                "targetDate": null,
+                "state": "open",
+                "occurrenceId": null,
+                "makeupOf": null
+              }
+            ],
+            "handOrder": [
+              "new"
+            ],
+            "plans": [
+              {
+                "id": "p",
+                "version": 5,
+                "instanceId": "i",
+                "range": {
+                  "startAt": "2026-09-28T01:00:00Z",
+                  "endAt": "2026-09-28T01:30:00Z",
+                  "zone": "Asia/Shanghai",
+                  "localStart": "2026-09-28T09:00",
+                  "localEnd": "2026-09-28T09:30",
+                  "startOffset": "+08:00",
+                  "endOffset": "+08:00"
+                },
+                "contentSnapshot": {
+                  "title": "独立合成行动",
+                  "criteria": "完成一个可核对结果",
+                  "presetMinutes": 30,
+                  "minimum": false,
+                  "color": "#336699",
+                  "categoryId": null,
+                  "categoryLabel": null,
+                  "projectIds": [],
+                  "goalIds": [],
+                  "projectLabels": [],
+                  "goalLabels": []
+                },
+                "status": "confirmed",
+                "createdAt": "2026-09-28T02:00:00Z",
+                "changedAt": "2026-09-28T02:00:00Z"
+              }
+            ],
+            "facts": [
+              {
+                "id": "f",
+                "instanceId": "i",
+                "contentSnapshot": {
+                  "title": "独立合成行动",
+                  "criteria": "完成一个可核对结果",
+                  "presetMinutes": 30,
+                  "minimum": false,
+                  "color": "#336699",
+                  "categoryId": null,
+                  "categoryLabel": null,
+                  "projectIds": [],
+                  "goalIds": [],
+                  "projectLabels": [],
+                  "goalLabels": []
+                },
+                "actualRange": {
+                  "startAt": "2026-09-28T01:20:00Z",
+                  "endAt": "2026-09-28T02:00:00Z",
+                  "zone": "Asia/Shanghai",
+                  "localStart": "2026-09-28T09:20",
+                  "localEnd": "2026-09-28T10:00",
+                  "startOffset": "+08:00",
+                  "endOffset": "+08:00"
+                },
+                "confirmedAt": "2026-09-28T02:00:00Z",
+                "source": {
+                  "kind": "manual"
+                },
+                "plannedSnapshot": {
+                  "planId": "p",
+                  "planVersion": 4,
+                  "range": {
+                    "startAt": "2026-09-28T01:00:00Z",
+                    "endAt": "2026-09-28T01:30:00Z",
+                    "zone": "Asia/Shanghai",
+                    "localStart": "2026-09-28T09:00",
+                    "localEnd": "2026-09-28T09:30",
+                    "startOffset": "+08:00",
+                    "endOffset": "+08:00"
+                  },
+                  "content": {
+                    "title": "独立合成行动",
+                    "criteria": "完成一个可核对结果",
+                    "presetMinutes": 30,
+                    "minimum": false,
+                    "color": "#336699",
+                    "categoryId": null,
+                    "categoryLabel": null,
+                    "projectIds": [],
+                    "goalIds": [],
+                    "projectLabels": [],
+                    "goalLabels": []
+                  }
+                }
+              }
+            ],
+            "annotations": [
+              {
+                "id": "a",
+                "factId": "f",
+                "text": "第一条说明",
+                "createdAt": "2026-09-28T02:00:00Z"
+              }
+            ],
+            "fixed": [
+              {
+                "id": "busy0",
+                "version": 1,
+                "title": "占用0",
+                "range": {
+                  "startAt": "2026-09-28T00:00:00Z",
+                  "endAt": "2026-09-28T00:55:00Z",
+                  "zone": "Asia/Shanghai",
+                  "localStart": "2026-09-28T08:00",
+                  "localEnd": "2026-09-28T08:55",
+                  "startOffset": "+08:00",
+                  "endOffset": "+08:00"
+                },
+                "cancelled": false,
+                "ownerDate": "2026-09-28",
+                "template": null,
+                "templateEntryId": null,
+                "manuallyOverridden": false,
+                "source": {
+                  "kind": "manual"
+                }
+              },
+              {
+                "id": "busy1",
+                "version": 1,
+                "title": "占用1",
+                "range": {
+                  "startAt": "2026-09-28T01:00:00Z",
+                  "endAt": "2026-09-28T01:45:00Z",
+                  "zone": "Asia/Shanghai",
+                  "localStart": "2026-09-28T09:00",
+                  "localEnd": "2026-09-28T09:45",
+                  "startOffset": "+08:00",
+                  "endOffset": "+08:00"
+                },
+                "cancelled": false,
+                "ownerDate": "2026-09-28",
+                "template": null,
+                "templateEntryId": null,
+                "manuallyOverridden": false,
+                "source": {
+                  "kind": "manual"
+                }
+              },
+              {
+                "id": "busy2",
+                "version": 1,
+                "title": "占用2",
+                "range": {
+                  "startAt": "2026-09-28T02:00:00Z",
+                  "endAt": "2026-09-28T02:30:00Z",
+                  "zone": "Asia/Shanghai",
+                  "localStart": "2026-09-28T10:00",
+                  "localEnd": "2026-09-28T10:30",
+                  "startOffset": "+08:00",
+                  "endOffset": "+08:00"
+                },
+                "cancelled": false,
+                "ownerDate": "2026-09-28",
+                "template": null,
+                "templateEntryId": null,
+                "manuallyOverridden": false,
+                "source": {
+                  "kind": "manual"
+                }
+              },
+              {
+                "id": "busy3",
+                "version": 1,
+                "title": "占用3",
+                "range": {
+                  "startAt": "2026-09-28T03:00:00Z",
+                  "endAt": "2026-09-28T03:55:00Z",
+                  "zone": "Asia/Shanghai",
+                  "localStart": "2026-09-28T11:00",
+                  "localEnd": "2026-09-28T11:55",
+                  "startOffset": "+08:00",
+                  "endOffset": "+08:00"
+                },
+                "cancelled": false,
+                "ownerDate": "2026-09-28",
+                "template": null,
+                "templateEntryId": null,
+                "manuallyOverridden": false,
+                "source": {
+                  "kind": "manual"
+                }
+              },
+              {
+                "id": "busy4",
+                "version": 1,
+                "title": "占用4",
+                "range": {
+                  "startAt": "2026-09-28T04:00:00Z",
+                  "endAt": "2026-09-28T04:45:00Z",
+                  "zone": "Asia/Shanghai",
+                  "localStart": "2026-09-28T12:00",
+                  "localEnd": "2026-09-28T12:45",
+                  "startOffset": "+08:00",
+                  "endOffset": "+08:00"
+                },
+                "cancelled": false,
+                "ownerDate": "2026-09-28",
+                "template": null,
+                "templateEntryId": null,
+                "manuallyOverridden": false,
+                "source": {
+                  "kind": "manual"
+                }
+              },
+              {
+                "id": "busy5",
+                "version": 1,
+                "title": "占用5",
+                "range": {
+                  "startAt": "2026-09-28T05:00:00Z",
+                  "endAt": "2026-09-28T05:30:00Z",
+                  "zone": "Asia/Shanghai",
+                  "localStart": "2026-09-28T13:00",
+                  "localEnd": "2026-09-28T13:30",
+                  "startOffset": "+08:00",
+                  "endOffset": "+08:00"
+                },
+                "cancelled": false,
+                "ownerDate": "2026-09-28",
+                "template": null,
+                "templateEntryId": null,
+                "manuallyOverridden": false,
+                "source": {
+                  "kind": "manual"
+                }
+              },
+              {
+                "id": "busy6",
+                "version": 1,
+                "title": "占用6",
+                "range": {
+                  "startAt": "2026-09-28T06:00:00Z",
+                  "endAt": "2026-09-28T06:55:00Z",
+                  "zone": "Asia/Shanghai",
+                  "localStart": "2026-09-28T14:00",
+                  "localEnd": "2026-09-28T14:55",
+                  "startOffset": "+08:00",
+                  "endOffset": "+08:00"
+                },
+                "cancelled": false,
+                "ownerDate": "2026-09-28",
+                "template": null,
+                "templateEntryId": null,
+                "manuallyOverridden": false,
+                "source": {
+                  "kind": "manual"
+                }
+              },
+              {
+                "id": "busy7",
+                "version": 1,
+                "title": "占用7",
+                "range": {
+                  "startAt": "2026-09-28T07:00:00Z",
+                  "endAt": "2026-09-28T07:45:00Z",
+                  "zone": "Asia/Shanghai",
+                  "localStart": "2026-09-28T15:00",
+                  "localEnd": "2026-09-28T15:45",
+                  "startOffset": "+08:00",
+                  "endOffset": "+08:00"
+                },
+                "cancelled": false,
+                "ownerDate": "2026-09-28",
+                "template": null,
+                "templateEntryId": null,
+                "manuallyOverridden": false,
+                "source": {
+                  "kind": "manual"
+                }
+              },
+              {
+                "id": "busy8",
+                "version": 1,
+                "title": "占用8",
+                "range": {
+                  "startAt": "2026-09-28T08:00:00Z",
+                  "endAt": "2026-09-28T08:30:00Z",
+                  "zone": "Asia/Shanghai",
+                  "localStart": "2026-09-28T16:00",
+                  "localEnd": "2026-09-28T16:30",
+                  "startOffset": "+08:00",
+                  "endOffset": "+08:00"
+                },
+                "cancelled": false,
+                "ownerDate": "2026-09-28",
+                "template": null,
+                "templateEntryId": null,
+                "manuallyOverridden": false,
+                "source": {
+                  "kind": "manual"
+                }
+              },
+              {
+                "id": "busy9",
+                "version": 1,
+                "title": "占用9",
+                "range": {
+                  "startAt": "2026-09-28T09:00:00Z",
+                  "endAt": "2026-09-28T09:55:00Z",
+                  "zone": "Asia/Shanghai",
+                  "localStart": "2026-09-28T17:00",
+                  "localEnd": "2026-09-28T17:55",
+                  "startOffset": "+08:00",
+                  "endOffset": "+08:00"
+                },
+                "cancelled": false,
+                "ownerDate": "2026-09-28",
+                "template": null,
+                "templateEntryId": null,
+                "manuallyOverridden": false,
+                "source": {
+                  "kind": "manual"
+                }
+              },
+              {
+                "id": "busy10",
+                "version": 1,
+                "title": "占用10",
+                "range": {
+                  "startAt": "2026-09-28T10:00:00Z",
+                  "endAt": "2026-09-28T10:45:00Z",
+                  "zone": "Asia/Shanghai",
+                  "localStart": "2026-09-28T18:00",
+                  "localEnd": "2026-09-28T18:45",
+                  "startOffset": "+08:00",
+                  "endOffset": "+08:00"
+                },
+                "cancelled": false,
+                "ownerDate": "2026-09-28",
+                "template": null,
+                "templateEntryId": null,
+                "manuallyOverridden": false,
+                "source": {
+                  "kind": "manual"
+                }
+              },
+              {
+                "id": "busy11",
+                "version": 1,
+                "title": "占用11",
+                "range": {
+                  "startAt": "2026-09-28T13:00:00Z",
+                  "endAt": "2026-09-28T13:30:00Z",
+                  "zone": "Asia/Shanghai",
+                  "localStart": "2026-09-28T21:00",
+                  "localEnd": "2026-09-28T21:30",
+                  "startOffset": "+08:00",
+                  "endOffset": "+08:00"
+                },
+                "cancelled": false,
+                "ownerDate": "2026-09-28",
+                "template": null,
+                "templateEntryId": null,
+                "manuallyOverridden": false,
+                "source": {
+                  "kind": "manual"
+                }
+              }
+            ],
+            "templates": [],
+            "days": [],
+            "rules": [],
+            "occurrences": [],
+            "captures": [],
+            "refs": [],
+            "goals": [],
+            "history": []
+          },
+          "legacySources": [],
+          "migrationBindings": [],
+          "commandReceipts": []
+        },
+        "lifecycleReceipt": null
+      },
+      "ui": "▦\nCardGrid\n卡格工作台\n我的空间\n▦\nToday\n＋\nInbox\n◫\nSchedule\n❖\n行动定义\n✦\n抽卡手牌\n◇\n配置工坊\n↗\n数据与备份\n数据保存在本机\n行动底座 · 2A\n工作台 / HAND 抽卡手牌\n重新载入\nHAND\n抽卡手牌\n\n抽取建议、管理手牌，并在“当日”安排时间。\n\n抽卡与手牌\n\n抽取只给建议，不占时间、不生成事实；接受后行动进入手牌，由你安排。\n\n抽取建议\n手牌（1）\n当日\n日期\n时区\n默认落点\nTODAY / TIME\n红色＝空时间\n按住表盘旋转 · 指针固定 · 双击改期\n24H\n00\n03\n06\n09\n12\n15\n18\n21\n▶\n现在 13:48\n13:48\n◀\n点色段只读 · 点“现在”复位\n12\n1\n2\n3\n4\n5\n6\n7\n8\n9\n10\n11\n当前刻度\n13:48\n后 12 小时\n前 12 小时\n00–12\n后 12 小时\n12–24\n−5 分钟\n+5 分钟\n手牌（1）\n01 · 45 分钟\n拥挤45\n完成一个可核对结果\n打出\n记录实际\n已排计划（0）\n\n当天没有已排计划。\n\n固定安排（12）\n占用0\n2026-09-28T08:00—2026-09-28T08:55\n解锁并调整\n取消安排\n占用1\n2026-09-28T09:00—2026-09-28T09:45\n解锁并调整\n取消安排\n占用2\n2026-09-28T10:00—2026-09-28T10:30\n解锁并调整\n取消安排\n占用3\n2026-09-28T11:00—2026-09-28T11:55\n解锁并调整\n取消安排\n占用4\n2026-09-28T12:00—2026-09-28T12:45\n解锁并调整\n取消安排\n占用5\n2026-09-28T13:00—2026-09-28T13:30\n解锁并调整\n取消安排\n占用6\n2026-09-28T14:00—2026-09-28T14:55\n解锁并调整\n取消安排\n占用7\n2026-09-28T15:00—2026-09-28T15:45\n解锁并调整\n取消安排\n占用8\n2026-09-28T16:00—2026-09-28T16:30\n解锁并调整\n取消安排\n占用9\n2026-09-28T17:00—2026-09-28T17:55\n解锁并调整\n取消安排\n占用10\n2026-09-28T18:00—2026-09-28T18:45\n解锁并调整\n取消安排\n占用11\n2026-09-28T21:00—2026-09-28T21:30\n解锁并调整\n取消安排\n事实（1）\n已锁定\n独立合成行动\n09:20—10:00\n原计划 09:00—09:30\n第一条说明\n添加批注\n排到 2026-09-28\n×\n落点时间\n2026-09-28T13:50—2026-09-28T14:35\n+08:00/+08:00 · 9 格\n与 占用6 重叠 14:00—14:35\n\n与已有安排重叠\n\n我知道有重叠，仍要安排在这个时间\n确认排期\n取消\nCardGrid · 卡格工作台\n所有改动保存在此浏览器 · 建议定期导出备份",
+      "layout": {
+        "width": 1280,
+        "scroll": 1280,
+        "overflow": []
+      }
+    },
+    {
+      "name": "G2-keyboard-dialog-containment-and-focus-return",
+      "status": "pass",
+      "detail": {
+        "tabContained": true,
+        "closeReturnsToTrigger": true,
+        "successReturnsToHeading": true
+      }
+    },
+    {
+      "name": "G2-small-screen-320-plan-fact-annotation",
+      "status": "pass",
+      "detail": {
+        "width": 320,
+        "realStoredFact": true
+      }
+    },
+    {
+      "name": "G2-small-screen-390-plan-fact-annotation",
+      "status": "pass",
+      "detail": {
+        "width": 390,
+        "realStoredFact": true
+      }
+    },
+    {
+      "name": "G2-past-plan-cross-midnight-does-not-auto-confirm",
+      "status": "pass",
+      "detail": {
+        "pastPlanRemainsUnconfirmed": true,
+        "retractKeepsInstance": true
+      }
+    },
+    {
+      "name": "G2-cross-midnight-has-next-day-label-and-same-record",
+      "status": "pass",
+      "detail": {
+        "onePlan": true,
+        "readingIsWriteFree": true,
+        "nextDayLabel": true
+      }
+    }
+  ]
+}

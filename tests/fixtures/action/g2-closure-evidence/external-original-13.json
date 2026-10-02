@@ -1,0 +1,89 @@
+{
+  "at": "2026-10-01T13:58:22.537Z",
+  "results": [
+    {
+      "name": "G2-fixed-close-is-write-free",
+      "status": "pass",
+      "detail": {
+        "unchanged": true
+      }
+    },
+    {
+      "name": "G2-fixed-move-at-initial-focus",
+      "status": "pass",
+      "detail": {
+        "fixedMoved": true,
+        "noFakePlan": true
+      }
+    },
+    {
+      "name": "G2-fixed-change-dialog-focus",
+      "status": "pass",
+      "detail": {
+        "fixedMoved": true
+      }
+    },
+    {
+      "name": "G2-fixed-explicit-cancel",
+      "status": "pass",
+      "detail": {
+        "otherFixedPreserved": true
+      }
+    },
+    {
+      "name": "G2-actual-new-overlap-needs-new-ack",
+      "status": "pass",
+      "detail": {
+        "newAckRequired": true
+      }
+    },
+    {
+      "name": "G2-actual-minute-precision",
+      "status": "pass",
+      "detail": {
+        "minutes": 17
+      }
+    },
+    {
+      "name": "G2-no-duration-unplanned-actual-entry",
+      "status": "pass"
+    },
+    {
+      "name": "G2-future-actual-warning",
+      "status": "pass"
+    },
+    {
+      "name": "G2-epoch-replacement-clears-dialog",
+      "status": "pass"
+    },
+    {
+      "name": "G2-actual-storage-failure-retains-input",
+      "status": "pass",
+      "detail": {
+        "failureWriteFree": true,
+        "inputsRetained": true,
+        "retryOneFact": true
+      }
+    },
+    {
+      "name": "G2-double-confirm-produces-one-fact",
+      "status": "pass",
+      "detail": {
+        "oneFact": true
+      }
+    },
+    {
+      "name": "G2-backup-restore-preserves-fact-data",
+      "status": "pass",
+      "detail": {
+        "exactDataRestored": true,
+        "newerCaptureRemoved": true,
+        "originalFactPreserved": true
+      }
+    },
+    {
+      "name": "G2-actual-DST-offset-selection",
+      "status": "pass"
+    }
+  ]
+}

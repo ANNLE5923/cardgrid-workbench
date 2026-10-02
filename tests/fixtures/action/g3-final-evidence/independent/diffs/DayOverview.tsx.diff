@@ -1,0 +1,13 @@
+diff --git a/tests/fixtures/action/g3-final-evidence/before/DayOverview.tsx b/src/components/time-dial/DayOverview.tsx
+index f74840b..34ed1c9 100644
+--- a/tests/fixtures/action/g3-final-evidence/before/DayOverview.tsx
++++ b/src/components/time-dial/DayOverview.tsx
+@@ -56,7 +56,7 @@ export function DayOverview(props: Readonly<{
+               : null;
+           }
+           return (
+-            <div key={item.id} className="preview-note-item">
++            <div key={JSON.stringify([item.source, item.id])} className="preview-note-item">
+               <span className={`time-kind ${item.source}`}>{KIND_LABEL[item.source]}</span>
+               <strong>{item.title}</strong>
+               {fullLine ? <small>{fullLine}</small> : (

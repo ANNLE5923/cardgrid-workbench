@@ -1,0 +1,668 @@
+{
+  "at": "2026-10-02T05:50:47.535Z",
+  "results": [
+    {
+      "id": "E01-serial-coalesce-pending",
+      "status": "passed",
+      "probe": {
+        "state": {
+          "status": "preview",
+          "subject": {
+            "kind": "hand",
+            "instanceId": "i",
+            "version": 7
+          },
+          "date": "2026-09-28",
+          "zone": "Asia/Shanghai",
+          "preview": {
+            "previewId": "640ebcf3-1d57-494d-8826-3a10910e0fdc",
+            "token": {
+              "epoch": "independent-epoch",
+              "revision": 10
+            },
+            "query": {
+              "token": {
+                "epoch": "independent-epoch",
+                "revision": 10
+              },
+              "subject": {
+                "kind": "hand",
+                "instanceId": "i",
+                "version": 7
+              },
+              "date": "2026-09-28",
+              "zone": "Asia/Shanghai",
+              "focusMinuteOfDay": 615
+            },
+            "candidates": [
+              {
+                "id": "48366a7e-e982-4512-8f48-a4e73ed5d7e3",
+                "half": 0,
+                "range": {
+                  "startAt": "2026-09-28T02:15:00Z",
+                  "endAt": "2026-09-28T02:45:00Z",
+                  "zone": "Asia/Shanghai",
+                  "localStart": "2026-09-28T10:15",
+                  "localEnd": "2026-09-28T10:45",
+                  "startOffset": "+08:00",
+                  "endOffset": "+08:00"
+                },
+                "label": "2026-09-28T10:15—2026-09-28T10:45",
+                "offsetLabel": "+08:00/+08:00",
+                "units": 6,
+                "segments": [
+                  {
+                    "id": "plan:48366a7e-e982-4512-8f48-a4e73ed5d7e3:2026-09-28T02:15:00Z:0",
+                    "sourceId": "48366a7e-e982-4512-8f48-a4e73ed5d7e3",
+                    "kind": "plan",
+                    "title": "排期预览",
+                    "sourceRange": {
+                      "startAt": "2026-09-28T02:15:00Z",
+                      "endAt": "2026-09-28T02:45:00Z",
+                      "zone": "Asia/Shanghai",
+                      "localStart": "2026-09-28T10:15",
+                      "localEnd": "2026-09-28T10:45",
+                      "startOffset": "+08:00",
+                      "endOffset": "+08:00"
+                    },
+                    "clippedRange": {
+                      "startAt": "2026-09-28T02:15:00Z",
+                      "endAt": "2026-09-28T02:45:00Z",
+                      "zone": "Asia/Shanghai"
+                    },
+                    "startDate": "2026-09-28",
+                    "half": 0,
+                    "startMinuteOfHalf": 615,
+                    "endMinuteOfHalf": 645,
+                    "label": "10:15—10:45",
+                    "offsetLabel": "+08:00",
+                    "locked": false,
+                    "continuesBefore": false,
+                    "continuesAfter": false
+                  }
+                ],
+                "state": "valid"
+              }
+            ],
+            "unresolved": []
+          },
+          "chosen": "48366a7e-e982-4512-8f48-a4e73ed5d7e3",
+          "unresolved": [],
+          "error": null,
+          "busy": false
+        },
+        "calls": [
+          {
+            "token": {
+              "epoch": "independent-epoch",
+              "revision": 10
+            },
+            "subject": {
+              "kind": "hand",
+              "instanceId": "i",
+              "version": 7
+            },
+            "date": "2026-09-28",
+            "zone": "Asia/Shanghai",
+            "focusMinuteOfDay": 540
+          },
+          {
+            "token": {
+              "epoch": "independent-epoch",
+              "revision": 10
+            },
+            "subject": {
+              "kind": "hand",
+              "instanceId": "i",
+              "version": 7
+            },
+            "date": "2026-09-28",
+            "zone": "Asia/Shanghai",
+            "focusMinuteOfDay": 600
+          },
+          {
+            "token": {
+              "epoch": "independent-epoch",
+              "revision": 10
+            },
+            "subject": {
+              "kind": "hand",
+              "instanceId": "i",
+              "version": 7
+            },
+            "date": "2026-09-28",
+            "zone": "Asia/Shanghai",
+            "focusMinuteOfDay": 615
+          }
+        ],
+        "commands": [],
+        "cancels": [
+          "9cdd1588-7aa7-49f6-83bb-0aef2dec3e56",
+          "7e61ca0a-27a1-4e15-aaf6-56a04d563796"
+        ],
+        "maximum": 1
+      }
+    },
+    {
+      "id": "E02-late-preview-cancelled",
+      "status": "passed",
+      "probe": {
+        "state": {
+          "status": "idle",
+          "subject": null,
+          "date": "",
+          "zone": "",
+          "preview": null,
+          "chosen": null,
+          "unresolved": [],
+          "error": null,
+          "busy": false
+        },
+        "calls": [
+          {
+            "token": {
+              "epoch": "independent-epoch",
+              "revision": 10
+            },
+            "subject": {
+              "kind": "hand",
+              "instanceId": "i",
+              "version": 7
+            },
+            "date": "2026-09-28",
+            "zone": "Asia/Shanghai",
+            "focusMinuteOfDay": 540
+          }
+        ],
+        "commands": [],
+        "cancels": [
+          "66b95602-4da3-44ef-91c7-47fc8a7b29d9"
+        ],
+        "maximum": 1
+      }
+    },
+    {
+      "id": "E03-storage-retry-complete-command",
+      "status": "passed",
+      "probe": {
+        "state": {
+          "status": "committed",
+          "subject": {
+            "kind": "hand",
+            "instanceId": "i",
+            "version": 7
+          },
+          "date": "2026-09-28",
+          "zone": "Asia/Shanghai",
+          "preview": null,
+          "chosen": null,
+          "unresolved": [],
+          "error": null,
+          "busy": false
+        },
+        "calls": [
+          {
+            "token": {
+              "epoch": "independent-epoch",
+              "revision": 10
+            },
+            "subject": {
+              "kind": "hand",
+              "instanceId": "i",
+              "version": 7
+            },
+            "date": "2026-09-28",
+            "zone": "Asia/Shanghai",
+            "focusMinuteOfDay": 540
+          }
+        ],
+        "commands": [
+          {
+            "commandId": "e99eb79a-9973-4ad4-afab-7d6f7b5ff82d",
+            "expected": {
+              "epoch": "independent-epoch",
+              "revision": 10
+            },
+            "type": "CommitPlacement",
+            "payload": {
+              "previewId": "26784a0f-016a-4035-b17c-769ff8cd9bc9",
+              "candidateId": "86e69679-60fa-44fe-85c9-b4a8cd2e46de",
+              "acknowledgedOverlap": null
+            }
+          },
+          {
+            "commandId": "e99eb79a-9973-4ad4-afab-7d6f7b5ff82d",
+            "expected": {
+              "epoch": "independent-epoch",
+              "revision": 10
+            },
+            "type": "CommitPlacement",
+            "payload": {
+              "previewId": "26784a0f-016a-4035-b17c-769ff8cd9bc9",
+              "candidateId": "86e69679-60fa-44fe-85c9-b4a8cd2e46de",
+              "acknowledgedOverlap": null
+            }
+          }
+        ],
+        "cancels": [],
+        "maximum": 1
+      }
+    },
+    {
+      "id": "E04-new-input-clears-retry-command",
+      "status": "passed",
+      "probe": {
+        "state": {
+          "status": "committed",
+          "subject": {
+            "kind": "hand",
+            "instanceId": "i",
+            "version": 7
+          },
+          "date": "2026-09-28",
+          "zone": "Asia/Shanghai",
+          "preview": null,
+          "chosen": null,
+          "unresolved": [],
+          "error": null,
+          "busy": false
+        },
+        "calls": [
+          {
+            "token": {
+              "epoch": "independent-epoch",
+              "revision": 10
+            },
+            "subject": {
+              "kind": "hand",
+              "instanceId": "i",
+              "version": 7
+            },
+            "date": "2026-09-28",
+            "zone": "Asia/Shanghai",
+            "focusMinuteOfDay": 540
+          },
+          {
+            "token": {
+              "epoch": "independent-epoch",
+              "revision": 10
+            },
+            "subject": {
+              "kind": "hand",
+              "instanceId": "i",
+              "version": 7
+            },
+            "date": "2026-09-28",
+            "zone": "Asia/Shanghai",
+            "focusMinuteOfDay": 660
+          }
+        ],
+        "commands": [
+          {
+            "commandId": "caa2d76b-5c02-442c-b5be-870ba397ada9",
+            "expected": {
+              "epoch": "independent-epoch",
+              "revision": 10
+            },
+            "type": "CommitPlacement",
+            "payload": {
+              "previewId": "44d9c7f2-a651-4cb8-ba01-0885098e7e00",
+              "candidateId": "9c4d56a4-5d8c-4891-a2e6-8ce9e60563ae",
+              "acknowledgedOverlap": null
+            }
+          },
+          {
+            "commandId": "476bc568-c9f7-4cd3-bd29-15d64b06f432",
+            "expected": {
+              "epoch": "independent-epoch",
+              "revision": 10
+            },
+            "type": "CommitPlacement",
+            "payload": {
+              "previewId": "eb2d4cae-8a3b-41fc-97b6-6ef436051dc9",
+              "candidateId": "50f08bbf-9819-4700-8b5c-e562eac9f9a7",
+              "acknowledgedOverlap": null
+            }
+          }
+        ],
+        "cancels": [
+          "44d9c7f2-a651-4cb8-ba01-0885098e7e00"
+        ],
+        "maximum": 1
+      }
+    },
+    {
+      "id": "E05-lost-response-idempotent-replay",
+      "status": "passed",
+      "probe": {
+        "state": {
+          "status": "committed",
+          "subject": {
+            "kind": "hand",
+            "instanceId": "i",
+            "version": 7
+          },
+          "date": "2026-09-28",
+          "zone": "Asia/Shanghai",
+          "preview": null,
+          "chosen": null,
+          "unresolved": [],
+          "error": null,
+          "busy": false
+        },
+        "calls": [
+          {
+            "token": {
+              "epoch": "independent-epoch",
+              "revision": 10
+            },
+            "subject": {
+              "kind": "hand",
+              "instanceId": "i",
+              "version": 7
+            },
+            "date": "2026-09-28",
+            "zone": "Asia/Shanghai",
+            "focusMinuteOfDay": 540
+          }
+        ],
+        "commands": [
+          {
+            "commandId": "3d073b98-b4ed-4a6a-b084-f37cc7a830bd",
+            "expected": {
+              "epoch": "independent-epoch",
+              "revision": 10
+            },
+            "type": "CommitPlacement",
+            "payload": {
+              "previewId": "0961bc96-8995-4584-8b39-1124ea834b6d",
+              "candidateId": "8c0d7e5a-efb4-42c7-b3e6-0eec1cd3adf3",
+              "acknowledgedOverlap": null
+            }
+          },
+          {
+            "commandId": "3d073b98-b4ed-4a6a-b084-f37cc7a830bd",
+            "expected": {
+              "epoch": "independent-epoch",
+              "revision": 10
+            },
+            "type": "CommitPlacement",
+            "payload": {
+              "previewId": "0961bc96-8995-4584-8b39-1124ea834b6d",
+              "candidateId": "8c0d7e5a-efb4-42c7-b3e6-0eec1cd3adf3",
+              "acknowledgedOverlap": null
+            }
+          }
+        ],
+        "cancels": [],
+        "maximum": 1
+      }
+    },
+    {
+      "id": "E06-fixed-repreview-fresh-unlock",
+      "status": "passed",
+      "probe": {
+        "state": {
+          "status": "committed",
+          "subject": {
+            "kind": "fixed",
+            "commitmentId": "x",
+            "version": 3,
+            "unlockId": "4deb0e7f-afa6-4117-a847-cc34c841510f"
+          },
+          "date": "2026-09-28",
+          "zone": "Asia/Shanghai",
+          "preview": null,
+          "chosen": null,
+          "unresolved": [],
+          "error": null,
+          "busy": false
+        },
+        "calls": [
+          {
+            "token": {
+              "epoch": "independent-epoch",
+              "revision": 10
+            },
+            "subject": {
+              "kind": "fixed",
+              "commitmentId": "x",
+              "version": 3,
+              "unlockId": "4deb0e7f-afa6-4117-a847-cc34c841510f"
+            },
+            "date": "2026-09-28",
+            "zone": "Asia/Shanghai",
+            "focusMinuteOfDay": 540
+          },
+          {
+            "token": {
+              "epoch": "independent-epoch",
+              "revision": 10
+            },
+            "subject": {
+              "kind": "fixed",
+              "commitmentId": "x",
+              "version": 3,
+              "unlockId": "df1ba1df-ade0-48b0-81f0-793bbf53016f"
+            },
+            "date": "2026-09-28",
+            "zone": "Asia/Shanghai",
+            "focusMinuteOfDay": 660
+          }
+        ],
+        "commands": [
+          {
+            "commandId": "64176656-2bad-4021-ba34-43738e187789",
+            "expected": {
+              "epoch": "independent-epoch",
+              "revision": 10
+            },
+            "type": "CommitPlacement",
+            "payload": {
+              "previewId": "333866f4-915d-463d-b83d-1f9fc9b21b42",
+              "candidateId": "d7882651-ab3e-4894-b526-de7b9ce091d0",
+              "acknowledgedOverlap": null
+            }
+          }
+        ],
+        "cancels": [
+          "bfff8ef5-efab-4859-a2d6-6c45e4c14685"
+        ],
+        "maximum": 1
+      }
+    },
+    {
+      "id": "E07-late-fixed-unlock-released",
+      "status": "passed",
+      "probe": {
+        "state": {
+          "status": "idle",
+          "subject": null,
+          "date": "",
+          "zone": "",
+          "preview": null,
+          "chosen": null,
+          "unresolved": [],
+          "error": null,
+          "busy": false
+        },
+        "calls": [
+          {
+            "token": {
+              "epoch": "independent-epoch",
+              "revision": 10
+            },
+            "subject": {
+              "kind": "fixed",
+              "commitmentId": "x",
+              "version": 3,
+              "unlockId": "20e3e871-b7f3-4469-9358-14e4c585c172"
+            },
+            "date": "2026-09-28",
+            "zone": "Asia/Shanghai",
+            "focusMinuteOfDay": 540
+          },
+          {
+            "token": {
+              "epoch": "independent-epoch",
+              "revision": 10
+            },
+            "subject": {
+              "kind": "fixed",
+              "commitmentId": "x",
+              "version": 3,
+              "unlockId": "2fb709d5-1f7d-43d1-ac9a-d15e66b1611b"
+            },
+            "date": "2026-09-28",
+            "zone": "Asia/Shanghai",
+            "focusMinuteOfDay": 660
+          }
+        ],
+        "commands": [],
+        "cancels": [
+          "8bfa0453-c24b-4a36-8922-391093a53b32",
+          "8bfa0453-c24b-4a36-8922-391093a53b32",
+          "3da07c49-a8aa-4fe1-8992-0faefd6886a9"
+        ],
+        "maximum": 1
+      }
+    },
+    {
+      "id": "E08-fixed-invalid-preview-cleans-unlock",
+      "status": "passed",
+      "probe": {
+        "state": {
+          "status": "error",
+          "subject": {
+            "kind": "fixed",
+            "commitmentId": "x",
+            "version": 3,
+            "unlockId": "1a19962d-0d6e-449c-ba3a-0c3788c50f24"
+          },
+          "date": "2026-09-28",
+          "zone": "Asia/Shanghai",
+          "preview": null,
+          "chosen": null,
+          "unresolved": [],
+          "error": "请选择当天五分钟刻度",
+          "busy": false
+        },
+        "calls": [
+          {
+            "token": {
+              "epoch": "independent-epoch",
+              "revision": 10
+            },
+            "subject": {
+              "kind": "fixed",
+              "commitmentId": "x",
+              "version": 3,
+              "unlockId": "1a19962d-0d6e-449c-ba3a-0c3788c50f24"
+            },
+            "date": "2026-09-28",
+            "zone": "Asia/Shanghai",
+            "focusMinuteOfDay": 540
+          },
+          {
+            "token": {
+              "epoch": "independent-epoch",
+              "revision": 10
+            },
+            "subject": {
+              "kind": "fixed",
+              "commitmentId": "x",
+              "version": 3,
+              "unlockId": "7acf3a4f-07b4-4fc9-8f52-e3b5a2ce5d86"
+            },
+            "date": "2026-09-28",
+            "zone": "Asia/Shanghai",
+            "focusMinuteOfDay": 541
+          },
+          {
+            "token": {
+              "epoch": "independent-epoch",
+              "revision": 10
+            },
+            "subject": {
+              "kind": "fixed",
+              "commitmentId": "x",
+              "version": 3,
+              "unlockId": "7acf3a4f-07b4-4fc9-8f52-e3b5a2ce5d86"
+            },
+            "date": "2026-09-28",
+            "zone": "Asia/Shanghai",
+            "focusMinuteOfDay": 555
+          }
+        ],
+        "commands": [],
+        "cancels": [
+          "1745a5fa-ff24-4dbf-8a59-3c5c4e7fbf71",
+          "e78215d6-1b06-4d37-92de-620460a6dec1"
+        ],
+        "maximum": 1
+      }
+    },
+    {
+      "id": "E09-pending-cannot-commit",
+      "status": "failed",
+      "error": "page.waitForFunction: Timeout 5000ms exceeded.\n    at check (C:\\Users\\arstot\\Documents\\Codex\\2026-09-20\\抽卡人生\\cardgrid\\tests\\browser\\action-3g-hook-faults.mjs:21:180)\n    at async file:///C:/Users/arstot/Documents/Codex/2026-09-20/%E6%8A%BD%E5%8D%A1%E4%BA%BA%E7%94%9F/cardgrid/tests/browser/action-3g-hook-faults.mjs:87:2",
+      "errors": [],
+      "ui": "▦\nCardGrid\n卡格工作台\n我的空间\n▦\nToday\n＋\nInbox\n◫\nSchedule\n❖\n行动定义\n✦\n抽卡手牌\n◇\n配置工坊\n↗\n数据与备份\n数据保存在本机\n行动底座 · 2A\n工作台 / TODAY Today · 今日\n重新载入\nTODAY\nToday · 今日\n\n看今天的时间盘与手牌；打开和切换日期不会生成安排。\n\n前一天\n2026-10-02\n后一天\n显示时区\n准备日型\n按适用星期选择\n准备这一天\n\n打开和切换日期不会生成安排。此处展示完整时间记录；排期、改期和实际确认请到“抽卡手牌 → 当日”。\n\n完整时间记录\n\n没有已保存的时间记录。\n\nTODAY · P1A\n10月2日星期五\n\n打开 → 看一眼 → 微调 → 开始今天\n\n‹\n未准备日型\n›\n今天最重要的 3 件事\n\n由你确认，Planner 只提供候选。\n\n切换 Minimum Day\n1\n选择今天要保护的任务\n2\n选择今天要保护的任务\n3\n选择今天要保护的任务\n今日日程\n\n固定安排与弹性任务分开显示。\n\n还没有今天的 Planner 安排。可以到 Schedule 页面应用日型。\n\n今日例行\n\n昨天没做不会偷偷搬到今天。\n\n还没有今天的 Planner 例行事项。\n\n昨日遗留\n\n由你决定补做或稍后处理。\n\n没有昨日遗留。\n\n当天事项\n快速记录\n\n先放进 Inbox，之后再整理，不打断当前工作。\n\n约 10 秒\n放入 Inbox\n记录到收件箱\n保存记录\nCardGrid · 卡格工作台\n所有改动保存在此浏览器 · 建议定期导出备份",
+      "probe": null
+    },
+    {
+      "id": "E10-double-submit-one-command",
+      "status": "passed",
+      "probe": {
+        "state": {
+          "status": "committed",
+          "subject": {
+            "kind": "hand",
+            "instanceId": "i",
+            "version": 7
+          },
+          "date": "2026-09-28",
+          "zone": "Asia/Shanghai",
+          "preview": null,
+          "chosen": null,
+          "unresolved": [],
+          "error": null,
+          "busy": false
+        },
+        "calls": [
+          {
+            "token": {
+              "epoch": "independent-epoch",
+              "revision": 10
+            },
+            "subject": {
+              "kind": "hand",
+              "instanceId": "i",
+              "version": 7
+            },
+            "date": "2026-09-28",
+            "zone": "Asia/Shanghai",
+            "focusMinuteOfDay": 540
+          }
+        ],
+        "commands": [
+          {
+            "commandId": "aa36900b-96e4-49f0-a948-88b6366da66b",
+            "expected": {
+              "epoch": "independent-epoch",
+              "revision": 10
+            },
+            "type": "CommitPlacement",
+            "payload": {
+              "previewId": "f86d7406-72ed-4bb6-9753-c52cdcdb08ed",
+              "candidateId": "a9611035-1fe3-4de9-99c0-888960c66154",
+              "acknowledgedOverlap": null
+            }
+          }
+        ],
+        "cancels": [],
+        "maximum": 1
+      }
+    }
+  ]
+}

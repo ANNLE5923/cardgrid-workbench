@@ -1,0 +1,137 @@
+{
+  "at": "2026-10-02T06:15:26.125Z",
+  "reviewer": "g3_readonly_acceptance",
+  "author": "root",
+  "verdict": "G3_PASS",
+  "node": {
+    "total": 221,
+    "passed": 220,
+    "failed": 0,
+    "skipped": 1
+  },
+  "independentNode": {
+    "total": 8,
+    "passed": 8,
+    "failed": 0
+  },
+  "build": {
+    "passed": true,
+    "modules": 60,
+    "assets": [
+      "index-BgLLQjWW.js",
+      "index-Ro_6nYut.css"
+    ]
+  },
+  "matrices": [
+    {
+      "name": "B",
+      "total": 30,
+      "passed": 30,
+      "failed": 0,
+      "evidence": "final-results/B.json"
+    },
+    {
+      "name": "C",
+      "total": 8,
+      "passed": 8,
+      "failed": 0,
+      "evidence": "final-results/C.json"
+    },
+    {
+      "name": "D",
+      "total": 8,
+      "passed": 8,
+      "failed": 0,
+      "evidence": "final-results/D.json"
+    },
+    {
+      "name": "P",
+      "total": 6,
+      "passed": 6,
+      "failed": 0,
+      "evidence": "final-results/P.json"
+    },
+    {
+      "name": "E",
+      "total": 10,
+      "passed": 10,
+      "failed": 0,
+      "evidence": "final-results/E.json"
+    },
+    {
+      "name": "Q",
+      "total": 3,
+      "passed": 3,
+      "failed": 0,
+      "evidence": "final-results/Q.json"
+    },
+    {
+      "name": "G2-main",
+      "total": 13,
+      "passed": 13,
+      "failed": 0,
+      "evidence": "final-results/G2-main.json"
+    },
+    {
+      "name": "G2-closure",
+      "total": 7,
+      "passed": 7,
+      "failed": 0,
+      "evidence": "final-results/G2-closure.json"
+    },
+    {
+      "name": "G2-save-failures",
+      "total": 6,
+      "passed": 6,
+      "failed": 0,
+      "evidence": "final-results/G2-save-failures.json"
+    },
+    {
+      "name": "G2-annotation",
+      "total": 2,
+      "passed": 2,
+      "failed": 0,
+      "evidence": "final-results/G2-annotation.json"
+    }
+  ],
+  "browserTotal": 93,
+  "scope": {
+    "changed": [],
+    "originalTestChanges": [],
+    "coreChanges": [],
+    "frozenContractUnchanged": true,
+    "sourceChangeCount": 9,
+    "sourceChanges": [
+      "src/components/action-flow.tsx",
+      "src/components/day-board.tsx",
+      "src/components/hand/hand.css",
+      "src/components/hand/HandFan.tsx",
+      "src/components/time-dial/DayOverview.tsx",
+      "src/components/time-dial/interaction.ts",
+      "src/components/time-dial/projection-adapter.ts",
+      "src/components/time-dial/TimeDial.tsx",
+      "src/components/time-dial/use-placement-session.ts"
+    ]
+  },
+  "review": {
+    "axes": [
+      "correctness-and-standards",
+      "frozen-requirements"
+    ],
+    "unresolvedFindings": [],
+    "resolvedFindings": [
+      "missing overlap rejection feedback",
+      "view-only leaked origin reading",
+      "actual top-edge first outer entry and75 threshold",
+      "ancestor scaling at320px"
+    ],
+    "readOnlyReviewer": true
+  },
+  "limits": [
+    "physical touch device",
+    "real personal migration or restore",
+    "seven day continuous use",
+    "complete visual preference"
+  ],
+  "history": "history.json"
+}

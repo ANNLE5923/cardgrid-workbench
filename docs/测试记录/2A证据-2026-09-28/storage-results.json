@@ -1,0 +1,131 @@
+{
+  "at": "2026-09-28T12:30:18.681Z",
+  "origin": "http://127.0.0.1:5173",
+  "results": [
+    {
+      "name": "empty-read-no-write-and-explicit-first-command",
+      "status": "pass",
+      "durationMs": 963,
+      "detail": {
+        "revision": 1
+      }
+    },
+    {
+      "name": "request-replay-and-command-id-reuse",
+      "status": "pass",
+      "durationMs": 321,
+      "detail": {
+        "facts": 0,
+        "history": 1
+      }
+    },
+    {
+      "name": "two-windows-confirm-once-and-replay-from-other-window",
+      "status": "pass",
+      "durationMs": 491,
+      "detail": {
+        "factId": "797f6472-c61f-432a-ab9c-1fa55ee22866",
+        "revision": 2
+      }
+    },
+    {
+      "name": "transaction-abort-restores-workspace-and-recovery-then-retries-once",
+      "status": "pass",
+      "durationMs": 299,
+      "detail": {
+        "rollback": true,
+        "retry": true
+      }
+    },
+    {
+      "name": "old-database-open-is-readonly-and-ordinary-submit-is-blocked",
+      "status": "pass",
+      "durationMs": 361,
+      "detail": {
+        "oldRevision": 7,
+        "sourcePreserved": true
+      }
+    },
+    {
+      "name": "stale-preview-and-untrusted-candidate-rejected-without-partial-records",
+      "status": "pass",
+      "durationMs": 313,
+      "detail": {
+        "forged": "rejected",
+        "stale": "rejected"
+      }
+    },
+    {
+      "name": "exact-new-and-old-restore-then-repeated-export",
+      "status": "pass",
+      "durationMs": 310,
+      "detail": {
+        "exact": true,
+        "reads": 6
+      }
+    },
+    {
+      "name": "clear-every-recovery-key-and-replay-after-later-write-without-overwrite",
+      "status": "pass",
+      "durationMs": 452,
+      "detail": {
+        "everyRecoveryKeyRemoved": true,
+        "replayKeepsLaterWrites": true,
+        "crossWindowReplay": true
+      }
+    },
+    {
+      "name": "lifecycle-abort-restores-epoch-data-and-all-recovery",
+      "status": "pass",
+      "durationMs": 278,
+      "detail": {
+        "rollback": true,
+        "retry": true
+      }
+    },
+    {
+      "name": "backup-evidence-and-restore-preview-expire-on-other-window-write",
+      "status": "pass",
+      "durationMs": 430,
+      "detail": {
+        "staleRestoreRejected": true
+      }
+    },
+    {
+      "name": "migration-reports-and-commits-source-without-old-done-facts",
+      "status": "pass",
+      "durationMs": 297,
+      "detail": {
+        "migrated": true,
+        "facts": 0
+      }
+    },
+    {
+      "name": "template-overlap-capability-preserves-manual-exceptions-and-ordinary-preview-input",
+      "status": "pass",
+      "durationMs": 336,
+      "detail": {
+        "overlapAcknowledged": true,
+        "manualExceptionPreserved": true
+      }
+    },
+    {
+      "name": "actual-confirmation-storage-failure-keeps-same-command-retry-and-size-rejection-is-atomic",
+      "status": "pass",
+      "durationMs": 426,
+      "detail": {
+        "sameRequestRetried": true,
+        "oversizedNoWrite": true
+      }
+    },
+    {
+      "name": "config-replace-retires-referenced-definitions-without-changing-fact-or-instance-snapshots",
+      "status": "pass",
+      "durationMs": 311,
+      "detail": {
+        "definitionRetained": true,
+        "snapshotsUnchanged": true
+      }
+    }
+  ]
+}

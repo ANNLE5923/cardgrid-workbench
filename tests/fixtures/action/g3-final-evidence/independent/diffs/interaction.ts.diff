@@ -1,0 +1,46 @@
+diff --git a/tests/fixtures/action/g3-final-evidence/before/interaction.ts b/src/components/time-dial/interaction.ts
+index b4da66a..5cb3250 100644
+--- a/tests/fixtures/action/g3-final-evidence/before/interaction.ts
++++ b/src/components/time-dial/interaction.ts
+@@ -54,3 +54,41 @@ export function clientPointToLogical(
+ }
+ 
+ export { HALF_MINUTES };
++
++/** Entry is measured at the translated card TOP EDGE, independent of the grab point. */
++export type HandEntryState = {
++  entered: boolean; entryY: number; entryRadius: number; innerEnabled: boolean; anchor: HitAnchor | null;
++};
++export const emptyHandEntry = (): HandEntryState => ({
++  entered: false, entryY: 0, entryRadius: -1, innerEnabled: false, anchor: null,
++});
++
++/** Sweep the real edge trajectory so a fast event crossing the whole band still enters it. */
++export function advanceHandEntry(previous: LogicalPoint, point: LogicalPoint, focus: number, initial: HandEntryState) {
++  const state = { ...initial };
++  let hit: ReturnType<typeof dragHit> = null;
++  const steps = Math.max(1, Math.ceil(Math.hypot(point.x - previous.x, point.y - previous.y) / 2));
++  for (let i = 1; i <= steps; i++) {
++    const p = { x: previous.x + (point.x - previous.x) * i / steps,
++      y: previous.y + (point.y - previous.y) * i / steps };
++    const dx = p.x - 200, dy = p.y - 200, radius = Math.hypot(dx, dy);
++    if (!state.entered) {
++      if (radius > defaultMetrics.startRadius || radius < 70) continue;
++      state.entered = true; state.entryY = p.y; state.entryRadius = radius;
++      state.anchor = { half: 'outer', minuteOfHalf: focus % HALF_MINUTES };
++    }
++    if (state.entryY - p.y >= 75) state.innerEnabled = true;
++    let target = p;
++    if (!state.innerEnabled) {
++      if (radius > 185 || radius === 0) continue;
++      target = { x: 200 + dx * defaultMetrics.outerRadius / radius,
++        y: 200 + dy * defaultMetrics.outerRadius / radius };
++    } else if (radius < 70 && radius > 0) {
++      // Keep the last band angle while an edge overshoots the small inner hit band.
++      target = { x: 200 + dx * 70.01 / radius, y: 200 + dy * 70.01 / radius };
++    }
++    const next = dragHit(target, focus, state.anchor);
++    if (next) { hit = next; state.anchor = { half: next.half, minuteOfHalf: next.minuteOfHalf }; }
++  }
++  return { state, hit };
++}

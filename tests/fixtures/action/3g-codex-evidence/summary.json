@@ -1,0 +1,41 @@
+{
+  "task": "G3 Codex review",
+  "verdict": "REJECT_PENDING_BOUNDED_REPAIR",
+  "at": "2026-10-02T04:41:17.234Z",
+  "defaultNode": {
+    "total": 217,
+    "passed": 216,
+    "failed": 0,
+    "skipped": 1
+  },
+  "N": {
+    "total": 8,
+    "passed": 8,
+    "failed": 0
+  },
+  "BC": {
+    "total": 38,
+    "passed": 38,
+    "failed": 0
+  },
+  "D": {
+    "total": 8,
+    "passed": 0,
+    "failed": 8
+  },
+  "build": {
+    "passed": true,
+    "modules": 60
+  },
+  "G2": {
+    "status": "reported_not_independently_rerun_this_turn",
+    "reportedPassed": 28
+  },
+  "coreChanges": [],
+  "scope": {
+    "at": "2026-10-02T04:41:17.228Z",
+    "checked": 46,
+    "changed": [],
+    "productionAndAuthorTestsUnchanged": true
+  }
+}

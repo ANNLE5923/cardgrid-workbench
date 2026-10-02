@@ -1,0 +1,962 @@
+TAP version 13
+# Subtest: C01: accepting a definition creates one unscheduled instance and preserves creation content
+ok 1 - C01: accepting a definition creates one unscheduled instance and preserves creation content
+  ---
+  duration_ms: 34.152
+  type: 'test'
+  ...
+# Subtest: pure transitions are deterministic and leave deeply frozen input intact on success and failure
+ok 2 - pure transitions are deterministic and leave deeply frozen input intact on success and failure
+  ---
+  duration_ms: 55.8045
+  type: 'test'
+  ...
+# Subtest: C02/C04: complete duration and all overlaps are preserved after explicit acknowledgement
+ok 3 - C02/C04: complete duration and all overlaps are preserved after explicit acknowledgement
+  ---
+  duration_ms: 36.6739
+  type: 'test'
+  ...
+# Subtest: C05/C30: retract preserves the old plan; re-place keeps instance ID and appends at hand end
+ok 4 - C05/C30: retract preserves the old plan; re-place keeps instance ID and appends at hand end
+  ---
+  duration_ms: 41.5829
+  type: 'test'
+  ...
+# Subtest: active duration edits must update the full range atomically and leave old content snapshot intact
+ok 5 - active duration edits must update the full range atomically and leave old content snapshot intact
+  ---
+  duration_ms: 29.5844
+  type: 'test'
+  ...
+# Subtest: C06/C31: future actual end is allowed and locks immediately, with plan and confirmation time distinct
+ok 6 - C06/C31: future actual end is allowed and locks immediately, with plan and confirmation time distinct
+  ---
+  duration_ms: 73.5693
+  type: 'test'
+  ...
+# Subtest: C06: actual confirmation excludes its own plan and requires acknowledgement of every other object
+ok 7 - C06: actual confirmation excludes its own plan and requires acknowledgement of every other object
+  ---
+  duration_ms: 41.1575
+  type: 'test'
+  ...
+# Subtest: C09/C22: facts and annotation order are append-only, including direct transition checks
+ok 8 - C09/C22: facts and annotation order are append-only, including direct transition checks
+  ---
+  duration_ms: 23.3349
+  type: 'test'
+  ...
+# Subtest: one active plan and one fact per instance are checked as invariants
+ok 9 - one active plan and one fact per instance are checked as invariants
+  ---
+  duration_ms: 14.0966
+  type: 'test'
+  ...
+# Subtest: no-duration hand items can record actual minute intervals without inventing a plan
+ok 10 - no-duration hand items can record actual minute intervals without inventing a plan
+  ---
+  duration_ms: 5.237
+  type: 'test'
+  ...
+# Subtest: C20: hand sorting must be a complete permutation; withdrawal and return keep identity
+ok 11 - C20: hand sorting must be a complete permutation; withdrawal and return keep identity
+  ---
+  duration_ms: 3.7533
+  type: 'test'
+  ...
+# Subtest: unchanged and empty hand orders produce no fictitious day or history
+ok 12 - unchanged and empty hand orders produce no fictitious day or history
+  ---
+  duration_ms: 1.3875
+  type: 'test'
+  ...
+# Subtest: creation snapshots and sealed plans cannot be changed through a direct state replacement
+ok 13 - creation snapshots and sealed plans cannot be changed through a direct state replacement
+  ---
+  duration_ms: 11.9416
+  type: 'test'
+  ...
+# Subtest: C42: fixed unlock and overlap acknowledgement are independent; day overrides are retained
+ok 14 - C42: fixed unlock and overlap acknowledgement are independent; day overrides are retained
+  ---
+  duration_ms: 69.6912
+  type: 'test'
+  ...
+# Subtest: C43: past ordinary plans can move; past routine results require one separate makeup instance
+ok 15 - C43: past ordinary plans can move; past routine results require one separate makeup instance
+  ---
+  duration_ms: 12.9665
+  type: 'test'
+  ...
+# Subtest: capture conversion retains original text and can only create one instance
+ok 16 - capture conversion retains original text and can only create one instance
+  ---
+  duration_ms: 0.9389
+  type: 'test'
+  ...
+# Subtest: unresolved legacy occupancy is never silently treated as free time
+ok 17 - unresolved legacy occupancy is never silently treated as free time
+  ---
+  duration_ms: 3.58
+  type: 'test'
+  ...
+# Subtest: 2A.1 identifies empty and current snapshots without changing a single field
+ok 18 - 2A.1 identifies empty and current snapshots without changing a single field
+  ---
+  duration_ms: 3.8369
+  type: 'test'
+  ...
+# Subtest: 2A.1 preserves both legacy backup shapes and schema 1 envelope verbatim
+ok 19 - 2A.1 preserves both legacy backup shapes and schema 1 envelope verbatim
+  ---
+  duration_ms: 1.5822
+  type: 'test'
+  ...
+# Subtest: 2A.1 rejects version ambiguity, unknown fields, missing fields and mismatched dataFormat
+ok 20 - 2A.1 rejects version ambiguity, unknown fields, missing fields and mismatched dataFormat
+  ---
+  duration_ms: 1.2897
+  type: 'test'
+  ...
+# Subtest: 2A.1 catches core dangling references before exposing a new snapshot
+ok 21 - 2A.1 catches core dangling references before exposing a new snapshot
+  ---
+  duration_ms: 1.0526
+  type: 'test'
+  ...
+# Subtest: 2A.1 limits input and leaves the original text with its caller on parse failure
+ok 22 - 2A.1 limits input and leaves the original text with its caller on parse failure
+  ---
+  duration_ms: 8.1776
+  type: 'test'
+  ...
+# Subtest: 2A.1 database reader requests a readonly transaction and never opens or upgrades a database
+ok 23 - 2A.1 database reader requests a readonly transaction and never opens or upgrades a database
+  ---
+  duration_ms: 0.8666
+  type: 'test'
+  ...
+# Subtest: 2B fixture sanity: literal hand/planned/confirmed/fixed records all satisfy the frozen schema
+ok 24 - 2B fixture sanity: literal hand/planned/confirmed/fixed records all satisfy the frozen schema
+  ---
+  duration_ms: 65.6363
+  type: 'test'
+  ...
+# Subtest: 2B C16/C34/C39 strict format: unknown nested field
+ok 25 - 2B C16/C34/C39 strict format: unknown nested field
+  ---
+  duration_ms: 6.3037
+  type: 'test'
+  ...
+# Subtest: 2B C16/C34/C39 strict format: missing snapshot field
+ok 26 - 2B C16/C34/C39 strict format: missing snapshot field
+  ---
+  duration_ms: 0.9291
+  type: 'test'
+  ...
+# Subtest: 2B C16/C34/C39 strict format: unsafe version
+ok 27 - 2B C16/C34/C39 strict format: unsafe version
+  ---
+  duration_ms: 0.6663
+  type: 'test'
+  ...
+# Subtest: 2B C16/C34/C39 strict format: fractional version
+ok 28 - 2B C16/C34/C39 strict format: fractional version
+  ---
+  duration_ms: 0.6604
+  type: 'test'
+  ...
+# Subtest: 2B C16/C34/C39 strict format: missing hand reference
+ok 29 - 2B C16/C34/C39 strict format: missing hand reference
+  ---
+  duration_ms: 1.3022
+  type: 'test'
+  ...
+# Subtest: 2B C16/C34/C39 strict format: duplicate hand reference
+ok 30 - 2B C16/C34/C39 strict format: duplicate hand reference
+  ---
+  duration_ms: 0.7895
+  type: 'test'
+  ...
+# Subtest: 2B C16/C34/C39 strict format: dangling plan instance
+ok 31 - 2B C16/C34/C39 strict format: dangling plan instance
+  ---
+  duration_ms: 0.645
+  type: 'test'
+  ...
+# Subtest: 2B C16/C34/C39 strict format: second active plan
+ok 32 - 2B C16/C34/C39 strict format: second active plan
+  ---
+  duration_ms: 4.1611
+  type: 'test'
+  ...
+# Subtest: 2B C16/C34/C39 strict format: bad local offset
+ok 33 - 2B C16/C34/C39 strict format: bad local offset
+  ---
+  duration_ms: 3.0144
+  type: 'test'
+  ...
+# Subtest: 2B C16/C34/C39 strict format: shortened full duration
+ok 34 - 2B C16/C34/C39 strict format: shortened full duration
+  ---
+  duration_ms: 7.7116
+  type: 'test'
+  ...
+# Subtest: 2B C16/C34/C39 strict format: confirmed plan has no fact
+ok 35 - 2B C16/C34/C39 strict format: confirmed plan has no fact
+  ---
+  duration_ms: 0.788
+  type: 'test'
+  ...
+# Subtest: 2B C16/C34/C39 strict format: two facts for one instance
+ok 36 - 2B C16/C34/C39 strict format: two facts for one instance
+  ---
+  duration_ms: 1.4183
+  type: 'test'
+  ...
+# Subtest: 2B C16/C34/C39 strict format: dangling annotation
+ok 37 - 2B C16/C34/C39 strict format: dangling annotation
+  ---
+  duration_ms: 2.3857
+  type: 'test'
+  ...
+# Subtest: 2B C16/C34/C39 strict format: wrong planned snapshot version
+ok 38 - 2B C16/C34/C39 strict format: wrong planned snapshot version
+  ---
+  duration_ms: 6.7382
+  type: 'test'
+  ...
+# Subtest: 2B C16/C34/C39 strict format: invalid plan range minute
+ok 39 - 2B C16/C34/C39 strict format: invalid plan range minute
+  ---
+  duration_ms: 4.5969
+  type: 'test'
+  ...
+# Subtest: 2B C16/C34/C39 strict format: project WIP above three
+ok 40 - 2B C16/C34/C39 strict format: project WIP above three
+  ---
+  duration_ms: 0.7335
+  type: 'test'
+  ...
+# Subtest: 2B C16/C34/C39 strict format: Top3 above three
+ok 41 - 2B C16/C34/C39 strict format: Top3 above three
+  ---
+  duration_ms: 1.8458
+  type: 'test'
+  ...
+# Subtest: 2B C16/C34/C39 strict format: dangling fixed template
+ok 42 - 2B C16/C34/C39 strict format: dangling fixed template
+  ---
+  duration_ms: 2.4962
+  type: 'test'
+  ...
+# Subtest: 2B C16/C34/C39 strict format: duplicate successful receipts
+ok 43 - 2B C16/C34/C39 strict format: duplicate successful receipts
+  ---
+  duration_ms: 0.6213
+  type: 'test'
+  ...
+# Subtest: 2B C16/C34/C39 strict format: missing rule definition
+ok 44 - 2B C16/C34/C39 strict format: missing rule definition
+  ---
+  duration_ms: 0.6505
+  type: 'test'
+  ...
+# Subtest: 2B C16 unknown/mismatched envelope and backup versions are rejected
+ok 45 - 2B C16 unknown/mismatched envelope and backup versions are rejected
+  ---
+  duration_ms: 1.7693
+  type: 'test'
+  ...
+# Subtest: 2B C09/C22 confirmed data, annotation order, creation snapshot and sealed plan cannot be replaced
+ok 46 - 2B C09/C22 confirmed data, annotation order, creation snapshot and sealed plan cannot be replaced
+  ---
+  duration_ms: 10.1971
+  type: 'test'
+  ...
+# Subtest: 2B C30 retraction and re-placement preserve old identity, snapshots and ordering
+ok 47 - 2B C30 retraction and re-placement preserve old identity, snapshots and ordering
+  ---
+  duration_ms: 31.9515
+  type: 'test'
+  ...
+# Subtest: 2B C34 projection carries non-default plan/instance versions from the same snapshot
+ok 48 - 2B C34 projection carries non-default plan/instance versions from the same snapshot
+  ---
+  duration_ms: 19.485
+  type: 'test'
+  ...
+# Subtest: 2B C06/C31 facts occupy actual range only and lock before their future end
+ok 49 - 2B C06/C31 facts occupy actual range only and lock before their future end
+  ---
+  duration_ms: 13.0023
+  type: 'test'
+  ...
+# Subtest: 2B C11 actual minute precision is independent of preset and supports an unplanned instance
+ok 50 - 2B C11 actual minute precision is independent of preset and supports an unplanned instance
+  ---
+  duration_ms: 5.9449
+  type: 'test'
+  ...
+# Subtest: 2B C35 cross-day flags and half-day boundaries use complete sources, conserving duration
+ok 51 - 2B C35 cross-day flags and half-day boundaries use complete sources, conserving duration
+  ---
+  duration_ms: 11.6767
+  type: 'test'
+  ...
+# Subtest: 2B C44 day bounds: America/New_York 2026-03-08
+ok 52 - 2B C44 day bounds: America/New_York 2026-03-08
+  ---
+  duration_ms: 5.2872
+  type: 'test'
+  ...
+# Subtest: 2B C44 day bounds: America/New_York 2026-11-01
+ok 53 - 2B C44 day bounds: America/New_York 2026-11-01
+  ---
+  duration_ms: 3.9741
+  type: 'test'
+  ...
+# Subtest: 2B C44 day bounds: Australia/Lord_Howe 2026-04-05
+ok 54 - 2B C44 day bounds: Australia/Lord_Howe 2026-04-05
+  ---
+  duration_ms: 12.7309
+  type: 'test'
+  ...
+# Subtest: 2B C44 day bounds: America/Sao_Paulo 2018-11-04
+ok 55 - 2B C44 day bounds: America/Sao_Paulo 2018-11-04
+  ---
+  duration_ms: 7.6221
+  type: 'test'
+  ...
+# Subtest: 2B C36/C44 missing date/time and independently ambiguous actual endpoints are explicit
+ok 56 - 2B C36/C44 missing date/time and independently ambiguous actual endpoints are explicit
+  ---
+  duration_ms: 7.4369
+  type: 'test'
+  ...
+# Subtest: 2B C24 elapsed duration lands on distinct real identities during fall-back
+ok 57 - 2B C24 elapsed duration lands on distinct real identities during fall-back
+  ---
+  duration_ms: 3.8031
+  type: 'test'
+  ...
+# Subtest: 2B C32 red empty-time projection is derived at local midnight, and recomputes from actual only
+ok 58 - 2B C32 red empty-time projection is derived at local midnight, and recomputes from actual only
+  ---
+  duration_ms: 26.3388
+  type: 'test'
+  ...
+# Subtest: 2B C37 all old envelopes restore exact field presence and order without initializing
+ok 59 - 2B C37 all old envelopes restore exact field presence and order without initializing
+  ---
+  duration_ms: 5.6153
+  type: 'test'
+  ...
+# Subtest: 2B C16 capacity counts UTF-8 bytes and accepts exactly 5 MiB, rejects the next byte
+ok 60 - 2B C16 capacity counts UTF-8 bytes and accepts exactly 5 MiB, rejects the next byte
+  ---
+  duration_ms: 30.4917
+  type: 'test'
+  ...
+# Subtest: 2B C39 source identity ignores key order, retains array order and escaped original IDs
+ok 61 - 2B C39 source identity ignores key order, retains array order and escaped original IDs
+  ---
+  duration_ms: 47.2656
+  type: 'test'
+  ...
+# Subtest: 2B C12/C39 migration preserves old seven-minute occupancy and old completed records without facts
+ok 62 - 2B C12/C39 migration preserves old seven-minute occupancy and old completed records without facts
+  ---
+  duration_ms: 7.6345
+  type: 'test'
+  ...
+# Subtest: 2B C39 multi-block association needs explicit read-only choice and never picks the first block
+ok 63 - 2B C39 multi-block association needs explicit read-only choice and never picks the first block
+  ---
+  duration_ms: 15.0329
+  type: 'test'
+  ...
+# Subtest: 2B C39 missing zone, dangling block, over-limit Top3 and WIP are blocked without modifying source
+ok 64 - 2B C39 missing zone, dangling block, over-limit Top3 and WIP are blocked without modifying source
+  ---
+  duration_ms: 6.1891
+  type: 'test'
+  ...
+# Subtest: 2B C39 same source retry is idempotent; different sources with same IDs stay separate
+ok 65 - 2B C39 same source retry is idempotent; different sources with same IDs stay separate
+  ---
+  duration_ms: 8.8459
+  type: 'test'
+  ...
+# Subtest: 2B C23/C43 preparation is explicit, idempotent per rule/date and does not roll old days forward
+ok 66 - 2B C23/C43 preparation is explicit, idempotent per rule/date and does not roll old days forward
+  ---
+  duration_ms: 2.4563
+  type: 'test'
+  ...
+# Subtest: 2B C43 ordinary past plans remain editable and retain before/after history
+ok 67 - 2B C43 ordinary past plans remain editable and retain before/after history
+  ---
+  duration_ms: 5.5539
+  type: 'test'
+  ...
+# Subtest: 2B C44 mixed record zones clip to the display day without rewriting their snapshots
+ok 68 - 2B C44 mixed record zones clip to the display day without rewriting their snapshots
+  ---
+  duration_ms: 15.8635
+  type: 'test'
+  ...
+# Subtest: 2B C39 explicit source ID with changed bytes is blocked and leaves the existing mapping unchanged
+ok 69 - 2B C39 explicit source ID with changed bytes is blocked and leaves the existing mapping unchanged
+  ---
+  duration_ms: 7.4288
+  type: 'test'
+  ...
+# Subtest: 2B-F02 C11/C16 non-grid template is rejected by the backup validator
+not ok 70 - 2B-F02 C11/C16 non-grid template is rejected by the backup validator
+  ---
+  duration_ms: 1.4593
+  type: 'test'
+  location: 'C:\\Users\\arstot\\Documents\\Codex\\2026-09-20\\抽卡人生\\cardgrid\\tests\\action-independent.test.ts:216:55'
+  failureType: 'testCodeFailure'
+  error: 'Missing expected exception: A newly persisted template must not make plannedRange/readDay fail on its grid.'
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  operator: 'throws'
+  stack: |-
+    TestContext.<anonymous> (file:///C:/Users/arstot/Documents/Codex/2026-09-20/%E6%8A%BD%E5%8D%A1%E4%BA%BA%E7%94%9F/cardgrid/tests/action-independent.test.ts:220:10)
+    Test.runInAsyncScope (node:async_hooks:227:14)
+    Test.run (node:internal/test_runner/test:1382:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+    Test.postRun (node:internal/test_runner/test:1522:19)
+    Test.run (node:internal/test_runner/test:1447:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+  ...
+# Subtest: 2B-F02 C11/C16 non-grid template is rejected by the config validator
+not ok 71 - 2B-F02 C11/C16 non-grid template is rejected by the config validator
+  ---
+  duration_ms: 0.7419
+  type: 'test'
+  location: 'C:\\Users\\arstot\\Documents\\Codex\\2026-09-20\\抽卡人生\\cardgrid\\tests\\action-independent.test.ts:216:55'
+  failureType: 'testCodeFailure'
+  error: 'Missing expected exception: A newly persisted template must not make plannedRange/readDay fail on its grid.'
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  operator: 'throws'
+  stack: |-
+    TestContext.<anonymous> (file:///C:/Users/arstot/Documents/Codex/2026-09-20/%E6%8A%BD%E5%8D%A1%E4%BA%BA%E7%94%9F/cardgrid/tests/action-independent.test.ts:220:10)
+    Test.runInAsyncScope (node:async_hooks:227:14)
+    Test.run (node:internal/test_runner/test:1382:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+    Test.postRun (node:internal/test_runner/test:1522:19)
+    Test.run (node:internal/test_runner/test:1447:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+  ...
+# Subtest: 2B command boundary rejects extra top-level/nested fields and direct fact replacement
+ok 72 - 2B command boundary rejects extra top-level/nested fields and direct fact replacement
+  ---
+  duration_ms: 0.9102
+  type: 'test'
+  ...
+# Subtest: strict schemas reject nested unknown fields, non-grid content and changed source digests without normalization
+ok 73 - strict schemas reject nested unknown fields, non-grid content and changed source digests without normalization
+  ---
+  duration_ms: 69.9768
+  type: 'test'
+  ...
+# Subtest: exact restore/export preserves missing old optional fields and new history/order over repeated reads
+ok 74 - exact restore/export preserves missing old optional fields and new history/order over repeated reads
+  ---
+  duration_ms: 5.2766
+  type: 'test'
+  ...
+# Subtest: migration converts unique legal plans, preserves old done as source, readonly occupancy and repeated source mapping
+ok 75 - migration converts unique legal plans, preserves old done as source, readonly occupancy and repeated source mapping
+  ---
+  duration_ms: 69.3386
+  type: 'test'
+  ...
+# Subtest: missing zone, multiple blocks, bad references and non-grid schedules cannot silently activate
+ok 76 - missing zone, multiple blocks, bad references and non-grid schedules cannot silently activate
+  ---
+  duration_ms: 14.7971
+  type: 'test'
+  ...
+# Subtest: PrepareDay is explicit and idempotent; time passage does not roll routines over or rewrite history
+ok 77 - PrepareDay is explicit and idempotent; time passage does not roll routines over or rewrite history
+  ---
+  duration_ms: 12.1079
+  type: 'test'
+  ...
+# Subtest: day projection retains cross-midnight source IDs, actual-only free space and automatic day-end recomputation
+ok 78 - day projection retains cross-midnight source IDs, actual-only free space and automatic day-end recomputation
+  ---
+  duration_ms: 68.4989
+  type: 'test'
+  ...
+# Subtest: old rules do not regenerate old occurrences and one legacy makeup preserves the original outcome
+ok 79 - old rules do not regenerate old occurrences and one legacy makeup preserves the original outcome
+  ---
+  duration_ms: 10.8168
+  type: 'test'
+  ...
+# Subtest: pre-planner migration preserves Top3, Minimum Day and precise old day occupancy
+ok 80 - pre-planner migration preserves Top3, Minimum Day and precise old day occupancy
+  ---
+  duration_ms: 14.5992
+  type: 'test'
+  ...
+# Subtest: template DST ambiguity requires an explicit entry offset and preserves full elapsed duration
+ok 81 - template DST ambiguity requires an explicit entry offset and preserves full elapsed duration
+  ---
+  duration_ms: 7.6507
+  type: 'test'
+  ...
+# Subtest: C13: missing local minute is rejected; repeated minute returns both explicit offsets
+ok 82 - C13: missing local minute is rejected; repeated minute returns both explicit offsets
+  ---
+  duration_ms: 36.5477
+  type: 'test'
+  ...
+# Subtest: local input rejects calendar overflow, seconds, invalid zones and bogus offsets
+ok 83 - local input rejects calendar overflow, seconds, invalid zones and bogus offsets
+  ---
+  duration_ms: 2.0729
+  type: 'test'
+  ...
+# Subtest: C24: elapsed addition keeps full length through fall-back and yields two distinct 01:30s
+ok 84 - C24: elapsed addition keeps full length through fall-back and yields two distinct 01:30s
+  ---
+  duration_ms: 24.1934
+  type: 'test'
+  ...
+# Subtest: actual endpoints disambiguate independently and compare real instants, not clock labels
+ok 85 - actual endpoints disambiguate independently and compare real instants, not clock labels
+  ---
+  duration_ms: 10.4823
+  type: 'test'
+  ...
+# Subtest: C11: plans require full grid duration; actual records preserve minute precision
+ok 86 - C11: plans require full grid duration; actual records preserve minute precision
+  ---
+  duration_ms: 10.8984
+  type: 'test'
+  ...
+# Subtest: C35/C44: day bounds handle 23/25-hour days, missing midnight and a missing date
+ok 87 - C35/C44: day bounds handle 23/25-hour days, missing midnight and a missing date
+  ---
+  duration_ms: 15.3932
+  type: 'test'
+  ...
+# Subtest: C04: half-open touching ranges do not conflict; overlap, union and free ranges share instants
+ok 88 - C04: half-open touching ranges do not conflict; overlap, union and free ranges share instants
+  ---
+  duration_ms: 32.6759
+  type: 'test'
+  ...
+# Subtest: C10/C44: cross-day, noon, offset and mixed-zone display slices conserve duration
+ok 89 - C10/C44: cross-day, noon, offset and mixed-zone display slices conserve duration
+  ---
+  duration_ms: 19.9491
+  type: 'test'
+  ...
+# Subtest: recorded local snapshots are checked without rewriting stored values
+ok 90 - recorded local snapshots are checked without rewriting stored values
+  ---
+  duration_ms: 3.4059
+  type: 'test'
+  ...
+# Subtest: union/complement conservation across all small synthetic overlap placements
+ok 91 - union/complement conservation across all small synthetic overlap placements
+  ---
+  duration_ms: 308.3352
+  type: 'test'
+  ...
+# Subtest: 首次打开当天：按适用星期生成 routine occurrence，并 ensureDay 匹配日型
+ok 92 - 首次打开当天：按适用星期生成 routine occurrence，并 ensureDay 匹配日型
+  ---
+  duration_ms: 17.854
+  type: 'test'
+  ...
+# Subtest: 同一天重复打开（含连续三次）：occurrence 与 task 数量不变，不重复生成（T-008 / INV-001 / INV-011）
+ok 93 - 同一天重复打开（含连续三次）：occurrence 与 task 数量不变，不重复生成（T-008 / INV-001 / INV-011）
+  ---
+  duration_ms: 41.9753
+  type: 'test'
+  ...
+# Subtest: 日期切换到第二天：昨日 generated 标为 missed，今天新生成，昨日不变成今日任务（INV-012）
+ok 94 - 日期切换到第二天：昨日 generated 标为 missed，今天新生成，昨日不变成今日任务（INV-012）
+  ---
+  duration_ms: 9.8045
+  type: 'test'
+  ...
+# Subtest: 非适用星期的 routine 不生成（r-routine-b 周一有、周二无）
+ok 95 - 非适用星期的 routine 不生成（r-routine-b 周一有、周二无）
+  ---
+  duration_ms: 24.9357
+  type: 'test'
+  ...
+# Subtest: paused / archived 的 routine 不生成未来 occurrence
+ok 96 - paused / archived 的 routine 不生成未来 occurrence
+  ---
+  duration_ms: 7.773
+  type: 'test'
+  ...
+# Subtest: rule.start 晚于今天不生成
+ok 97 - rule.start 晚于今天不生成
+  ---
+  duration_ms: 0.6197
+  type: 'test'
+  ...
+# Subtest: ensureDay 按星期匹配四种日型，互不重叠
+ok 98 - ensureDay 按星期匹配四种日型，互不重叠
+  ---
+  duration_ms: 3.0356
+  type: 'test'
+  ...
+# Subtest: 当天被用户取消的 block 不会因再次 bootstrap 被还原（AC-011-05）
+ok 99 - 当天被用户取消的 block 不会因再次 bootstrap 被还原（AC-011-05）
+  ---
+  duration_ms: 6.8683
+  type: 'test'
+  ...
+# Subtest: createCapture 只写入领域 Inbox，不创建任务并记录事件
+ok 100 - createCapture 只写入领域 Inbox，不创建任务并记录事件
+  ---
+  duration_ms: 20.0719
+  type: 'test'
+  ...
+# Subtest: archiveCapture 将未处理记录归档且可重复调用
+ok 101 - archiveCapture 将未处理记录归档且可重复调用
+  ---
+  duration_ms: 5.4339
+  type: 'test'
+  ...
+# Subtest: Quick Capture 只产生 unprocessed InboxItem，不自动建 Card、不进 Today（T-006 / AC-004-01）
+ok 102 - Quick Capture 只产生 unprocessed InboxItem，不自动建 Card、不进 Today（T-006 / AC-004-01）
+  ---
+  duration_ms: 6.7576
+  type: 'test'
+  ...
+# Subtest: resolveCapture 把 InboxItem 转成 Card：capture→resolved，target 指向新 task
+ok 103 - resolveCapture 把 InboxItem 转成 Card：capture→resolved，target 指向新 task
+  ---
+  duration_ms: 5.7108
+  type: 'test'
+  ...
+# Subtest: resolveCapture 不带日期时，新 Card 停在 inbox，不自动进 Today（AC-004-05 / T-006）
+ok 104 - resolveCapture 不带日期时，新 Card 停在 inbox，不自动进 Today（AC-004-05 / T-006）
+  ---
+  duration_ms: 5.4325
+  type: 'test'
+  ...
+# Subtest: 同一 InboxItem 重复 resolve 不产生第二个 Card（AC-005-04 / 规则 D）
+ok 105 - 同一 InboxItem 重复 resolve 不产生第二个 Card（AC-005-04 / 规则 D）
+  ---
+  duration_ms: 16.9325
+  type: 'test'
+  ...
+# Subtest: discarded 的 InboxItem 不能再 resolve
+ok 106 - discarded 的 InboxItem 不能再 resolve
+  ---
+  duration_ms: 50.3335
+  type: 'test'
+  ...
+# Subtest: bootstrap 不会把 unprocessed capture 变成 routine occurrence
+ok 107 - bootstrap 不会把 unprocessed capture 变成 routine occurrence
+  ---
+  duration_ms: 9.6572
+  type: 'test'
+  ...
+# Subtest: fixture four-templates.json 通过 validatePlanner
+ok 108 - fixture four-templates.json 通过 validatePlanner
+  ---
+  duration_ms: 9.4987
+  type: 'test'
+  ...
+# Subtest: fixture routine-scenarios.json 通过 validatePlanner
+ok 109 - fixture routine-scenarios.json 通过 validatePlanner
+  ---
+  duration_ms: 37.8855
+  type: 'test'
+  ...
+# Subtest: fixture schedule-scenarios.json 通过 validatePlanner
+ok 110 - fixture schedule-scenarios.json 通过 validatePlanner
+  ---
+  duration_ms: 6.9154
+  type: 'test'
+  ...
+# Subtest: routine-scenarios 包含六种状态
+ok 111 - routine-scenarios 包含六种状态
+  ---
+  duration_ms: 2.4725
+  type: 'test'
+  ...
+# Subtest: schedule-scenarios 包含三种当天例外
+ok 112 - schedule-scenarios 包含三种当天例外
+  ---
+  duration_ms: 2.2964
+  type: 'test'
+  ...
+# Subtest: createCapture：产生 unprocessed capture，不建 task、不进 Today（AC-004-01 / T-006）
+ok 113 - createCapture：产生 unprocessed capture，不建 task、不进 Today（AC-004-01 / T-006）
+  ---
+  duration_ms: 19.6042
+  type: 'test'
+  ...
+# Subtest: createCapture 拒绝空文本
+ok 114 - createCapture 拒绝空文本
+  ---
+  duration_ms: 3.1764
+  type: 'test'
+  ...
+# Subtest: discardCapture：unprocessed→discarded，幂等；resolved 不能丢弃（AC-005-05）
+ok 115 - discardCapture：unprocessed→discarded，幂等；resolved 不能丢弃（AC-005-05）
+  ---
+  duration_ms: 3.2419
+  type: 'test'
+  ...
+# Subtest: archiveCapture：unprocessed→archived，幂等；resolved 不能归档
+ok 116 - archiveCapture：unprocessed→archived，幂等；resolved 不能归档
+  ---
+  duration_ms: 3.3939
+  type: 'test'
+  ...
+# Subtest: 串联：create → resolve → 原始文本可追溯，重复 resolve 不产生第二个 Card（AC-005-04 / INV-010）
+ok 117 - 串联：create → resolve → 原始文本可追溯，重复 resolve 不产生第二个 Card（AC-005-04 / INV-010）
+  ---
+  duration_ms: 5.6185
+  type: 'test'
+  ...
+# Subtest: discarded 后不能再 resolve
+ok 118 - discarded 后不能再 resolve
+  ---
+  duration_ms: 3.3365
+  type: 'test'
+  ...
+# Subtest: 完整 Inbox 操作流后仍通过 validatePlanner
+ok 119 - 完整 Inbox 操作流后仍通过 validatePlanner
+  ---
+  duration_ms: 4.9457
+  type: 'test'
+  ...
+# Subtest: 进入 Minimum Day：原 blocks / top3 / tasks 全部保留，不删除不改期（AC-013-03 / INV-008）
+ok 120 - 进入 Minimum Day：原 blocks / top3 / tasks 全部保留，不删除不改期（AC-013-03 / INV-008）
+  ---
+  duration_ms: 25.6193
+  type: 'test'
+  ...
+# Subtest: 退出 Minimum Day：原计划完整可见，不重新生成任务（AC-013-05）
+ok 121 - 退出 Minimum Day：原计划完整可见，不重新生成任务（AC-013-05）
+  ---
+  duration_ms: 13.4165
+  type: 'test'
+  ...
+# Subtest: Minimum Day 只是标志翻转，不影响 routine occurrence 状态
+ok 122 - Minimum Day 只是标志翻转，不影响 routine occurrence 状态
+  ---
+  duration_ms: 29.0261
+  type: 'test'
+  ...
+# Subtest: R2-02: createCapture 历史事件日期使用本地日历日（上海 / UTC）
+ok 123 - R2-02: createCapture 历史事件日期使用本地日历日（上海 / UTC）
+  ---
+  duration_ms: 25.963
+  type: 'test'
+  ...
+# Subtest: R2-01 页面保存失败留输入：由浏览器 G0 测试验证
+ok 124 - R2-01 页面保存失败留输入：由浏览器 G0 测试验证 # SKIP 运行 tests/browser/g0.mjs
+  ---
+  duration_ms: 0.4
+  type: 'test'
+  ...
+# Subtest: 今天跳过 routine：occurrence→skipped，rule 仍 active，明天照常生成（T-002）
+ok 125 - 今天跳过 routine：occurrence→skipped，rule 仍 active，明天照常生成（T-002）
+  ---
+  duration_ms: 35.2049
+  type: 'test'
+  ...
+# Subtest: 今天完成 routine：occurrence→completed
+ok 126 - 今天完成 routine：occurrence→completed
+  ---
+  duration_ms: 27.2232
+  type: 'test'
+  ...
+# Subtest: 未处理到第二天：昨天 generated→missed，今天新 occurrence 正常生成（T-003）
+ok 127 - 未处理到第二天：昨天 generated→missed，今天新 occurrence 正常生成（T-003）
+  ---
+  duration_ms: 11.273
+  type: 'test'
+  ...
+# Subtest: 补做：原 occurrence 保持 missed 且日期不变，新 task 指向 source_occurrence（T-004 / INV-002）
+ok 128 - 补做：原 occurrence 保持 missed 且日期不变，新 task 指向 source_occurrence（T-004 / INV-002）
+  ---
+  duration_ms: 21.7991
+  type: 'test'
+  ...
+# Subtest: 补做幂等：对同一 missed occurrence 重复补做不产生第二个 task
+ok 129 - 补做幂等：对同一 missed occurrence 重复补做不产生第二个 task
+  ---
+  duration_ms: 6.199
+  type: 'test'
+  ...
+# Subtest: 补做只允许 missed/skipped；对当天 generated 不能补做
+ok 130 - 补做只允许 missed/skipped；对当天 generated 不能补做
+  ---
+  duration_ms: 5.1266
+  type: 'test'
+  ...
+# Subtest: 过去的 routine 不能直接改状态，必须走补做（INV-002）
+ok 131 - 过去的 routine 不能直接改状态，必须走补做（INV-002）
+  ---
+  duration_ms: 4.6691
+  type: 'test'
+  ...
+# Subtest: Card done → reopened：两条事件都保留，原完成历史不被删除（AC-015-02 / INV-009）
+ok 132 - Card done → reopened：两条事件都保留，原完成历史不被删除（AC-015-02 / INV-009）
+  ---
+  duration_ms: 5.732
+  type: 'test'
+  ...
+# Subtest: conflict() 能识别 fixed 与 flexible 的时间重叠（INV-005 基础）
+ok 133 - conflict() 能识别 fixed 与 flexible 的时间重叠（INV-005 基础）
+  ---
+  duration_ms: 1.8143
+  type: 'test'
+  ...
+# Subtest: putBlock：与 fixed 冲突时抛错且不写入（T-007 / INV-005）
+ok 134 - putBlock：与 fixed 冲突时抛错且不写入（T-007 / INV-005）
+  ---
+  duration_ms: 17.2153
+  type: 'test'
+  ...
+# Subtest: putBlock：与已存在 flexible 重叠也阻止（不静默覆盖）
+ok 135 - putBlock：与已存在 flexible 重叠也阻止（不静默覆盖）
+  ---
+  duration_ms: 3.9609
+  type: 'test'
+  ...
+# Subtest: putBlock：无冲突时新增 block 并记录 add_block 例外
+ok 136 - putBlock：无冲突时新增 block 并记录 add_block 例外
+  ---
+  duration_ms: 4.7635
+  type: 'test'
+  ...
+# Subtest: cancelBlock：只取消今天的 block，模板不变（T-001 / AC-010-02 / INV-003）
+ok 137 - cancelBlock：只取消今天的 block，模板不变（T-001 / AC-010-02 / INV-003）
+  ---
+  duration_ms: 4.4128
+  type: 'test'
+  ...
+# Subtest: replaceTemplate：只改当天使用的日型，不修改模板定义本身（AC-010-01 / INV-003）
+ok 138 - replaceTemplate：只改当天使用的日型，不修改模板定义本身（AC-010-01 / INV-003）
+  ---
+  duration_ms: 3.7695
+  type: 'test'
+  ...
+# Subtest: 模板内部 blocks 不允许相互冲突（validatePlanner 拒绝）
+ok 139 - 模板内部 blocks 不允许相互冲突（validatePlanner 拒绝）
+  ---
+  duration_ms: 3.7974
+  type: 'test'
+  ...
+# Subtest: 当天新增的 block 在再次 bootstrap 后保留（AC-011-05）
+ok 140 - 当天新增的 block 在再次 bootstrap 后保留（AC-011-05）
+  ---
+  duration_ms: 4.1486
+  type: 'test'
+  ...
+# Subtest: updateTemplate 修改模板，不改写已存在的当天例外
+ok 141 - updateTemplate 修改模板，不改写已存在的当天例外
+  ---
+  duration_ms: 3.033
+  type: 'test'
+  ...
+# Subtest: updateTemplate 拒绝模板内部冲突且保留原模板
+ok 142 - updateTemplate 拒绝模板内部冲突且保留原模板
+  ---
+  duration_ms: 1.6066
+  type: 'test'
+  ...
+# Subtest: 历史日期安排不可修改
+ok 143 - 历史日期安排不可修改
+  ---
+  duration_ms: 2.1139
+  type: 'test'
+  ...
+# Subtest: bootstrap 同一天幂等，且不会把昨日未完成搬到今天
+ok 144 - bootstrap 同一天幂等，且不会把昨日未完成搬到今天
+  ---
+  duration_ms: 13.5211
+  type: 'test'
+  ...
+# Subtest: 补做创建新任务，不改写原 occurrence
+ok 145 - 补做创建新任务，不改写原 occurrence
+  ---
+  duration_ms: 1.7712
+  type: 'test'
+  ...
+# Subtest: 新任务的日期和状态满足保存契约
+ok 146 - 新任务的日期和状态满足保存契约
+  ---
+  duration_ms: 0.3051
+  type: 'test'
+  ...
+# Subtest: Top3 最多 3 个，重复 id 或不存在的 id 都拒绝
+ok 147 - Top3 最多 3 个，重复 id 或不存在的 id 都拒绝
+  ---
+  duration_ms: 19.8041
+  type: 'test'
+  ...
+# Subtest: Top3 不改变 Card 的业务状态（INV-007）
+ok 148 - Top3 不改变 Card 的业务状态（INV-007）
+  ---
+  duration_ms: 9.6427
+  type: 'test'
+  ...
+# Subtest: Top3 允许 0/1/2/3 个，移除不取消 Card
+ok 149 - Top3 允许 0/1/2/3 个，移除不取消 Card
+  ---
+  duration_ms: 7.1018
+  type: 'test'
+  ...
+# Subtest: fixture：four-templates.json 通过 validatePlanner，且包含四种日型
+ok 150 - fixture：four-templates.json 通过 validatePlanner，且包含四种日型
+  ---
+  duration_ms: 2.5308
+  type: 'test'
+  ...
+# Subtest: fixture：四种日型 weekdays 互不重叠，覆盖七天
+ok 151 - fixture：四种日型 weekdays 互不重叠，覆盖七天
+  ---
+  duration_ms: 10.9091
+  type: 'test'
+  ...
+# Subtest: fixture：每个模板内部 blocks 无冲突，且 fixed/flexible 可区分
+ok 152 - fixture：每个模板内部 blocks 无冲突，且 fixed/flexible 可区分
+  ---
+  duration_ms: 4.6831
+  type: 'test'
+  ...
+# Subtest: fixture：一周内各天 bootstrap 匹配到预期日型
+ok 153 - fixture：一周内各天 bootstrap 匹配到预期日型
+  ---
+  duration_ms: 13.4216
+  type: 'test'
+  ...
+# Subtest: fixture：bootstrap 后 routine task 与 day 关联满足保存契约
+ok 154 - fixture：bootstrap 后 routine task 与 day 关联满足保存契约
+  ---
+  duration_ms: 5.8053
+  type: 'test'
+  ...
+1..154
+# tests 154
+# suites 0
+# pass 151
+# fail 2
+# cancelled 0
+# skipped 1
+# todo 0
+# duration_ms 932.5585

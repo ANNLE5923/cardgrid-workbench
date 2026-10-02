@@ -1,0 +1,65 @@
+[
+  {
+    "name": "2D-1 create-definition-persists",
+    "status": "pass",
+    "detail": {
+      "definitionCreated": true
+    }
+  },
+  {
+    "name": "2D-2 edit-definition-keeps-id-bumps-version",
+    "status": "pass",
+    "detail": {
+      "definitionEdited": true
+    }
+  },
+  {
+    "name": "2D-3 archived-definition-excluded-from-draw",
+    "status": "pass",
+    "detail": {
+      "disabledExcluded": true
+    }
+  },
+  {
+    "name": "2D-4 draw-accept-creates-hand-instance-no-time",
+    "status": "pass",
+    "detail": {
+      "acceptedIntoHand": true
+    }
+  },
+  {
+    "name": "2D-5 empty-candidate-is-explained",
+    "status": "pass",
+    "detail": {
+      "emptyExplained": true
+    }
+  },
+  {
+    "name": "2D-6 reorder-preserves-identity",
+    "status": "pass",
+    "detail": {
+      "reordered": "b,a,c"
+    }
+  },
+  {
+    "name": "2D-7 withdraw-and-return",
+    "status": "pass",
+    "detail": {
+      "withdrawnAndReturned": true
+    }
+  },
+  {
+    "name": "2D-8 external-revision-keeps-input-then-resave",
+    "status": "pass",
+    "detail": {
+      "inputRetainedAndResaved": true
+    }
+  },
+  {
+    "name": "2D-9 state-survives-page-reload",
+    "status": "pass",
+    "detail": {
+      "persistedAcrossReload": true
+    }
+  }
+]

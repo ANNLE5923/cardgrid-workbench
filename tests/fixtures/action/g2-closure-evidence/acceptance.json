@@ -1,0 +1,30 @@
+{
+  "at": "2026-10-01T14:12:09.658Z",
+  "gate": "G2",
+  "status": "passed",
+  "reviewer": "/root/g2_readonly_acceptance",
+  "author": "/root",
+  "authorization": "用户明确授权只读分离子检查",
+  "scope": "scope.json",
+  "hashesMatched": 15,
+  "independentUniqueScenarios": 33,
+  "base31": true,
+  "independentAnnotation2": true,
+  "relatedFailures6Rerun": true,
+  "core16": true,
+  "node": {
+    "passed": 153,
+    "skipped": 1,
+    "failed": 0
+  },
+  "typecheck": true,
+  "coreInterfaceUnchanged": true,
+  "untested": [
+    "G3最终双环和全应用风格",
+    "实体触屏及读屏/高对比",
+    "Service Worker离线升级",
+    "真实用户数据迁移",
+    "七日连续使用"
+  ],
+  "next": "3A设计；不自动开发/迁移/提交"
+}

@@ -1,0 +1,65 @@
+{
+  "at": "2026-10-02T06:13:11.326Z",
+  "results": [
+    {
+      "name": "G2-selection-redraw-manual-sort-through-entry",
+      "status": "pass",
+      "detail": {
+        "drawIsReadOnly": true,
+        "sortPreservesIds": true
+      }
+    },
+    {
+      "name": "G2-crowded-full-duration-protects-fixed-and-fact",
+      "status": "pass",
+      "detail": {
+        "blocks": 12,
+        "noFreeCandidate": true,
+        "factPreserved": true,
+        "minutes": 45
+      }
+    },
+    {
+      "name": "G2-keyboard-dialog-containment-and-focus-return",
+      "status": "pass",
+      "detail": {
+        "tabContained": true,
+        "closeReturnsToTrigger": true,
+        "successReturnsToHeading": true
+      }
+    },
+    {
+      "name": "G2-small-screen-320-plan-fact-annotation",
+      "status": "pass",
+      "detail": {
+        "width": 320,
+        "realStoredFact": true
+      }
+    },
+    {
+      "name": "G2-small-screen-390-plan-fact-annotation",
+      "status": "pass",
+      "detail": {
+        "width": 390,
+        "realStoredFact": true
+      }
+    },
+    {
+      "name": "G2-past-plan-cross-midnight-does-not-auto-confirm",
+      "status": "pass",
+      "detail": {
+        "pastPlanRemainsUnconfirmed": true,
+        "retractKeepsInstance": true
+      }
+    },
+    {
+      "name": "G2-cross-midnight-has-next-day-label-and-same-record",
+      "status": "pass",
+      "detail": {
+        "onePlan": true,
+        "readingIsWriteFree": true,
+        "nextDayLabel": true
+      }
+    }
+  ]
+}

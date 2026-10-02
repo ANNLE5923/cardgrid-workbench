@@ -1,0 +1,615 @@
+{
+  "version": "3A-dial-1",
+  "note": "design-only; expected values must be reused against real 3B exports",
+  "rotation": [
+    {
+      "focus": 0,
+      "rotation": 180
+    },
+    {
+      "focus": 540,
+      "rotation": -90
+    },
+    {
+      "focus": 570,
+      "rotation": -105
+    },
+    {
+      "focus": 720,
+      "rotation": -180
+    },
+    {
+      "focus": 1260,
+      "rotation": -450
+    },
+    {
+      "focus": 1440,
+      "rotation": -540
+    }
+  ],
+  "arc": [
+    {
+      "minutes": 15,
+      "degrees": 7.5,
+      "units": 3
+    },
+    {
+      "minutes": 25,
+      "degrees": 12.5,
+      "units": 5
+    },
+    {
+      "minutes": 17,
+      "degrees": 8.5,
+      "units": null
+    }
+  ],
+  "rotate": [
+    {
+      "focus": 540,
+      "previous": 179,
+      "next": -179,
+      "expected": 536
+    },
+    {
+      "focus": 540,
+      "previous": -179,
+      "next": 179,
+      "expected": 544
+    },
+    {
+      "focus": 1,
+      "previous": 0,
+      "next": 10,
+      "expected": 0
+    },
+    {
+      "focus": 1439,
+      "previous": 0,
+      "next": -10,
+      "expected": 1440
+    }
+  ],
+  "landing": [
+    {
+      "date": "2026-10-01",
+      "minute": 540,
+      "expectedDate": "2026-10-01",
+      "expectedMinute": 540,
+      "half": 0
+    },
+    {
+      "date": "2026-10-01",
+      "minute": 1260,
+      "expectedDate": "2026-10-01",
+      "expectedMinute": 1260,
+      "half": 1
+    },
+    {
+      "date": "2026-10-01",
+      "minute": 542,
+      "expectedDate": "2026-10-01",
+      "expectedMinute": 540,
+      "half": 0
+    },
+    {
+      "date": "2026-10-01",
+      "minute": 542.5,
+      "expectedDate": "2026-10-01",
+      "expectedMinute": 545,
+      "half": 0
+    },
+    {
+      "date": "2026-10-01",
+      "minute": 719,
+      "expectedDate": "2026-10-01",
+      "expectedMinute": 720,
+      "half": 1
+    },
+    {
+      "date": "2026-10-01",
+      "minute": 1439,
+      "expectedDate": "2026-10-02",
+      "expectedMinute": 0,
+      "half": 0
+    },
+    {
+      "date": "2026-10-01",
+      "minute": 1440,
+      "expectedDate": "2026-10-02",
+      "expectedMinute": 0,
+      "half": 0
+    }
+  ],
+  "projection": [
+    {
+      "id": "P01-noon",
+      "date": "2026-10-01",
+      "zone": "Asia/Shanghai",
+      "start": "2026-10-01T03:50:00Z",
+      "end": "2026-10-01T04:10:00Z",
+      "elapsed": 20,
+      "expected": [
+        [
+          0,
+          710,
+          720,
+          "+08:00",
+          false,
+          false
+        ],
+        [
+          1,
+          0,
+          10,
+          "+08:00",
+          false,
+          false
+        ]
+      ]
+    },
+    {
+      "id": "P02-midnight-first",
+      "date": "2026-10-01",
+      "zone": "Asia/Shanghai",
+      "start": "2026-10-01T15:30:00Z",
+      "end": "2026-10-01T16:30:00Z",
+      "elapsed": 60,
+      "expected": [
+        [
+          1,
+          690,
+          720,
+          "+08:00",
+          false,
+          true
+        ]
+      ]
+    },
+    {
+      "id": "P03-midnight-next",
+      "date": "2026-10-02",
+      "zone": "Asia/Shanghai",
+      "start": "2026-10-01T15:30:00Z",
+      "end": "2026-10-01T16:30:00Z",
+      "elapsed": 60,
+      "expected": [
+        [
+          0,
+          0,
+          30,
+          "+08:00",
+          true,
+          false
+        ]
+      ]
+    },
+    {
+      "id": "P04-exact-midnight",
+      "date": "2026-10-01",
+      "zone": "Asia/Shanghai",
+      "start": "2026-10-01T15:30:00Z",
+      "end": "2026-10-01T16:00:00Z",
+      "elapsed": 30,
+      "expected": [
+        [
+          1,
+          690,
+          720,
+          "+08:00",
+          false,
+          false
+        ]
+      ]
+    },
+    {
+      "id": "P05-spring",
+      "date": "2026-03-08",
+      "zone": "America/New_York",
+      "start": "2026-03-08T06:30:00Z",
+      "end": "2026-03-08T08:30:00Z",
+      "elapsed": 120,
+      "expected": [
+        [
+          0,
+          90,
+          120,
+          "-05:00",
+          false,
+          false
+        ],
+        [
+          0,
+          180,
+          270,
+          "-04:00",
+          false,
+          false
+        ]
+      ]
+    },
+    {
+      "id": "P06-fall",
+      "date": "2026-11-01",
+      "zone": "America/New_York",
+      "start": "2026-11-01T04:30:00Z",
+      "end": "2026-11-01T07:30:00Z",
+      "elapsed": 180,
+      "expected": [
+        [
+          0,
+          30,
+          120,
+          "-04:00",
+          false,
+          false
+        ],
+        [
+          0,
+          60,
+          150,
+          "-05:00",
+          false,
+          false
+        ]
+      ]
+    },
+    {
+      "id": "P07-actual-minute",
+      "date": "2026-10-01",
+      "zone": "Asia/Shanghai",
+      "start": "2026-10-01T01:02:00Z",
+      "end": "2026-10-01T01:19:00Z",
+      "elapsed": 17,
+      "expected": [
+        [
+          0,
+          542,
+          559,
+          "+08:00",
+          false,
+          false
+        ]
+      ]
+    }
+  ],
+  "axis": [
+    {
+      "date": "2026-03-08",
+      "zone": "America/New_York",
+      "elapsed": 1380,
+      "expected": [
+        [
+          0,
+          0,
+          120,
+          "-05:00"
+        ],
+        [
+          0,
+          180,
+          720,
+          "-04:00"
+        ],
+        [
+          1,
+          0,
+          720,
+          "-04:00"
+        ]
+      ]
+    },
+    {
+      "date": "2026-11-01",
+      "zone": "America/New_York",
+      "elapsed": 1500,
+      "expected": [
+        [
+          0,
+          0,
+          120,
+          "-04:00"
+        ],
+        [
+          0,
+          60,
+          720,
+          "-05:00"
+        ],
+        [
+          1,
+          0,
+          720,
+          "-05:00"
+        ]
+      ]
+    }
+  ],
+  "surface": [
+    {
+      "width": 400,
+      "height": 400,
+      "point": [
+        200,
+        294
+      ],
+      "expected": [
+        200,
+        294
+      ]
+    },
+    {
+      "width": 320,
+      "height": 320,
+      "point": [
+        160,
+        235.2
+      ],
+      "expected": [
+        200,
+        294
+      ]
+    },
+    {
+      "width": 720,
+      "height": 900,
+      "point": [
+        360,
+        619.2
+      ],
+      "expected": [
+        200,
+        294
+      ]
+    }
+  ],
+  "pull": [
+    {
+      "start": 94,
+      "current": 150,
+      "expected": false
+    },
+    {
+      "start": 132,
+      "current": 150,
+      "expected": false
+    },
+    {
+      "start": 132,
+      "current": 190,
+      "expected": true
+    },
+    {
+      "start": 180,
+      "current": 195,
+      "expected": false
+    }
+  ],
+  "hit": [
+    {
+      "focus": 570,
+      "point": [
+        200,
+        294
+      ],
+      "anchor": null,
+      "half": 0,
+      "minute": 570
+    },
+    {
+      "focus": 570,
+      "point": [
+        200,
+        332
+      ],
+      "anchor": null,
+      "half": 1,
+      "minute": 570
+    },
+    {
+      "focus": 1440,
+      "point": [
+        200,
+        332
+      ],
+      "anchor": {
+        "half": 1,
+        "minuteOfHalf": 720
+      },
+      "half": 1,
+      "minute": 720
+    },
+    {
+      "focus": 720,
+      "point": [
+        200,
+        294
+      ],
+      "anchor": null,
+      "half": 0,
+      "minute": 0
+    },
+    {
+      "focus": 0,
+      "point": [
+        200,
+        316
+      ],
+      "anchor": {
+        "half": 0,
+        "minuteOfHalf": 0
+      },
+      "half": 0,
+      "minute": 0
+    },
+    {
+      "focus": 0,
+      "point": [
+        200,
+        320
+      ],
+      "anchor": {
+        "half": 0,
+        "minuteOfHalf": 0
+      },
+      "half": 1,
+      "minute": 0
+    },
+    {
+      "focus": 0,
+      "point": [
+        200,
+        310
+      ],
+      "anchor": {
+        "half": 1,
+        "minuteOfHalf": 0
+      },
+      "half": 1,
+      "minute": 0
+    },
+    {
+      "focus": 0,
+      "point": [
+        200,
+        306
+      ],
+      "anchor": {
+        "half": 1,
+        "minuteOfHalf": 0
+      },
+      "half": 0,
+      "minute": 0
+    },
+    {
+      "focus": 0,
+      "point": [
+        200,
+        260
+      ],
+      "anchor": null,
+      "half": null,
+      "minute": null
+    },
+    {
+      "focus": 0,
+      "point": [
+        200,
+        390
+      ],
+      "anchor": null,
+      "half": null,
+      "minute": null
+    }
+  ],
+  "crowded": {
+    "date": "2026-10-01",
+    "zone": "Asia/Shanghai",
+    "blocks": [
+      {
+        "id": "p1",
+        "kind": "plan",
+        "start": "07:00",
+        "minutes": 30
+      },
+      {
+        "id": "x1",
+        "kind": "fixed",
+        "start": "07:35",
+        "minutes": 25
+      },
+      {
+        "id": "p2",
+        "kind": "plan",
+        "start": "08:15",
+        "minutes": 30
+      },
+      {
+        "id": "x2",
+        "kind": "fixed",
+        "start": "09:15",
+        "minutes": 30
+      },
+      {
+        "id": "f1",
+        "kind": "fact",
+        "start": "09:40",
+        "minutes": 25
+      },
+      {
+        "id": "f2",
+        "kind": "fact",
+        "start": "10:05",
+        "minutes": 15
+      },
+      {
+        "id": "p3",
+        "kind": "plan",
+        "start": "10:25",
+        "minutes": 20
+      },
+      {
+        "id": "x3",
+        "kind": "fixed",
+        "start": "11:00",
+        "minutes": 30
+      },
+      {
+        "id": "f3",
+        "kind": "fact",
+        "start": "12:00",
+        "minutes": 30
+      },
+      {
+        "id": "p4",
+        "kind": "plan",
+        "start": "15:00",
+        "minutes": 45
+      },
+      {
+        "id": "x4",
+        "kind": "fixed",
+        "start": "15:20",
+        "minutes": 40
+      },
+      {
+        "id": "f4",
+        "kind": "fact",
+        "start": "16:30",
+        "minutes": 30
+      }
+    ],
+    "requiredGaps": [
+      [
+        "07:30",
+        "07:35",
+        5
+      ],
+      [
+        "08:00",
+        "08:15",
+        15
+      ],
+      [
+        "08:45",
+        "09:15",
+        30
+      ]
+    ],
+    "attemptedPlacement": {
+      "start": "07:30",
+      "minutes": 45,
+      "expectedEnd": "08:15",
+      "expectedBlockerIds": [
+        "x1"
+      ]
+    },
+    "overlapFocus": {
+      "minute": 582,
+      "expectedSourceIds": [
+        "x2",
+        "f1"
+      ]
+    }
+  }
+}

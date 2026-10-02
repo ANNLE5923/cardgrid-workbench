@@ -1,0 +1,2100 @@
+{
+  "task": "3F",
+  "origin": "http://127.0.0.1:61126",
+  "version": "156.0.8072.0",
+  "at": "2026-10-02T02:45:31.371Z",
+  "passed": 0,
+  "failed": 20,
+  "results": [
+    {
+      "id": "B01-initial-now",
+      "status": "failed",
+      "observations": {},
+      "error": "locator.click: Timeout 3000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('nav').getByText('抽卡手牌', { exact: true })\u001b[22m\n\n    at openDay (C:\\Users\\arstot\\Documents\\Codex\\2026-09-20\\抽卡人生\\cardgrid\\tests\\browser\\action-3f.mjs:22:267)\n    at async file:///C:/Users/arstot/Documents/Codex/2026-09-20/%E6%8A%BD%E5%8D%A1%E4%BA%BA%E7%94%9F/cardgrid/tests/browser/action-3f.mjs:28:44\n    at async check (C:\\Users\\arstot\\Documents\\Codex\\2026-09-20\\抽卡人生\\cardgrid\\tests\\browser\\action-3f.mjs:26:537)\n    at async file:///C:/Users/arstot/Documents/Codex/2026-09-20/%E6%8A%BD%E5%8D%A1%E4%BA%BA%E7%94%9F/cardgrid/tests/browser/action-3f.mjs:28:1",
+      "pageErrors": [],
+      "state": {
+        "current": {
+          "schemaVersion": 4,
+          "epoch": "independent-epoch",
+          "revision": 10,
+          "mode": "current",
+          "dataFormat": "action-v2",
+          "data": {
+            "version": 2,
+            "settings": {
+              "zone": "Asia/Shanghai",
+              "preferences": {
+                "theme": "paper",
+                "density": "comfortable",
+                "startHour": 8,
+                "endHour": 23,
+                "defaultMinutes": 15
+              },
+              "categories": []
+            },
+            "planner": {
+              "version": 2,
+              "definitions": [],
+              "instances": [
+                {
+                  "id": "i",
+                  "version": 7,
+                  "definition": null,
+                  "creationSnapshot": {
+                    "title": "独立合成行动",
+                    "criteria": "完成一个可核对结果",
+                    "presetMinutes": 30,
+                    "minimum": false,
+                    "color": "#336699",
+                    "categoryId": null,
+                    "categoryLabel": null,
+                    "projectIds": [],
+                    "goalIds": [],
+                    "projectLabels": [],
+                    "goalLabels": []
+                  },
+                  "currentContent": {
+                    "title": "独立合成行动",
+                    "criteria": "完成一个可核对结果",
+                    "presetMinutes": 30,
+                    "minimum": false,
+                    "color": "#336699",
+                    "categoryId": null,
+                    "categoryLabel": null,
+                    "projectIds": [],
+                    "goalIds": [],
+                    "projectLabels": [],
+                    "goalLabels": []
+                  },
+                  "source": {
+                    "kind": "manual"
+                  },
+                  "createdAt": "2026-09-28T02:00:00Z",
+                  "targetDate": null,
+                  "state": "open",
+                  "occurrenceId": null,
+                  "makeupOf": null
+                }
+              ],
+              "handOrder": [
+                "i"
+              ],
+              "plans": [],
+              "facts": [],
+              "annotations": [],
+              "fixed": [],
+              "templates": [],
+              "days": [],
+              "rules": [],
+              "occurrences": [],
+              "captures": [],
+              "refs": [],
+              "goals": [],
+              "history": []
+            },
+            "legacySources": [],
+            "migrationBindings": [],
+            "commandReceipts": []
+          },
+          "lifecycleReceipt": null
+        },
+        "recovery": []
+      },
+      "ui": "▦\nCardGrid\n卡格工作台\n我的空间\n▦\nToday\n＋\nInbox\n◫\nSchedule\n❖\n行动定义\n✦\n抽卡手牌\n◇\n配置工坊\n↗\n数据与备份\n数据保存在本机\n行动底座 · 2A\n工作台 / TODAY Today · 今日\n重新载入\nTODAY\nToday · 今日\n\n看今天的时间盘与手牌；打开和切换日期不会生成安排。\n\n前一天\n2026-10-02\n后一天\n显示时区\n准备日型\n按适用星期选择\n准备这一天\n\n打开和切换日期不会生成安排。此处展示完整时间记录；排期、改期和实际确认请到“抽卡手牌 → 当日”。\n\n完整时间记录\n\n没有已保存的时间记录。\n\nTODAY · P1A\n10月2日星期五\n\n打开 → 看一眼 → 微调 → 开始今天\n\n‹\n未准备日型\n›\n今天最重要的 3 件事\n\n由你确认，Planner 只提供候选。\n\n切换 Minimum Day\n1\n选择今天要保护的任务\n2\n选择今天要保护的任务\n3\n选择今天要保护的任务\n今日日程\n\n固定安排与弹性任务分开显示。\n\n还没有今天的 Planner 安排。可以到 Schedule 页面应用日型。\n\n今日例行\n\n昨天没做不会偷偷搬到今天。\n\n还没有今天的 Planner 例行事项。\n\n昨日遗留\n\n由你决定补做或稍后处理。\n\n没有昨日遗留。\n\n当天事项\n快速记录\n\n先放进 Inbox，之后再整理，不打断当前工作。\n\n约 10 秒\n放入 Inbox\n记录到收件箱\n保存记录\nCardGrid · 卡格工作台\n所有改动保存在此浏览器 · 建议定期导出备份",
+      "layout": {
+        "width": 1280,
+        "scrollWidth": 1280,
+        "active": "<body><div id=\"root\"><div class=\"app paper comfortable\"><aside class=\"sidebar\"><div class=\"brand\"><span class=\"brandmark\">▦</span><div>CardGrid<small>卡格工作台</small></div></div><div class=\"navcaption\">我的空间</div><nav><button aria-current=\"page\" class=\"active\"><span>▦</span>Today</button><button class=\"\"><span>＋</span>Inbox</button><button class=\"\"><span>◫</span>Schedule</button><button class=\"\"><span>❖</span>行动定义</button><button class=\"\"><span>✦</span>抽卡手牌</button><button class=\"\"><span>◇</span>配置工坊</button><button class=\"\"><span>↗</span>数据与备份</button></nav><div class=\"sidebar-bottom\"><span class=\"dot\"></span>数据保存在本机<div class=\"version\">行动底座 · 2A</div></div></aside><main><header><div class=\"breadcrumbs\">工作台 / <strong>TODAY</strong> Today · 今日</div><button>重新载入</button></header><section class=\"heading page-heading\" aria-label=\"当前页面\"><div class=\"eyebrow\">TODAY</div><h1>Today · 今日</h1><p>看今天的时间盘与手牌；打开和切换日期不会生成安排。</p></section><section class=\"panel\"><div class=\"toolbar\"><button aria-label=\"查看前一天\">前一天</button><strong>2026-10-02</strong><button aria-label=\"查看后一天\">后一天</button><label>显示时区<input aria-label=\"显示时区\" value=\"Asia/Shanghai\"></label><label>准备日型<select><option value=\"\">按适用星期选择</option></select></label><button>准备这一天</button></div><p class=\"muted\">打开和切换日期不会生成安排。此处展示完整时间记录；排期、改期和实际确认请到“抽卡手牌 → 当日”。</p></section><section class=\"panel\"><h2>完整时间记录</h2><p>没有已保存的时间记录。</p></section><fieldset disabled=\"\" aria-label=\"旧版页面只读\" style=\"border: 0px; padding: 0px; min-width: 0px;\"><section class=\"heading\"><div class=\"eyebrow\">TODAY · P1A</div><div class=\"headingline\"><div><h1>10月2日星期五</h1><p>打开 → 看一眼 → 微调 → 开始今天</p></div><div class=\"datecontrols\"><button aria-label=\"前一天\">‹</button><span class=\"todaybadge\">未准备日型</span><button aria-label=\"后一天\">›</button></div></div></section><section class=\"top3panel panel\"><div class=\"sectiontitle\"><div><h2>今天最重要的 3 件事</h2><p class=\"muted\">由你确认，Planner 只提供候选。</p></div><button class=\"\">切换 Minimum Day</button></div><div class=\"top3list\"><button class=\"top3item\"><b>1</b><span>选择今天要保护的任务</span></button><button class=\"top3item\"><b>2</b><span>选择今天要保护的任务</span></button><button class=\"top3item\"><b>3</b><span>选择今天要保护的任务</span></button></div><div class=\"candidate-list\"></div></section><div class=\"todaycolumns\"><section class=\"panel\"><div class=\"sectiontitle\"><div><h2>今日日程</h2><p class=\"muted\">固定安排与弹性任务分开显示。</p></div></div><p class=\"emptyline\">还没有今天的 Planner 安排。可以到 Schedule 页面应用日型。</p></section><section class=\"panel\"><div class=\"sectiontitle\"><div><h2>今日例行</h2><p class=\"muted\">昨天没做不会偷偷搬到今天。</p></div></div><p class=\"emptyline\">还没有今天的 Planner 例行事项。</p></section></div><section class=\"panel\"><div class=\"sectiontitle\"><div><h2>昨日遗留</h2><p class=\"muted\">由你决定补做或稍后处理。</p></div></div><p class=\"emptyline\">没有昨日遗留。</p></section><section class=\"panel\"><h2>当天事项</h2></section><section class=\"capture panel\"><div class=\"sectiontitle\"><div><h2>快速记录</h2><p class=\"muted\">先放进 Inbox，之后再整理，不打断当前工作。</p></div><span class=\"capturehint\">约 10 秒</span></div><div class=\"captureline\"><input aria-label=\"快速记录\" placeholder=\"我突然想到……\" value=\"\"><button class=\"primary\">放入 Inbox</button></div></section></fieldset><section class=\"panel\"><h2>记录到收件箱</h2><div class=\"captureline\"><input aria-label=\"记录到收件箱\" placeholder=\"先记下来，稍后整理\" value=\"\"><button disabled=\"\">保存记录</button></div></section><input aria-label=\"导入文件选择\" accept=\".json,application/json\" hidden=\"\" type=\"file\"><footer><span>CardGrid · 卡格工作台</span><span>所有改动保存在此浏览器 · 建议定期导出备份</span></footer></main></div></div>\n</body>"
+      }
+    },
+    {
+      "id": "B02-readonly-24h",
+      "status": "failed",
+      "observations": {},
+      "error": "locator.click: Timeout 3000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('nav').getByText('抽卡手牌', { exact: true })\u001b[22m\n\n    at openDay (C:\\Users\\arstot\\Documents\\Codex\\2026-09-20\\抽卡人生\\cardgrid\\tests\\browser\\action-3f.mjs:22:267)\n    at async file:///C:/Users/arstot/Documents/Codex/2026-09-20/%E6%8A%BD%E5%8D%A1%E4%BA%BA%E7%94%9F/cardgrid/tests/browser/action-3f.mjs:29:45\n    at async check (C:\\Users\\arstot\\Documents\\Codex\\2026-09-20\\抽卡人生\\cardgrid\\tests\\browser\\action-3f.mjs:26:537)\n    at async file:///C:/Users/arstot/Documents/Codex/2026-09-20/%E6%8A%BD%E5%8D%A1%E4%BA%BA%E7%94%9F/cardgrid/tests/browser/action-3f.mjs:29:1",
+      "pageErrors": [],
+      "state": {
+        "current": {
+          "schemaVersion": 4,
+          "epoch": "independent-epoch",
+          "revision": 10,
+          "mode": "current",
+          "dataFormat": "action-v2",
+          "data": {
+            "version": 2,
+            "settings": {
+              "zone": "Asia/Shanghai",
+              "preferences": {
+                "theme": "paper",
+                "density": "comfortable",
+                "startHour": 8,
+                "endHour": 23,
+                "defaultMinutes": 15
+              },
+              "categories": []
+            },
+            "planner": {
+              "version": 2,
+              "definitions": [],
+              "instances": [
+                {
+                  "id": "i",
+                  "version": 7,
+                  "definition": null,
+                  "creationSnapshot": {
+                    "title": "独立合成行动",
+                    "criteria": "完成一个可核对结果",
+                    "presetMinutes": 30,
+                    "minimum": false,
+                    "color": "#336699",
+                    "categoryId": null,
+                    "categoryLabel": null,
+                    "projectIds": [],
+                    "goalIds": [],
+                    "projectLabels": [],
+                    "goalLabels": []
+                  },
+                  "currentContent": {
+                    "title": "独立合成行动",
+                    "criteria": "完成一个可核对结果",
+                    "presetMinutes": 30,
+                    "minimum": false,
+                    "color": "#336699",
+                    "categoryId": null,
+                    "categoryLabel": null,
+                    "projectIds": [],
+                    "goalIds": [],
+                    "projectLabels": [],
+                    "goalLabels": []
+                  },
+                  "source": {
+                    "kind": "manual"
+                  },
+                  "createdAt": "2026-09-28T02:00:00Z",
+                  "targetDate": null,
+                  "state": "open",
+                  "occurrenceId": null,
+                  "makeupOf": null
+                }
+              ],
+              "handOrder": [
+                "i"
+              ],
+              "plans": [],
+              "facts": [],
+              "annotations": [],
+              "fixed": [],
+              "templates": [],
+              "days": [],
+              "rules": [],
+              "occurrences": [],
+              "captures": [],
+              "refs": [],
+              "goals": [],
+              "history": []
+            },
+            "legacySources": [],
+            "migrationBindings": [],
+            "commandReceipts": []
+          },
+          "lifecycleReceipt": null
+        },
+        "recovery": []
+      },
+      "ui": "▦\nCardGrid\n卡格工作台\n我的空间\n▦\nToday\n＋\nInbox\n◫\nSchedule\n❖\n行动定义\n✦\n抽卡手牌\n◇\n配置工坊\n↗\n数据与备份\n数据保存在本机\n行动底座 · 2A\n工作台 / TODAY Today · 今日\n重新载入\nTODAY\nToday · 今日\n\n看今天的时间盘与手牌；打开和切换日期不会生成安排。\n\n前一天\n2026-10-02\n后一天\n显示时区\n准备日型\n按适用星期选择\n准备这一天\n\n打开和切换日期不会生成安排。此处展示完整时间记录；排期、改期和实际确认请到“抽卡手牌 → 当日”。\n\n完整时间记录\n\n没有已保存的时间记录。\n\nTODAY · P1A\n10月2日星期五\n\n打开 → 看一眼 → 微调 → 开始今天\n\n‹\n未准备日型\n›\n今天最重要的 3 件事\n\n由你确认，Planner 只提供候选。\n\n切换 Minimum Day\n1\n选择今天要保护的任务\n2\n选择今天要保护的任务\n3\n选择今天要保护的任务\n今日日程\n\n固定安排与弹性任务分开显示。\n\n还没有今天的 Planner 安排。可以到 Schedule 页面应用日型。\n\n今日例行\n\n昨天没做不会偷偷搬到今天。\n\n还没有今天的 Planner 例行事项。\n\n昨日遗留\n\n由你决定补做或稍后处理。\n\n没有昨日遗留。\n\n当天事项\n快速记录\n\n先放进 Inbox，之后再整理，不打断当前工作。\n\n约 10 秒\n放入 Inbox\n记录到收件箱\n保存记录\nCardGrid · 卡格工作台\n所有改动保存在此浏览器 · 建议定期导出备份",
+      "layout": {
+        "width": 1280,
+        "scrollWidth": 1280,
+        "active": "<body><div id=\"root\"><div class=\"app paper comfortable\"><aside class=\"sidebar\"><div class=\"brand\"><span class=\"brandmark\">▦</span><div>CardGrid<small>卡格工作台</small></div></div><div class=\"navcaption\">我的空间</div><nav><button aria-current=\"page\" class=\"active\"><span>▦</span>Today</button><button class=\"\"><span>＋</span>Inbox</button><button class=\"\"><span>◫</span>Schedule</button><button class=\"\"><span>❖</span>行动定义</button><button class=\"\"><span>✦</span>抽卡手牌</button><button class=\"\"><span>◇</span>配置工坊</button><button class=\"\"><span>↗</span>数据与备份</button></nav><div class=\"sidebar-bottom\"><span class=\"dot\"></span>数据保存在本机<div class=\"version\">行动底座 · 2A</div></div></aside><main><header><div class=\"breadcrumbs\">工作台 / <strong>TODAY</strong> Today · 今日</div><button>重新载入</button></header><section class=\"heading page-heading\" aria-label=\"当前页面\"><div class=\"eyebrow\">TODAY</div><h1>Today · 今日</h1><p>看今天的时间盘与手牌；打开和切换日期不会生成安排。</p></section><section class=\"panel\"><div class=\"toolbar\"><button aria-label=\"查看前一天\">前一天</button><strong>2026-10-02</strong><button aria-label=\"查看后一天\">后一天</button><label>显示时区<input aria-label=\"显示时区\" value=\"Asia/Shanghai\"></label><label>准备日型<select><option value=\"\">按适用星期选择</option></select></label><button>准备这一天</button></div><p class=\"muted\">打开和切换日期不会生成安排。此处展示完整时间记录；排期、改期和实际确认请到“抽卡手牌 → 当日”。</p></section><section class=\"panel\"><h2>完整时间记录</h2><p>没有已保存的时间记录。</p></section><fieldset disabled=\"\" aria-label=\"旧版页面只读\" style=\"border: 0px; padding: 0px; min-width: 0px;\"><section class=\"heading\"><div class=\"eyebrow\">TODAY · P1A</div><div class=\"headingline\"><div><h1>10月2日星期五</h1><p>打开 → 看一眼 → 微调 → 开始今天</p></div><div class=\"datecontrols\"><button aria-label=\"前一天\">‹</button><span class=\"todaybadge\">未准备日型</span><button aria-label=\"后一天\">›</button></div></div></section><section class=\"top3panel panel\"><div class=\"sectiontitle\"><div><h2>今天最重要的 3 件事</h2><p class=\"muted\">由你确认，Planner 只提供候选。</p></div><button class=\"\">切换 Minimum Day</button></div><div class=\"top3list\"><button class=\"top3item\"><b>1</b><span>选择今天要保护的任务</span></button><button class=\"top3item\"><b>2</b><span>选择今天要保护的任务</span></button><button class=\"top3item\"><b>3</b><span>选择今天要保护的任务</span></button></div><div class=\"candidate-list\"></div></section><div class=\"todaycolumns\"><section class=\"panel\"><div class=\"sectiontitle\"><div><h2>今日日程</h2><p class=\"muted\">固定安排与弹性任务分开显示。</p></div></div><p class=\"emptyline\">还没有今天的 Planner 安排。可以到 Schedule 页面应用日型。</p></section><section class=\"panel\"><div class=\"sectiontitle\"><div><h2>今日例行</h2><p class=\"muted\">昨天没做不会偷偷搬到今天。</p></div></div><p class=\"emptyline\">还没有今天的 Planner 例行事项。</p></section></div><section class=\"panel\"><div class=\"sectiontitle\"><div><h2>昨日遗留</h2><p class=\"muted\">由你决定补做或稍后处理。</p></div></div><p class=\"emptyline\">没有昨日遗留。</p></section><section class=\"panel\"><h2>当天事项</h2></section><section class=\"capture panel\"><div class=\"sectiontitle\"><div><h2>快速记录</h2><p class=\"muted\">先放进 Inbox，之后再整理，不打断当前工作。</p></div><span class=\"capturehint\">约 10 秒</span></div><div class=\"captureline\"><input aria-label=\"快速记录\" placeholder=\"我突然想到……\" value=\"\"><button class=\"primary\">放入 Inbox</button></div></section></fieldset><section class=\"panel\"><h2>记录到收件箱</h2><div class=\"captureline\"><input aria-label=\"记录到收件箱\" placeholder=\"先记下来，稍后整理\" value=\"\"><button disabled=\"\">保存记录</button></div></section><input aria-label=\"导入文件选择\" accept=\".json,application/json\" hidden=\"\" type=\"file\"><footer><span>CardGrid · 卡格工作台</span><span>所有改动保存在此浏览器 · 建议定期导出备份</span></footer></main></div></div>\n</body>"
+      }
+    },
+    {
+      "id": "B03-button-plan-save-refresh",
+      "status": "failed",
+      "observations": {},
+      "error": "locator.click: Timeout 3000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('nav').getByText('抽卡手牌', { exact: true })\u001b[22m\n\n    at openDay (C:\\Users\\arstot\\Documents\\Codex\\2026-09-20\\抽卡人生\\cardgrid\\tests\\browser\\action-3f.mjs:22:267)\n    at async file:///C:/Users/arstot/Documents/Codex/2026-09-20/%E6%8A%BD%E5%8D%A1%E4%BA%BA%E7%94%9F/cardgrid/tests/browser/action-3f.mjs:30:57\n    at async check (C:\\Users\\arstot\\Documents\\Codex\\2026-09-20\\抽卡人生\\cardgrid\\tests\\browser\\action-3f.mjs:26:537)\n    at async file:///C:/Users/arstot/Documents/Codex/2026-09-20/%E6%8A%BD%E5%8D%A1%E4%BA%BA%E7%94%9F/cardgrid/tests/browser/action-3f.mjs:30:1",
+      "pageErrors": [],
+      "state": {
+        "current": {
+          "schemaVersion": 4,
+          "epoch": "independent-epoch",
+          "revision": 10,
+          "mode": "current",
+          "dataFormat": "action-v2",
+          "data": {
+            "version": 2,
+            "settings": {
+              "zone": "Asia/Shanghai",
+              "preferences": {
+                "theme": "paper",
+                "density": "comfortable",
+                "startHour": 8,
+                "endHour": 23,
+                "defaultMinutes": 15
+              },
+              "categories": []
+            },
+            "planner": {
+              "version": 2,
+              "definitions": [],
+              "instances": [
+                {
+                  "id": "i",
+                  "version": 7,
+                  "definition": null,
+                  "creationSnapshot": {
+                    "title": "独立合成行动",
+                    "criteria": "完成一个可核对结果",
+                    "presetMinutes": 30,
+                    "minimum": false,
+                    "color": "#336699",
+                    "categoryId": null,
+                    "categoryLabel": null,
+                    "projectIds": [],
+                    "goalIds": [],
+                    "projectLabels": [],
+                    "goalLabels": []
+                  },
+                  "currentContent": {
+                    "title": "独立合成行动",
+                    "criteria": "完成一个可核对结果",
+                    "presetMinutes": 30,
+                    "minimum": false,
+                    "color": "#336699",
+                    "categoryId": null,
+                    "categoryLabel": null,
+                    "projectIds": [],
+                    "goalIds": [],
+                    "projectLabels": [],
+                    "goalLabels": []
+                  },
+                  "source": {
+                    "kind": "manual"
+                  },
+                  "createdAt": "2026-09-28T02:00:00Z",
+                  "targetDate": null,
+                  "state": "open",
+                  "occurrenceId": null,
+                  "makeupOf": null
+                }
+              ],
+              "handOrder": [
+                "i"
+              ],
+              "plans": [],
+              "facts": [],
+              "annotations": [],
+              "fixed": [],
+              "templates": [],
+              "days": [],
+              "rules": [],
+              "occurrences": [],
+              "captures": [],
+              "refs": [],
+              "goals": [],
+              "history": []
+            },
+            "legacySources": [],
+            "migrationBindings": [],
+            "commandReceipts": []
+          },
+          "lifecycleReceipt": null
+        },
+        "recovery": []
+      },
+      "ui": "▦\nCardGrid\n卡格工作台\n我的空间\n▦\nToday\n＋\nInbox\n◫\nSchedule\n❖\n行动定义\n✦\n抽卡手牌\n◇\n配置工坊\n↗\n数据与备份\n数据保存在本机\n行动底座 · 2A\n工作台 / TODAY Today · 今日\n重新载入\nTODAY\nToday · 今日\n\n看今天的时间盘与手牌；打开和切换日期不会生成安排。\n\n前一天\n2026-10-02\n后一天\n显示时区\n准备日型\n按适用星期选择\n准备这一天\n\n打开和切换日期不会生成安排。此处展示完整时间记录；排期、改期和实际确认请到“抽卡手牌 → 当日”。\n\n完整时间记录\n\n没有已保存的时间记录。\n\nTODAY · P1A\n10月2日星期五\n\n打开 → 看一眼 → 微调 → 开始今天\n\n‹\n未准备日型\n›\n今天最重要的 3 件事\n\n由你确认，Planner 只提供候选。\n\n切换 Minimum Day\n1\n选择今天要保护的任务\n2\n选择今天要保护的任务\n3\n选择今天要保护的任务\n今日日程\n\n固定安排与弹性任务分开显示。\n\n还没有今天的 Planner 安排。可以到 Schedule 页面应用日型。\n\n今日例行\n\n昨天没做不会偷偷搬到今天。\n\n还没有今天的 Planner 例行事项。\n\n昨日遗留\n\n由你决定补做或稍后处理。\n\n没有昨日遗留。\n\n当天事项\n快速记录\n\n先放进 Inbox，之后再整理，不打断当前工作。\n\n约 10 秒\n放入 Inbox\n记录到收件箱\n保存记录\nCardGrid · 卡格工作台\n所有改动保存在此浏览器 · 建议定期导出备份",
+      "layout": {
+        "width": 1280,
+        "scrollWidth": 1280,
+        "active": "<body><div id=\"root\"><div class=\"app paper comfortable\"><aside class=\"sidebar\"><div class=\"brand\"><span class=\"brandmark\">▦</span><div>CardGrid<small>卡格工作台</small></div></div><div class=\"navcaption\">我的空间</div><nav><button aria-current=\"page\" class=\"active\"><span>▦</span>Today</button><button class=\"\"><span>＋</span>Inbox</button><button class=\"\"><span>◫</span>Schedule</button><button class=\"\"><span>❖</span>行动定义</button><button class=\"\"><span>✦</span>抽卡手牌</button><button class=\"\"><span>◇</span>配置工坊</button><button class=\"\"><span>↗</span>数据与备份</button></nav><div class=\"sidebar-bottom\"><span class=\"dot\"></span>数据保存在本机<div class=\"version\">行动底座 · 2A</div></div></aside><main><header><div class=\"breadcrumbs\">工作台 / <strong>TODAY</strong> Today · 今日</div><button>重新载入</button></header><section class=\"heading page-heading\" aria-label=\"当前页面\"><div class=\"eyebrow\">TODAY</div><h1>Today · 今日</h1><p>看今天的时间盘与手牌；打开和切换日期不会生成安排。</p></section><section class=\"panel\"><div class=\"toolbar\"><button aria-label=\"查看前一天\">前一天</button><strong>2026-10-02</strong><button aria-label=\"查看后一天\">后一天</button><label>显示时区<input aria-label=\"显示时区\" value=\"Asia/Shanghai\"></label><label>准备日型<select><option value=\"\">按适用星期选择</option></select></label><button>准备这一天</button></div><p class=\"muted\">打开和切换日期不会生成安排。此处展示完整时间记录；排期、改期和实际确认请到“抽卡手牌 → 当日”。</p></section><section class=\"panel\"><h2>完整时间记录</h2><p>没有已保存的时间记录。</p></section><fieldset disabled=\"\" aria-label=\"旧版页面只读\" style=\"border: 0px; padding: 0px; min-width: 0px;\"><section class=\"heading\"><div class=\"eyebrow\">TODAY · P1A</div><div class=\"headingline\"><div><h1>10月2日星期五</h1><p>打开 → 看一眼 → 微调 → 开始今天</p></div><div class=\"datecontrols\"><button aria-label=\"前一天\">‹</button><span class=\"todaybadge\">未准备日型</span><button aria-label=\"后一天\">›</button></div></div></section><section class=\"top3panel panel\"><div class=\"sectiontitle\"><div><h2>今天最重要的 3 件事</h2><p class=\"muted\">由你确认，Planner 只提供候选。</p></div><button class=\"\">切换 Minimum Day</button></div><div class=\"top3list\"><button class=\"top3item\"><b>1</b><span>选择今天要保护的任务</span></button><button class=\"top3item\"><b>2</b><span>选择今天要保护的任务</span></button><button class=\"top3item\"><b>3</b><span>选择今天要保护的任务</span></button></div><div class=\"candidate-list\"></div></section><div class=\"todaycolumns\"><section class=\"panel\"><div class=\"sectiontitle\"><div><h2>今日日程</h2><p class=\"muted\">固定安排与弹性任务分开显示。</p></div></div><p class=\"emptyline\">还没有今天的 Planner 安排。可以到 Schedule 页面应用日型。</p></section><section class=\"panel\"><div class=\"sectiontitle\"><div><h2>今日例行</h2><p class=\"muted\">昨天没做不会偷偷搬到今天。</p></div></div><p class=\"emptyline\">还没有今天的 Planner 例行事项。</p></section></div><section class=\"panel\"><div class=\"sectiontitle\"><div><h2>昨日遗留</h2><p class=\"muted\">由你决定补做或稍后处理。</p></div></div><p class=\"emptyline\">没有昨日遗留。</p></section><section class=\"panel\"><h2>当天事项</h2></section><section class=\"capture panel\"><div class=\"sectiontitle\"><div><h2>快速记录</h2><p class=\"muted\">先放进 Inbox，之后再整理，不打断当前工作。</p></div><span class=\"capturehint\">约 10 秒</span></div><div class=\"captureline\"><input aria-label=\"快速记录\" placeholder=\"我突然想到……\" value=\"\"><button class=\"primary\">放入 Inbox</button></div></section></fieldset><section class=\"panel\"><h2>记录到收件箱</h2><div class=\"captureline\"><input aria-label=\"记录到收件箱\" placeholder=\"先记下来，稍后整理\" value=\"\"><button disabled=\"\">保存记录</button></div></section><input aria-label=\"导入文件选择\" accept=\".json,application/json\" hidden=\"\" type=\"file\"><footer><span>CardGrid · 卡格工作台</span><span>所有改动保存在此浏览器 · 建议定期导出备份</span></footer></main></div></div>\n</body>"
+      }
+    },
+    {
+      "id": "B04-pointer-preview-cancel-no-write",
+      "status": "failed",
+      "observations": {},
+      "error": "locator.click: Timeout 3000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('nav').getByText('抽卡手牌', { exact: true })\u001b[22m\n\n    at openDay (C:\\Users\\arstot\\Documents\\Codex\\2026-09-20\\抽卡人生\\cardgrid\\tests\\browser\\action-3f.mjs:22:267)\n    at async file:///C:/Users/arstot/Documents/Codex/2026-09-20/%E6%8A%BD%E5%8D%A1%E4%BA%BA%E7%94%9F/cardgrid/tests/browser/action-3f.mjs:31:64\n    at async check (C:\\Users\\arstot\\Documents\\Codex\\2026-09-20\\抽卡人生\\cardgrid\\tests\\browser\\action-3f.mjs:26:537)\n    at async file:///C:/Users/arstot/Documents/Codex/2026-09-20/%E6%8A%BD%E5%8D%A1%E4%BA%BA%E7%94%9F/cardgrid/tests/browser/action-3f.mjs:31:1",
+      "pageErrors": [],
+      "state": {
+        "current": {
+          "schemaVersion": 4,
+          "epoch": "independent-epoch",
+          "revision": 10,
+          "mode": "current",
+          "dataFormat": "action-v2",
+          "data": {
+            "version": 2,
+            "settings": {
+              "zone": "Asia/Shanghai",
+              "preferences": {
+                "theme": "paper",
+                "density": "comfortable",
+                "startHour": 8,
+                "endHour": 23,
+                "defaultMinutes": 15
+              },
+              "categories": []
+            },
+            "planner": {
+              "version": 2,
+              "definitions": [],
+              "instances": [
+                {
+                  "id": "i",
+                  "version": 7,
+                  "definition": null,
+                  "creationSnapshot": {
+                    "title": "独立合成行动",
+                    "criteria": "完成一个可核对结果",
+                    "presetMinutes": 30,
+                    "minimum": false,
+                    "color": "#336699",
+                    "categoryId": null,
+                    "categoryLabel": null,
+                    "projectIds": [],
+                    "goalIds": [],
+                    "projectLabels": [],
+                    "goalLabels": []
+                  },
+                  "currentContent": {
+                    "title": "独立合成行动",
+                    "criteria": "完成一个可核对结果",
+                    "presetMinutes": 30,
+                    "minimum": false,
+                    "color": "#336699",
+                    "categoryId": null,
+                    "categoryLabel": null,
+                    "projectIds": [],
+                    "goalIds": [],
+                    "projectLabels": [],
+                    "goalLabels": []
+                  },
+                  "source": {
+                    "kind": "manual"
+                  },
+                  "createdAt": "2026-09-28T02:00:00Z",
+                  "targetDate": null,
+                  "state": "open",
+                  "occurrenceId": null,
+                  "makeupOf": null
+                }
+              ],
+              "handOrder": [
+                "i"
+              ],
+              "plans": [],
+              "facts": [],
+              "annotations": [],
+              "fixed": [],
+              "templates": [],
+              "days": [],
+              "rules": [],
+              "occurrences": [],
+              "captures": [],
+              "refs": [],
+              "goals": [],
+              "history": []
+            },
+            "legacySources": [],
+            "migrationBindings": [],
+            "commandReceipts": []
+          },
+          "lifecycleReceipt": null
+        },
+        "recovery": []
+      },
+      "ui": "▦\nCardGrid\n卡格工作台\n我的空间\n▦\nToday\n＋\nInbox\n◫\nSchedule\n❖\n行动定义\n✦\n抽卡手牌\n◇\n配置工坊\n↗\n数据与备份\n数据保存在本机\n行动底座 · 2A\n工作台 / TODAY Today · 今日\n重新载入\nTODAY\nToday · 今日\n\n看今天的时间盘与手牌；打开和切换日期不会生成安排。\n\n前一天\n2026-10-02\n后一天\n显示时区\n准备日型\n按适用星期选择\n准备这一天\n\n打开和切换日期不会生成安排。此处展示完整时间记录；排期、改期和实际确认请到“抽卡手牌 → 当日”。\n\n完整时间记录\n\n没有已保存的时间记录。\n\nTODAY · P1A\n10月2日星期五\n\n打开 → 看一眼 → 微调 → 开始今天\n\n‹\n未准备日型\n›\n今天最重要的 3 件事\n\n由你确认，Planner 只提供候选。\n\n切换 Minimum Day\n1\n选择今天要保护的任务\n2\n选择今天要保护的任务\n3\n选择今天要保护的任务\n今日日程\n\n固定安排与弹性任务分开显示。\n\n还没有今天的 Planner 安排。可以到 Schedule 页面应用日型。\n\n今日例行\n\n昨天没做不会偷偷搬到今天。\n\n还没有今天的 Planner 例行事项。\n\n昨日遗留\n\n由你决定补做或稍后处理。\n\n没有昨日遗留。\n\n当天事项\n快速记录\n\n先放进 Inbox，之后再整理，不打断当前工作。\n\n约 10 秒\n放入 Inbox\n记录到收件箱\n保存记录\nCardGrid · 卡格工作台\n所有改动保存在此浏览器 · 建议定期导出备份",
+      "layout": {
+        "width": 1280,
+        "scrollWidth": 1280,
+        "active": "<body><div id=\"root\"><div class=\"app paper comfortable\"><aside class=\"sidebar\"><div class=\"brand\"><span class=\"brandmark\">▦</span><div>CardGrid<small>卡格工作台</small></div></div><div class=\"navcaption\">我的空间</div><nav><button aria-current=\"page\" class=\"active\"><span>▦</span>Today</button><button class=\"\"><span>＋</span>Inbox</button><button class=\"\"><span>◫</span>Schedule</button><button class=\"\"><span>❖</span>行动定义</button><button class=\"\"><span>✦</span>抽卡手牌</button><button class=\"\"><span>◇</span>配置工坊</button><button class=\"\"><span>↗</span>数据与备份</button></nav><div class=\"sidebar-bottom\"><span class=\"dot\"></span>数据保存在本机<div class=\"version\">行动底座 · 2A</div></div></aside><main><header><div class=\"breadcrumbs\">工作台 / <strong>TODAY</strong> Today · 今日</div><button>重新载入</button></header><section class=\"heading page-heading\" aria-label=\"当前页面\"><div class=\"eyebrow\">TODAY</div><h1>Today · 今日</h1><p>看今天的时间盘与手牌；打开和切换日期不会生成安排。</p></section><section class=\"panel\"><div class=\"toolbar\"><button aria-label=\"查看前一天\">前一天</button><strong>2026-10-02</strong><button aria-label=\"查看后一天\">后一天</button><label>显示时区<input aria-label=\"显示时区\" value=\"Asia/Shanghai\"></label><label>准备日型<select><option value=\"\">按适用星期选择</option></select></label><button>准备这一天</button></div><p class=\"muted\">打开和切换日期不会生成安排。此处展示完整时间记录；排期、改期和实际确认请到“抽卡手牌 → 当日”。</p></section><section class=\"panel\"><h2>完整时间记录</h2><p>没有已保存的时间记录。</p></section><fieldset disabled=\"\" aria-label=\"旧版页面只读\" style=\"border: 0px; padding: 0px; min-width: 0px;\"><section class=\"heading\"><div class=\"eyebrow\">TODAY · P1A</div><div class=\"headingline\"><div><h1>10月2日星期五</h1><p>打开 → 看一眼 → 微调 → 开始今天</p></div><div class=\"datecontrols\"><button aria-label=\"前一天\">‹</button><span class=\"todaybadge\">未准备日型</span><button aria-label=\"后一天\">›</button></div></div></section><section class=\"top3panel panel\"><div class=\"sectiontitle\"><div><h2>今天最重要的 3 件事</h2><p class=\"muted\">由你确认，Planner 只提供候选。</p></div><button class=\"\">切换 Minimum Day</button></div><div class=\"top3list\"><button class=\"top3item\"><b>1</b><span>选择今天要保护的任务</span></button><button class=\"top3item\"><b>2</b><span>选择今天要保护的任务</span></button><button class=\"top3item\"><b>3</b><span>选择今天要保护的任务</span></button></div><div class=\"candidate-list\"></div></section><div class=\"todaycolumns\"><section class=\"panel\"><div class=\"sectiontitle\"><div><h2>今日日程</h2><p class=\"muted\">固定安排与弹性任务分开显示。</p></div></div><p class=\"emptyline\">还没有今天的 Planner 安排。可以到 Schedule 页面应用日型。</p></section><section class=\"panel\"><div class=\"sectiontitle\"><div><h2>今日例行</h2><p class=\"muted\">昨天没做不会偷偷搬到今天。</p></div></div><p class=\"emptyline\">还没有今天的 Planner 例行事项。</p></section></div><section class=\"panel\"><div class=\"sectiontitle\"><div><h2>昨日遗留</h2><p class=\"muted\">由你决定补做或稍后处理。</p></div></div><p class=\"emptyline\">没有昨日遗留。</p></section><section class=\"panel\"><h2>当天事项</h2></section><section class=\"capture panel\"><div class=\"sectiontitle\"><div><h2>快速记录</h2><p class=\"muted\">先放进 Inbox，之后再整理，不打断当前工作。</p></div><span class=\"capturehint\">约 10 秒</span></div><div class=\"captureline\"><input aria-label=\"快速记录\" placeholder=\"我突然想到……\" value=\"\"><button class=\"primary\">放入 Inbox</button></div></section></fieldset><section class=\"panel\"><h2>记录到收件箱</h2><div class=\"captureline\"><input aria-label=\"记录到收件箱\" placeholder=\"先记下来，稍后整理\" value=\"\"><button disabled=\"\">保存记录</button></div></section><input aria-label=\"导入文件选择\" accept=\".json,application/json\" hidden=\"\" type=\"file\"><footer><span>CardGrid · 卡格工作台</span><span>所有改动保存在此浏览器 · 建议定期导出备份</span></footer></main></div></div>\n</body>"
+      }
+    },
+    {
+      "id": "B05-pointer-save",
+      "status": "failed",
+      "observations": {},
+      "error": "locator.click: Timeout 3000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('nav').getByText('抽卡手牌', { exact: true })\u001b[22m\n\n    at openDay (C:\\Users\\arstot\\Documents\\Codex\\2026-09-20\\抽卡人生\\cardgrid\\tests\\browser\\action-3f.mjs:22:267)\n    at async file:///C:/Users/arstot/Documents/Codex/2026-09-20/%E6%8A%BD%E5%8D%A1%E4%BA%BA%E7%94%9F/cardgrid/tests/browser/action-3f.mjs:32:45\n    at async check (C:\\Users\\arstot\\Documents\\Codex\\2026-09-20\\抽卡人生\\cardgrid\\tests\\browser\\action-3f.mjs:26:537)\n    at async file:///C:/Users/arstot/Documents/Codex/2026-09-20/%E6%8A%BD%E5%8D%A1%E4%BA%BA%E7%94%9F/cardgrid/tests/browser/action-3f.mjs:32:1",
+      "pageErrors": [],
+      "state": {
+        "current": {
+          "schemaVersion": 4,
+          "epoch": "independent-epoch",
+          "revision": 10,
+          "mode": "current",
+          "dataFormat": "action-v2",
+          "data": {
+            "version": 2,
+            "settings": {
+              "zone": "Asia/Shanghai",
+              "preferences": {
+                "theme": "paper",
+                "density": "comfortable",
+                "startHour": 8,
+                "endHour": 23,
+                "defaultMinutes": 15
+              },
+              "categories": []
+            },
+            "planner": {
+              "version": 2,
+              "definitions": [],
+              "instances": [
+                {
+                  "id": "i",
+                  "version": 7,
+                  "definition": null,
+                  "creationSnapshot": {
+                    "title": "独立合成行动",
+                    "criteria": "完成一个可核对结果",
+                    "presetMinutes": 30,
+                    "minimum": false,
+                    "color": "#336699",
+                    "categoryId": null,
+                    "categoryLabel": null,
+                    "projectIds": [],
+                    "goalIds": [],
+                    "projectLabels": [],
+                    "goalLabels": []
+                  },
+                  "currentContent": {
+                    "title": "独立合成行动",
+                    "criteria": "完成一个可核对结果",
+                    "presetMinutes": 30,
+                    "minimum": false,
+                    "color": "#336699",
+                    "categoryId": null,
+                    "categoryLabel": null,
+                    "projectIds": [],
+                    "goalIds": [],
+                    "projectLabels": [],
+                    "goalLabels": []
+                  },
+                  "source": {
+                    "kind": "manual"
+                  },
+                  "createdAt": "2026-09-28T02:00:00Z",
+                  "targetDate": null,
+                  "state": "open",
+                  "occurrenceId": null,
+                  "makeupOf": null
+                }
+              ],
+              "handOrder": [
+                "i"
+              ],
+              "plans": [],
+              "facts": [],
+              "annotations": [],
+              "fixed": [],
+              "templates": [],
+              "days": [],
+              "rules": [],
+              "occurrences": [],
+              "captures": [],
+              "refs": [],
+              "goals": [],
+              "history": []
+            },
+            "legacySources": [],
+            "migrationBindings": [],
+            "commandReceipts": []
+          },
+          "lifecycleReceipt": null
+        },
+        "recovery": []
+      },
+      "ui": "▦\nCardGrid\n卡格工作台\n我的空间\n▦\nToday\n＋\nInbox\n◫\nSchedule\n❖\n行动定义\n✦\n抽卡手牌\n◇\n配置工坊\n↗\n数据与备份\n数据保存在本机\n行动底座 · 2A\n工作台 / TODAY Today · 今日\n重新载入\nTODAY\nToday · 今日\n\n看今天的时间盘与手牌；打开和切换日期不会生成安排。\n\n前一天\n2026-10-02\n后一天\n显示时区\n准备日型\n按适用星期选择\n准备这一天\n\n打开和切换日期不会生成安排。此处展示完整时间记录；排期、改期和实际确认请到“抽卡手牌 → 当日”。\n\n完整时间记录\n\n没有已保存的时间记录。\n\nTODAY · P1A\n10月2日星期五\n\n打开 → 看一眼 → 微调 → 开始今天\n\n‹\n未准备日型\n›\n今天最重要的 3 件事\n\n由你确认，Planner 只提供候选。\n\n切换 Minimum Day\n1\n选择今天要保护的任务\n2\n选择今天要保护的任务\n3\n选择今天要保护的任务\n今日日程\n\n固定安排与弹性任务分开显示。\n\n还没有今天的 Planner 安排。可以到 Schedule 页面应用日型。\n\n今日例行\n\n昨天没做不会偷偷搬到今天。\n\n还没有今天的 Planner 例行事项。\n\n昨日遗留\n\n由你决定补做或稍后处理。\n\n没有昨日遗留。\n\n当天事项\n快速记录\n\n先放进 Inbox，之后再整理，不打断当前工作。\n\n约 10 秒\n放入 Inbox\n记录到收件箱\n保存记录\nCardGrid · 卡格工作台\n所有改动保存在此浏览器 · 建议定期导出备份",
+      "layout": {
+        "width": 1280,
+        "scrollWidth": 1280,
+        "active": "<body><div id=\"root\"><div class=\"app paper comfortable\"><aside class=\"sidebar\"><div class=\"brand\"><span class=\"brandmark\">▦</span><div>CardGrid<small>卡格工作台</small></div></div><div class=\"navcaption\">我的空间</div><nav><button aria-current=\"page\" class=\"active\"><span>▦</span>Today</button><button class=\"\"><span>＋</span>Inbox</button><button class=\"\"><span>◫</span>Schedule</button><button class=\"\"><span>❖</span>行动定义</button><button class=\"\"><span>✦</span>抽卡手牌</button><button class=\"\"><span>◇</span>配置工坊</button><button class=\"\"><span>↗</span>数据与备份</button></nav><div class=\"sidebar-bottom\"><span class=\"dot\"></span>数据保存在本机<div class=\"version\">行动底座 · 2A</div></div></aside><main><header><div class=\"breadcrumbs\">工作台 / <strong>TODAY</strong> Today · 今日</div><button>重新载入</button></header><section class=\"heading page-heading\" aria-label=\"当前页面\"><div class=\"eyebrow\">TODAY</div><h1>Today · 今日</h1><p>看今天的时间盘与手牌；打开和切换日期不会生成安排。</p></section><section class=\"panel\"><div class=\"toolbar\"><button aria-label=\"查看前一天\">前一天</button><strong>2026-10-02</strong><button aria-label=\"查看后一天\">后一天</button><label>显示时区<input aria-label=\"显示时区\" value=\"Asia/Shanghai\"></label><label>准备日型<select><option value=\"\">按适用星期选择</option></select></label><button>准备这一天</button></div><p class=\"muted\">打开和切换日期不会生成安排。此处展示完整时间记录；排期、改期和实际确认请到“抽卡手牌 → 当日”。</p></section><section class=\"panel\"><h2>完整时间记录</h2><p>没有已保存的时间记录。</p></section><fieldset disabled=\"\" aria-label=\"旧版页面只读\" style=\"border: 0px; padding: 0px; min-width: 0px;\"><section class=\"heading\"><div class=\"eyebrow\">TODAY · P1A</div><div class=\"headingline\"><div><h1>10月2日星期五</h1><p>打开 → 看一眼 → 微调 → 开始今天</p></div><div class=\"datecontrols\"><button aria-label=\"前一天\">‹</button><span class=\"todaybadge\">未准备日型</span><button aria-label=\"后一天\">›</button></div></div></section><section class=\"top3panel panel\"><div class=\"sectiontitle\"><div><h2>今天最重要的 3 件事</h2><p class=\"muted\">由你确认，Planner 只提供候选。</p></div><button class=\"\">切换 Minimum Day</button></div><div class=\"top3list\"><button class=\"top3item\"><b>1</b><span>选择今天要保护的任务</span></button><button class=\"top3item\"><b>2</b><span>选择今天要保护的任务</span></button><button class=\"top3item\"><b>3</b><span>选择今天要保护的任务</span></button></div><div class=\"candidate-list\"></div></section><div class=\"todaycolumns\"><section class=\"panel\"><div class=\"sectiontitle\"><div><h2>今日日程</h2><p class=\"muted\">固定安排与弹性任务分开显示。</p></div></div><p class=\"emptyline\">还没有今天的 Planner 安排。可以到 Schedule 页面应用日型。</p></section><section class=\"panel\"><div class=\"sectiontitle\"><div><h2>今日例行</h2><p class=\"muted\">昨天没做不会偷偷搬到今天。</p></div></div><p class=\"emptyline\">还没有今天的 Planner 例行事项。</p></section></div><section class=\"panel\"><div class=\"sectiontitle\"><div><h2>昨日遗留</h2><p class=\"muted\">由你决定补做或稍后处理。</p></div></div><p class=\"emptyline\">没有昨日遗留。</p></section><section class=\"panel\"><h2>当天事项</h2></section><section class=\"capture panel\"><div class=\"sectiontitle\"><div><h2>快速记录</h2><p class=\"muted\">先放进 Inbox，之后再整理，不打断当前工作。</p></div><span class=\"capturehint\">约 10 秒</span></div><div class=\"captureline\"><input aria-label=\"快速记录\" placeholder=\"我突然想到……\" value=\"\"><button class=\"primary\">放入 Inbox</button></div></section></fieldset><section class=\"panel\"><h2>记录到收件箱</h2><div class=\"captureline\"><input aria-label=\"记录到收件箱\" placeholder=\"先记下来，稍后整理\" value=\"\"><button disabled=\"\">保存记录</button></div></section><input aria-label=\"导入文件选择\" accept=\".json,application/json\" hidden=\"\" type=\"file\"><footer><span>CardGrid · 卡格工作台</span><span>所有改动保存在此浏览器 · 建议定期导出备份</span></footer></main></div></div>\n</body>"
+      }
+    },
+    {
+      "id": "B06-overlap-ack-save",
+      "status": "failed",
+      "observations": {},
+      "error": "locator.click: Timeout 3000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('nav').getByText('抽卡手牌', { exact: true })\u001b[22m\n\n    at openDay (C:\\Users\\arstot\\Documents\\Codex\\2026-09-20\\抽卡人生\\cardgrid\\tests\\browser\\action-3f.mjs:22:267)\n    at async file:///C:/Users/arstot/Documents/Codex/2026-09-20/%E6%8A%BD%E5%8D%A1%E4%BA%BA%E7%94%9F/cardgrid/tests/browser/action-3f.mjs:33:49\n    at async check (C:\\Users\\arstot\\Documents\\Codex\\2026-09-20\\抽卡人生\\cardgrid\\tests\\browser\\action-3f.mjs:26:537)\n    at async file:///C:/Users/arstot/Documents/Codex/2026-09-20/%E6%8A%BD%E5%8D%A1%E4%BA%BA%E7%94%9F/cardgrid/tests/browser/action-3f.mjs:33:1",
+      "pageErrors": [],
+      "state": {
+        "current": {
+          "schemaVersion": 4,
+          "epoch": "independent-epoch",
+          "revision": 10,
+          "mode": "current",
+          "dataFormat": "action-v2",
+          "data": {
+            "version": 2,
+            "settings": {
+              "zone": "Asia/Shanghai",
+              "preferences": {
+                "theme": "paper",
+                "density": "comfortable",
+                "startHour": 8,
+                "endHour": 23,
+                "defaultMinutes": 15
+              },
+              "categories": []
+            },
+            "planner": {
+              "version": 2,
+              "definitions": [],
+              "instances": [
+                {
+                  "id": "i",
+                  "version": 7,
+                  "definition": null,
+                  "creationSnapshot": {
+                    "title": "独立合成行动",
+                    "criteria": "完成一个可核对结果",
+                    "presetMinutes": 30,
+                    "minimum": false,
+                    "color": "#336699",
+                    "categoryId": null,
+                    "categoryLabel": null,
+                    "projectIds": [],
+                    "goalIds": [],
+                    "projectLabels": [],
+                    "goalLabels": []
+                  },
+                  "currentContent": {
+                    "title": "独立合成行动",
+                    "criteria": "完成一个可核对结果",
+                    "presetMinutes": 30,
+                    "minimum": false,
+                    "color": "#336699",
+                    "categoryId": null,
+                    "categoryLabel": null,
+                    "projectIds": [],
+                    "goalIds": [],
+                    "projectLabels": [],
+                    "goalLabels": []
+                  },
+                  "source": {
+                    "kind": "manual"
+                  },
+                  "createdAt": "2026-09-28T02:00:00Z",
+                  "targetDate": null,
+                  "state": "open",
+                  "occurrenceId": null,
+                  "makeupOf": null
+                }
+              ],
+              "handOrder": [
+                "i"
+              ],
+              "plans": [],
+              "facts": [],
+              "annotations": [],
+              "fixed": [
+                {
+                  "id": "x",
+                  "version": 3,
+                  "title": "固定甲",
+                  "range": {
+                    "startAt": "2026-09-28T01:15:00Z",
+                    "endAt": "2026-09-28T01:45:00Z",
+                    "zone": "Asia/Shanghai",
+                    "localStart": "2026-09-28T09:15",
+                    "localEnd": "2026-09-28T09:45",
+                    "startOffset": "+08:00",
+                    "endOffset": "+08:00"
+                  },
+                  "cancelled": false,
+                  "ownerDate": "2026-09-28",
+                  "template": null,
+                  "templateEntryId": null,
+                  "manuallyOverridden": false,
+                  "source": {
+                    "kind": "manual"
+                  }
+                },
+                {
+                  "id": "y",
+                  "version": 2,
+                  "title": "固定乙",
+                  "range": {
+                    "startAt": "2026-09-28T02:00:00Z",
+                    "endAt": "2026-09-28T02:30:00Z",
+                    "zone": "Asia/Shanghai",
+                    "localStart": "2026-09-28T10:00",
+                    "localEnd": "2026-09-28T10:30",
+                    "startOffset": "+08:00",
+                    "endOffset": "+08:00"
+                  },
+                  "cancelled": false,
+                  "ownerDate": "2026-09-28",
+                  "template": null,
+                  "templateEntryId": null,
+                  "manuallyOverridden": false,
+                  "source": {
+                    "kind": "manual"
+                  }
+                }
+              ],
+              "templates": [],
+              "days": [],
+              "rules": [],
+              "occurrences": [],
+              "captures": [],
+              "refs": [],
+              "goals": [],
+              "history": []
+            },
+            "legacySources": [],
+            "migrationBindings": [],
+            "commandReceipts": []
+          },
+          "lifecycleReceipt": null
+        },
+        "recovery": []
+      },
+      "ui": "▦\nCardGrid\n卡格工作台\n我的空间\n▦\nToday\n＋\nInbox\n◫\nSchedule\n❖\n行动定义\n✦\n抽卡手牌\n◇\n配置工坊\n↗\n数据与备份\n数据保存在本机\n行动底座 · 2A\n工作台 / TODAY Today · 今日\n重新载入\nTODAY\nToday · 今日\n\n看今天的时间盘与手牌；打开和切换日期不会生成安排。\n\n前一天\n2026-10-02\n后一天\n显示时区\n准备日型\n按适用星期选择\n准备这一天\n\n打开和切换日期不会生成安排。此处展示完整时间记录；排期、改期和实际确认请到“抽卡手牌 → 当日”。\n\n完整时间记录\n\n没有已保存的时间记录。\n\nTODAY · P1A\n10月2日星期五\n\n打开 → 看一眼 → 微调 → 开始今天\n\n‹\n未准备日型\n›\n今天最重要的 3 件事\n\n由你确认，Planner 只提供候选。\n\n切换 Minimum Day\n1\n选择今天要保护的任务\n2\n选择今天要保护的任务\n3\n选择今天要保护的任务\n今日日程\n\n固定安排与弹性任务分开显示。\n\n还没有今天的 Planner 安排。可以到 Schedule 页面应用日型。\n\n今日例行\n\n昨天没做不会偷偷搬到今天。\n\n还没有今天的 Planner 例行事项。\n\n昨日遗留\n\n由你决定补做或稍后处理。\n\n没有昨日遗留。\n\n当天事项\n快速记录\n\n先放进 Inbox，之后再整理，不打断当前工作。\n\n约 10 秒\n放入 Inbox\n记录到收件箱\n保存记录\nCardGrid · 卡格工作台\n所有改动保存在此浏览器 · 建议定期导出备份",
+      "layout": {
+        "width": 1280,
+        "scrollWidth": 1280,
+        "active": "<body><div id=\"root\"><div class=\"app paper comfortable\"><aside class=\"sidebar\"><div class=\"brand\"><span class=\"brandmark\">▦</span><div>CardGrid<small>卡格工作台</small></div></div><div class=\"navcaption\">我的空间</div><nav><button aria-current=\"page\" class=\"active\"><span>▦</span>Today</button><button class=\"\"><span>＋</span>Inbox</button><button class=\"\"><span>◫</span>Schedule</button><button class=\"\"><span>❖</span>行动定义</button><button class=\"\"><span>✦</span>抽卡手牌</button><button class=\"\"><span>◇</span>配置工坊</button><button class=\"\"><span>↗</span>数据与备份</button></nav><div class=\"sidebar-bottom\"><span class=\"dot\"></span>数据保存在本机<div class=\"version\">行动底座 · 2A</div></div></aside><main><header><div class=\"breadcrumbs\">工作台 / <strong>TODAY</strong> Today · 今日</div><button>重新载入</button></header><section class=\"heading page-heading\" aria-label=\"当前页面\"><div class=\"eyebrow\">TODAY</div><h1>Today · 今日</h1><p>看今天的时间盘与手牌；打开和切换日期不会生成安排。</p></section><section class=\"panel\"><div class=\"toolbar\"><button aria-label=\"查看前一天\">前一天</button><strong>2026-10-02</strong><button aria-label=\"查看后一天\">后一天</button><label>显示时区<input aria-label=\"显示时区\" value=\"Asia/Shanghai\"></label><label>准备日型<select><option value=\"\">按适用星期选择</option></select></label><button>准备这一天</button></div><p class=\"muted\">打开和切换日期不会生成安排。此处展示完整时间记录；排期、改期和实际确认请到“抽卡手牌 → 当日”。</p></section><section class=\"panel\"><h2>完整时间记录</h2><p>没有已保存的时间记录。</p></section><fieldset disabled=\"\" aria-label=\"旧版页面只读\" style=\"border: 0px; padding: 0px; min-width: 0px;\"><section class=\"heading\"><div class=\"eyebrow\">TODAY · P1A</div><div class=\"headingline\"><div><h1>10月2日星期五</h1><p>打开 → 看一眼 → 微调 → 开始今天</p></div><div class=\"datecontrols\"><button aria-label=\"前一天\">‹</button><span class=\"todaybadge\">未准备日型</span><button aria-label=\"后一天\">›</button></div></div></section><section class=\"top3panel panel\"><div class=\"sectiontitle\"><div><h2>今天最重要的 3 件事</h2><p class=\"muted\">由你确认，Planner 只提供候选。</p></div><button class=\"\">切换 Minimum Day</button></div><div class=\"top3list\"><button class=\"top3item\"><b>1</b><span>选择今天要保护的任务</span></button><button class=\"top3item\"><b>2</b><span>选择今天要保护的任务</span></button><button class=\"top3item\"><b>3</b><span>选择今天要保护的任务</span></button></div><div class=\"candidate-list\"></div></section><div class=\"todaycolumns\"><section class=\"panel\"><div class=\"sectiontitle\"><div><h2>今日日程</h2><p class=\"muted\">固定安排与弹性任务分开显示。</p></div></div><p class=\"emptyline\">还没有今天的 Planner 安排。可以到 Schedule 页面应用日型。</p></section><section class=\"panel\"><div class=\"sectiontitle\"><div><h2>今日例行</h2><p class=\"muted\">昨天没做不会偷偷搬到今天。</p></div></div><p class=\"emptyline\">还没有今天的 Planner 例行事项。</p></section></div><section class=\"panel\"><div class=\"sectiontitle\"><div><h2>昨日遗留</h2><p class=\"muted\">由你决定补做或稍后处理。</p></div></div><p class=\"emptyline\">没有昨日遗留。</p></section><section class=\"panel\"><h2>当天事项</h2></section><section class=\"capture panel\"><div class=\"sectiontitle\"><div><h2>快速记录</h2><p class=\"muted\">先放进 Inbox，之后再整理，不打断当前工作。</p></div><span class=\"capturehint\">约 10 秒</span></div><div class=\"captureline\"><input aria-label=\"快速记录\" placeholder=\"我突然想到……\" value=\"\"><button class=\"primary\">放入 Inbox</button></div></section></fieldset><section class=\"panel\"><h2>记录到收件箱</h2><div class=\"captureline\"><input aria-label=\"记录到收件箱\" placeholder=\"先记下来，稍后整理\" value=\"\"><button disabled=\"\">保存记录</button></div></section><input aria-label=\"导入文件选择\" accept=\".json,application/json\" hidden=\"\" type=\"file\"><footer><span>CardGrid · 卡格工作台</span><span>所有改动保存在此浏览器 · 建议定期导出备份</span></footer></main></div></div>\n</body>"
+      }
+    },
+    {
+      "id": "B07-overlap-blocker-details",
+      "status": "failed",
+      "observations": {},
+      "error": "locator.click: Timeout 3000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('nav').getByText('抽卡手牌', { exact: true })\u001b[22m\n\n    at openDay (C:\\Users\\arstot\\Documents\\Codex\\2026-09-20\\抽卡人生\\cardgrid\\tests\\browser\\action-3f.mjs:22:267)\n    at async file:///C:/Users/arstot/Documents/Codex/2026-09-20/%E6%8A%BD%E5%8D%A1%E4%BA%BA%E7%94%9F/cardgrid/tests/browser/action-3f.mjs:34:56\n    at async check (C:\\Users\\arstot\\Documents\\Codex\\2026-09-20\\抽卡人生\\cardgrid\\tests\\browser\\action-3f.mjs:26:537)\n    at async file:///C:/Users/arstot/Documents/Codex/2026-09-20/%E6%8A%BD%E5%8D%A1%E4%BA%BA%E7%94%9F/cardgrid/tests/browser/action-3f.mjs:34:1",
+      "pageErrors": [],
+      "state": {
+        "current": {
+          "schemaVersion": 4,
+          "epoch": "independent-epoch",
+          "revision": 10,
+          "mode": "current",
+          "dataFormat": "action-v2",
+          "data": {
+            "version": 2,
+            "settings": {
+              "zone": "Asia/Shanghai",
+              "preferences": {
+                "theme": "paper",
+                "density": "comfortable",
+                "startHour": 8,
+                "endHour": 23,
+                "defaultMinutes": 15
+              },
+              "categories": []
+            },
+            "planner": {
+              "version": 2,
+              "definitions": [],
+              "instances": [
+                {
+                  "id": "i",
+                  "version": 7,
+                  "definition": null,
+                  "creationSnapshot": {
+                    "title": "独立合成行动",
+                    "criteria": "完成一个可核对结果",
+                    "presetMinutes": 30,
+                    "minimum": false,
+                    "color": "#336699",
+                    "categoryId": null,
+                    "categoryLabel": null,
+                    "projectIds": [],
+                    "goalIds": [],
+                    "projectLabels": [],
+                    "goalLabels": []
+                  },
+                  "currentContent": {
+                    "title": "独立合成行动",
+                    "criteria": "完成一个可核对结果",
+                    "presetMinutes": 30,
+                    "minimum": false,
+                    "color": "#336699",
+                    "categoryId": null,
+                    "categoryLabel": null,
+                    "projectIds": [],
+                    "goalIds": [],
+                    "projectLabels": [],
+                    "goalLabels": []
+                  },
+                  "source": {
+                    "kind": "manual"
+                  },
+                  "createdAt": "2026-09-28T02:00:00Z",
+                  "targetDate": null,
+                  "state": "open",
+                  "occurrenceId": null,
+                  "makeupOf": null
+                }
+              ],
+              "handOrder": [
+                "i"
+              ],
+              "plans": [],
+              "facts": [],
+              "annotations": [],
+              "fixed": [
+                {
+                  "id": "x",
+                  "version": 3,
+                  "title": "固定甲",
+                  "range": {
+                    "startAt": "2026-09-28T01:15:00Z",
+                    "endAt": "2026-09-28T01:45:00Z",
+                    "zone": "Asia/Shanghai",
+                    "localStart": "2026-09-28T09:15",
+                    "localEnd": "2026-09-28T09:45",
+                    "startOffset": "+08:00",
+                    "endOffset": "+08:00"
+                  },
+                  "cancelled": false,
+                  "ownerDate": "2026-09-28",
+                  "template": null,
+                  "templateEntryId": null,
+                  "manuallyOverridden": false,
+                  "source": {
+                    "kind": "manual"
+                  }
+                },
+                {
+                  "id": "y",
+                  "version": 2,
+                  "title": "固定乙",
+                  "range": {
+                    "startAt": "2026-09-28T02:00:00Z",
+                    "endAt": "2026-09-28T02:30:00Z",
+                    "zone": "Asia/Shanghai",
+                    "localStart": "2026-09-28T10:00",
+                    "localEnd": "2026-09-28T10:30",
+                    "startOffset": "+08:00",
+                    "endOffset": "+08:00"
+                  },
+                  "cancelled": false,
+                  "ownerDate": "2026-09-28",
+                  "template": null,
+                  "templateEntryId": null,
+                  "manuallyOverridden": false,
+                  "source": {
+                    "kind": "manual"
+                  }
+                }
+              ],
+              "templates": [],
+              "days": [],
+              "rules": [],
+              "occurrences": [],
+              "captures": [],
+              "refs": [],
+              "goals": [],
+              "history": []
+            },
+            "legacySources": [],
+            "migrationBindings": [],
+            "commandReceipts": []
+          },
+          "lifecycleReceipt": null
+        },
+        "recovery": []
+      },
+      "ui": "▦\nCardGrid\n卡格工作台\n我的空间\n▦\nToday\n＋\nInbox\n◫\nSchedule\n❖\n行动定义\n✦\n抽卡手牌\n◇\n配置工坊\n↗\n数据与备份\n数据保存在本机\n行动底座 · 2A\n工作台 / TODAY Today · 今日\n重新载入\nTODAY\nToday · 今日\n\n看今天的时间盘与手牌；打开和切换日期不会生成安排。\n\n前一天\n2026-10-02\n后一天\n显示时区\n准备日型\n按适用星期选择\n准备这一天\n\n打开和切换日期不会生成安排。此处展示完整时间记录；排期、改期和实际确认请到“抽卡手牌 → 当日”。\n\n完整时间记录\n\n没有已保存的时间记录。\n\nTODAY · P1A\n10月2日星期五\n\n打开 → 看一眼 → 微调 → 开始今天\n\n‹\n未准备日型\n›\n今天最重要的 3 件事\n\n由你确认，Planner 只提供候选。\n\n切换 Minimum Day\n1\n选择今天要保护的任务\n2\n选择今天要保护的任务\n3\n选择今天要保护的任务\n今日日程\n\n固定安排与弹性任务分开显示。\n\n还没有今天的 Planner 安排。可以到 Schedule 页面应用日型。\n\n今日例行\n\n昨天没做不会偷偷搬到今天。\n\n还没有今天的 Planner 例行事项。\n\n昨日遗留\n\n由你决定补做或稍后处理。\n\n没有昨日遗留。\n\n当天事项\n快速记录\n\n先放进 Inbox，之后再整理，不打断当前工作。\n\n约 10 秒\n放入 Inbox\n记录到收件箱\n保存记录\nCardGrid · 卡格工作台\n所有改动保存在此浏览器 · 建议定期导出备份",
+      "layout": {
+        "width": 1280,
+        "scrollWidth": 1280,
+        "active": "<body><div id=\"root\"><div class=\"app paper comfortable\"><aside class=\"sidebar\"><div class=\"brand\"><span class=\"brandmark\">▦</span><div>CardGrid<small>卡格工作台</small></div></div><div class=\"navcaption\">我的空间</div><nav><button aria-current=\"page\" class=\"active\"><span>▦</span>Today</button><button class=\"\"><span>＋</span>Inbox</button><button class=\"\"><span>◫</span>Schedule</button><button class=\"\"><span>❖</span>行动定义</button><button class=\"\"><span>✦</span>抽卡手牌</button><button class=\"\"><span>◇</span>配置工坊</button><button class=\"\"><span>↗</span>数据与备份</button></nav><div class=\"sidebar-bottom\"><span class=\"dot\"></span>数据保存在本机<div class=\"version\">行动底座 · 2A</div></div></aside><main><header><div class=\"breadcrumbs\">工作台 / <strong>TODAY</strong> Today · 今日</div><button>重新载入</button></header><section class=\"heading page-heading\" aria-label=\"当前页面\"><div class=\"eyebrow\">TODAY</div><h1>Today · 今日</h1><p>看今天的时间盘与手牌；打开和切换日期不会生成安排。</p></section><section class=\"panel\"><div class=\"toolbar\"><button aria-label=\"查看前一天\">前一天</button><strong>2026-10-02</strong><button aria-label=\"查看后一天\">后一天</button><label>显示时区<input aria-label=\"显示时区\" value=\"Asia/Shanghai\"></label><label>准备日型<select><option value=\"\">按适用星期选择</option></select></label><button>准备这一天</button></div><p class=\"muted\">打开和切换日期不会生成安排。此处展示完整时间记录；排期、改期和实际确认请到“抽卡手牌 → 当日”。</p></section><section class=\"panel\"><h2>完整时间记录</h2><p>没有已保存的时间记录。</p></section><fieldset disabled=\"\" aria-label=\"旧版页面只读\" style=\"border: 0px; padding: 0px; min-width: 0px;\"><section class=\"heading\"><div class=\"eyebrow\">TODAY · P1A</div><div class=\"headingline\"><div><h1>10月2日星期五</h1><p>打开 → 看一眼 → 微调 → 开始今天</p></div><div class=\"datecontrols\"><button aria-label=\"前一天\">‹</button><span class=\"todaybadge\">未准备日型</span><button aria-label=\"后一天\">›</button></div></div></section><section class=\"top3panel panel\"><div class=\"sectiontitle\"><div><h2>今天最重要的 3 件事</h2><p class=\"muted\">由你确认，Planner 只提供候选。</p></div><button class=\"\">切换 Minimum Day</button></div><div class=\"top3list\"><button class=\"top3item\"><b>1</b><span>选择今天要保护的任务</span></button><button class=\"top3item\"><b>2</b><span>选择今天要保护的任务</span></button><button class=\"top3item\"><b>3</b><span>选择今天要保护的任务</span></button></div><div class=\"candidate-list\"></div></section><div class=\"todaycolumns\"><section class=\"panel\"><div class=\"sectiontitle\"><div><h2>今日日程</h2><p class=\"muted\">固定安排与弹性任务分开显示。</p></div></div><p class=\"emptyline\">还没有今天的 Planner 安排。可以到 Schedule 页面应用日型。</p></section><section class=\"panel\"><div class=\"sectiontitle\"><div><h2>今日例行</h2><p class=\"muted\">昨天没做不会偷偷搬到今天。</p></div></div><p class=\"emptyline\">还没有今天的 Planner 例行事项。</p></section></div><section class=\"panel\"><div class=\"sectiontitle\"><div><h2>昨日遗留</h2><p class=\"muted\">由你决定补做或稍后处理。</p></div></div><p class=\"emptyline\">没有昨日遗留。</p></section><section class=\"panel\"><h2>当天事项</h2></section><section class=\"capture panel\"><div class=\"sectiontitle\"><div><h2>快速记录</h2><p class=\"muted\">先放进 Inbox，之后再整理，不打断当前工作。</p></div><span class=\"capturehint\">约 10 秒</span></div><div class=\"captureline\"><input aria-label=\"快速记录\" placeholder=\"我突然想到……\" value=\"\"><button class=\"primary\">放入 Inbox</button></div></section></fieldset><section class=\"panel\"><h2>记录到收件箱</h2><div class=\"captureline\"><input aria-label=\"记录到收件箱\" placeholder=\"先记下来，稍后整理\" value=\"\"><button disabled=\"\">保存记录</button></div></section><input aria-label=\"导入文件选择\" accept=\".json,application/json\" hidden=\"\" type=\"file\"><footer><span>CardGrid · 卡格工作台</span><span>所有改动保存在此浏览器 · 建议定期导出备份</span></footer></main></div></div>\n</body>"
+      }
+    },
+    {
+      "id": "B08-dial-rotation-pointer",
+      "status": "failed",
+      "observations": {},
+      "error": "locator.click: Timeout 3000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('nav').getByText('抽卡手牌', { exact: true })\u001b[22m\n\n    at openDay (C:\\Users\\arstot\\Documents\\Codex\\2026-09-20\\抽卡人生\\cardgrid\\tests\\browser\\action-3f.mjs:22:267)\n    at async file:///C:/Users/arstot/Documents/Codex/2026-09-20/%E6%8A%BD%E5%8D%A1%E4%BA%BA%E7%94%9F/cardgrid/tests/browser/action-3f.mjs:35:54\n    at async check (C:\\Users\\arstot\\Documents\\Codex\\2026-09-20\\抽卡人生\\cardgrid\\tests\\browser\\action-3f.mjs:26:537)\n    at async file:///C:/Users/arstot/Documents/Codex/2026-09-20/%E6%8A%BD%E5%8D%A1%E4%BA%BA%E7%94%9F/cardgrid/tests/browser/action-3f.mjs:35:1",
+      "pageErrors": [],
+      "state": {
+        "current": {
+          "schemaVersion": 4,
+          "epoch": "independent-epoch",
+          "revision": 10,
+          "mode": "current",
+          "dataFormat": "action-v2",
+          "data": {
+            "version": 2,
+            "settings": {
+              "zone": "Asia/Shanghai",
+              "preferences": {
+                "theme": "paper",
+                "density": "comfortable",
+                "startHour": 8,
+                "endHour": 23,
+                "defaultMinutes": 15
+              },
+              "categories": []
+            },
+            "planner": {
+              "version": 2,
+              "definitions": [],
+              "instances": [
+                {
+                  "id": "i",
+                  "version": 7,
+                  "definition": null,
+                  "creationSnapshot": {
+                    "title": "独立合成行动",
+                    "criteria": "完成一个可核对结果",
+                    "presetMinutes": 30,
+                    "minimum": false,
+                    "color": "#336699",
+                    "categoryId": null,
+                    "categoryLabel": null,
+                    "projectIds": [],
+                    "goalIds": [],
+                    "projectLabels": [],
+                    "goalLabels": []
+                  },
+                  "currentContent": {
+                    "title": "独立合成行动",
+                    "criteria": "完成一个可核对结果",
+                    "presetMinutes": 30,
+                    "minimum": false,
+                    "color": "#336699",
+                    "categoryId": null,
+                    "categoryLabel": null,
+                    "projectIds": [],
+                    "goalIds": [],
+                    "projectLabels": [],
+                    "goalLabels": []
+                  },
+                  "source": {
+                    "kind": "manual"
+                  },
+                  "createdAt": "2026-09-28T02:00:00Z",
+                  "targetDate": null,
+                  "state": "open",
+                  "occurrenceId": null,
+                  "makeupOf": null
+                }
+              ],
+              "handOrder": [
+                "i"
+              ],
+              "plans": [],
+              "facts": [],
+              "annotations": [],
+              "fixed": [],
+              "templates": [],
+              "days": [],
+              "rules": [],
+              "occurrences": [],
+              "captures": [],
+              "refs": [],
+              "goals": [],
+              "history": []
+            },
+            "legacySources": [],
+            "migrationBindings": [],
+            "commandReceipts": []
+          },
+          "lifecycleReceipt": null
+        },
+        "recovery": []
+      },
+      "ui": "▦\nCardGrid\n卡格工作台\n我的空间\n▦\nToday\n＋\nInbox\n◫\nSchedule\n❖\n行动定义\n✦\n抽卡手牌\n◇\n配置工坊\n↗\n数据与备份\n数据保存在本机\n行动底座 · 2A\n工作台 / TODAY Today · 今日\n重新载入\nTODAY\nToday · 今日\n\n看今天的时间盘与手牌；打开和切换日期不会生成安排。\n\n前一天\n2026-10-02\n后一天\n显示时区\n准备日型\n按适用星期选择\n准备这一天\n\n打开和切换日期不会生成安排。此处展示完整时间记录；排期、改期和实际确认请到“抽卡手牌 → 当日”。\n\n完整时间记录\n\n没有已保存的时间记录。\n\nTODAY · P1A\n10月2日星期五\n\n打开 → 看一眼 → 微调 → 开始今天\n\n‹\n未准备日型\n›\n今天最重要的 3 件事\n\n由你确认，Planner 只提供候选。\n\n切换 Minimum Day\n1\n选择今天要保护的任务\n2\n选择今天要保护的任务\n3\n选择今天要保护的任务\n今日日程\n\n固定安排与弹性任务分开显示。\n\n还没有今天的 Planner 安排。可以到 Schedule 页面应用日型。\n\n今日例行\n\n昨天没做不会偷偷搬到今天。\n\n还没有今天的 Planner 例行事项。\n\n昨日遗留\n\n由你决定补做或稍后处理。\n\n没有昨日遗留。\n\n当天事项\n快速记录\n\n先放进 Inbox，之后再整理，不打断当前工作。\n\n约 10 秒\n放入 Inbox\n记录到收件箱\n保存记录\nCardGrid · 卡格工作台\n所有改动保存在此浏览器 · 建议定期导出备份",
+      "layout": {
+        "width": 1280,
+        "scrollWidth": 1280,
+        "active": "<body><div id=\"root\"><div class=\"app paper comfortable\"><aside class=\"sidebar\"><div class=\"brand\"><span class=\"brandmark\">▦</span><div>CardGrid<small>卡格工作台</small></div></div><div class=\"navcaption\">我的空间</div><nav><button aria-current=\"page\" class=\"active\"><span>▦</span>Today</button><button class=\"\"><span>＋</span>Inbox</button><button class=\"\"><span>◫</span>Schedule</button><button class=\"\"><span>❖</span>行动定义</button><button class=\"\"><span>✦</span>抽卡手牌</button><button class=\"\"><span>◇</span>配置工坊</button><button class=\"\"><span>↗</span>数据与备份</button></nav><div class=\"sidebar-bottom\"><span class=\"dot\"></span>数据保存在本机<div class=\"version\">行动底座 · 2A</div></div></aside><main><header><div class=\"breadcrumbs\">工作台 / <strong>TODAY</strong> Today · 今日</div><button>重新载入</button></header><section class=\"heading page-heading\" aria-label=\"当前页面\"><div class=\"eyebrow\">TODAY</div><h1>Today · 今日</h1><p>看今天的时间盘与手牌；打开和切换日期不会生成安排。</p></section><section class=\"panel\"><div class=\"toolbar\"><button aria-label=\"查看前一天\">前一天</button><strong>2026-10-02</strong><button aria-label=\"查看后一天\">后一天</button><label>显示时区<input aria-label=\"显示时区\" value=\"Asia/Shanghai\"></label><label>准备日型<select><option value=\"\">按适用星期选择</option></select></label><button>准备这一天</button></div><p class=\"muted\">打开和切换日期不会生成安排。此处展示完整时间记录；排期、改期和实际确认请到“抽卡手牌 → 当日”。</p></section><section class=\"panel\"><h2>完整时间记录</h2><p>没有已保存的时间记录。</p></section><fieldset disabled=\"\" aria-label=\"旧版页面只读\" style=\"border: 0px; padding: 0px; min-width: 0px;\"><section class=\"heading\"><div class=\"eyebrow\">TODAY · P1A</div><div class=\"headingline\"><div><h1>10月2日星期五</h1><p>打开 → 看一眼 → 微调 → 开始今天</p></div><div class=\"datecontrols\"><button aria-label=\"前一天\">‹</button><span class=\"todaybadge\">未准备日型</span><button aria-label=\"后一天\">›</button></div></div></section><section class=\"top3panel panel\"><div class=\"sectiontitle\"><div><h2>今天最重要的 3 件事</h2><p class=\"muted\">由你确认，Planner 只提供候选。</p></div><button class=\"\">切换 Minimum Day</button></div><div class=\"top3list\"><button class=\"top3item\"><b>1</b><span>选择今天要保护的任务</span></button><button class=\"top3item\"><b>2</b><span>选择今天要保护的任务</span></button><button class=\"top3item\"><b>3</b><span>选择今天要保护的任务</span></button></div><div class=\"candidate-list\"></div></section><div class=\"todaycolumns\"><section class=\"panel\"><div class=\"sectiontitle\"><div><h2>今日日程</h2><p class=\"muted\">固定安排与弹性任务分开显示。</p></div></div><p class=\"emptyline\">还没有今天的 Planner 安排。可以到 Schedule 页面应用日型。</p></section><section class=\"panel\"><div class=\"sectiontitle\"><div><h2>今日例行</h2><p class=\"muted\">昨天没做不会偷偷搬到今天。</p></div></div><p class=\"emptyline\">还没有今天的 Planner 例行事项。</p></section></div><section class=\"panel\"><div class=\"sectiontitle\"><div><h2>昨日遗留</h2><p class=\"muted\">由你决定补做或稍后处理。</p></div></div><p class=\"emptyline\">没有昨日遗留。</p></section><section class=\"panel\"><h2>当天事项</h2></section><section class=\"capture panel\"><div class=\"sectiontitle\"><div><h2>快速记录</h2><p class=\"muted\">先放进 Inbox，之后再整理，不打断当前工作。</p></div><span class=\"capturehint\">约 10 秒</span></div><div class=\"captureline\"><input aria-label=\"快速记录\" placeholder=\"我突然想到……\" value=\"\"><button class=\"primary\">放入 Inbox</button></div></section></fieldset><section class=\"panel\"><h2>记录到收件箱</h2><div class=\"captureline\"><input aria-label=\"记录到收件箱\" placeholder=\"先记下来，稍后整理\" value=\"\"><button disabled=\"\">保存记录</button></div></section><input aria-label=\"导入文件选择\" accept=\".json,application/json\" hidden=\"\" type=\"file\"><footer><span>CardGrid · 卡格工作台</span><span>所有改动保存在此浏览器 · 建议定期导出备份</span></footer></main></div></div>\n</body>"
+      }
+    },
+    {
+      "id": "B09-candidate-slide",
+      "status": "failed",
+      "observations": {},
+      "error": "locator.click: Timeout 3000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('nav').getByText('抽卡手牌', { exact: true })\u001b[22m\n\n    at openDay (C:\\Users\\arstot\\Documents\\Codex\\2026-09-20\\抽卡人生\\cardgrid\\tests\\browser\\action-3f.mjs:22:267)\n    at async file:///C:/Users/arstot/Documents/Codex/2026-09-20/%E6%8A%BD%E5%8D%A1%E4%BA%BA%E7%94%9F/cardgrid/tests/browser/action-3f.mjs:36:48\n    at async check (C:\\Users\\arstot\\Documents\\Codex\\2026-09-20\\抽卡人生\\cardgrid\\tests\\browser\\action-3f.mjs:26:537)\n    at async file:///C:/Users/arstot/Documents/Codex/2026-09-20/%E6%8A%BD%E5%8D%A1%E4%BA%BA%E7%94%9F/cardgrid/tests/browser/action-3f.mjs:36:1",
+      "pageErrors": [],
+      "state": {
+        "current": {
+          "schemaVersion": 4,
+          "epoch": "independent-epoch",
+          "revision": 10,
+          "mode": "current",
+          "dataFormat": "action-v2",
+          "data": {
+            "version": 2,
+            "settings": {
+              "zone": "Asia/Shanghai",
+              "preferences": {
+                "theme": "paper",
+                "density": "comfortable",
+                "startHour": 8,
+                "endHour": 23,
+                "defaultMinutes": 15
+              },
+              "categories": []
+            },
+            "planner": {
+              "version": 2,
+              "definitions": [],
+              "instances": [
+                {
+                  "id": "i",
+                  "version": 7,
+                  "definition": null,
+                  "creationSnapshot": {
+                    "title": "独立合成行动",
+                    "criteria": "完成一个可核对结果",
+                    "presetMinutes": 30,
+                    "minimum": false,
+                    "color": "#336699",
+                    "categoryId": null,
+                    "categoryLabel": null,
+                    "projectIds": [],
+                    "goalIds": [],
+                    "projectLabels": [],
+                    "goalLabels": []
+                  },
+                  "currentContent": {
+                    "title": "独立合成行动",
+                    "criteria": "完成一个可核对结果",
+                    "presetMinutes": 30,
+                    "minimum": false,
+                    "color": "#336699",
+                    "categoryId": null,
+                    "categoryLabel": null,
+                    "projectIds": [],
+                    "goalIds": [],
+                    "projectLabels": [],
+                    "goalLabels": []
+                  },
+                  "source": {
+                    "kind": "manual"
+                  },
+                  "createdAt": "2026-09-28T02:00:00Z",
+                  "targetDate": null,
+                  "state": "open",
+                  "occurrenceId": null,
+                  "makeupOf": null
+                }
+              ],
+              "handOrder": [
+                "i"
+              ],
+              "plans": [],
+              "facts": [],
+              "annotations": [],
+              "fixed": [],
+              "templates": [],
+              "days": [],
+              "rules": [],
+              "occurrences": [],
+              "captures": [],
+              "refs": [],
+              "goals": [],
+              "history": []
+            },
+            "legacySources": [],
+            "migrationBindings": [],
+            "commandReceipts": []
+          },
+          "lifecycleReceipt": null
+        },
+        "recovery": []
+      },
+      "ui": "▦\nCardGrid\n卡格工作台\n我的空间\n▦\nToday\n＋\nInbox\n◫\nSchedule\n❖\n行动定义\n✦\n抽卡手牌\n◇\n配置工坊\n↗\n数据与备份\n数据保存在本机\n行动底座 · 2A\n工作台 / TODAY Today · 今日\n重新载入\nTODAY\nToday · 今日\n\n看今天的时间盘与手牌；打开和切换日期不会生成安排。\n\n前一天\n2026-10-02\n后一天\n显示时区\n准备日型\n按适用星期选择\n准备这一天\n\n打开和切换日期不会生成安排。此处展示完整时间记录；排期、改期和实际确认请到“抽卡手牌 → 当日”。\n\n完整时间记录\n\n没有已保存的时间记录。\n\nTODAY · P1A\n10月2日星期五\n\n打开 → 看一眼 → 微调 → 开始今天\n\n‹\n未准备日型\n›\n今天最重要的 3 件事\n\n由你确认，Planner 只提供候选。\n\n切换 Minimum Day\n1\n选择今天要保护的任务\n2\n选择今天要保护的任务\n3\n选择今天要保护的任务\n今日日程\n\n固定安排与弹性任务分开显示。\n\n还没有今天的 Planner 安排。可以到 Schedule 页面应用日型。\n\n今日例行\n\n昨天没做不会偷偷搬到今天。\n\n还没有今天的 Planner 例行事项。\n\n昨日遗留\n\n由你决定补做或稍后处理。\n\n没有昨日遗留。\n\n当天事项\n快速记录\n\n先放进 Inbox，之后再整理，不打断当前工作。\n\n约 10 秒\n放入 Inbox\n记录到收件箱\n保存记录\nCardGrid · 卡格工作台\n所有改动保存在此浏览器 · 建议定期导出备份",
+      "layout": {
+        "width": 1280,
+        "scrollWidth": 1280,
+        "active": "<body><div id=\"root\"><div class=\"app paper comfortable\"><aside class=\"sidebar\"><div class=\"brand\"><span class=\"brandmark\">▦</span><div>CardGrid<small>卡格工作台</small></div></div><div class=\"navcaption\">我的空间</div><nav><button aria-current=\"page\" class=\"active\"><span>▦</span>Today</button><button class=\"\"><span>＋</span>Inbox</button><button class=\"\"><span>◫</span>Schedule</button><button class=\"\"><span>❖</span>行动定义</button><button class=\"\"><span>✦</span>抽卡手牌</button><button class=\"\"><span>◇</span>配置工坊</button><button class=\"\"><span>↗</span>数据与备份</button></nav><div class=\"sidebar-bottom\"><span class=\"dot\"></span>数据保存在本机<div class=\"version\">行动底座 · 2A</div></div></aside><main><header><div class=\"breadcrumbs\">工作台 / <strong>TODAY</strong> Today · 今日</div><button>重新载入</button></header><section class=\"heading page-heading\" aria-label=\"当前页面\"><div class=\"eyebrow\">TODAY</div><h1>Today · 今日</h1><p>看今天的时间盘与手牌；打开和切换日期不会生成安排。</p></section><section class=\"panel\"><div class=\"toolbar\"><button aria-label=\"查看前一天\">前一天</button><strong>2026-10-02</strong><button aria-label=\"查看后一天\">后一天</button><label>显示时区<input aria-label=\"显示时区\" value=\"Asia/Shanghai\"></label><label>准备日型<select><option value=\"\">按适用星期选择</option></select></label><button>准备这一天</button></div><p class=\"muted\">打开和切换日期不会生成安排。此处展示完整时间记录；排期、改期和实际确认请到“抽卡手牌 → 当日”。</p></section><section class=\"panel\"><h2>完整时间记录</h2><p>没有已保存的时间记录。</p></section><fieldset disabled=\"\" aria-label=\"旧版页面只读\" style=\"border: 0px; padding: 0px; min-width: 0px;\"><section class=\"heading\"><div class=\"eyebrow\">TODAY · P1A</div><div class=\"headingline\"><div><h1>10月2日星期五</h1><p>打开 → 看一眼 → 微调 → 开始今天</p></div><div class=\"datecontrols\"><button aria-label=\"前一天\">‹</button><span class=\"todaybadge\">未准备日型</span><button aria-label=\"后一天\">›</button></div></div></section><section class=\"top3panel panel\"><div class=\"sectiontitle\"><div><h2>今天最重要的 3 件事</h2><p class=\"muted\">由你确认，Planner 只提供候选。</p></div><button class=\"\">切换 Minimum Day</button></div><div class=\"top3list\"><button class=\"top3item\"><b>1</b><span>选择今天要保护的任务</span></button><button class=\"top3item\"><b>2</b><span>选择今天要保护的任务</span></button><button class=\"top3item\"><b>3</b><span>选择今天要保护的任务</span></button></div><div class=\"candidate-list\"></div></section><div class=\"todaycolumns\"><section class=\"panel\"><div class=\"sectiontitle\"><div><h2>今日日程</h2><p class=\"muted\">固定安排与弹性任务分开显示。</p></div></div><p class=\"emptyline\">还没有今天的 Planner 安排。可以到 Schedule 页面应用日型。</p></section><section class=\"panel\"><div class=\"sectiontitle\"><div><h2>今日例行</h2><p class=\"muted\">昨天没做不会偷偷搬到今天。</p></div></div><p class=\"emptyline\">还没有今天的 Planner 例行事项。</p></section></div><section class=\"panel\"><div class=\"sectiontitle\"><div><h2>昨日遗留</h2><p class=\"muted\">由你决定补做或稍后处理。</p></div></div><p class=\"emptyline\">没有昨日遗留。</p></section><section class=\"panel\"><h2>当天事项</h2></section><section class=\"capture panel\"><div class=\"sectiontitle\"><div><h2>快速记录</h2><p class=\"muted\">先放进 Inbox，之后再整理，不打断当前工作。</p></div><span class=\"capturehint\">约 10 秒</span></div><div class=\"captureline\"><input aria-label=\"快速记录\" placeholder=\"我突然想到……\" value=\"\"><button class=\"primary\">放入 Inbox</button></div></section></fieldset><section class=\"panel\"><h2>记录到收件箱</h2><div class=\"captureline\"><input aria-label=\"记录到收件箱\" placeholder=\"先记下来，稍后整理\" value=\"\"><button disabled=\"\">保存记录</button></div></section><input aria-label=\"导入文件选择\" accept=\".json,application/json\" hidden=\"\" type=\"file\"><footer><span>CardGrid · 卡格工作台</span><span>所有改动保存在此浏览器 · 建议定期导出备份</span></footer></main></div></div>\n</body>"
+      }
+    },
+    {
+      "id": "B10-plan-doubleclick-edit",
+      "status": "failed",
+      "observations": {},
+      "error": "locator.click: Timeout 3000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('nav').getByText('抽卡手牌', { exact: true })\u001b[22m\n\n    at openDay (C:\\Users\\arstot\\Documents\\Codex\\2026-09-20\\抽卡人生\\cardgrid\\tests\\browser\\action-3f.mjs:22:267)\n    at async file:///C:/Users/arstot/Documents/Codex/2026-09-20/%E6%8A%BD%E5%8D%A1%E4%BA%BA%E7%94%9F/cardgrid/tests/browser/action-3f.mjs:37:54\n    at async check (C:\\Users\\arstot\\Documents\\Codex\\2026-09-20\\抽卡人生\\cardgrid\\tests\\browser\\action-3f.mjs:26:537)\n    at async file:///C:/Users/arstot/Documents/Codex/2026-09-20/%E6%8A%BD%E5%8D%A1%E4%BA%BA%E7%94%9F/cardgrid/tests/browser/action-3f.mjs:37:1",
+      "pageErrors": [],
+      "state": {
+        "current": {
+          "schemaVersion": 4,
+          "epoch": "independent-epoch",
+          "revision": 10,
+          "mode": "current",
+          "dataFormat": "action-v2",
+          "data": {
+            "version": 2,
+            "settings": {
+              "zone": "Asia/Shanghai",
+              "preferences": {
+                "theme": "paper",
+                "density": "comfortable",
+                "startHour": 8,
+                "endHour": 23,
+                "defaultMinutes": 15
+              },
+              "categories": []
+            },
+            "planner": {
+              "version": 2,
+              "definitions": [],
+              "instances": [
+                {
+                  "id": "i",
+                  "version": 7,
+                  "definition": null,
+                  "creationSnapshot": {
+                    "title": "独立合成行动",
+                    "criteria": "完成一个可核对结果",
+                    "presetMinutes": 30,
+                    "minimum": false,
+                    "color": "#336699",
+                    "categoryId": null,
+                    "categoryLabel": null,
+                    "projectIds": [],
+                    "goalIds": [],
+                    "projectLabels": [],
+                    "goalLabels": []
+                  },
+                  "currentContent": {
+                    "title": "独立合成行动",
+                    "criteria": "完成一个可核对结果",
+                    "presetMinutes": 30,
+                    "minimum": false,
+                    "color": "#336699",
+                    "categoryId": null,
+                    "categoryLabel": null,
+                    "projectIds": [],
+                    "goalIds": [],
+                    "projectLabels": [],
+                    "goalLabels": []
+                  },
+                  "source": {
+                    "kind": "manual"
+                  },
+                  "createdAt": "2026-09-28T02:00:00Z",
+                  "targetDate": null,
+                  "state": "open",
+                  "occurrenceId": null,
+                  "makeupOf": null
+                }
+              ],
+              "handOrder": [],
+              "plans": [
+                {
+                  "id": "p",
+                  "version": 4,
+                  "instanceId": "i",
+                  "range": {
+                    "startAt": "2026-09-28T01:00:00Z",
+                    "endAt": "2026-09-28T01:30:00Z",
+                    "zone": "Asia/Shanghai",
+                    "localStart": "2026-09-28T09:00",
+                    "localEnd": "2026-09-28T09:30",
+                    "startOffset": "+08:00",
+                    "endOffset": "+08:00"
+                  },
+                  "contentSnapshot": {
+                    "title": "独立合成行动",
+                    "criteria": "完成一个可核对结果",
+                    "presetMinutes": 30,
+                    "minimum": false,
+                    "color": "#336699",
+                    "categoryId": null,
+                    "categoryLabel": null,
+                    "projectIds": [],
+                    "goalIds": [],
+                    "projectLabels": [],
+                    "goalLabels": []
+                  },
+                  "status": "active",
+                  "createdAt": "2026-09-28T02:00:00Z",
+                  "changedAt": "2026-09-28T02:00:00Z"
+                }
+              ],
+              "facts": [],
+              "annotations": [],
+              "fixed": [],
+              "templates": [],
+              "days": [],
+              "rules": [],
+              "occurrences": [],
+              "captures": [],
+              "refs": [],
+              "goals": [],
+              "history": []
+            },
+            "legacySources": [],
+            "migrationBindings": [],
+            "commandReceipts": []
+          },
+          "lifecycleReceipt": null
+        },
+        "recovery": []
+      },
+      "ui": "▦\nCardGrid\n卡格工作台\n我的空间\n▦\nToday\n＋\nInbox\n◫\nSchedule\n❖\n行动定义\n✦\n抽卡手牌\n◇\n配置工坊\n↗\n数据与备份\n数据保存在本机\n行动底座 · 2A\n工作台 / TODAY Today · 今日\n重新载入\nTODAY\nToday · 今日\n\n看今天的时间盘与手牌；打开和切换日期不会生成安排。\n\n前一天\n2026-10-02\n后一天\n显示时区\n准备日型\n按适用星期选择\n准备这一天\n\n打开和切换日期不会生成安排。此处展示完整时间记录；排期、改期和实际确认请到“抽卡手牌 → 当日”。\n\n完整时间记录\n\n没有已保存的时间记录。\n\nTODAY · P1A\n10月2日星期五\n\n打开 → 看一眼 → 微调 → 开始今天\n\n‹\n未准备日型\n›\n今天最重要的 3 件事\n\n由你确认，Planner 只提供候选。\n\n切换 Minimum Day\n1\n选择今天要保护的任务\n2\n选择今天要保护的任务\n3\n选择今天要保护的任务\n今日日程\n\n固定安排与弹性任务分开显示。\n\n还没有今天的 Planner 安排。可以到 Schedule 页面应用日型。\n\n今日例行\n\n昨天没做不会偷偷搬到今天。\n\n还没有今天的 Planner 例行事项。\n\n昨日遗留\n\n由你决定补做或稍后处理。\n\n没有昨日遗留。\n\n当天事项\n快速记录\n\n先放进 Inbox，之后再整理，不打断当前工作。\n\n约 10 秒\n放入 Inbox\n记录到收件箱\n保存记录\nCardGrid · 卡格工作台\n所有改动保存在此浏览器 · 建议定期导出备份",
+      "layout": {
+        "width": 1280,
+        "scrollWidth": 1280,
+        "active": "<body><div id=\"root\"><div class=\"app paper comfortable\"><aside class=\"sidebar\"><div class=\"brand\"><span class=\"brandmark\">▦</span><div>CardGrid<small>卡格工作台</small></div></div><div class=\"navcaption\">我的空间</div><nav><button aria-current=\"page\" class=\"active\"><span>▦</span>Today</button><button class=\"\"><span>＋</span>Inbox</button><button class=\"\"><span>◫</span>Schedule</button><button class=\"\"><span>❖</span>行动定义</button><button class=\"\"><span>✦</span>抽卡手牌</button><button class=\"\"><span>◇</span>配置工坊</button><button class=\"\"><span>↗</span>数据与备份</button></nav><div class=\"sidebar-bottom\"><span class=\"dot\"></span>数据保存在本机<div class=\"version\">行动底座 · 2A</div></div></aside><main><header><div class=\"breadcrumbs\">工作台 / <strong>TODAY</strong> Today · 今日</div><button>重新载入</button></header><section class=\"heading page-heading\" aria-label=\"当前页面\"><div class=\"eyebrow\">TODAY</div><h1>Today · 今日</h1><p>看今天的时间盘与手牌；打开和切换日期不会生成安排。</p></section><section class=\"panel\"><div class=\"toolbar\"><button aria-label=\"查看前一天\">前一天</button><strong>2026-10-02</strong><button aria-label=\"查看后一天\">后一天</button><label>显示时区<input aria-label=\"显示时区\" value=\"Asia/Shanghai\"></label><label>准备日型<select><option value=\"\">按适用星期选择</option></select></label><button>准备这一天</button></div><p class=\"muted\">打开和切换日期不会生成安排。此处展示完整时间记录；排期、改期和实际确认请到“抽卡手牌 → 当日”。</p></section><section class=\"panel\"><h2>完整时间记录</h2><p>没有已保存的时间记录。</p></section><fieldset disabled=\"\" aria-label=\"旧版页面只读\" style=\"border: 0px; padding: 0px; min-width: 0px;\"><section class=\"heading\"><div class=\"eyebrow\">TODAY · P1A</div><div class=\"headingline\"><div><h1>10月2日星期五</h1><p>打开 → 看一眼 → 微调 → 开始今天</p></div><div class=\"datecontrols\"><button aria-label=\"前一天\">‹</button><span class=\"todaybadge\">未准备日型</span><button aria-label=\"后一天\">›</button></div></div></section><section class=\"top3panel panel\"><div class=\"sectiontitle\"><div><h2>今天最重要的 3 件事</h2><p class=\"muted\">由你确认，Planner 只提供候选。</p></div><button class=\"\">切换 Minimum Day</button></div><div class=\"top3list\"><button class=\"top3item\"><b>1</b><span>选择今天要保护的任务</span></button><button class=\"top3item\"><b>2</b><span>选择今天要保护的任务</span></button><button class=\"top3item\"><b>3</b><span>选择今天要保护的任务</span></button></div><div class=\"candidate-list\"></div></section><div class=\"todaycolumns\"><section class=\"panel\"><div class=\"sectiontitle\"><div><h2>今日日程</h2><p class=\"muted\">固定安排与弹性任务分开显示。</p></div></div><p class=\"emptyline\">还没有今天的 Planner 安排。可以到 Schedule 页面应用日型。</p></section><section class=\"panel\"><div class=\"sectiontitle\"><div><h2>今日例行</h2><p class=\"muted\">昨天没做不会偷偷搬到今天。</p></div></div><p class=\"emptyline\">还没有今天的 Planner 例行事项。</p></section></div><section class=\"panel\"><div class=\"sectiontitle\"><div><h2>昨日遗留</h2><p class=\"muted\">由你决定补做或稍后处理。</p></div></div><p class=\"emptyline\">没有昨日遗留。</p></section><section class=\"panel\"><h2>当天事项</h2></section><section class=\"capture panel\"><div class=\"sectiontitle\"><div><h2>快速记录</h2><p class=\"muted\">先放进 Inbox，之后再整理，不打断当前工作。</p></div><span class=\"capturehint\">约 10 秒</span></div><div class=\"captureline\"><input aria-label=\"快速记录\" placeholder=\"我突然想到……\" value=\"\"><button class=\"primary\">放入 Inbox</button></div></section></fieldset><section class=\"panel\"><h2>记录到收件箱</h2><div class=\"captureline\"><input aria-label=\"记录到收件箱\" placeholder=\"先记下来，稍后整理\" value=\"\"><button disabled=\"\">保存记录</button></div></section><input aria-label=\"导入文件选择\" accept=\".json,application/json\" hidden=\"\" type=\"file\"><footer><span>CardGrid · 卡格工作台</span><span>所有改动保存在此浏览器 · 建议定期导出备份</span></footer></main></div></div>\n</body>"
+      }
+    },
+    {
+      "id": "B11-button-reaches-24",
+      "status": "failed",
+      "observations": {},
+      "error": "locator.click: Timeout 3000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('nav').getByText('抽卡手牌', { exact: true })\u001b[22m\n\n    at openDay (C:\\Users\\arstot\\Documents\\Codex\\2026-09-20\\抽卡人生\\cardgrid\\tests\\browser\\action-3f.mjs:22:267)\n    at async file:///C:/Users/arstot/Documents/Codex/2026-09-20/%E6%8A%BD%E5%8D%A1%E4%BA%BA%E7%94%9F/cardgrid/tests/browser/action-3f.mjs:38:50\n    at async check (C:\\Users\\arstot\\Documents\\Codex\\2026-09-20\\抽卡人生\\cardgrid\\tests\\browser\\action-3f.mjs:26:537)\n    at async file:///C:/Users/arstot/Documents/Codex/2026-09-20/%E6%8A%BD%E5%8D%A1%E4%BA%BA%E7%94%9F/cardgrid/tests/browser/action-3f.mjs:38:1",
+      "pageErrors": [],
+      "state": {
+        "current": {
+          "schemaVersion": 4,
+          "epoch": "independent-epoch",
+          "revision": 10,
+          "mode": "current",
+          "dataFormat": "action-v2",
+          "data": {
+            "version": 2,
+            "settings": {
+              "zone": "Asia/Shanghai",
+              "preferences": {
+                "theme": "paper",
+                "density": "comfortable",
+                "startHour": 8,
+                "endHour": 23,
+                "defaultMinutes": 15
+              },
+              "categories": []
+            },
+            "planner": {
+              "version": 2,
+              "definitions": [],
+              "instances": [
+                {
+                  "id": "i",
+                  "version": 7,
+                  "definition": null,
+                  "creationSnapshot": {
+                    "title": "独立合成行动",
+                    "criteria": "完成一个可核对结果",
+                    "presetMinutes": 30,
+                    "minimum": false,
+                    "color": "#336699",
+                    "categoryId": null,
+                    "categoryLabel": null,
+                    "projectIds": [],
+                    "goalIds": [],
+                    "projectLabels": [],
+                    "goalLabels": []
+                  },
+                  "currentContent": {
+                    "title": "独立合成行动",
+                    "criteria": "完成一个可核对结果",
+                    "presetMinutes": 30,
+                    "minimum": false,
+                    "color": "#336699",
+                    "categoryId": null,
+                    "categoryLabel": null,
+                    "projectIds": [],
+                    "goalIds": [],
+                    "projectLabels": [],
+                    "goalLabels": []
+                  },
+                  "source": {
+                    "kind": "manual"
+                  },
+                  "createdAt": "2026-09-28T02:00:00Z",
+                  "targetDate": null,
+                  "state": "open",
+                  "occurrenceId": null,
+                  "makeupOf": null
+                }
+              ],
+              "handOrder": [
+                "i"
+              ],
+              "plans": [],
+              "facts": [],
+              "annotations": [],
+              "fixed": [],
+              "templates": [],
+              "days": [],
+              "rules": [],
+              "occurrences": [],
+              "captures": [],
+              "refs": [],
+              "goals": [],
+              "history": []
+            },
+            "legacySources": [],
+            "migrationBindings": [],
+            "commandReceipts": []
+          },
+          "lifecycleReceipt": null
+        },
+        "recovery": []
+      },
+      "ui": "▦\nCardGrid\n卡格工作台\n我的空间\n▦\nToday\n＋\nInbox\n◫\nSchedule\n❖\n行动定义\n✦\n抽卡手牌\n◇\n配置工坊\n↗\n数据与备份\n数据保存在本机\n行动底座 · 2A\n工作台 / TODAY Today · 今日\n重新载入\nTODAY\nToday · 今日\n\n看今天的时间盘与手牌；打开和切换日期不会生成安排。\n\n前一天\n2026-10-02\n后一天\n显示时区\n准备日型\n按适用星期选择\n准备这一天\n\n打开和切换日期不会生成安排。此处展示完整时间记录；排期、改期和实际确认请到“抽卡手牌 → 当日”。\n\n完整时间记录\n\n没有已保存的时间记录。\n\nTODAY · P1A\n10月2日星期五\n\n打开 → 看一眼 → 微调 → 开始今天\n\n‹\n未准备日型\n›\n今天最重要的 3 件事\n\n由你确认，Planner 只提供候选。\n\n切换 Minimum Day\n1\n选择今天要保护的任务\n2\n选择今天要保护的任务\n3\n选择今天要保护的任务\n今日日程\n\n固定安排与弹性任务分开显示。\n\n还没有今天的 Planner 安排。可以到 Schedule 页面应用日型。\n\n今日例行\n\n昨天没做不会偷偷搬到今天。\n\n还没有今天的 Planner 例行事项。\n\n昨日遗留\n\n由你决定补做或稍后处理。\n\n没有昨日遗留。\n\n当天事项\n快速记录\n\n先放进 Inbox，之后再整理，不打断当前工作。\n\n约 10 秒\n放入 Inbox\n记录到收件箱\n保存记录\nCardGrid · 卡格工作台\n所有改动保存在此浏览器 · 建议定期导出备份",
+      "layout": {
+        "width": 1280,
+        "scrollWidth": 1280,
+        "active": "<body><div id=\"root\"><div class=\"app paper comfortable\"><aside class=\"sidebar\"><div class=\"brand\"><span class=\"brandmark\">▦</span><div>CardGrid<small>卡格工作台</small></div></div><div class=\"navcaption\">我的空间</div><nav><button aria-current=\"page\" class=\"active\"><span>▦</span>Today</button><button class=\"\"><span>＋</span>Inbox</button><button class=\"\"><span>◫</span>Schedule</button><button class=\"\"><span>❖</span>行动定义</button><button class=\"\"><span>✦</span>抽卡手牌</button><button class=\"\"><span>◇</span>配置工坊</button><button class=\"\"><span>↗</span>数据与备份</button></nav><div class=\"sidebar-bottom\"><span class=\"dot\"></span>数据保存在本机<div class=\"version\">行动底座 · 2A</div></div></aside><main><header><div class=\"breadcrumbs\">工作台 / <strong>TODAY</strong> Today · 今日</div><button>重新载入</button></header><section class=\"heading page-heading\" aria-label=\"当前页面\"><div class=\"eyebrow\">TODAY</div><h1>Today · 今日</h1><p>看今天的时间盘与手牌；打开和切换日期不会生成安排。</p></section><section class=\"panel\"><div class=\"toolbar\"><button aria-label=\"查看前一天\">前一天</button><strong>2026-10-02</strong><button aria-label=\"查看后一天\">后一天</button><label>显示时区<input aria-label=\"显示时区\" value=\"Asia/Shanghai\"></label><label>准备日型<select><option value=\"\">按适用星期选择</option></select></label><button>准备这一天</button></div><p class=\"muted\">打开和切换日期不会生成安排。此处展示完整时间记录；排期、改期和实际确认请到“抽卡手牌 → 当日”。</p></section><section class=\"panel\"><h2>完整时间记录</h2><p>没有已保存的时间记录。</p></section><fieldset disabled=\"\" aria-label=\"旧版页面只读\" style=\"border: 0px; padding: 0px; min-width: 0px;\"><section class=\"heading\"><div class=\"eyebrow\">TODAY · P1A</div><div class=\"headingline\"><div><h1>10月2日星期五</h1><p>打开 → 看一眼 → 微调 → 开始今天</p></div><div class=\"datecontrols\"><button aria-label=\"前一天\">‹</button><span class=\"todaybadge\">未准备日型</span><button aria-label=\"后一天\">›</button></div></div></section><section class=\"top3panel panel\"><div class=\"sectiontitle\"><div><h2>今天最重要的 3 件事</h2><p class=\"muted\">由你确认，Planner 只提供候选。</p></div><button class=\"\">切换 Minimum Day</button></div><div class=\"top3list\"><button class=\"top3item\"><b>1</b><span>选择今天要保护的任务</span></button><button class=\"top3item\"><b>2</b><span>选择今天要保护的任务</span></button><button class=\"top3item\"><b>3</b><span>选择今天要保护的任务</span></button></div><div class=\"candidate-list\"></div></section><div class=\"todaycolumns\"><section class=\"panel\"><div class=\"sectiontitle\"><div><h2>今日日程</h2><p class=\"muted\">固定安排与弹性任务分开显示。</p></div></div><p class=\"emptyline\">还没有今天的 Planner 安排。可以到 Schedule 页面应用日型。</p></section><section class=\"panel\"><div class=\"sectiontitle\"><div><h2>今日例行</h2><p class=\"muted\">昨天没做不会偷偷搬到今天。</p></div></div><p class=\"emptyline\">还没有今天的 Planner 例行事项。</p></section></div><section class=\"panel\"><div class=\"sectiontitle\"><div><h2>昨日遗留</h2><p class=\"muted\">由你决定补做或稍后处理。</p></div></div><p class=\"emptyline\">没有昨日遗留。</p></section><section class=\"panel\"><h2>当天事项</h2></section><section class=\"capture panel\"><div class=\"sectiontitle\"><div><h2>快速记录</h2><p class=\"muted\">先放进 Inbox，之后再整理，不打断当前工作。</p></div><span class=\"capturehint\">约 10 秒</span></div><div class=\"captureline\"><input aria-label=\"快速记录\" placeholder=\"我突然想到……\" value=\"\"><button class=\"primary\">放入 Inbox</button></div></section></fieldset><section class=\"panel\"><h2>记录到收件箱</h2><div class=\"captureline\"><input aria-label=\"记录到收件箱\" placeholder=\"先记下来，稍后整理\" value=\"\"><button disabled=\"\">保存记录</button></div></section><input aria-label=\"导入文件选择\" accept=\".json,application/json\" hidden=\"\" type=\"file\"><footer><span>CardGrid · 卡格工作台</span><span>所有改动保存在此浏览器 · 建议定期导出备份</span></footer></main></div></div>\n</body>"
+      }
+    },
+    {
+      "id": "B12-pointer-24-next-date",
+      "status": "failed",
+      "observations": {},
+      "error": "locator.click: Timeout 3000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('nav').getByText('抽卡手牌', { exact: true })\u001b[22m\n\n    at openDay (C:\\Users\\arstot\\Documents\\Codex\\2026-09-20\\抽卡人生\\cardgrid\\tests\\browser\\action-3f.mjs:22:267)\n    at async file:///C:/Users/arstot/Documents/Codex/2026-09-20/%E6%8A%BD%E5%8D%A1%E4%BA%BA%E7%94%9F/cardgrid/tests/browser/action-3f.mjs:39:53\n    at async check (C:\\Users\\arstot\\Documents\\Codex\\2026-09-20\\抽卡人生\\cardgrid\\tests\\browser\\action-3f.mjs:26:537)\n    at async file:///C:/Users/arstot/Documents/Codex/2026-09-20/%E6%8A%BD%E5%8D%A1%E4%BA%BA%E7%94%9F/cardgrid/tests/browser/action-3f.mjs:39:1",
+      "pageErrors": [],
+      "state": {
+        "current": {
+          "schemaVersion": 4,
+          "epoch": "independent-epoch",
+          "revision": 10,
+          "mode": "current",
+          "dataFormat": "action-v2",
+          "data": {
+            "version": 2,
+            "settings": {
+              "zone": "Asia/Shanghai",
+              "preferences": {
+                "theme": "paper",
+                "density": "comfortable",
+                "startHour": 8,
+                "endHour": 23,
+                "defaultMinutes": 15
+              },
+              "categories": []
+            },
+            "planner": {
+              "version": 2,
+              "definitions": [],
+              "instances": [
+                {
+                  "id": "i",
+                  "version": 7,
+                  "definition": null,
+                  "creationSnapshot": {
+                    "title": "独立合成行动",
+                    "criteria": "完成一个可核对结果",
+                    "presetMinutes": 30,
+                    "minimum": false,
+                    "color": "#336699",
+                    "categoryId": null,
+                    "categoryLabel": null,
+                    "projectIds": [],
+                    "goalIds": [],
+                    "projectLabels": [],
+                    "goalLabels": []
+                  },
+                  "currentContent": {
+                    "title": "独立合成行动",
+                    "criteria": "完成一个可核对结果",
+                    "presetMinutes": 30,
+                    "minimum": false,
+                    "color": "#336699",
+                    "categoryId": null,
+                    "categoryLabel": null,
+                    "projectIds": [],
+                    "goalIds": [],
+                    "projectLabels": [],
+                    "goalLabels": []
+                  },
+                  "source": {
+                    "kind": "manual"
+                  },
+                  "createdAt": "2026-09-28T02:00:00Z",
+                  "targetDate": null,
+                  "state": "open",
+                  "occurrenceId": null,
+                  "makeupOf": null
+                }
+              ],
+              "handOrder": [
+                "i"
+              ],
+              "plans": [],
+              "facts": [],
+              "annotations": [],
+              "fixed": [],
+              "templates": [],
+              "days": [],
+              "rules": [],
+              "occurrences": [],
+              "captures": [],
+              "refs": [],
+              "goals": [],
+              "history": []
+            },
+            "legacySources": [],
+            "migrationBindings": [],
+            "commandReceipts": []
+          },
+          "lifecycleReceipt": null
+        },
+        "recovery": []
+      },
+      "ui": "▦\nCardGrid\n卡格工作台\n我的空间\n▦\nToday\n＋\nInbox\n◫\nSchedule\n❖\n行动定义\n✦\n抽卡手牌\n◇\n配置工坊\n↗\n数据与备份\n数据保存在本机\n行动底座 · 2A\n工作台 / TODAY Today · 今日\n重新载入\nTODAY\nToday · 今日\n\n看今天的时间盘与手牌；打开和切换日期不会生成安排。\n\n前一天\n2026-10-02\n后一天\n显示时区\n准备日型\n按适用星期选择\n准备这一天\n\n打开和切换日期不会生成安排。此处展示完整时间记录；排期、改期和实际确认请到“抽卡手牌 → 当日”。\n\n完整时间记录\n\n没有已保存的时间记录。\n\nTODAY · P1A\n10月2日星期五\n\n打开 → 看一眼 → 微调 → 开始今天\n\n‹\n未准备日型\n›\n今天最重要的 3 件事\n\n由你确认，Planner 只提供候选。\n\n切换 Minimum Day\n1\n选择今天要保护的任务\n2\n选择今天要保护的任务\n3\n选择今天要保护的任务\n今日日程\n\n固定安排与弹性任务分开显示。\n\n还没有今天的 Planner 安排。可以到 Schedule 页面应用日型。\n\n今日例行\n\n昨天没做不会偷偷搬到今天。\n\n还没有今天的 Planner 例行事项。\n\n昨日遗留\n\n由你决定补做或稍后处理。\n\n没有昨日遗留。\n\n当天事项\n快速记录\n\n先放进 Inbox，之后再整理，不打断当前工作。\n\n约 10 秒\n放入 Inbox\n记录到收件箱\n保存记录\nCardGrid · 卡格工作台\n所有改动保存在此浏览器 · 建议定期导出备份",
+      "layout": {
+        "width": 1280,
+        "scrollWidth": 1280,
+        "active": "<body><div id=\"root\"><div class=\"app paper comfortable\"><aside class=\"sidebar\"><div class=\"brand\"><span class=\"brandmark\">▦</span><div>CardGrid<small>卡格工作台</small></div></div><div class=\"navcaption\">我的空间</div><nav><button aria-current=\"page\" class=\"active\"><span>▦</span>Today</button><button class=\"\"><span>＋</span>Inbox</button><button class=\"\"><span>◫</span>Schedule</button><button class=\"\"><span>❖</span>行动定义</button><button class=\"\"><span>✦</span>抽卡手牌</button><button class=\"\"><span>◇</span>配置工坊</button><button class=\"\"><span>↗</span>数据与备份</button></nav><div class=\"sidebar-bottom\"><span class=\"dot\"></span>数据保存在本机<div class=\"version\">行动底座 · 2A</div></div></aside><main><header><div class=\"breadcrumbs\">工作台 / <strong>TODAY</strong> Today · 今日</div><button>重新载入</button></header><section class=\"heading page-heading\" aria-label=\"当前页面\"><div class=\"eyebrow\">TODAY</div><h1>Today · 今日</h1><p>看今天的时间盘与手牌；打开和切换日期不会生成安排。</p></section><section class=\"panel\"><div class=\"toolbar\"><button aria-label=\"查看前一天\">前一天</button><strong>2026-10-02</strong><button aria-label=\"查看后一天\">后一天</button><label>显示时区<input aria-label=\"显示时区\" value=\"Asia/Shanghai\"></label><label>准备日型<select><option value=\"\">按适用星期选择</option></select></label><button>准备这一天</button></div><p class=\"muted\">打开和切换日期不会生成安排。此处展示完整时间记录；排期、改期和实际确认请到“抽卡手牌 → 当日”。</p></section><section class=\"panel\"><h2>完整时间记录</h2><p>没有已保存的时间记录。</p></section><fieldset disabled=\"\" aria-label=\"旧版页面只读\" style=\"border: 0px; padding: 0px; min-width: 0px;\"><section class=\"heading\"><div class=\"eyebrow\">TODAY · P1A</div><div class=\"headingline\"><div><h1>10月2日星期五</h1><p>打开 → 看一眼 → 微调 → 开始今天</p></div><div class=\"datecontrols\"><button aria-label=\"前一天\">‹</button><span class=\"todaybadge\">未准备日型</span><button aria-label=\"后一天\">›</button></div></div></section><section class=\"top3panel panel\"><div class=\"sectiontitle\"><div><h2>今天最重要的 3 件事</h2><p class=\"muted\">由你确认，Planner 只提供候选。</p></div><button class=\"\">切换 Minimum Day</button></div><div class=\"top3list\"><button class=\"top3item\"><b>1</b><span>选择今天要保护的任务</span></button><button class=\"top3item\"><b>2</b><span>选择今天要保护的任务</span></button><button class=\"top3item\"><b>3</b><span>选择今天要保护的任务</span></button></div><div class=\"candidate-list\"></div></section><div class=\"todaycolumns\"><section class=\"panel\"><div class=\"sectiontitle\"><div><h2>今日日程</h2><p class=\"muted\">固定安排与弹性任务分开显示。</p></div></div><p class=\"emptyline\">还没有今天的 Planner 安排。可以到 Schedule 页面应用日型。</p></section><section class=\"panel\"><div class=\"sectiontitle\"><div><h2>今日例行</h2><p class=\"muted\">昨天没做不会偷偷搬到今天。</p></div></div><p class=\"emptyline\">还没有今天的 Planner 例行事项。</p></section></div><section class=\"panel\"><div class=\"sectiontitle\"><div><h2>昨日遗留</h2><p class=\"muted\">由你决定补做或稍后处理。</p></div></div><p class=\"emptyline\">没有昨日遗留。</p></section><section class=\"panel\"><h2>当天事项</h2></section><section class=\"capture panel\"><div class=\"sectiontitle\"><div><h2>快速记录</h2><p class=\"muted\">先放进 Inbox，之后再整理，不打断当前工作。</p></div><span class=\"capturehint\">约 10 秒</span></div><div class=\"captureline\"><input aria-label=\"快速记录\" placeholder=\"我突然想到……\" value=\"\"><button class=\"primary\">放入 Inbox</button></div></section></fieldset><section class=\"panel\"><h2>记录到收件箱</h2><div class=\"captureline\"><input aria-label=\"记录到收件箱\" placeholder=\"先记下来，稍后整理\" value=\"\"><button disabled=\"\">保存记录</button></div></section><input aria-label=\"导入文件选择\" accept=\".json,application/json\" hidden=\"\" type=\"file\"><footer><span>CardGrid · 卡格工作台</span><span>所有改动保存在此浏览器 · 建议定期导出备份</span></footer></main></div></div>\n</body>"
+      }
+    },
+    {
+      "id": "B13-keyboard-place",
+      "status": "failed",
+      "observations": {},
+      "error": "locator.click: Timeout 3000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('nav').getByText('抽卡手牌', { exact: true })\u001b[22m\n\n    at openDay (C:\\Users\\arstot\\Documents\\Codex\\2026-09-20\\抽卡人生\\cardgrid\\tests\\browser\\action-3f.mjs:22:267)\n    at async file:///C:/Users/arstot/Documents/Codex/2026-09-20/%E6%8A%BD%E5%8D%A1%E4%BA%BA%E7%94%9F/cardgrid/tests/browser/action-3f.mjs:40:47\n    at async check (C:\\Users\\arstot\\Documents\\Codex\\2026-09-20\\抽卡人生\\cardgrid\\tests\\browser\\action-3f.mjs:26:537)\n    at async file:///C:/Users/arstot/Documents/Codex/2026-09-20/%E6%8A%BD%E5%8D%A1%E4%BA%BA%E7%94%9F/cardgrid/tests/browser/action-3f.mjs:40:1",
+      "pageErrors": [],
+      "state": {
+        "current": {
+          "schemaVersion": 4,
+          "epoch": "independent-epoch",
+          "revision": 10,
+          "mode": "current",
+          "dataFormat": "action-v2",
+          "data": {
+            "version": 2,
+            "settings": {
+              "zone": "Asia/Shanghai",
+              "preferences": {
+                "theme": "paper",
+                "density": "comfortable",
+                "startHour": 8,
+                "endHour": 23,
+                "defaultMinutes": 15
+              },
+              "categories": []
+            },
+            "planner": {
+              "version": 2,
+              "definitions": [],
+              "instances": [
+                {
+                  "id": "i",
+                  "version": 7,
+                  "definition": null,
+                  "creationSnapshot": {
+                    "title": "独立合成行动",
+                    "criteria": "完成一个可核对结果",
+                    "presetMinutes": 30,
+                    "minimum": false,
+                    "color": "#336699",
+                    "categoryId": null,
+                    "categoryLabel": null,
+                    "projectIds": [],
+                    "goalIds": [],
+                    "projectLabels": [],
+                    "goalLabels": []
+                  },
+                  "currentContent": {
+                    "title": "独立合成行动",
+                    "criteria": "完成一个可核对结果",
+                    "presetMinutes": 30,
+                    "minimum": false,
+                    "color": "#336699",
+                    "categoryId": null,
+                    "categoryLabel": null,
+                    "projectIds": [],
+                    "goalIds": [],
+                    "projectLabels": [],
+                    "goalLabels": []
+                  },
+                  "source": {
+                    "kind": "manual"
+                  },
+                  "createdAt": "2026-09-28T02:00:00Z",
+                  "targetDate": null,
+                  "state": "open",
+                  "occurrenceId": null,
+                  "makeupOf": null
+                }
+              ],
+              "handOrder": [
+                "i"
+              ],
+              "plans": [],
+              "facts": [],
+              "annotations": [],
+              "fixed": [],
+              "templates": [],
+              "days": [],
+              "rules": [],
+              "occurrences": [],
+              "captures": [],
+              "refs": [],
+              "goals": [],
+              "history": []
+            },
+            "legacySources": [],
+            "migrationBindings": [],
+            "commandReceipts": []
+          },
+          "lifecycleReceipt": null
+        },
+        "recovery": []
+      },
+      "ui": "▦\nCardGrid\n卡格工作台\n我的空间\n▦\nToday\n＋\nInbox\n◫\nSchedule\n❖\n行动定义\n✦\n抽卡手牌\n◇\n配置工坊\n↗\n数据与备份\n数据保存在本机\n行动底座 · 2A\n工作台 / TODAY Today · 今日\n重新载入\nTODAY\nToday · 今日\n\n看今天的时间盘与手牌；打开和切换日期不会生成安排。\n\n前一天\n2026-10-02\n后一天\n显示时区\n准备日型\n按适用星期选择\n准备这一天\n\n打开和切换日期不会生成安排。此处展示完整时间记录；排期、改期和实际确认请到“抽卡手牌 → 当日”。\n\n完整时间记录\n\n没有已保存的时间记录。\n\nTODAY · P1A\n10月2日星期五\n\n打开 → 看一眼 → 微调 → 开始今天\n\n‹\n未准备日型\n›\n今天最重要的 3 件事\n\n由你确认，Planner 只提供候选。\n\n切换 Minimum Day\n1\n选择今天要保护的任务\n2\n选择今天要保护的任务\n3\n选择今天要保护的任务\n今日日程\n\n固定安排与弹性任务分开显示。\n\n还没有今天的 Planner 安排。可以到 Schedule 页面应用日型。\n\n今日例行\n\n昨天没做不会偷偷搬到今天。\n\n还没有今天的 Planner 例行事项。\n\n昨日遗留\n\n由你决定补做或稍后处理。\n\n没有昨日遗留。\n\n当天事项\n快速记录\n\n先放进 Inbox，之后再整理，不打断当前工作。\n\n约 10 秒\n放入 Inbox\n记录到收件箱\n保存记录\nCardGrid · 卡格工作台\n所有改动保存在此浏览器 · 建议定期导出备份",
+      "layout": {
+        "width": 1280,
+        "scrollWidth": 1280,
+        "active": "<body><div id=\"root\"><div class=\"app paper comfortable\"><aside class=\"sidebar\"><div class=\"brand\"><span class=\"brandmark\">▦</span><div>CardGrid<small>卡格工作台</small></div></div><div class=\"navcaption\">我的空间</div><nav><button aria-current=\"page\" class=\"active\"><span>▦</span>Today</button><button class=\"\"><span>＋</span>Inbox</button><button class=\"\"><span>◫</span>Schedule</button><button class=\"\"><span>❖</span>行动定义</button><button class=\"\"><span>✦</span>抽卡手牌</button><button class=\"\"><span>◇</span>配置工坊</button><button class=\"\"><span>↗</span>数据与备份</button></nav><div class=\"sidebar-bottom\"><span class=\"dot\"></span>数据保存在本机<div class=\"version\">行动底座 · 2A</div></div></aside><main><header><div class=\"breadcrumbs\">工作台 / <strong>TODAY</strong> Today · 今日</div><button>重新载入</button></header><section class=\"heading page-heading\" aria-label=\"当前页面\"><div class=\"eyebrow\">TODAY</div><h1>Today · 今日</h1><p>看今天的时间盘与手牌；打开和切换日期不会生成安排。</p></section><section class=\"panel\"><div class=\"toolbar\"><button aria-label=\"查看前一天\">前一天</button><strong>2026-10-02</strong><button aria-label=\"查看后一天\">后一天</button><label>显示时区<input aria-label=\"显示时区\" value=\"Asia/Shanghai\"></label><label>准备日型<select><option value=\"\">按适用星期选择</option></select></label><button>准备这一天</button></div><p class=\"muted\">打开和切换日期不会生成安排。此处展示完整时间记录；排期、改期和实际确认请到“抽卡手牌 → 当日”。</p></section><section class=\"panel\"><h2>完整时间记录</h2><p>没有已保存的时间记录。</p></section><fieldset disabled=\"\" aria-label=\"旧版页面只读\" style=\"border: 0px; padding: 0px; min-width: 0px;\"><section class=\"heading\"><div class=\"eyebrow\">TODAY · P1A</div><div class=\"headingline\"><div><h1>10月2日星期五</h1><p>打开 → 看一眼 → 微调 → 开始今天</p></div><div class=\"datecontrols\"><button aria-label=\"前一天\">‹</button><span class=\"todaybadge\">未准备日型</span><button aria-label=\"后一天\">›</button></div></div></section><section class=\"top3panel panel\"><div class=\"sectiontitle\"><div><h2>今天最重要的 3 件事</h2><p class=\"muted\">由你确认，Planner 只提供候选。</p></div><button class=\"\">切换 Minimum Day</button></div><div class=\"top3list\"><button class=\"top3item\"><b>1</b><span>选择今天要保护的任务</span></button><button class=\"top3item\"><b>2</b><span>选择今天要保护的任务</span></button><button class=\"top3item\"><b>3</b><span>选择今天要保护的任务</span></button></div><div class=\"candidate-list\"></div></section><div class=\"todaycolumns\"><section class=\"panel\"><div class=\"sectiontitle\"><div><h2>今日日程</h2><p class=\"muted\">固定安排与弹性任务分开显示。</p></div></div><p class=\"emptyline\">还没有今天的 Planner 安排。可以到 Schedule 页面应用日型。</p></section><section class=\"panel\"><div class=\"sectiontitle\"><div><h2>今日例行</h2><p class=\"muted\">昨天没做不会偷偷搬到今天。</p></div></div><p class=\"emptyline\">还没有今天的 Planner 例行事项。</p></section></div><section class=\"panel\"><div class=\"sectiontitle\"><div><h2>昨日遗留</h2><p class=\"muted\">由你决定补做或稍后处理。</p></div></div><p class=\"emptyline\">没有昨日遗留。</p></section><section class=\"panel\"><h2>当天事项</h2></section><section class=\"capture panel\"><div class=\"sectiontitle\"><div><h2>快速记录</h2><p class=\"muted\">先放进 Inbox，之后再整理，不打断当前工作。</p></div><span class=\"capturehint\">约 10 秒</span></div><div class=\"captureline\"><input aria-label=\"快速记录\" placeholder=\"我突然想到……\" value=\"\"><button class=\"primary\">放入 Inbox</button></div></section></fieldset><section class=\"panel\"><h2>记录到收件箱</h2><div class=\"captureline\"><input aria-label=\"记录到收件箱\" placeholder=\"先记下来，稍后整理\" value=\"\"><button disabled=\"\">保存记录</button></div></section><input aria-label=\"导入文件选择\" accept=\".json,application/json\" hidden=\"\" type=\"file\"><footer><span>CardGrid · 卡格工作台</span><span>所有改动保存在此浏览器 · 建议定期导出备份</span></footer></main></div></div>\n</body>"
+      }
+    },
+    {
+      "id": "B14-view-modal-focus-escape",
+      "status": "failed",
+      "observations": {},
+      "error": "locator.click: Timeout 3000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('nav').getByText('抽卡手牌', { exact: true })\u001b[22m\n\n    at openDay (C:\\Users\\arstot\\Documents\\Codex\\2026-09-20\\抽卡人生\\cardgrid\\tests\\browser\\action-3f.mjs:22:267)\n    at async file:///C:/Users/arstot/Documents/Codex/2026-09-20/%E6%8A%BD%E5%8D%A1%E4%BA%BA%E7%94%9F/cardgrid/tests/browser/action-3f.mjs:41:56\n    at async check (C:\\Users\\arstot\\Documents\\Codex\\2026-09-20\\抽卡人生\\cardgrid\\tests\\browser\\action-3f.mjs:26:537)\n    at async file:///C:/Users/arstot/Documents/Codex/2026-09-20/%E6%8A%BD%E5%8D%A1%E4%BA%BA%E7%94%9F/cardgrid/tests/browser/action-3f.mjs:41:1",
+      "pageErrors": [],
+      "state": {
+        "current": {
+          "schemaVersion": 4,
+          "epoch": "independent-epoch",
+          "revision": 10,
+          "mode": "current",
+          "dataFormat": "action-v2",
+          "data": {
+            "version": 2,
+            "settings": {
+              "zone": "Asia/Shanghai",
+              "preferences": {
+                "theme": "paper",
+                "density": "comfortable",
+                "startHour": 8,
+                "endHour": 23,
+                "defaultMinutes": 15
+              },
+              "categories": []
+            },
+            "planner": {
+              "version": 2,
+              "definitions": [],
+              "instances": [
+                {
+                  "id": "i",
+                  "version": 7,
+                  "definition": null,
+                  "creationSnapshot": {
+                    "title": "独立合成行动",
+                    "criteria": "完成一个可核对结果",
+                    "presetMinutes": 30,
+                    "minimum": false,
+                    "color": "#336699",
+                    "categoryId": null,
+                    "categoryLabel": null,
+                    "projectIds": [],
+                    "goalIds": [],
+                    "projectLabels": [],
+                    "goalLabels": []
+                  },
+                  "currentContent": {
+                    "title": "独立合成行动",
+                    "criteria": "完成一个可核对结果",
+                    "presetMinutes": 30,
+                    "minimum": false,
+                    "color": "#336699",
+                    "categoryId": null,
+                    "categoryLabel": null,
+                    "projectIds": [],
+                    "goalIds": [],
+                    "projectLabels": [],
+                    "goalLabels": []
+                  },
+                  "source": {
+                    "kind": "manual"
+                  },
+                  "createdAt": "2026-09-28T02:00:00Z",
+                  "targetDate": null,
+                  "state": "open",
+                  "occurrenceId": null,
+                  "makeupOf": null
+                }
+              ],
+              "handOrder": [
+                "i"
+              ],
+              "plans": [],
+              "facts": [],
+              "annotations": [],
+              "fixed": [],
+              "templates": [],
+              "days": [],
+              "rules": [],
+              "occurrences": [],
+              "captures": [],
+              "refs": [],
+              "goals": [],
+              "history": []
+            },
+            "legacySources": [],
+            "migrationBindings": [],
+            "commandReceipts": []
+          },
+          "lifecycleReceipt": null
+        },
+        "recovery": []
+      },
+      "ui": "▦\nCardGrid\n卡格工作台\n我的空间\n▦\nToday\n＋\nInbox\n◫\nSchedule\n❖\n行动定义\n✦\n抽卡手牌\n◇\n配置工坊\n↗\n数据与备份\n数据保存在本机\n行动底座 · 2A\n工作台 / TODAY Today · 今日\n重新载入\nTODAY\nToday · 今日\n\n看今天的时间盘与手牌；打开和切换日期不会生成安排。\n\n前一天\n2026-10-02\n后一天\n显示时区\n准备日型\n按适用星期选择\n准备这一天\n\n打开和切换日期不会生成安排。此处展示完整时间记录；排期、改期和实际确认请到“抽卡手牌 → 当日”。\n\n完整时间记录\n\n没有已保存的时间记录。\n\nTODAY · P1A\n10月2日星期五\n\n打开 → 看一眼 → 微调 → 开始今天\n\n‹\n未准备日型\n›\n今天最重要的 3 件事\n\n由你确认，Planner 只提供候选。\n\n切换 Minimum Day\n1\n选择今天要保护的任务\n2\n选择今天要保护的任务\n3\n选择今天要保护的任务\n今日日程\n\n固定安排与弹性任务分开显示。\n\n还没有今天的 Planner 安排。可以到 Schedule 页面应用日型。\n\n今日例行\n\n昨天没做不会偷偷搬到今天。\n\n还没有今天的 Planner 例行事项。\n\n昨日遗留\n\n由你决定补做或稍后处理。\n\n没有昨日遗留。\n\n当天事项\n快速记录\n\n先放进 Inbox，之后再整理，不打断当前工作。\n\n约 10 秒\n放入 Inbox\n记录到收件箱\n保存记录\nCardGrid · 卡格工作台\n所有改动保存在此浏览器 · 建议定期导出备份",
+      "layout": {
+        "width": 1280,
+        "scrollWidth": 1280,
+        "active": "<body><div id=\"root\"><div class=\"app paper comfortable\"><aside class=\"sidebar\"><div class=\"brand\"><span class=\"brandmark\">▦</span><div>CardGrid<small>卡格工作台</small></div></div><div class=\"navcaption\">我的空间</div><nav><button aria-current=\"page\" class=\"active\"><span>▦</span>Today</button><button class=\"\"><span>＋</span>Inbox</button><button class=\"\"><span>◫</span>Schedule</button><button class=\"\"><span>❖</span>行动定义</button><button class=\"\"><span>✦</span>抽卡手牌</button><button class=\"\"><span>◇</span>配置工坊</button><button class=\"\"><span>↗</span>数据与备份</button></nav><div class=\"sidebar-bottom\"><span class=\"dot\"></span>数据保存在本机<div class=\"version\">行动底座 · 2A</div></div></aside><main><header><div class=\"breadcrumbs\">工作台 / <strong>TODAY</strong> Today · 今日</div><button>重新载入</button></header><section class=\"heading page-heading\" aria-label=\"当前页面\"><div class=\"eyebrow\">TODAY</div><h1>Today · 今日</h1><p>看今天的时间盘与手牌；打开和切换日期不会生成安排。</p></section><section class=\"panel\"><div class=\"toolbar\"><button aria-label=\"查看前一天\">前一天</button><strong>2026-10-02</strong><button aria-label=\"查看后一天\">后一天</button><label>显示时区<input aria-label=\"显示时区\" value=\"Asia/Shanghai\"></label><label>准备日型<select><option value=\"\">按适用星期选择</option></select></label><button>准备这一天</button></div><p class=\"muted\">打开和切换日期不会生成安排。此处展示完整时间记录；排期、改期和实际确认请到“抽卡手牌 → 当日”。</p></section><section class=\"panel\"><h2>完整时间记录</h2><p>没有已保存的时间记录。</p></section><fieldset disabled=\"\" aria-label=\"旧版页面只读\" style=\"border: 0px; padding: 0px; min-width: 0px;\"><section class=\"heading\"><div class=\"eyebrow\">TODAY · P1A</div><div class=\"headingline\"><div><h1>10月2日星期五</h1><p>打开 → 看一眼 → 微调 → 开始今天</p></div><div class=\"datecontrols\"><button aria-label=\"前一天\">‹</button><span class=\"todaybadge\">未准备日型</span><button aria-label=\"后一天\">›</button></div></div></section><section class=\"top3panel panel\"><div class=\"sectiontitle\"><div><h2>今天最重要的 3 件事</h2><p class=\"muted\">由你确认，Planner 只提供候选。</p></div><button class=\"\">切换 Minimum Day</button></div><div class=\"top3list\"><button class=\"top3item\"><b>1</b><span>选择今天要保护的任务</span></button><button class=\"top3item\"><b>2</b><span>选择今天要保护的任务</span></button><button class=\"top3item\"><b>3</b><span>选择今天要保护的任务</span></button></div><div class=\"candidate-list\"></div></section><div class=\"todaycolumns\"><section class=\"panel\"><div class=\"sectiontitle\"><div><h2>今日日程</h2><p class=\"muted\">固定安排与弹性任务分开显示。</p></div></div><p class=\"emptyline\">还没有今天的 Planner 安排。可以到 Schedule 页面应用日型。</p></section><section class=\"panel\"><div class=\"sectiontitle\"><div><h2>今日例行</h2><p class=\"muted\">昨天没做不会偷偷搬到今天。</p></div></div><p class=\"emptyline\">还没有今天的 Planner 例行事项。</p></section></div><section class=\"panel\"><div class=\"sectiontitle\"><div><h2>昨日遗留</h2><p class=\"muted\">由你决定补做或稍后处理。</p></div></div><p class=\"emptyline\">没有昨日遗留。</p></section><section class=\"panel\"><h2>当天事项</h2></section><section class=\"capture panel\"><div class=\"sectiontitle\"><div><h2>快速记录</h2><p class=\"muted\">先放进 Inbox，之后再整理，不打断当前工作。</p></div><span class=\"capturehint\">约 10 秒</span></div><div class=\"captureline\"><input aria-label=\"快速记录\" placeholder=\"我突然想到……\" value=\"\"><button class=\"primary\">放入 Inbox</button></div></section></fieldset><section class=\"panel\"><h2>记录到收件箱</h2><div class=\"captureline\"><input aria-label=\"记录到收件箱\" placeholder=\"先记下来，稍后整理\" value=\"\"><button disabled=\"\">保存记录</button></div></section><input aria-label=\"导入文件选择\" accept=\".json,application/json\" hidden=\"\" type=\"file\"><footer><span>CardGrid · 卡格工作台</span><span>所有改动保存在此浏览器 · 建议定期导出备份</span></footer></main></div></div>\n</body>"
+      }
+    },
+    {
+      "id": "B15-preview-date-change",
+      "status": "failed",
+      "observations": {},
+      "error": "locator.click: Timeout 3000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('nav').getByText('抽卡手牌', { exact: true })\u001b[22m\n\n    at openDay (C:\\Users\\arstot\\Documents\\Codex\\2026-09-20\\抽卡人生\\cardgrid\\tests\\browser\\action-3f.mjs:22:267)\n    at async file:///C:/Users/arstot/Documents/Codex/2026-09-20/%E6%8A%BD%E5%8D%A1%E4%BA%BA%E7%94%9F/cardgrid/tests/browser/action-3f.mjs:42:52\n    at async check (C:\\Users\\arstot\\Documents\\Codex\\2026-09-20\\抽卡人生\\cardgrid\\tests\\browser\\action-3f.mjs:26:537)\n    at async file:///C:/Users/arstot/Documents/Codex/2026-09-20/%E6%8A%BD%E5%8D%A1%E4%BA%BA%E7%94%9F/cardgrid/tests/browser/action-3f.mjs:42:1",
+      "pageErrors": [],
+      "state": {
+        "current": {
+          "schemaVersion": 4,
+          "epoch": "independent-epoch",
+          "revision": 10,
+          "mode": "current",
+          "dataFormat": "action-v2",
+          "data": {
+            "version": 2,
+            "settings": {
+              "zone": "Asia/Shanghai",
+              "preferences": {
+                "theme": "paper",
+                "density": "comfortable",
+                "startHour": 8,
+                "endHour": 23,
+                "defaultMinutes": 15
+              },
+              "categories": []
+            },
+            "planner": {
+              "version": 2,
+              "definitions": [],
+              "instances": [
+                {
+                  "id": "i",
+                  "version": 7,
+                  "definition": null,
+                  "creationSnapshot": {
+                    "title": "独立合成行动",
+                    "criteria": "完成一个可核对结果",
+                    "presetMinutes": 30,
+                    "minimum": false,
+                    "color": "#336699",
+                    "categoryId": null,
+                    "categoryLabel": null,
+                    "projectIds": [],
+                    "goalIds": [],
+                    "projectLabels": [],
+                    "goalLabels": []
+                  },
+                  "currentContent": {
+                    "title": "独立合成行动",
+                    "criteria": "完成一个可核对结果",
+                    "presetMinutes": 30,
+                    "minimum": false,
+                    "color": "#336699",
+                    "categoryId": null,
+                    "categoryLabel": null,
+                    "projectIds": [],
+                    "goalIds": [],
+                    "projectLabels": [],
+                    "goalLabels": []
+                  },
+                  "source": {
+                    "kind": "manual"
+                  },
+                  "createdAt": "2026-09-28T02:00:00Z",
+                  "targetDate": null,
+                  "state": "open",
+                  "occurrenceId": null,
+                  "makeupOf": null
+                }
+              ],
+              "handOrder": [
+                "i"
+              ],
+              "plans": [],
+              "facts": [],
+              "annotations": [],
+              "fixed": [],
+              "templates": [],
+              "days": [],
+              "rules": [],
+              "occurrences": [],
+              "captures": [],
+              "refs": [],
+              "goals": [],
+              "history": []
+            },
+            "legacySources": [],
+            "migrationBindings": [],
+            "commandReceipts": []
+          },
+          "lifecycleReceipt": null
+        },
+        "recovery": []
+      },
+      "ui": "▦\nCardGrid\n卡格工作台\n我的空间\n▦\nToday\n＋\nInbox\n◫\nSchedule\n❖\n行动定义\n✦\n抽卡手牌\n◇\n配置工坊\n↗\n数据与备份\n数据保存在本机\n行动底座 · 2A\n工作台 / TODAY Today · 今日\n重新载入\nTODAY\nToday · 今日\n\n看今天的时间盘与手牌；打开和切换日期不会生成安排。\n\n前一天\n2026-10-02\n后一天\n显示时区\n准备日型\n按适用星期选择\n准备这一天\n\n打开和切换日期不会生成安排。此处展示完整时间记录；排期、改期和实际确认请到“抽卡手牌 → 当日”。\n\n完整时间记录\n\n没有已保存的时间记录。\n\nTODAY · P1A\n10月2日星期五\n\n打开 → 看一眼 → 微调 → 开始今天\n\n‹\n未准备日型\n›\n今天最重要的 3 件事\n\n由你确认，Planner 只提供候选。\n\n切换 Minimum Day\n1\n选择今天要保护的任务\n2\n选择今天要保护的任务\n3\n选择今天要保护的任务\n今日日程\n\n固定安排与弹性任务分开显示。\n\n还没有今天的 Planner 安排。可以到 Schedule 页面应用日型。\n\n今日例行\n\n昨天没做不会偷偷搬到今天。\n\n还没有今天的 Planner 例行事项。\n\n昨日遗留\n\n由你决定补做或稍后处理。\n\n没有昨日遗留。\n\n当天事项\n快速记录\n\n先放进 Inbox，之后再整理，不打断当前工作。\n\n约 10 秒\n放入 Inbox\n记录到收件箱\n保存记录\nCardGrid · 卡格工作台\n所有改动保存在此浏览器 · 建议定期导出备份",
+      "layout": {
+        "width": 1280,
+        "scrollWidth": 1280,
+        "active": "<body><div id=\"root\"><div class=\"app paper comfortable\"><aside class=\"sidebar\"><div class=\"brand\"><span class=\"brandmark\">▦</span><div>CardGrid<small>卡格工作台</small></div></div><div class=\"navcaption\">我的空间</div><nav><button aria-current=\"page\" class=\"active\"><span>▦</span>Today</button><button class=\"\"><span>＋</span>Inbox</button><button class=\"\"><span>◫</span>Schedule</button><button class=\"\"><span>❖</span>行动定义</button><button class=\"\"><span>✦</span>抽卡手牌</button><button class=\"\"><span>◇</span>配置工坊</button><button class=\"\"><span>↗</span>数据与备份</button></nav><div class=\"sidebar-bottom\"><span class=\"dot\"></span>数据保存在本机<div class=\"version\">行动底座 · 2A</div></div></aside><main><header><div class=\"breadcrumbs\">工作台 / <strong>TODAY</strong> Today · 今日</div><button>重新载入</button></header><section class=\"heading page-heading\" aria-label=\"当前页面\"><div class=\"eyebrow\">TODAY</div><h1>Today · 今日</h1><p>看今天的时间盘与手牌；打开和切换日期不会生成安排。</p></section><section class=\"panel\"><div class=\"toolbar\"><button aria-label=\"查看前一天\">前一天</button><strong>2026-10-02</strong><button aria-label=\"查看后一天\">后一天</button><label>显示时区<input aria-label=\"显示时区\" value=\"Asia/Shanghai\"></label><label>准备日型<select><option value=\"\">按适用星期选择</option></select></label><button>准备这一天</button></div><p class=\"muted\">打开和切换日期不会生成安排。此处展示完整时间记录；排期、改期和实际确认请到“抽卡手牌 → 当日”。</p></section><section class=\"panel\"><h2>完整时间记录</h2><p>没有已保存的时间记录。</p></section><fieldset disabled=\"\" aria-label=\"旧版页面只读\" style=\"border: 0px; padding: 0px; min-width: 0px;\"><section class=\"heading\"><div class=\"eyebrow\">TODAY · P1A</div><div class=\"headingline\"><div><h1>10月2日星期五</h1><p>打开 → 看一眼 → 微调 → 开始今天</p></div><div class=\"datecontrols\"><button aria-label=\"前一天\">‹</button><span class=\"todaybadge\">未准备日型</span><button aria-label=\"后一天\">›</button></div></div></section><section class=\"top3panel panel\"><div class=\"sectiontitle\"><div><h2>今天最重要的 3 件事</h2><p class=\"muted\">由你确认，Planner 只提供候选。</p></div><button class=\"\">切换 Minimum Day</button></div><div class=\"top3list\"><button class=\"top3item\"><b>1</b><span>选择今天要保护的任务</span></button><button class=\"top3item\"><b>2</b><span>选择今天要保护的任务</span></button><button class=\"top3item\"><b>3</b><span>选择今天要保护的任务</span></button></div><div class=\"candidate-list\"></div></section><div class=\"todaycolumns\"><section class=\"panel\"><div class=\"sectiontitle\"><div><h2>今日日程</h2><p class=\"muted\">固定安排与弹性任务分开显示。</p></div></div><p class=\"emptyline\">还没有今天的 Planner 安排。可以到 Schedule 页面应用日型。</p></section><section class=\"panel\"><div class=\"sectiontitle\"><div><h2>今日例行</h2><p class=\"muted\">昨天没做不会偷偷搬到今天。</p></div></div><p class=\"emptyline\">还没有今天的 Planner 例行事项。</p></section></div><section class=\"panel\"><div class=\"sectiontitle\"><div><h2>昨日遗留</h2><p class=\"muted\">由你决定补做或稍后处理。</p></div></div><p class=\"emptyline\">没有昨日遗留。</p></section><section class=\"panel\"><h2>当天事项</h2></section><section class=\"capture panel\"><div class=\"sectiontitle\"><div><h2>快速记录</h2><p class=\"muted\">先放进 Inbox，之后再整理，不打断当前工作。</p></div><span class=\"capturehint\">约 10 秒</span></div><div class=\"captureline\"><input aria-label=\"快速记录\" placeholder=\"我突然想到……\" value=\"\"><button class=\"primary\">放入 Inbox</button></div></section></fieldset><section class=\"panel\"><h2>记录到收件箱</h2><div class=\"captureline\"><input aria-label=\"记录到收件箱\" placeholder=\"先记下来，稍后整理\" value=\"\"><button disabled=\"\">保存记录</button></div></section><input aria-label=\"导入文件选择\" accept=\".json,application/json\" hidden=\"\" type=\"file\"><footer><span>CardGrid · 卡格工作台</span><span>所有改动保存在此浏览器 · 建议定期导出备份</span></footer></main></div></div>\n</body>"
+      }
+    },
+    {
+      "id": "B16-single-placement-owner",
+      "status": "failed",
+      "observations": {},
+      "error": "locator.click: Timeout 3000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('nav').getByText('抽卡手牌', { exact: true })\u001b[22m\n\n    at openDay (C:\\Users\\arstot\\Documents\\Codex\\2026-09-20\\抽卡人生\\cardgrid\\tests\\browser\\action-3f.mjs:22:267)\n    at async file:///C:/Users/arstot/Documents/Codex/2026-09-20/%E6%8A%BD%E5%8D%A1%E4%BA%BA%E7%94%9F/cardgrid/tests/browser/action-3f.mjs:43:55\n    at async check (C:\\Users\\arstot\\Documents\\Codex\\2026-09-20\\抽卡人生\\cardgrid\\tests\\browser\\action-3f.mjs:26:537)\n    at async file:///C:/Users/arstot/Documents/Codex/2026-09-20/%E6%8A%BD%E5%8D%A1%E4%BA%BA%E7%94%9F/cardgrid/tests/browser/action-3f.mjs:43:1",
+      "pageErrors": [],
+      "state": {
+        "current": {
+          "schemaVersion": 4,
+          "epoch": "independent-epoch",
+          "revision": 10,
+          "mode": "current",
+          "dataFormat": "action-v2",
+          "data": {
+            "version": 2,
+            "settings": {
+              "zone": "Asia/Shanghai",
+              "preferences": {
+                "theme": "paper",
+                "density": "comfortable",
+                "startHour": 8,
+                "endHour": 23,
+                "defaultMinutes": 15
+              },
+              "categories": []
+            },
+            "planner": {
+              "version": 2,
+              "definitions": [],
+              "instances": [
+                {
+                  "id": "i",
+                  "version": 7,
+                  "definition": null,
+                  "creationSnapshot": {
+                    "title": "独立合成行动",
+                    "criteria": "完成一个可核对结果",
+                    "presetMinutes": 30,
+                    "minimum": false,
+                    "color": "#336699",
+                    "categoryId": null,
+                    "categoryLabel": null,
+                    "projectIds": [],
+                    "goalIds": [],
+                    "projectLabels": [],
+                    "goalLabels": []
+                  },
+                  "currentContent": {
+                    "title": "独立合成行动",
+                    "criteria": "完成一个可核对结果",
+                    "presetMinutes": 30,
+                    "minimum": false,
+                    "color": "#336699",
+                    "categoryId": null,
+                    "categoryLabel": null,
+                    "projectIds": [],
+                    "goalIds": [],
+                    "projectLabels": [],
+                    "goalLabels": []
+                  },
+                  "source": {
+                    "kind": "manual"
+                  },
+                  "createdAt": "2026-09-28T02:00:00Z",
+                  "targetDate": null,
+                  "state": "open",
+                  "occurrenceId": null,
+                  "makeupOf": null
+                }
+              ],
+              "handOrder": [
+                "i"
+              ],
+              "plans": [],
+              "facts": [],
+              "annotations": [],
+              "fixed": [],
+              "templates": [],
+              "days": [],
+              "rules": [],
+              "occurrences": [],
+              "captures": [],
+              "refs": [],
+              "goals": [],
+              "history": []
+            },
+            "legacySources": [],
+            "migrationBindings": [],
+            "commandReceipts": []
+          },
+          "lifecycleReceipt": null
+        },
+        "recovery": []
+      },
+      "ui": "▦\nCardGrid\n卡格工作台\n我的空间\n▦\nToday\n＋\nInbox\n◫\nSchedule\n❖\n行动定义\n✦\n抽卡手牌\n◇\n配置工坊\n↗\n数据与备份\n数据保存在本机\n行动底座 · 2A\n工作台 / TODAY Today · 今日\n重新载入\nTODAY\nToday · 今日\n\n看今天的时间盘与手牌；打开和切换日期不会生成安排。\n\n前一天\n2026-10-02\n后一天\n显示时区\n准备日型\n按适用星期选择\n准备这一天\n\n打开和切换日期不会生成安排。此处展示完整时间记录；排期、改期和实际确认请到“抽卡手牌 → 当日”。\n\n完整时间记录\n\n没有已保存的时间记录。\n\nTODAY · P1A\n10月2日星期五\n\n打开 → 看一眼 → 微调 → 开始今天\n\n‹\n未准备日型\n›\n今天最重要的 3 件事\n\n由你确认，Planner 只提供候选。\n\n切换 Minimum Day\n1\n选择今天要保护的任务\n2\n选择今天要保护的任务\n3\n选择今天要保护的任务\n今日日程\n\n固定安排与弹性任务分开显示。\n\n还没有今天的 Planner 安排。可以到 Schedule 页面应用日型。\n\n今日例行\n\n昨天没做不会偷偷搬到今天。\n\n还没有今天的 Planner 例行事项。\n\n昨日遗留\n\n由你决定补做或稍后处理。\n\n没有昨日遗留。\n\n当天事项\n快速记录\n\n先放进 Inbox，之后再整理，不打断当前工作。\n\n约 10 秒\n放入 Inbox\n记录到收件箱\n保存记录\nCardGrid · 卡格工作台\n所有改动保存在此浏览器 · 建议定期导出备份",
+      "layout": {
+        "width": 1280,
+        "scrollWidth": 1280,
+        "active": "<body><div id=\"root\"><div class=\"app paper comfortable\"><aside class=\"sidebar\"><div class=\"brand\"><span class=\"brandmark\">▦</span><div>CardGrid<small>卡格工作台</small></div></div><div class=\"navcaption\">我的空间</div><nav><button aria-current=\"page\" class=\"active\"><span>▦</span>Today</button><button class=\"\"><span>＋</span>Inbox</button><button class=\"\"><span>◫</span>Schedule</button><button class=\"\"><span>❖</span>行动定义</button><button class=\"\"><span>✦</span>抽卡手牌</button><button class=\"\"><span>◇</span>配置工坊</button><button class=\"\"><span>↗</span>数据与备份</button></nav><div class=\"sidebar-bottom\"><span class=\"dot\"></span>数据保存在本机<div class=\"version\">行动底座 · 2A</div></div></aside><main><header><div class=\"breadcrumbs\">工作台 / <strong>TODAY</strong> Today · 今日</div><button>重新载入</button></header><section class=\"heading page-heading\" aria-label=\"当前页面\"><div class=\"eyebrow\">TODAY</div><h1>Today · 今日</h1><p>看今天的时间盘与手牌；打开和切换日期不会生成安排。</p></section><section class=\"panel\"><div class=\"toolbar\"><button aria-label=\"查看前一天\">前一天</button><strong>2026-10-02</strong><button aria-label=\"查看后一天\">后一天</button><label>显示时区<input aria-label=\"显示时区\" value=\"Asia/Shanghai\"></label><label>准备日型<select><option value=\"\">按适用星期选择</option></select></label><button>准备这一天</button></div><p class=\"muted\">打开和切换日期不会生成安排。此处展示完整时间记录；排期、改期和实际确认请到“抽卡手牌 → 当日”。</p></section><section class=\"panel\"><h2>完整时间记录</h2><p>没有已保存的时间记录。</p></section><fieldset disabled=\"\" aria-label=\"旧版页面只读\" style=\"border: 0px; padding: 0px; min-width: 0px;\"><section class=\"heading\"><div class=\"eyebrow\">TODAY · P1A</div><div class=\"headingline\"><div><h1>10月2日星期五</h1><p>打开 → 看一眼 → 微调 → 开始今天</p></div><div class=\"datecontrols\"><button aria-label=\"前一天\">‹</button><span class=\"todaybadge\">未准备日型</span><button aria-label=\"后一天\">›</button></div></div></section><section class=\"top3panel panel\"><div class=\"sectiontitle\"><div><h2>今天最重要的 3 件事</h2><p class=\"muted\">由你确认，Planner 只提供候选。</p></div><button class=\"\">切换 Minimum Day</button></div><div class=\"top3list\"><button class=\"top3item\"><b>1</b><span>选择今天要保护的任务</span></button><button class=\"top3item\"><b>2</b><span>选择今天要保护的任务</span></button><button class=\"top3item\"><b>3</b><span>选择今天要保护的任务</span></button></div><div class=\"candidate-list\"></div></section><div class=\"todaycolumns\"><section class=\"panel\"><div class=\"sectiontitle\"><div><h2>今日日程</h2><p class=\"muted\">固定安排与弹性任务分开显示。</p></div></div><p class=\"emptyline\">还没有今天的 Planner 安排。可以到 Schedule 页面应用日型。</p></section><section class=\"panel\"><div class=\"sectiontitle\"><div><h2>今日例行</h2><p class=\"muted\">昨天没做不会偷偷搬到今天。</p></div></div><p class=\"emptyline\">还没有今天的 Planner 例行事项。</p></section></div><section class=\"panel\"><div class=\"sectiontitle\"><div><h2>昨日遗留</h2><p class=\"muted\">由你决定补做或稍后处理。</p></div></div><p class=\"emptyline\">没有昨日遗留。</p></section><section class=\"panel\"><h2>当天事项</h2></section><section class=\"capture panel\"><div class=\"sectiontitle\"><div><h2>快速记录</h2><p class=\"muted\">先放进 Inbox，之后再整理，不打断当前工作。</p></div><span class=\"capturehint\">约 10 秒</span></div><div class=\"captureline\"><input aria-label=\"快速记录\" placeholder=\"我突然想到……\" value=\"\"><button class=\"primary\">放入 Inbox</button></div></section></fieldset><section class=\"panel\"><h2>记录到收件箱</h2><div class=\"captureline\"><input aria-label=\"记录到收件箱\" placeholder=\"先记下来，稍后整理\" value=\"\"><button disabled=\"\">保存记录</button></div></section><input aria-label=\"导入文件选择\" accept=\".json,application/json\" hidden=\"\" type=\"file\"><footer><span>CardGrid · 卡格工作台</span><span>所有改动保存在此浏览器 · 建议定期导出备份</span></footer></main></div></div>\n</body>"
+      }
+    },
+    {
+      "id": "B17-external-preview-invalidated",
+      "status": "failed",
+      "observations": {},
+      "error": "locator.click: Timeout 3000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('nav').getByText('抽卡手牌', { exact: true })\u001b[22m\n\n    at openDay (C:\\Users\\arstot\\Documents\\Codex\\2026-09-20\\抽卡人生\\cardgrid\\tests\\browser\\action-3f.mjs:22:267)\n    at async file:///C:/Users/arstot/Documents/Codex/2026-09-20/%E6%8A%BD%E5%8D%A1%E4%BA%BA%E7%94%9F/cardgrid/tests/browser/action-3f.mjs:44:65\n    at async check (C:\\Users\\arstot\\Documents\\Codex\\2026-09-20\\抽卡人生\\cardgrid\\tests\\browser\\action-3f.mjs:26:537)\n    at async file:///C:/Users/arstot/Documents/Codex/2026-09-20/%E6%8A%BD%E5%8D%A1%E4%BA%BA%E7%94%9F/cardgrid/tests/browser/action-3f.mjs:44:1",
+      "pageErrors": [],
+      "state": {
+        "current": {
+          "schemaVersion": 4,
+          "epoch": "independent-epoch",
+          "revision": 10,
+          "mode": "current",
+          "dataFormat": "action-v2",
+          "data": {
+            "version": 2,
+            "settings": {
+              "zone": "Asia/Shanghai",
+              "preferences": {
+                "theme": "paper",
+                "density": "comfortable",
+                "startHour": 8,
+                "endHour": 23,
+                "defaultMinutes": 15
+              },
+              "categories": []
+            },
+            "planner": {
+              "version": 2,
+              "definitions": [],
+              "instances": [
+                {
+                  "id": "i",
+                  "version": 7,
+                  "definition": null,
+                  "creationSnapshot": {
+                    "title": "独立合成行动",
+                    "criteria": "完成一个可核对结果",
+                    "presetMinutes": 30,
+                    "minimum": false,
+                    "color": "#336699",
+                    "categoryId": null,
+                    "categoryLabel": null,
+                    "projectIds": [],
+                    "goalIds": [],
+                    "projectLabels": [],
+                    "goalLabels": []
+                  },
+                  "currentContent": {
+                    "title": "独立合成行动",
+                    "criteria": "完成一个可核对结果",
+                    "presetMinutes": 30,
+                    "minimum": false,
+                    "color": "#336699",
+                    "categoryId": null,
+                    "categoryLabel": null,
+                    "projectIds": [],
+                    "goalIds": [],
+                    "projectLabels": [],
+                    "goalLabels": []
+                  },
+                  "source": {
+                    "kind": "manual"
+                  },
+                  "createdAt": "2026-09-28T02:00:00Z",
+                  "targetDate": null,
+                  "state": "open",
+                  "occurrenceId": null,
+                  "makeupOf": null
+                }
+              ],
+              "handOrder": [
+                "i"
+              ],
+              "plans": [],
+              "facts": [],
+              "annotations": [],
+              "fixed": [],
+              "templates": [],
+              "days": [],
+              "rules": [],
+              "occurrences": [],
+              "captures": [],
+              "refs": [],
+              "goals": [],
+              "history": []
+            },
+            "legacySources": [],
+            "migrationBindings": [],
+            "commandReceipts": []
+          },
+          "lifecycleReceipt": null
+        },
+        "recovery": []
+      },
+      "ui": "▦\nCardGrid\n卡格工作台\n我的空间\n▦\nToday\n＋\nInbox\n◫\nSchedule\n❖\n行动定义\n✦\n抽卡手牌\n◇\n配置工坊\n↗\n数据与备份\n数据保存在本机\n行动底座 · 2A\n工作台 / TODAY Today · 今日\n重新载入\nTODAY\nToday · 今日\n\n看今天的时间盘与手牌；打开和切换日期不会生成安排。\n\n前一天\n2026-10-02\n后一天\n显示时区\n准备日型\n按适用星期选择\n准备这一天\n\n打开和切换日期不会生成安排。此处展示完整时间记录；排期、改期和实际确认请到“抽卡手牌 → 当日”。\n\n完整时间记录\n\n没有已保存的时间记录。\n\nTODAY · P1A\n10月2日星期五\n\n打开 → 看一眼 → 微调 → 开始今天\n\n‹\n未准备日型\n›\n今天最重要的 3 件事\n\n由你确认，Planner 只提供候选。\n\n切换 Minimum Day\n1\n选择今天要保护的任务\n2\n选择今天要保护的任务\n3\n选择今天要保护的任务\n今日日程\n\n固定安排与弹性任务分开显示。\n\n还没有今天的 Planner 安排。可以到 Schedule 页面应用日型。\n\n今日例行\n\n昨天没做不会偷偷搬到今天。\n\n还没有今天的 Planner 例行事项。\n\n昨日遗留\n\n由你决定补做或稍后处理。\n\n没有昨日遗留。\n\n当天事项\n快速记录\n\n先放进 Inbox，之后再整理，不打断当前工作。\n\n约 10 秒\n放入 Inbox\n记录到收件箱\n保存记录\nCardGrid · 卡格工作台\n所有改动保存在此浏览器 · 建议定期导出备份",
+      "layout": {
+        "width": 1280,
+        "scrollWidth": 1280,
+        "active": "<body><div id=\"root\"><div class=\"app paper comfortable\"><aside class=\"sidebar\"><div class=\"brand\"><span class=\"brandmark\">▦</span><div>CardGrid<small>卡格工作台</small></div></div><div class=\"navcaption\">我的空间</div><nav><button aria-current=\"page\" class=\"active\"><span>▦</span>Today</button><button class=\"\"><span>＋</span>Inbox</button><button class=\"\"><span>◫</span>Schedule</button><button class=\"\"><span>❖</span>行动定义</button><button class=\"\"><span>✦</span>抽卡手牌</button><button class=\"\"><span>◇</span>配置工坊</button><button class=\"\"><span>↗</span>数据与备份</button></nav><div class=\"sidebar-bottom\"><span class=\"dot\"></span>数据保存在本机<div class=\"version\">行动底座 · 2A</div></div></aside><main><header><div class=\"breadcrumbs\">工作台 / <strong>TODAY</strong> Today · 今日</div><button>重新载入</button></header><section class=\"heading page-heading\" aria-label=\"当前页面\"><div class=\"eyebrow\">TODAY</div><h1>Today · 今日</h1><p>看今天的时间盘与手牌；打开和切换日期不会生成安排。</p></section><section class=\"panel\"><div class=\"toolbar\"><button aria-label=\"查看前一天\">前一天</button><strong>2026-10-02</strong><button aria-label=\"查看后一天\">后一天</button><label>显示时区<input aria-label=\"显示时区\" value=\"Asia/Shanghai\"></label><label>准备日型<select><option value=\"\">按适用星期选择</option></select></label><button>准备这一天</button></div><p class=\"muted\">打开和切换日期不会生成安排。此处展示完整时间记录；排期、改期和实际确认请到“抽卡手牌 → 当日”。</p></section><section class=\"panel\"><h2>完整时间记录</h2><p>没有已保存的时间记录。</p></section><fieldset disabled=\"\" aria-label=\"旧版页面只读\" style=\"border: 0px; padding: 0px; min-width: 0px;\"><section class=\"heading\"><div class=\"eyebrow\">TODAY · P1A</div><div class=\"headingline\"><div><h1>10月2日星期五</h1><p>打开 → 看一眼 → 微调 → 开始今天</p></div><div class=\"datecontrols\"><button aria-label=\"前一天\">‹</button><span class=\"todaybadge\">未准备日型</span><button aria-label=\"后一天\">›</button></div></div></section><section class=\"top3panel panel\"><div class=\"sectiontitle\"><div><h2>今天最重要的 3 件事</h2><p class=\"muted\">由你确认，Planner 只提供候选。</p></div><button class=\"\">切换 Minimum Day</button></div><div class=\"top3list\"><button class=\"top3item\"><b>1</b><span>选择今天要保护的任务</span></button><button class=\"top3item\"><b>2</b><span>选择今天要保护的任务</span></button><button class=\"top3item\"><b>3</b><span>选择今天要保护的任务</span></button></div><div class=\"candidate-list\"></div></section><div class=\"todaycolumns\"><section class=\"panel\"><div class=\"sectiontitle\"><div><h2>今日日程</h2><p class=\"muted\">固定安排与弹性任务分开显示。</p></div></div><p class=\"emptyline\">还没有今天的 Planner 安排。可以到 Schedule 页面应用日型。</p></section><section class=\"panel\"><div class=\"sectiontitle\"><div><h2>今日例行</h2><p class=\"muted\">昨天没做不会偷偷搬到今天。</p></div></div><p class=\"emptyline\">还没有今天的 Planner 例行事项。</p></section></div><section class=\"panel\"><div class=\"sectiontitle\"><div><h2>昨日遗留</h2><p class=\"muted\">由你决定补做或稍后处理。</p></div></div><p class=\"emptyline\">没有昨日遗留。</p></section><section class=\"panel\"><h2>当天事项</h2></section><section class=\"capture panel\"><div class=\"sectiontitle\"><div><h2>快速记录</h2><p class=\"muted\">先放进 Inbox，之后再整理，不打断当前工作。</p></div><span class=\"capturehint\">约 10 秒</span></div><div class=\"captureline\"><input aria-label=\"快速记录\" placeholder=\"我突然想到……\" value=\"\"><button class=\"primary\">放入 Inbox</button></div></section></fieldset><section class=\"panel\"><h2>记录到收件箱</h2><div class=\"captureline\"><input aria-label=\"记录到收件箱\" placeholder=\"先记下来，稍后整理\" value=\"\"><button disabled=\"\">保存记录</button></div></section><input aria-label=\"导入文件选择\" accept=\".json,application/json\" hidden=\"\" type=\"file\"><footer><span>CardGrid · 卡格工作台</span><span>所有改动保存在此浏览器 · 建议定期导出备份</span></footer></main></div></div>\n</body>"
+      }
+    },
+    {
+      "id": "B18-dst-explicit-choice",
+      "status": "failed",
+      "observations": {},
+      "error": "locator.click: Timeout 3000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('nav').getByText('抽卡手牌', { exact: true })\u001b[22m\n\n    at openDay (C:\\Users\\arstot\\Documents\\Codex\\2026-09-20\\抽卡人生\\cardgrid\\tests\\browser\\action-3f.mjs:22:267)\n    at async check.zone (C:\\Users\\arstot\\Documents\\Codex\\2026-09-20\\抽卡人生\\cardgrid\\tests\\browser\\action-3f.mjs:45:102)\n    at async check (C:\\Users\\arstot\\Documents\\Codex\\2026-09-20\\抽卡人生\\cardgrid\\tests\\browser\\action-3f.mjs:26:537)\n    at async file:///C:/Users/arstot/Documents/Codex/2026-09-20/%E6%8A%BD%E5%8D%A1%E4%BA%BA%E7%94%9F/cardgrid/tests/browser/action-3f.mjs:45:1",
+      "pageErrors": [],
+      "state": {
+        "current": {
+          "schemaVersion": 4,
+          "epoch": "independent-epoch",
+          "revision": 10,
+          "mode": "current",
+          "dataFormat": "action-v2",
+          "data": {
+            "version": 2,
+            "settings": {
+              "zone": "America/New_York",
+              "preferences": {
+                "theme": "paper",
+                "density": "comfortable",
+                "startHour": 8,
+                "endHour": 23,
+                "defaultMinutes": 15
+              },
+              "categories": []
+            },
+            "planner": {
+              "version": 2,
+              "definitions": [],
+              "instances": [
+                {
+                  "id": "i",
+                  "version": 7,
+                  "definition": null,
+                  "creationSnapshot": {
+                    "title": "独立合成行动",
+                    "criteria": "完成一个可核对结果",
+                    "presetMinutes": 30,
+                    "minimum": false,
+                    "color": "#336699",
+                    "categoryId": null,
+                    "categoryLabel": null,
+                    "projectIds": [],
+                    "goalIds": [],
+                    "projectLabels": [],
+                    "goalLabels": []
+                  },
+                  "currentContent": {
+                    "title": "独立合成行动",
+                    "criteria": "完成一个可核对结果",
+                    "presetMinutes": 30,
+                    "minimum": false,
+                    "color": "#336699",
+                    "categoryId": null,
+                    "categoryLabel": null,
+                    "projectIds": [],
+                    "goalIds": [],
+                    "projectLabels": [],
+                    "goalLabels": []
+                  },
+                  "source": {
+                    "kind": "manual"
+                  },
+                  "createdAt": "2026-09-28T02:00:00Z",
+                  "targetDate": null,
+                  "state": "open",
+                  "occurrenceId": null,
+                  "makeupOf": null
+                }
+              ],
+              "handOrder": [
+                "i"
+              ],
+              "plans": [],
+              "facts": [],
+              "annotations": [],
+              "fixed": [],
+              "templates": [],
+              "days": [],
+              "rules": [],
+              "occurrences": [],
+              "captures": [],
+              "refs": [],
+              "goals": [],
+              "history": []
+            },
+            "legacySources": [],
+            "migrationBindings": [],
+            "commandReceipts": []
+          },
+          "lifecycleReceipt": null
+        },
+        "recovery": []
+      },
+      "ui": "▦\nCardGrid\n卡格工作台\n我的空间\n▦\nToday\n＋\nInbox\n◫\nSchedule\n❖\n行动定义\n✦\n抽卡手牌\n◇\n配置工坊\n↗\n数据与备份\n数据保存在本机\n行动底座 · 2A\n工作台 / TODAY Today · 今日\n重新载入\nTODAY\nToday · 今日\n\n看今天的时间盘与手牌；打开和切换日期不会生成安排。\n\n前一天\n2026-10-01\n后一天\n显示时区\n准备日型\n按适用星期选择\n准备这一天\n\n打开和切换日期不会生成安排。此处展示完整时间记录；排期、改期和实际确认请到“抽卡手牌 → 当日”。\n\n完整时间记录\n\n没有已保存的时间记录。\n\nTODAY · P1A\n10月1日星期四\n\n打开 → 看一眼 → 微调 → 开始今天\n\n‹\n未准备日型\n›\n今天最重要的 3 件事\n\n由你确认，Planner 只提供候选。\n\n切换 Minimum Day\n1\n选择今天要保护的任务\n2\n选择今天要保护的任务\n3\n选择今天要保护的任务\n今日日程\n\n固定安排与弹性任务分开显示。\n\n还没有今天的 Planner 安排。可以到 Schedule 页面应用日型。\n\n今日例行\n\n昨天没做不会偷偷搬到今天。\n\n还没有今天的 Planner 例行事项。\n\n昨日遗留\n\n由你决定补做或稍后处理。\n\n没有昨日遗留。\n\n当天事项\n快速记录\n\n先放进 Inbox，之后再整理，不打断当前工作。\n\n约 10 秒\n放入 Inbox\n记录到收件箱\n保存记录\nCardGrid · 卡格工作台\n所有改动保存在此浏览器 · 建议定期导出备份",
+      "layout": {
+        "width": 1280,
+        "scrollWidth": 1280,
+        "active": "<body><div id=\"root\"><div class=\"app paper comfortable\"><aside class=\"sidebar\"><div class=\"brand\"><span class=\"brandmark\">▦</span><div>CardGrid<small>卡格工作台</small></div></div><div class=\"navcaption\">我的空间</div><nav><button aria-current=\"page\" class=\"active\"><span>▦</span>Today</button><button class=\"\"><span>＋</span>Inbox</button><button class=\"\"><span>◫</span>Schedule</button><button class=\"\"><span>❖</span>行动定义</button><button class=\"\"><span>✦</span>抽卡手牌</button><button class=\"\"><span>◇</span>配置工坊</button><button class=\"\"><span>↗</span>数据与备份</button></nav><div class=\"sidebar-bottom\"><span class=\"dot\"></span>数据保存在本机<div class=\"version\">行动底座 · 2A</div></div></aside><main><header><div class=\"breadcrumbs\">工作台 / <strong>TODAY</strong> Today · 今日</div><button>重新载入</button></header><section class=\"heading page-heading\" aria-label=\"当前页面\"><div class=\"eyebrow\">TODAY</div><h1>Today · 今日</h1><p>看今天的时间盘与手牌；打开和切换日期不会生成安排。</p></section><section class=\"panel\"><div class=\"toolbar\"><button aria-label=\"查看前一天\">前一天</button><strong>2026-10-01</strong><button aria-label=\"查看后一天\">后一天</button><label>显示时区<input aria-label=\"显示时区\" value=\"America/New_York\"></label><label>准备日型<select><option value=\"\">按适用星期选择</option></select></label><button>准备这一天</button></div><p class=\"muted\">打开和切换日期不会生成安排。此处展示完整时间记录；排期、改期和实际确认请到“抽卡手牌 → 当日”。</p></section><section class=\"panel\"><h2>完整时间记录</h2><p>没有已保存的时间记录。</p></section><fieldset disabled=\"\" aria-label=\"旧版页面只读\" style=\"border: 0px; padding: 0px; min-width: 0px;\"><section class=\"heading\"><div class=\"eyebrow\">TODAY · P1A</div><div class=\"headingline\"><div><h1>10月1日星期四</h1><p>打开 → 看一眼 → 微调 → 开始今天</p></div><div class=\"datecontrols\"><button aria-label=\"前一天\">‹</button><span class=\"todaybadge\">未准备日型</span><button aria-label=\"后一天\">›</button></div></div></section><section class=\"top3panel panel\"><div class=\"sectiontitle\"><div><h2>今天最重要的 3 件事</h2><p class=\"muted\">由你确认，Planner 只提供候选。</p></div><button class=\"\">切换 Minimum Day</button></div><div class=\"top3list\"><button class=\"top3item\"><b>1</b><span>选择今天要保护的任务</span></button><button class=\"top3item\"><b>2</b><span>选择今天要保护的任务</span></button><button class=\"top3item\"><b>3</b><span>选择今天要保护的任务</span></button></div><div class=\"candidate-list\"></div></section><div class=\"todaycolumns\"><section class=\"panel\"><div class=\"sectiontitle\"><div><h2>今日日程</h2><p class=\"muted\">固定安排与弹性任务分开显示。</p></div></div><p class=\"emptyline\">还没有今天的 Planner 安排。可以到 Schedule 页面应用日型。</p></section><section class=\"panel\"><div class=\"sectiontitle\"><div><h2>今日例行</h2><p class=\"muted\">昨天没做不会偷偷搬到今天。</p></div></div><p class=\"emptyline\">还没有今天的 Planner 例行事项。</p></section></div><section class=\"panel\"><div class=\"sectiontitle\"><div><h2>昨日遗留</h2><p class=\"muted\">由你决定补做或稍后处理。</p></div></div><p class=\"emptyline\">没有昨日遗留。</p></section><section class=\"panel\"><h2>当天事项</h2></section><section class=\"capture panel\"><div class=\"sectiontitle\"><div><h2>快速记录</h2><p class=\"muted\">先放进 Inbox，之后再整理，不打断当前工作。</p></div><span class=\"capturehint\">约 10 秒</span></div><div class=\"captureline\"><input aria-label=\"快速记录\" placeholder=\"我突然想到……\" value=\"\"><button class=\"primary\">放入 Inbox</button></div></section></fieldset><section class=\"panel\"><h2>记录到收件箱</h2><div class=\"captureline\"><input aria-label=\"记录到收件箱\" placeholder=\"先记下来，稍后整理\" value=\"\"><button disabled=\"\">保存记录</button></div></section><input aria-label=\"导入文件选择\" accept=\".json,application/json\" hidden=\"\" type=\"file\"><footer><span>CardGrid · 卡格工作台</span><span>所有改动保存在此浏览器 · 建议定期导出备份</span></footer></main></div></div>\n</body>"
+      }
+    },
+    {
+      "id": "B19-dst-duration-offset-self-overlap",
+      "status": "failed",
+      "observations": {},
+      "error": "ActionTimeError: 日期必须是有效的 YYYY-MM-DD\n    at invalid (file:///C:/Users/arstot/Documents/Codex/2026-09-20/%E6%8A%BD%E5%8D%A1%E4%BA%BA%E7%94%9F/cardgrid/src/action-time.ts:13:65)\n    at assertDate (file:///C:/Users/arstot/Documents/Codex/2026-09-20/%E6%8A%BD%E5%8D%A1%E4%BA%BA%E7%94%9F/cardgrid/src/action-time.ts:17:13)\n    at plain (file:///C:/Users/arstot/Documents/Codex/2026-09-20/%E6%8A%BD%E5%8D%A1%E4%BA%BA%E7%94%9F/cardgrid/src/action-time.ts:55:3)\n    at plannedRange (file:///C:/Users/arstot/Documents/Codex/2026-09-20/%E6%8A%BD%E5%8D%A1%E4%BA%BA%E7%94%9F/cardgrid/src/action-time.ts:110:17)\n    at check.zone (file:///C:/Users/arstot/Documents/Codex/2026-09-20/%E6%8A%BD%E5%8D%A1%E4%BA%BA%E7%94%9F/cardgrid/tests/browser/action-3f.mjs:46:143)\n    at check (file:///C:/Users/arstot/Documents/Codex/2026-09-20/%E6%8A%BD%E5%8D%A1%E4%BA%BA%E7%94%9F/cardgrid/tests/browser/action-3f.mjs:26:543)\n    at async file:///C:/Users/arstot/Documents/Codex/2026-09-20/%E6%8A%BD%E5%8D%A1%E4%BA%BA%E7%94%9F/cardgrid/tests/browser/action-3f.mjs:46:1",
+      "pageErrors": []
+    },
+    {
+      "id": "B20-fixed-button-cancel-save",
+      "status": "failed",
+      "observations": {},
+      "error": "locator.click: Timeout 3000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('nav').getByText('抽卡手牌', { exact: true })\u001b[22m\n\n    at openDay (C:\\Users\\arstot\\Documents\\Codex\\2026-09-20\\抽卡人生\\cardgrid\\tests\\browser\\action-3f.mjs:22:267)\n    at async file:///C:/Users/arstot/Documents/Codex/2026-09-20/%E6%8A%BD%E5%8D%A1%E4%BA%BA%E7%94%9F/cardgrid/tests/browser/action-3f.mjs:47:57\n    at async check (C:\\Users\\arstot\\Documents\\Codex\\2026-09-20\\抽卡人生\\cardgrid\\tests\\browser\\action-3f.mjs:26:537)\n    at async file:///C:/Users/arstot/Documents/Codex/2026-09-20/%E6%8A%BD%E5%8D%A1%E4%BA%BA%E7%94%9F/cardgrid/tests/browser/action-3f.mjs:47:1",
+      "pageErrors": [],
+      "state": {
+        "current": {
+          "schemaVersion": 4,
+          "epoch": "independent-epoch",
+          "revision": 10,
+          "mode": "current",
+          "dataFormat": "action-v2",
+          "data": {
+            "version": 2,
+            "settings": {
+              "zone": "Asia/Shanghai",
+              "preferences": {
+                "theme": "paper",
+                "density": "comfortable",
+                "startHour": 8,
+                "endHour": 23,
+                "defaultMinutes": 15
+              },
+              "categories": []
+            },
+            "planner": {
+              "version": 2,
+              "definitions": [],
+              "instances": [
+                {
+                  "id": "i",
+                  "version": 7,
+                  "definition": null,
+                  "creationSnapshot": {
+                    "title": "独立合成行动",
+                    "criteria": "完成一个可核对结果",
+                    "presetMinutes": 30,
+                    "minimum": false,
+                    "color": "#336699",
+                    "categoryId": null,
+                    "categoryLabel": null,
+                    "projectIds": [],
+                    "goalIds": [],
+                    "projectLabels": [],
+                    "goalLabels": []
+                  },
+                  "currentContent": {
+                    "title": "独立合成行动",
+                    "criteria": "完成一个可核对结果",
+                    "presetMinutes": 30,
+                    "minimum": false,
+                    "color": "#336699",
+                    "categoryId": null,
+                    "categoryLabel": null,
+                    "projectIds": [],
+                    "goalIds": [],
+                    "projectLabels": [],
+                    "goalLabels": []
+                  },
+                  "source": {
+                    "kind": "manual"
+                  },
+                  "createdAt": "2026-09-28T02:00:00Z",
+                  "targetDate": null,
+                  "state": "open",
+                  "occurrenceId": null,
+                  "makeupOf": null
+                }
+              ],
+              "handOrder": [
+                "i"
+              ],
+              "plans": [],
+              "facts": [],
+              "annotations": [],
+              "fixed": [
+                {
+                  "id": "x",
+                  "version": 3,
+                  "title": "固定甲",
+                  "range": {
+                    "startAt": "2026-09-28T01:15:00Z",
+                    "endAt": "2026-09-28T01:45:00Z",
+                    "zone": "Asia/Shanghai",
+                    "localStart": "2026-09-28T09:15",
+                    "localEnd": "2026-09-28T09:45",
+                    "startOffset": "+08:00",
+                    "endOffset": "+08:00"
+                  },
+                  "cancelled": false,
+                  "ownerDate": "2026-09-28",
+                  "template": null,
+                  "templateEntryId": null,
+                  "manuallyOverridden": false,
+                  "source": {
+                    "kind": "manual"
+                  }
+                },
+                {
+                  "id": "y",
+                  "version": 2,
+                  "title": "固定乙",
+                  "range": {
+                    "startAt": "2026-09-28T02:00:00Z",
+                    "endAt": "2026-09-28T02:30:00Z",
+                    "zone": "Asia/Shanghai",
+                    "localStart": "2026-09-28T10:00",
+                    "localEnd": "2026-09-28T10:30",
+                    "startOffset": "+08:00",
+                    "endOffset": "+08:00"
+                  },
+                  "cancelled": false,
+                  "ownerDate": "2026-09-28",
+                  "template": null,
+                  "templateEntryId": null,
+                  "manuallyOverridden": false,
+                  "source": {
+                    "kind": "manual"
+                  }
+                }
+              ],
+              "templates": [],
+              "days": [],
+              "rules": [],
+              "occurrences": [],
+              "captures": [],
+              "refs": [],
+              "goals": [],
+              "history": []
+            },
+            "legacySources": [],
+            "migrationBindings": [],
+            "commandReceipts": []
+          },
+          "lifecycleReceipt": null
+        },
+        "recovery": []
+      },
+      "ui": "▦\nCardGrid\n卡格工作台\n我的空间\n▦\nToday\n＋\nInbox\n◫\nSchedule\n❖\n行动定义\n✦\n抽卡手牌\n◇\n配置工坊\n↗\n数据与备份\n数据保存在本机\n行动底座 · 2A\n工作台 / TODAY Today · 今日\n重新载入\nTODAY\nToday · 今日\n\n看今天的时间盘与手牌；打开和切换日期不会生成安排。\n\n前一天\n2026-10-02\n后一天\n显示时区\n准备日型\n按适用星期选择\n准备这一天\n\n打开和切换日期不会生成安排。此处展示完整时间记录；排期、改期和实际确认请到“抽卡手牌 → 当日”。\n\n完整时间记录\n\n没有已保存的时间记录。\n\nTODAY · P1A\n10月2日星期五\n\n打开 → 看一眼 → 微调 → 开始今天\n\n‹\n未准备日型\n›\n今天最重要的 3 件事\n\n由你确认，Planner 只提供候选。\n\n切换 Minimum Day\n1\n选择今天要保护的任务\n2\n选择今天要保护的任务\n3\n选择今天要保护的任务\n今日日程\n\n固定安排与弹性任务分开显示。\n\n还没有今天的 Planner 安排。可以到 Schedule 页面应用日型。\n\n今日例行\n\n昨天没做不会偷偷搬到今天。\n\n还没有今天的 Planner 例行事项。\n\n昨日遗留\n\n由你决定补做或稍后处理。\n\n没有昨日遗留。\n\n当天事项\n快速记录\n\n先放进 Inbox，之后再整理，不打断当前工作。\n\n约 10 秒\n放入 Inbox\n记录到收件箱\n保存记录\nCardGrid · 卡格工作台\n所有改动保存在此浏览器 · 建议定期导出备份",
+      "layout": {
+        "width": 1280,
+        "scrollWidth": 1280,
+        "active": "<body><div id=\"root\"><div class=\"app paper comfortable\"><aside class=\"sidebar\"><div class=\"brand\"><span class=\"brandmark\">▦</span><div>CardGrid<small>卡格工作台</small></div></div><div class=\"navcaption\">我的空间</div><nav><button aria-current=\"page\" class=\"active\"><span>▦</span>Today</button><button class=\"\"><span>＋</span>Inbox</button><button class=\"\"><span>◫</span>Schedule</button><button class=\"\"><span>❖</span>行动定义</button><button class=\"\"><span>✦</span>抽卡手牌</button><button class=\"\"><span>◇</span>配置工坊</button><button class=\"\"><span>↗</span>数据与备份</button></nav><div class=\"sidebar-bottom\"><span class=\"dot\"></span>数据保存在本机<div class=\"version\">行动底座 · 2A</div></div></aside><main><header><div class=\"breadcrumbs\">工作台 / <strong>TODAY</strong> Today · 今日</div><button>重新载入</button></header><section class=\"heading page-heading\" aria-label=\"当前页面\"><div class=\"eyebrow\">TODAY</div><h1>Today · 今日</h1><p>看今天的时间盘与手牌；打开和切换日期不会生成安排。</p></section><section class=\"panel\"><div class=\"toolbar\"><button aria-label=\"查看前一天\">前一天</button><strong>2026-10-02</strong><button aria-label=\"查看后一天\">后一天</button><label>显示时区<input aria-label=\"显示时区\" value=\"Asia/Shanghai\"></label><label>准备日型<select><option value=\"\">按适用星期选择</option></select></label><button>准备这一天</button></div><p class=\"muted\">打开和切换日期不会生成安排。此处展示完整时间记录；排期、改期和实际确认请到“抽卡手牌 → 当日”。</p></section><section class=\"panel\"><h2>完整时间记录</h2><p>没有已保存的时间记录。</p></section><fieldset disabled=\"\" aria-label=\"旧版页面只读\" style=\"border: 0px; padding: 0px; min-width: 0px;\"><section class=\"heading\"><div class=\"eyebrow\">TODAY · P1A</div><div class=\"headingline\"><div><h1>10月2日星期五</h1><p>打开 → 看一眼 → 微调 → 开始今天</p></div><div class=\"datecontrols\"><button aria-label=\"前一天\">‹</button><span class=\"todaybadge\">未准备日型</span><button aria-label=\"后一天\">›</button></div></div></section><section class=\"top3panel panel\"><div class=\"sectiontitle\"><div><h2>今天最重要的 3 件事</h2><p class=\"muted\">由你确认，Planner 只提供候选。</p></div><button class=\"\">切换 Minimum Day</button></div><div class=\"top3list\"><button class=\"top3item\"><b>1</b><span>选择今天要保护的任务</span></button><button class=\"top3item\"><b>2</b><span>选择今天要保护的任务</span></button><button class=\"top3item\"><b>3</b><span>选择今天要保护的任务</span></button></div><div class=\"candidate-list\"></div></section><div class=\"todaycolumns\"><section class=\"panel\"><div class=\"sectiontitle\"><div><h2>今日日程</h2><p class=\"muted\">固定安排与弹性任务分开显示。</p></div></div><p class=\"emptyline\">还没有今天的 Planner 安排。可以到 Schedule 页面应用日型。</p></section><section class=\"panel\"><div class=\"sectiontitle\"><div><h2>今日例行</h2><p class=\"muted\">昨天没做不会偷偷搬到今天。</p></div></div><p class=\"emptyline\">还没有今天的 Planner 例行事项。</p></section></div><section class=\"panel\"><div class=\"sectiontitle\"><div><h2>昨日遗留</h2><p class=\"muted\">由你决定补做或稍后处理。</p></div></div><p class=\"emptyline\">没有昨日遗留。</p></section><section class=\"panel\"><h2>当天事项</h2></section><section class=\"capture panel\"><div class=\"sectiontitle\"><div><h2>快速记录</h2><p class=\"muted\">先放进 Inbox，之后再整理，不打断当前工作。</p></div><span class=\"capturehint\">约 10 秒</span></div><div class=\"captureline\"><input aria-label=\"快速记录\" placeholder=\"我突然想到……\" value=\"\"><button class=\"primary\">放入 Inbox</button></div></section></fieldset><section class=\"panel\"><h2>记录到收件箱</h2><div class=\"captureline\"><input aria-label=\"记录到收件箱\" placeholder=\"先记下来，稍后整理\" value=\"\"><button disabled=\"\">保存记录</button></div></section><input aria-label=\"导入文件选择\" accept=\".json,application/json\" hidden=\"\" type=\"file\"><footer><span>CardGrid · 卡格工作台</span><span>所有改动保存在此浏览器 · 建议定期导出备份</span></footer></main></div></div>\n</body>"
+      }
+    }
+  ]
+}

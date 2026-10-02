@@ -1,0 +1,394 @@
+/* Time dial: fixed bottom viewer, two rotating rings, 24-cell day map.
+   Dial semantic colors are scoped here; layout tokens come from the app. */
+.time-dial {
+  --fixed: #557d65;
+  --planned: #967844;
+  --fact: #2c756c;
+  --empty: #b24e48;
+  --track: #dce4d8;
+  --reference: #899286;
+  --overlap: #695d91;
+  --viewer: #a07527;
+  user-select: none;
+  -webkit-user-select: none;
+  overscroll-behavior: contain; /* keep native scroll from chaining while interacting */
+}
+.app.night .time-dial {
+  --fixed: #8fbf93;
+  --planned: #d1ad73;
+  --fact: #8ac2b9;
+  --empty: #e28a7c;
+  --track: #385044;
+  --reference: #98a79a;
+  --overlap: #baa9e2;
+  --viewer: #c7a252;
+}
+
+.dial-caption {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  color: var(--muted);
+  font-size: 11px;
+}
+.dial-caption-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.dial-empty-key {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--empty);
+  font-weight: 700;
+  white-space: nowrap;
+}
+.dial-empty-key i {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  background: var(--empty);
+  border-radius: 2px;
+}
+
+.dial-layout {
+  display: grid;
+  grid-template-columns: 62px minmax(0, 1fr);
+  align-items: stretch;
+  gap: 8px;
+}
+
+/* 24-cell read-only day map */
+.day-preview {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 18px 0 28px;
+  color: var(--muted);
+  font-size: 9px;
+}
+.preview-title {
+  font-weight: 800;
+  letter-spacing: 0.12em;
+}
+.preview-cells {
+  position: relative;
+  width: 24px;
+  flex: 1;
+  min-height: 285px;
+  display: grid;
+  grid-template-rows: repeat(24, 1fr);
+  border-left: 2px solid var(--ink);
+  border-right: 2px solid var(--ink);
+}
+.preview-hour {
+  position: relative;
+  border-bottom: 1px solid var(--line);
+  text-align: center;
+  font-size: 8px;
+  line-height: 1;
+  color: var(--muted);
+  padding: 0;
+  min-height: 0;
+  background: transparent;
+}
+.preview-hour:last-of-type {
+  border-bottom: 0;
+}
+.preview-schedule {
+  position: absolute;
+  z-index: 2;
+  width: 7px;
+  min-height: 5px;
+  padding: 0;
+  border: 0;
+  border-radius: 3px;
+  opacity: 0.9;
+  cursor: pointer;
+}
+.preview-schedule.fixed { background: var(--fixed); }
+.preview-schedule.plan { background: var(--planned); }
+.preview-schedule.fact { background: var(--fact); }
+.preview-schedule:hover,
+.preview-schedule:focus-visible {
+  width: 11px;
+  z-index: 5;
+  outline: 2px solid var(--viewer);
+}
+.preview-pointer {
+  position: absolute;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  height: 20px;
+  min-width: 14px;
+  padding: 0;
+  transform: translateY(-50%);
+  border: 0;
+  background: transparent;
+  color: var(--viewer);
+  font-size: 17px;
+  font-weight: 900;
+  line-height: 1;
+  white-space: nowrap;
+}
+.preview-pointer span {
+  position: absolute;
+  top: -12px;
+  font-size: 8px;
+  font-weight: 700;
+}
+.preview-pointer.now { right: calc(100% + 2px); }
+.preview-pointer.now span { right: 12px; }
+.preview-pointer.focus {
+  left: calc(100% + 2px);
+  color: var(--accent);
+}
+.preview-pointer.focus span { left: 12px; }
+.preview-pointer.now:hover { transform: translateY(-50%) scale(1.25); }
+.day-preview > small {
+  white-space: nowrap;
+  font-size: 8px;
+}
+
+/* Overview popup (shared by hour and item inspection) */
+.preview-note {
+  position: absolute;
+  z-index: 45;
+  left: 40px;
+  width: min(255px, 66vw);
+  max-height: 245px;
+  overflow-y: auto;
+  padding: 11px;
+  background: var(--surface);
+  color: var(--ink);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  box-shadow: 0 12px 30px rgba(44, 66, 57, 0.22);
+  font-size: 11px;
+  text-align: left;
+}
+.preview-note-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 7px;
+}
+.preview-note-heading button {
+  border: 0;
+  background: transparent;
+  color: var(--muted);
+  font-size: 18px;
+}
+.preview-note-item {
+  border-top: 1px solid var(--line);
+  padding: 8px 0;
+  display: grid;
+  gap: 4px;
+}
+.preview-note-item strong { font-size: 12px; }
+.preview-note-item small {
+  color: var(--muted);
+  line-height: 1.4;
+}
+.preview-note-item p {
+  margin: 2px 0 0;
+  line-height: 1.4;
+}
+.time-kind {
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--fixed);
+}
+.time-kind.plan { color: var(--planned); }
+.time-kind.fact { color: var(--fact); }
+
+/* Dial frame */
+.dial-frame {
+  position: relative;
+  display: grid;
+  place-items: center;
+}
+.dial-svg {
+  display: block;
+  width: min(100%, 400px);
+  max-height: 365px;
+  overflow: visible;
+  touch-action: pan-y; /* page scrolls vertically; card drags use their own touch-action:none */
+}
+.dial-track {
+  fill: none;
+  stroke: var(--track);
+  stroke-width: 18;
+}
+.dial-boundary {
+  fill: none;
+  stroke: var(--line);
+  stroke-width: 1;
+}
+.dial-tick {
+  stroke: var(--reference);
+  stroke-width: 1;
+}
+.dial-number {
+  fill: var(--ink);
+  font-size: 12px;
+  font-weight: 700;
+  pointer-events: none;
+}
+.dial-segment {
+  fill: none;
+  stroke-linecap: round;
+  cursor: pointer;
+  outline: none;
+  stroke-width: 17;
+}
+.dial-segment.fixed { stroke: var(--fixed); }
+.dial-segment.plan { stroke: var(--planned); }
+.dial-segment.fact { stroke: var(--fact); }
+.dial-segment.plan-reference {
+  stroke: var(--reference);
+  stroke-width: 2;
+  opacity: 0.75;
+  pointer-events: none;
+}
+.dial-segment.empty {
+  stroke: var(--empty);
+  opacity: 0.88;
+  pointer-events: none;
+}
+.dial-segment.legacy { stroke: var(--reference); }
+.dial-segment.active {
+  stroke-width: 22;
+  filter: drop-shadow(0 0 4px var(--viewer));
+}
+.dial-segment:focus-visible {
+  stroke-width: 23;
+  filter: drop-shadow(0 0 4px var(--viewer));
+}
+.dial-overlap {
+  fill: none;
+  stroke: var(--overlap);
+  stroke-width: 12;
+  stroke-linecap: round;
+  pointer-events: none;
+}
+.dial-candidate {
+  fill: none;
+  stroke: var(--viewer);
+  stroke-width: 20;
+  stroke-linecap: round;
+  stroke-dasharray: 6 5;
+  pointer-events: none;
+}
+.dial-gap {
+  fill: none;
+  stroke: var(--line);
+  stroke-width: 19;
+  stroke-dasharray: 3 4;
+  pointer-events: none;
+}
+.dial-center {
+  fill: var(--surface);
+  stroke: var(--line);
+  stroke-width: 1;
+}
+.dial-center-label {
+  fill: var(--muted);
+  font-size: 10px;
+}
+.dial-center-time {
+  fill: var(--ink);
+  font-size: 28px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+.dial-viewer {
+  fill: var(--viewer);
+}
+.ring-label {
+  position: absolute;
+  left: 5px;
+  font-size: 10px;
+  color: var(--muted);
+  display: grid;
+  gap: 1px;
+  pointer-events: none;
+}
+.ring-label strong {
+  font-size: 12px;
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+}
+.ring-label-a { top: 24%; }
+.ring-label-b { bottom: 22%; }
+
+.focus-controls {
+  display: flex;
+  gap: 10px;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 11px;
+  color: var(--muted);
+  text-align: center;
+}
+.focus-controls button { white-space: nowrap; }
+.dial-slider {
+  flex: 1 1 auto;
+  min-width: 80px;
+  accent-color: var(--viewer);
+}
+
+@media (max-width: 720px) {
+  .dial-layout {
+    grid-template-columns: 54px minmax(0, 1fr);
+    gap: 6px;
+  }
+  .preview-cells {
+    min-height: 240px;
+  }
+  .dial-svg {
+    max-height: 320px;
+  }
+  .focus-controls span {
+    display: none;
+  }
+}
+
+@media (max-width: 390px) {
+  .dial-layout {
+    grid-template-columns: 46px minmax(0, 1fr);
+    gap: 4px;
+  }
+  .preview-cells {
+    min-height: 200px;
+    width: 20px;
+  }
+  .dial-svg {
+    max-height: 270px;
+  }
+  .ring-label {
+    display: none;
+  }
+  .dial-caption-right > span:not(.dial-empty-key) {
+    display: none;
+  }
+  .focus-controls button {
+    flex: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .time-dial *,
+  .time-dial *::before,
+  .time-dial *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

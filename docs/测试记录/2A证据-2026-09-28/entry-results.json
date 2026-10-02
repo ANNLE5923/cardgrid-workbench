@@ -1,0 +1,33 @@
+{
+  "at": "2026-09-28T12:30:34.574Z",
+  "results": [
+    {
+      "name": "production-open-date-navigation-explicit-prepare-and-capture",
+      "status": "pass",
+      "detail": {
+        "readonlyNavigation": true,
+        "explicitPreparation": true,
+        "captureOnly": true
+      }
+    },
+    {
+      "name": "production-download-clear-restore-and-epoch-clears-other-window-draft",
+      "status": "pass",
+      "detail": {
+        "downloadMatches": true,
+        "explicitConfirmation": true,
+        "exactRestore": true,
+        "epochDraftReset": true
+      }
+    },
+    {
+      "name": "production-legacy-is-readonly-without-bootstrap-and-unknown-data-survives",
+      "status": "pass",
+      "detail": {
+        "sourcePreserved": true,
+        "previewOnly": true,
+        "unknownFormatNotOverwritten": true
+      }
+    }
+  ]
+}

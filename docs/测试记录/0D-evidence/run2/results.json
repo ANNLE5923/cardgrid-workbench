@@ -1,0 +1,31 @@
+{
+  "selectedCase": "C-config",
+  "executedAt": "2026-09-24T07:18:04.966Z",
+  "gitHead": "511710dd328a3aae558015b8582b2ef98df81e7c",
+  "browserVersion": "156.0.8063.3",
+  "origin": "http://127.0.0.1:52477",
+  "fixedDate": "2026-09-24",
+  "fixtureHash": "483b8aa7a41809968603286687a570b97ecdd484e9c4e6ab99aa2563ece8c063",
+  "sourceHashes": {
+    "src/domain.ts": "33b83eb737c088e6736272aa0e101f3982c1ddb2620f1339425337701964c557",
+    "src/planner.ts": "89ea2be14946d7a859c9ab89ac419f2f67c7b1a9c4afbb9ac1d0db7e97e81453",
+    "src/planner-migration.ts": "02e335497698c6bf25f2adcc4ce66bace827c60ad3cbab553caee94e24be31ce",
+    "src/store.ts": "87d864898d97cf4d041218218861273422f75a19d0360e52c0831a332484b731",
+    "src/main.tsx": "0e377d9f31c0feb504610cfc8560f5bb5153c7e41eb891eb30704274ec3200ef",
+    "src/today.tsx": "875d6439a14f1d0d955f158e31dec3d5c427e9e6365ee437dff781e90065437c",
+    "src/schedule.tsx": "451e11fde7adbe9fb63ddca865237fddb6536876f73c0852674b906b4c0a783a"
+  },
+  "records": [
+    {
+      "id": "C-config",
+      "status": "pass",
+      "durationMs": 3197,
+      "detail": {
+        "workspaceAndRecoveryUnchanged": true,
+        "revision": 11,
+        "confirmedError": "本次没有覆盖",
+        "draft": "config"
+      }
+    }
+  ]
+}

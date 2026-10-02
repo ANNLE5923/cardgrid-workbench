@@ -1,0 +1,226 @@
+{
+  "task": "3F",
+  "origin": "http://127.0.0.1:52485",
+  "version": "156.0.8072.0",
+  "at": "2026-10-02T03:48:45.336Z",
+  "passed": 30,
+  "failed": 0,
+  "results": [
+    {
+      "id": "B01-initial-now",
+      "status": "passed",
+      "observations": {
+        "focus": "09:02"
+      }
+    },
+    {
+      "id": "B02-readonly-24h",
+      "status": "passed",
+      "observations": {}
+    },
+    {
+      "id": "B03-button-plan-save-refresh",
+      "status": "passed",
+      "observations": {}
+    },
+    {
+      "id": "B04-pointer-preview-cancel-no-write",
+      "status": "passed",
+      "observations": {
+        "label": "选择落点\n2026-09-28T09:00—2026-09-28T09:30\n+08:00/+08:00 · valid\n取消\n确认排期"
+      }
+    },
+    {
+      "id": "B05-pointer-save",
+      "status": "passed",
+      "observations": {}
+    },
+    {
+      "id": "B06-overlap-ack-save",
+      "status": "passed",
+      "observations": {
+        "messages": "手牌为空。去“收件箱”把待办加入手牌。"
+      }
+    },
+    {
+      "id": "B07-overlap-blocker-details",
+      "status": "passed",
+      "observations": {
+        "dialog": "选择落点\n2026-09-28T09:00—2026-09-28T09:30\n+08:00/+08:00 · conflict\n冲突：固定甲\n我知道当前选择有重叠/冲突，仍按这个落点排期\n取消\n确认排期"
+      }
+    },
+    {
+      "id": "B08-dial-rotation-pointer",
+      "status": "passed",
+      "observations": {
+        "after": "12:00"
+      }
+    },
+    {
+      "id": "B09-candidate-slide",
+      "status": "passed",
+      "observations": {
+        "after": "2026-09-28T07:05—2026-09-28T07:35\n+08:00/+08:00 · valid"
+      }
+    },
+    {
+      "id": "B10-plan-doubleclick-edit",
+      "status": "passed",
+      "observations": {}
+    },
+    {
+      "id": "B11-button-reaches-24",
+      "status": "passed",
+      "observations": {
+        "focus": "24:00"
+      }
+    },
+    {
+      "id": "B12-pointer-24-next-date",
+      "status": "passed",
+      "observations": {
+        "preview": "选择落点\n2026-09-29T00:00—2026-09-29T00:30\n+08:00/+08:00 · valid\n取消\n确认排期"
+      }
+    },
+    {
+      "id": "B13-keyboard-place",
+      "status": "passed",
+      "observations": {
+        "dialogs": [
+          "排到 2026-09-28×落点时间2026-09-28T09:00—2026-09-28T09:30+08:00/+08:00 · 6 格这个时间没有冲突。确认排期取消"
+        ]
+      }
+    },
+    {
+      "id": "B14-view-modal-focus-escape",
+      "status": "passed",
+      "observations": {
+        "focusInside": true
+      }
+    },
+    {
+      "id": "B15-preview-date-change",
+      "status": "passed",
+      "observations": {
+        "previewCount": 0
+      }
+    },
+    {
+      "id": "B16-single-placement-owner",
+      "status": "passed",
+      "observations": {
+        "previewCount": 0
+      }
+    },
+    {
+      "id": "B17-external-preview-invalidated",
+      "status": "passed",
+      "observations": {
+        "count": 0
+      }
+    },
+    {
+      "id": "B18-dst-explicit-choice",
+      "status": "passed",
+      "observations": {
+        "selected": 0
+      }
+    },
+    {
+      "id": "B19-dst-duration-offset-self-overlap",
+      "status": "passed",
+      "observations": {
+        "note": "01:15 · 日程概述\n×\n计划\n独立合成行动\n完整 2026-11-01 00:30 -04:00 — 2026-11-01 02:30 -05:00 · 180 分钟",
+        "overlaps": 0
+      }
+    },
+    {
+      "id": "B20-fixed-button-cancel-save",
+      "status": "passed",
+      "observations": {}
+    },
+    {
+      "id": "B21-fact-readonly-annotation",
+      "status": "passed",
+      "observations": {}
+    },
+    {
+      "id": "B22-cross-day-full-description",
+      "status": "passed",
+      "observations": {
+        "note": "23:45.63659193781541 · 日程概述\n×\n计划\n独立合成行动\n完整 2026-09-28 23:30 +08:00 — 2026-09-29 00:30 +08:00 · 60 分钟\n→ 次日延续"
+      }
+    },
+    {
+      "id": "B23-now-reset-date",
+      "status": "passed",
+      "observations": {
+        "date": "2026-10-02"
+      }
+    },
+    {
+      "id": "B24-idle-midnight",
+      "status": "passed",
+      "observations": {
+        "date": "2026-10-03"
+      }
+    },
+    {
+      "id": "B25-manual-midnight-notice",
+      "status": "passed",
+      "observations": {
+        "ui": "▦\nCardGrid\n卡格工作台\n我的空间\n▦\nToday\n＋\nInbox\n◫\nSchedule\n❖\n行动定义\n✦\n抽卡手牌\n◇\n配置工坊\n↗\n数据与备份\n数据保存在本机\n行动底座 · 2A\n工作台 / HAND 抽卡手牌\n重新载入\nHAND\n抽卡手牌\n\n抽取建议、管理手牌，并在“当日”安排时间。\n\n抽卡与手牌\n\n抽取只给建议，不占时间、不生成事实；接受后行动进入手牌，由你安排。\n\n抽取建议\n手牌（1）\n当日\n日期\n时区\n默认落点\n已跨午夜，进入新一天 2026-10-03（当前仍查看 2026-09-28）\n×\nTODAY / TIME\n红色＝空时间\n按住表盘旋转 · 指针固定 · 双击改期\n24H\n00\n03\n06\n09\n12\n15\n18\n21\n▶\n现在 23:59\n23:59\n◀\n点色段只读 · 点“现在”复位\n12\n1\n2\n3\n4\n5\n6\n7\n8\n9\n10\n11\n当前刻度\n23:59\n后 12 小时\n前 12 小时\n00–12\n后 12 小时\n12–24\n−5 分钟\n+5 分钟\n手牌（1）\n01 · 30 分钟\n独立合成行动\n完成一个可核对结果\n打出\n记录实际\n已排计划（0）\n\n当天没有已排计划。\n\n固定安排（0）\n\n当天没有固定安排。\n\n事实（0）\n\n还没有已锁定的事实。确认行动实际发生后，会出现在这里。\n\nCardGrid · 卡格工作台\n所有改动保存在此浏览器 · 建议定期导出备份"
+      }
+    },
+    {
+      "id": "B26-layout-320",
+      "status": "passed",
+      "observations": {
+        "width": {
+          "width": 320,
+          "scroll": 320
+        }
+      }
+    },
+    {
+      "id": "B26-layout-390",
+      "status": "passed",
+      "observations": {
+        "width": {
+          "width": 390,
+          "scroll": 390
+        }
+      }
+    },
+    {
+      "id": "B26-layout-720",
+      "status": "passed",
+      "observations": {
+        "width": {
+          "width": 720,
+          "scroll": 720
+        }
+      }
+    },
+    {
+      "id": "B26-layout-1280",
+      "status": "passed",
+      "observations": {
+        "width": {
+          "width": 1280,
+          "scroll": 1280
+        }
+      }
+    },
+    {
+      "id": "B27-night-reduced-motion",
+      "status": "passed",
+      "observations": {
+        "styles": {
+          "fact": "#8ac2b9",
+          "transition": "0s"
+        }
+      }
+    }
+  ]
+}

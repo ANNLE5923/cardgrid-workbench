@@ -1,0 +1,137 @@
+{
+  "task": "3F",
+  "origin": "http://127.0.0.1:52491",
+  "version": "156.0.8072.0",
+  "at": "2026-10-02T03:50:57.544Z",
+  "passed": 8,
+  "failed": 0,
+  "results": [
+    {
+      "id": "C01-crowded-select-all",
+      "status": "passed",
+      "observations": {
+        "note": "09:42 · 日程概述\n×\n固定\nG3-x2\n完整 2026-10-01 09:15 +08:00 — 2026-10-01 09:45 +08:00 · 30 分钟\n只读，不能编辑\n事实\nG3-f1\n完整 2026-10-01 09:40 +08:00 — 2026-10-01 10:05 +08:00 · 25 分钟\n只读，不能编辑"
+      }
+    },
+    {
+      "id": "C02-crowded-45-full-save",
+      "status": "passed",
+      "observations": {
+        "preview": "排到 2026-10-01\n×\n落点时间\n2026-10-01T07:30—2026-10-01T08:15\n+08:00/+08:00 · 9 格\n与 G3-x1 重叠 07:35—08:00\n\n与已有安排重叠\n\n我知道有重叠，仍要安排在这个时间\n确认排期\n取消"
+      }
+    },
+    {
+      "id": "C03-cross-day-no-loss-navigation",
+      "status": "passed",
+      "observations": {}
+    },
+    {
+      "id": "C04-pointercancel-no-write",
+      "status": "passed",
+      "observations": {}
+    },
+    {
+      "id": "C05-many-hand-small-screen",
+      "status": "passed",
+      "observations": {
+        "layout": {
+          "width": 320,
+          "scroll": 320
+        }
+      }
+    },
+    {
+      "id": "C06-page-headings-paper",
+      "status": "passed",
+      "observations": {
+        "pages": [
+          {
+            "nav": "Today",
+            "h1": "Today · 今日",
+            "allH1": 2
+          },
+          {
+            "nav": "Inbox",
+            "h1": "Inbox · 收件箱",
+            "allH1": 1
+          },
+          {
+            "nav": "Schedule",
+            "h1": "Schedule · 日程",
+            "allH1": 2
+          },
+          {
+            "nav": "行动定义",
+            "h1": "行动定义",
+            "allH1": 2
+          },
+          {
+            "nav": "抽卡手牌",
+            "h1": "抽卡手牌",
+            "allH1": 2
+          },
+          {
+            "nav": "配置工坊",
+            "h1": "配置工坊",
+            "allH1": 1
+          },
+          {
+            "nav": "数据与备份",
+            "h1": "数据与备份",
+            "allH1": 1
+          }
+        ]
+      }
+    },
+    {
+      "id": "C06-page-headings-night",
+      "status": "passed",
+      "observations": {
+        "pages": [
+          {
+            "nav": "Today",
+            "h1": "Today · 今日",
+            "allH1": 2
+          },
+          {
+            "nav": "Inbox",
+            "h1": "Inbox · 收件箱",
+            "allH1": 1
+          },
+          {
+            "nav": "Schedule",
+            "h1": "Schedule · 日程",
+            "allH1": 2
+          },
+          {
+            "nav": "行动定义",
+            "h1": "行动定义",
+            "allH1": 2
+          },
+          {
+            "nav": "抽卡手牌",
+            "h1": "抽卡手牌",
+            "allH1": 2
+          },
+          {
+            "nav": "配置工坊",
+            "h1": "配置工坊",
+            "allH1": 1
+          },
+          {
+            "nav": "数据与备份",
+            "h1": "数据与备份",
+            "allH1": 1
+          }
+        ]
+      }
+    },
+    {
+      "id": "C07-dst-button-explicit-choice",
+      "status": "passed",
+      "observations": {
+        "selected": 0
+      }
+    }
+  ]
+}

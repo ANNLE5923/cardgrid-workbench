@@ -1,0 +1,53 @@
+{
+  "at": "2026-10-02T06:13:27.088Z",
+  "results": [
+    {
+      "name": "S05-definition-input-and-resave",
+      "status": "pass",
+      "detail": {
+        "failureWriteFree": true,
+        "inputRetained": true
+      }
+    },
+    {
+      "name": "S05-hand-placement-and-retract-retry",
+      "status": "pass",
+      "detail": {
+        "noPartialPlan": true,
+        "sameInstance": true
+      }
+    },
+    {
+      "name": "S05-annotation-failure-retains-text-and-fact",
+      "status": "pass",
+      "detail": {
+        "exactFactPreserved": true,
+        "oneAnnotation": true
+      }
+    },
+    {
+      "name": "S05-external-revision-keeps-actual-input-and-repreviews",
+      "status": "pass",
+      "detail": {
+        "draftRetained": true,
+        "oneFact": true
+      }
+    },
+    {
+      "name": "G2-two-window-actual-confirm-produces-one-fact",
+      "status": "pass",
+      "detail": {
+        "oneFact": true,
+        "oneConfirmedPlan": true
+      }
+    },
+    {
+      "name": "G2-fact-edit-refused-and-original-retained",
+      "status": "pass",
+      "detail": {
+        "code": "FACT_LOCKED",
+        "exactEnvelopePreserved": true
+      }
+    }
+  ]
+}

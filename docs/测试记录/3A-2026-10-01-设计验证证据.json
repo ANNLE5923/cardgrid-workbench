@@ -1,0 +1,94 @@
+{
+  "task": "3A",
+  "version": "3A-dial-1",
+  "date": "2026-10-01",
+  "author": "Codex",
+  "modelAndReasoning": "本会话模型/档位未读取；不猜测客户端设置",
+  "status": "design-frozen",
+  "next": "3B.1",
+  "productionUIImplemented": false,
+  "g3Accepted": false,
+  "validation": {
+    "contractChecks": {
+      "command": "node --experimental-strip-types --test docs/产品设计/3A-contract-check.test.ts",
+      "tests": 54,
+      "passed": 54,
+      "failed": 0,
+      "exitCode": 0,
+      "output": "✔ G01 rotation 0 (2.554ms)\n✔ G01 rotation 540 (0.1432ms)\n✔ G01 rotation 570 (0.1099ms)\n✔ G01 rotation 720 (0.1257ms)\n✔ G01 rotation 1260 (0.6343ms)\n✔ G01 rotation 1440 (0.19ms)\n✔ G02 arc length 15 (0.2235ms)\n✔ G02 arc length 25 (0.0959ms)\n✔ G02 arc length 17 (0.1361ms)\n✔ G03 unwrapped bounded rotation 179->-179/540 (0.2665ms)\n✔ G03 unwrapped bounded rotation -179->179/540 (0.1261ms)\n✔ G03 unwrapped bounded rotation 0->10/1 (0.074ms)\n✔ G03 unwrapped bounded rotation 0->-10/1439 (0.0672ms)\n✔ G04 absolute landing 540 (0.1131ms)\n✔ G04 absolute landing 1260 (0.0548ms)\n✔ G04 absolute landing 542 (0.0613ms)\n✔ G04 absolute landing 542.5 (0.0571ms)\n✔ G04 absolute landing 719 (0.057ms)\n✔ G04 absolute landing 1439 (3.8857ms)\n✔ G04 absolute landing 1440 (0.464ms)\n✔ G05 inverse scale 400x400 (0.4506ms)\n✔ G05 inverse scale 320x320 (0.0807ms)\n✔ G05 inverse scale 720x900 (0.0603ms)\n✔ G06 pull 94->150 (0.1036ms)\n✔ G06 pull 132->150 (0.1797ms)\n✔ G06 pull 132->190 (0.1229ms)\n✔ G06 pull 180->195 (0.1564ms)\n✔ G07 ring hit 570/294/initial (0.3477ms)\n✔ G07 ring hit 570/332/initial (0.1745ms)\n✔ G07 ring hit 1440/332/1 (0.1611ms)\n✔ G07 ring hit 720/294/initial (0.0915ms)\n✔ G07 ring hit 0/316/0 (0.0643ms)\n✔ G07 ring hit 0/320/0 (0.1065ms)\n✔ G07 ring hit 0/310/1 (0.0976ms)\n✔ G07 ring hit 0/306/1 (0.0654ms)\n✔ G07 ring hit 0/260/initial (0.1124ms)\n✔ G07 ring hit 0/390/initial (0.0773ms)\n✔ P01 P01-noon (22.9677ms)\n✔ P01 P02-midnight-first (3.4134ms)\n✔ P01 P03-midnight-next (3.5653ms)\n✔ P01 P04-exact-midnight (6.1419ms)\n✔ P01 P05-spring (5.7864ms)\n✔ P01 P06-fall (5.3606ms)\n✔ P01 P07-actual-minute (2.783ms)\n✔ P02 day axis 2026-03-08 (5.2876ms)\n✔ P02 day axis 2026-11-01 (4.8987ms)\n✔ P03 DST choices and missing day are explicit (3.5188ms)\n✔ P04 formal plan and fixed versions remain authoritative (22.747ms)\n✔ P05 fact reference source is factId and free uses actual only (9.3545ms)\n✔ P06 unprepared template is fixed display but has no FixedView or writes (4.6082ms)\n✔ P07 unknown template occupancy does not become empty/red (0.8508ms)\n✔ P08 blank day becomes two full red arcs only at authoritative day end (4.1713ms)\n✔ P09 initial current reading retains minute precision (0.3151ms)\n✔ P10 crowded G3 oracle keeps 12 sources, all overlaps and 5/15/30 minute gaps (40.6763ms)\nℹ tests 54\nℹ suites 0\nℹ pass 54\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 689.4519\n"
+    },
+    "types": {
+      "command": "node node_modules/typescript/bin/tsc --noEmit --target ES2022 --lib ES2022,DOM,DOM.Iterable --module ESNext --moduleResolution Bundler --jsx react-jsx --strict --skipLibCheck --allowImportingTsExtensions docs/产品设计/3A-dial-contract.ts",
+      "exitCode": 0,
+      "output": ""
+    },
+    "boundaryAndLinks": {
+      "exitCode": 0,
+      "output": "{\"scopeFiles\":15,\"drift\":[],\"missingLinks\":[]}\n版本：v1.4；日期：2026-10-01。阶段0的G0、阶段1的G1已放行；**2A—2F已交付，2C-host-1/2F-component-1维持冻结；2G/2H技术债收尾与分离验收已完成，G2正式放行；**3A-dial-1设计已冻结，下一项3B.1正式投影适配与纯几何实现**。** 既有跨日完整区间修复已通过F01/F01b，本轮关闭技术缺口Q011；原失败历史保留。当前证据见[2G收尾记录](../测试记录/2G-2026-10-01-技术债收尾与最终验收.md)。系统未定项由用户裁定；真实迁移仍需备份、恢复验证和明确执行。\n"
+    },
+    "finalArtifacts": {
+      "files": 7,
+      "hashes": {
+        "docs/产品设计/11-3A正式投影几何与手势合同.md": "81354978277d3a06d2ad1c6b041a641ade4d0fd308d828ef711a576648890861",
+        "docs/产品设计/3A-dial-contract.ts": "33861be9f2e8f80c98549395295efa211b590ca474950a68a0ca2349f4614fd7",
+        "docs/产品设计/3A-regression-vectors.json": "2304d4f2e5bf3778aa50ed81cf01e71f70cbe45232220e276ef41c229b262897",
+        "docs/产品设计/3A-contract-check.test.ts": "a3d03f499ce933012cc37dfa71f3b457604db6ff9f783a9bd45e94fdedc59148",
+        "docs/产品设计/03-项目决策与问题.md": "51c1d406b1b1de3b2ed2a2f207a5273b7c106eeb0e777e89494dec55bbdf1596",
+        "docs/产品设计/05-阶段0至3线性任务分配计划.md": "6a7ae3d40b7c4ca3e641acb5b1a25495e2dcf76d0add2b9639d6e20669356223",
+        "docs/测试记录/3A-2026-10-01-设计冻结与交接.md": "8a71a58aaf17d6091b4c765a52716995ffe8d6afb7994f187482baf2813da040"
+      },
+      "missingLinks": [],
+      "g2ScopeFiles": 15,
+      "g2Drift": []
+    }
+  },
+  "history": [
+    {
+      "result": "53/53 initial checks passed before crowded sample",
+      "note": "Initial test set"
+    },
+    {
+      "result": "53/54, one failed",
+      "note": "Crowded overlap probe incorrectly used 09:35, before fact's 09:40 start. Corrected probe to 09:42; kept both-source expectation and production code unchanged.",
+      "output": "✔ G01 rotation 0 (2.6161ms)\n✔ G01 rotation 540 (0.2342ms)\n✔ G01 rotation 570 (0.1084ms)\n✔ G01 rotation 720 (0.1106ms)\n✔ G01 rotation 1260 (0.4846ms)\n✔ G01 rotation 1440 (0.0921ms)\n✔ G02 arc length 15 (0.1522ms)\n✔ G02 arc length 25 (0.1123ms)\n✔ G02 arc length 17 (0.1406ms)\n✔ G03 unwrapped bounded rotation 179->-179/540 (0.2442ms)\n✔ G03 unwrapped bounded rotation -179->179/540 (0.1006ms)\n✔ G03 unwrapped bounded rotation 0->10/1 (0.0951ms)\n✔ G03 unwrapped bounded rotation 0->-10/1439 (0.0611ms)\n✔ G04 absolute landing 540 (0.2334ms)\n✔ G04 absolute landing 1260 (0.0823ms)\n✔ G04 absolute landing 542 (0.0632ms)\n✔ G04 absolute landing 542.5 (0.0653ms)\n✔ G04 absolute landing 719 (0.0479ms)\n✔ G04 absolute landing 1439 (3.6421ms)\n✔ G04 absolute landing 1440 (0.7318ms)\n✔ G05 inverse scale 400x400 (0.4927ms)\n✔ G05 inverse scale 320x320 (0.0837ms)\n✔ G05 inverse scale 720x900 (0.0636ms)\n✔ G06 pull 94->150 (0.0878ms)\n✔ G06 pull 132->150 (0.0552ms)\n✔ G06 pull 132->190 (0.0526ms)\n✔ G06 pull 180->195 (0.0579ms)\n✔ G07 ring hit 570/294/initial (0.2639ms)\n✔ G07 ring hit 570/332/initial (0.1112ms)\n✔ G07 ring hit 1440/332/1 (0.2047ms)\n✔ G07 ring hit 720/294/initial (0.1415ms)\n✔ G07 ring hit 0/316/0 (0.0893ms)\n✔ G07 ring hit 0/320/0 (0.0985ms)\n✔ G07 ring hit 0/310/1 (0.0706ms)\n✔ G07 ring hit 0/306/1 (0.1039ms)\n✔ G07 ring hit 0/260/initial (0.137ms)\n✔ G07 ring hit 0/390/initial (0.0604ms)\n✔ P01 P01-noon (25.2307ms)\n✔ P01 P02-midnight-first (3.7457ms)\n✔ P01 P03-midnight-next (3.1258ms)\n✔ P01 P04-exact-midnight (3.0493ms)\n✔ P01 P05-spring (6.3263ms)\n✔ P01 P06-fall (4.2074ms)\n✔ P01 P07-actual-minute (4.2339ms)\n✔ P02 day axis 2026-03-08 (4.6834ms)\n✔ P02 day axis 2026-11-01 (3.6552ms)\n✔ P03 DST choices and missing day are explicit (3.9851ms)\n✔ P04 formal plan and fixed versions remain authoritative (22.4386ms)\n✔ P05 fact reference source is factId and free uses actual only (9.839ms)\n✔ P06 unprepared template is fixed display but has no FixedView or writes (9.7391ms)\n✔ P07 unknown template occupancy does not become empty/red (1.253ms)\n✔ P08 blank day becomes two full red arcs only at authoritative day end (3.8183ms)\n✔ P09 initial current reading retains minute precision (0.6768ms)\n✖ P10 crowded G3 oracle keeps 12 sources, all overlaps and 5/15/30 minute gaps (46.0404ms)\nℹ tests 54\nℹ suites 0\nℹ pass 53\nℹ fail 1\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 615.4009\n\n✖ failing tests:\n\ntest at docs\\产品设计\\3A-contract-check.test.ts:129:1\n✖ P10 crowded G3 oracle keeps 12 sources, all overlaps and 5/15/30 minute gaps (46.0404ms)\n  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:\n  + actual - expected\n  \n    [\n  -   'f1',\n      'x2'\n    ]\n  \n      at TestContext.<anonymous> (file:///C:/Users/arstot/Documents/Codex/2026-09-20/%E6%8A%BD%E5%8D%A1%E4%BA%BA%E7%94%9F/cardgrid/docs/%E4%BA%A7%E5%93%81%E8%AE%BE%E8%AE%A1/3A-contract-check.test.ts:148:10)\n      at async Test.run (node:internal/test_runner/test:1389:7)\n      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {\n    generatedMessage: true,\n    code: 'ERR_ASSERTION',\n    actual: [ 'x2' ],\n    expected: [ 'f1', 'x2' ],\n    operator: 'deepStrictEqual',\n    diff: 'simple'\n  }\n"
+    },
+    {
+      "result": "54/54 final passed",
+      "note": "Same assertions, corrected fixture input"
+    },
+    {
+      "result": "Initial combined file-write launch failed",
+      "note": "Windows OS 206 command length limit; split file writes succeeded."
+    }
+  ],
+  "boundary": {
+    "g2Files": 15,
+    "hashDrift": [],
+    "productionFilesChanged": [],
+    "hostVersion": "2C-host-1",
+    "componentVersion": "2F-component-1",
+    "domainVersion": "1F-contract-1"
+  },
+  "notRun": [
+    "3B production geometry/component checks (not implemented)",
+    "3C browser gestures/storage",
+    "G3 independent acceptance",
+    "physical touch devices",
+    "user continuous use",
+    "G2 full rerun (prior acceptance files unchanged; hash verified)"
+  ],
+  "designFindings": [
+    {
+      "id": "3A-GAP-05",
+      "priority": "P2",
+      "file": "src/components/action-flow.tsx",
+      "lines": [
+        59,
+        60
+      ],
+      "status": "static-confirmed; browser not rerun",
+      "finding": "PlacementDialog preselects the first DST candidate; existing 1F requires explicit offset choice.",
+      "next": "3C.1 bounded fix and browser regression; production code unchanged in 3A"
+    }
+  ]
+}

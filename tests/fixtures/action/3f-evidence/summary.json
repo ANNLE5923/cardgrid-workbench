@@ -1,0 +1,31 @@
+{
+  "task": "3F",
+  "verdict": "FAIL_G3_NOT_RELEASED",
+  "productionBrowser": {
+    "total": 38,
+    "passed": 16,
+    "failed": 22
+  },
+  "independentNode": {
+    "total": 8,
+    "passed": 0,
+    "failed": 8
+  },
+  "authorBaseline": {
+    "total": 205,
+    "passed": 204,
+    "skipped": 1,
+    "failed": 0
+  },
+  "build": {
+    "passed": true,
+    "modules": 60
+  },
+  "scope": {
+    "task": "3F",
+    "at": "2026-10-02T03:02:28.100Z",
+    "filesChecked": 46,
+    "changed": [],
+    "sourceAndAuthorTestsUnchanged": true
+  }
+}

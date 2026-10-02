@@ -1,0 +1,169 @@
+diff --git a/tests/fixtures/action/g3-final-evidence/before/action-flow.tsx b/src/components/action-flow.tsx
+index b1e794d..458db73 100644
+--- a/tests/fixtures/action/g3-final-evidence/before/action-flow.tsx
++++ b/src/components/action-flow.tsx
+@@ -1,7 +1,8 @@
+ import { useCallback, useEffect, useRef, useState } from 'react';
+ import type { ActualDraft, ActualPreview, CardView, Command, EntityRef, FactView, Id, LocalInput, PlacementPreview, PlacementSubject, Range, Token, VersionRef } from '../action-contract.ts';
+ import type { WorkspaceClient } from '../workspace-client.ts';
+-import { displayInstant, localMinuteIsFuture } from '../action-time.ts';
++import { displayInstant, localMinuteIsFuture, nextDate } from '../action-time.ts';
++import { usePlacementSession } from './time-dial/use-placement-session.ts';
+ import { useFlowFocus } from './use-flow-focus.ts';
+ 
+ const pad = (n: number) => String(n).padStart(2, '0');
+@@ -13,125 +14,63 @@ async function freshToken(client: WorkspaceClient): Promise<Token | string> {
+   return load.ok ? load.value.token : load.message;
+ }
+ 
+-/* 1. 排期与重叠确认 */
++/* 1. 排期与重叠确认：按钮入口复用与拖拽相同的会话控制器。 */
+ export function PlacementDialog(props: Readonly<{
+   client: WorkspaceClient; subject: PlacementSubject; date: string; zone: string;
+   initialFocusMinuteOfDay: number;
+   onCommitted?: (outcome: { token: Token; resultRefs: readonly EntityRef[]; replayed: boolean }) => void;
+   onClose: () => void;
+ }>) {
+-  const { client, subject, date, zone, initialFocusMinuteOfDay, onCommitted, onClose } = props;
+-  // The landing must sit on the 5-minute grid (contract §4.2: 2.5 rounds forward); the
+-  // raw reading can be off-grid, so snap it before the first preview (B03/B26).
+-  const snapGrid = (m: number) => Math.max(0, Math.min(1435, Math.round(m / 5) * 5));
+-  const [focus, setFocus] = useState(snapGrid(initialFocusMinuteOfDay));
+-  const [preview, setPreview] = useState<PlacementPreview | null>(null);
+-  const [chosen, setChosen] = useState<Id | null>(null);
+-  const [ack, setAck] = useState<Record<Id, boolean>>({});
+-  const [busy, setBusy] = useState(false);
+-  const [error, setError] = useState<string | null>(null);
+-  const previewIdRef = useRef<Id | null>(null);
+-  const mounted = useRef(true);
+-  const usedInitialUnlock = useRef(false);
+-  const focusRef = useFlowFocus(() => { if (!busy) close(); });
+-
+-  const runPreview = useCallback(async (focusMinute: number, keepError = false) => {
+-    setBusy(true); if (!keepError) setError(null);
+-    const token = await freshToken(client);
+-    if (typeof token === 'string') { setError(token); setBusy(false); return; }
+-    const oldPreviewId = previewIdRef.current;
+-    let effectiveSubject = subject;
+-    if (subject.kind === 'fixed' && usedInitialUnlock.current) {
+-      // The old preview owns the one-time unlock; cancelling it releases that
+-      // unlock. Re-arm with a fresh unlock before tearing the old preview down,
+-      // otherwise the new preview would lose its authorization.
+-      const rearm = await client.unlockFixed({ token, commitmentId: subject.commitmentId, version: subject.version });
+-      if (!mounted.current) return;
+-      if (!rearm.ok) { setError(rearm.message); setBusy(false); return; }
+-      if (oldPreviewId) client.cancelPreview(oldPreviewId);
+-      previewIdRef.current = null;
+-      effectiveSubject = { ...subject, unlockId: rearm.value };
+-    }
+-    if (subject.kind === 'fixed') usedInitialUnlock.current = true;
+-    const r = await client.previewPlacement({ token, subject: effectiveSubject, date, zone, focusMinuteOfDay: focusMinute });
+-    if (!mounted.current) { if (r.ok) client.cancelPreview(r.value.previewId); return; }
+-    if (!r.ok) { setError(r.message); setBusy(false); return; }
+-    if (previewIdRef.current) client.cancelPreview(previewIdRef.current);
+-    previewIdRef.current = r.value.previewId;
+-    setPreview(r.value); setAck({});
+-    // Multiple candidates (DST ambiguous offsets) start unchosen; a single candidate auto-selects (F07).
+-    const auto = r.value.candidates.length === 1 ? r.value.candidates[0] : null;
+-    setChosen(auto ? auto.id : null);
+-    setBusy(false);
+-  }, [client, subject, date, zone]);
+-
++  const { client, subject, zone, onCommitted, onClose } = props;
++  const rawMinute = Math.max(0, Math.min(1440, Math.round(props.initialFocusMinuteOfDay / 5) * 5));
++  const date = rawMinute === 1440 ? nextDate(props.date) : props.date;
++  const [focus, setFocus] = useState(rawMinute === 1440 ? 0 : rawMinute);
++  const session = usePlacementSession(client);
++  const { preview, chosen, busy, error } = session.state;
++  const [ackFor, setAckFor] = useState<Id | null>(null);
++  const close = () => { session.release(); onClose(); };
++  const focusRef = useFlowFocus(() => { if (session.state.status !== 'committing') close(); });
+   useEffect(() => {
+-    mounted.current = true;
+-    void runPreview(snapGrid(initialFocusMinuteOfDay));
+-    return () => { mounted.current = false; if (previewIdRef.current) client.cancelPreview(previewIdRef.current); };
+-    // eslint-disable-next-line react-hooks/exhaustive-deps
++    void session.start({ subject, date, zone, focusMinute: rawMinute === 1440 ? 0 : rawMinute });
++    return () => session.release();
+   }, []);
+-
+-  useEffect(() => client.subscribe(external => {
+-    if (!external) return;
+-    if (previewIdRef.current) client.cancelPreview(previewIdRef.current);
+-    previewIdRef.current = null; setPreview(null); setChosen(null); setAck({});
+-    setError('另一窗口已保存，请重新检查本次排期。');
+-    void runPreview(focus, true);
+-  }), [client, focus, runPreview]);
+-
++  useEffect(() => { setAckFor(null); }, [preview?.previewId, chosen]);
+   async function commit() {
+-    if (!preview || !chosen || busy) return;
+-    const cand = preview.candidates.find(c => c.id === chosen);
+-    if (!cand) return;
+-    if (cand.state === 'conflict' && !ack[cand.id]) { setError('请先勾选确认本次重叠'); return; }
+-    setBusy(true); setError(null);
+-    const acknowledged = cand.state === 'conflict' ? cand.acknowledgementId : null;
+-    const cmd = { commandId: crypto.randomUUID(), expected: preview.token, type: 'CommitPlacement', payload: { previewId: preview.previewId, candidateId: cand.id, acknowledgedOverlap: acknowledged } } as Command;
+-    const r = await client.submit(cmd);
+-    if (!r.ok) {
+-      setError(r.message); setBusy(false);
+-      if (r.retry === 'preview' || ['REVISION_CONFLICT', 'WORKSPACE_REPLACED', 'PREVIEW_STALE', 'OVERLAP_CONFIRMATION_REQUIRED', 'FIXED_LOCKED'].includes(r.code)) {
+-        if (previewIdRef.current) client.cancelPreview(previewIdRef.current);
+-        previewIdRef.current = null; setPreview(null); setChosen(null); setAck({});
+-        void runPreview(focus, true);
+-      }
+-      return;
+-    }
+-    previewIdRef.current = null; setBusy(false); onCommitted?.(r.value);
++    const outcome = await session.commit(ackFor === chosen);
++    if (outcome) onCommitted?.(outcome);
+   }
+-  function close() { if (previewIdRef.current) client.cancelPreview(previewIdRef.current); previewIdRef.current = null; onClose(); }
+-
+   return (
+     <div ref={focusRef} tabIndex={-1} className="flow-overlay" role="dialog" aria-modal="true" aria-label="排期与重叠确认">
+       <div className="panel flow-dialog">
+-        <div className="flow-head"><h2>排到 {date}</h2><button type="button" aria-label="关闭" disabled={busy} onClick={close}>×</button></div>
++        <div className="flow-head"><h2>排到 {date}</h2><button type="button" aria-label="关闭" disabled={session.state.status === 'committing'} onClick={close}>×</button></div>
+         <label className="flow-time">落点时间
+-          <input type="time" step="300" disabled={busy} value={toTime(focus)} onChange={e => { const m = snapGrid(fromTime(e.target.value)); setFocus(m); void runPreview(m); }} />
++          <input type="time" step="300" disabled={session.state.status === 'committing'} value={toTime(focus)} onChange={e => {
++            const m = Math.max(0, Math.min(1435, Math.round(fromTime(e.target.value) / 5) * 5));
++            setFocus(m); setAckFor(null); void session.moveTo(date, m);
++          }} />
+         </label>
+         {error ? <div className="message" role="alert">{error}</div> : null}
+-        {preview?.unresolved.length ? <div className="message">{preview.unresolved.map(u => u.message).join('；')}</div> : null}
++        {busy ? <p role="status">正在检查落点：{date}T{toTime(focus)}…</p> : null}
++        {session.state.unresolved.length ? <div className="message">{session.state.unresolved.join('；')}</div> : null}
+         <div className="flow-candidates">
+           {preview?.candidates.map(c => (
+             <div key={c.id} className={`flow-candidate ${chosen === c.id ? 'chosen' : ''} ${c.state}`}>
+               <label className="flow-pick">
+-                <input type="radio" disabled={busy} name="candidate" checked={chosen === c.id} onChange={() => setChosen(c.id)} />
++                <input type="radio" disabled={busy} name="candidate" checked={chosen === c.id} onChange={() => session.selectCandidate(c.id)} />
+                 <span><strong>{c.label}</strong><small>{c.offsetLabel} · {c.units} 格</small></span>
+               </label>
+-              {c.state === 'conflict' ? (
+-                <>
+-                  <ul className="flow-blockers">{c.blockers.map(b => <li key={b.id}>与 {b.title} 重叠 {fmt(b.overlap, zone)}</li>)}</ul>
+-                  <p className="flow-reason">{c.reason}</p>
+-                  <label className="flow-ack"><input type="checkbox" disabled={busy} checked={!!ack[c.id]} onChange={e => setAck({ ...ack, [c.id]: e.target.checked })} />我知道有重叠，仍要安排在这个时间</label>
+-                </>
+-              ) : <p className="flow-ok">这个时间没有冲突。</p>}
++              {c.state === 'conflict' ? <>
++                <ul className="flow-blockers">{c.blockers.map(b => <li key={JSON.stringify([b.kind, b.id])}>与 {b.title} 重叠 {fmt(b.overlap, zone)}</li>)}</ul>
++                <p className="flow-reason">{c.reason}</p>
++                <label className="flow-ack"><input type="checkbox" disabled={busy} checked={ackFor === c.id} onChange={e => setAckFor(e.target.checked ? c.id : null)} />我知道有重叠，仍要安排在这个时间</label>
++              </> : <p className="flow-ok">这个时间没有冲突。</p>}
+             </div>
+           ))}
+           {preview && !preview.candidates.length ? <p className="flow-reason">没有可用落点，请换一个时间。</p> : null}
+         </div>
+         <div className="toolbar flow-actions">
+           <button type="button" className="primary" disabled={busy || !chosen} onClick={() => void commit()}>确认排期</button>
+-          <button type="button" disabled={busy} onClick={close}>取消</button>
++          <button type="button" disabled={session.state.status === 'committing'} onClick={close}>取消</button>
+         </div>
+       </div>
+     </div>

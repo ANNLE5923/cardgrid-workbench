@@ -1,0 +1,122 @@
+{
+  "task": "G3-Codex",
+  "origin": "http://127.0.0.1:51939",
+  "version": "156.0.8072.0",
+  "at": "2026-10-02T05:53:56.023Z",
+  "passed": 1,
+  "failed": 1,
+  "results": [
+    {
+      "id": "Q01-view-only-does-not-retain-placement-origin",
+      "status": "passed",
+      "observations": {
+        "beforeCancel": "11:00",
+        "afterCancel": "11:00"
+      }
+    },
+    {
+      "id": "Q02-first-entry-push-threshold",
+      "status": "failed",
+      "observations": {
+        "outer": "选择落点\n2026-09-28T21:00—2026-09-28T21:30\n+08:00/+08:00 · valid\n取消\n确认排期",
+        "after38": "选择落点\n2026-09-28T09:00—2026-09-28T09:30\n+08:00/+08:00 · valid\n取消\n确认排期"
+      },
+      "error": "AssertionError [ERR_ASSERTION]: The input did not match the regular expression /2026-09-28T21:00/. Input:\n\n'选择落点\\n2026-09-28T09:00—2026-09-28T09:30\\n+08:00/+08:00 · valid\\n取消\\n确认排期'\n\n    at file:///C:/Users/arstot/Documents/Codex/2026-09-20/%E6%8A%BD%E5%8D%A1%E4%BA%BA%E7%94%9F/cardgrid/tests/browser/action-3g-readonly-edges.mjs:41:50\n    at async check (file:///C:/Users/arstot/Documents/Codex/2026-09-20/%E6%8A%BD%E5%8D%A1%E4%BA%BA%E7%94%9F/cardgrid/tests/browser/action-3g-readonly-edges.mjs:26:537)\n    at async file:///C:/Users/arstot/Documents/Codex/2026-09-20/%E6%8A%BD%E5%8D%A1%E4%BA%BA%E7%94%9F/cardgrid/tests/browser/action-3g-readonly-edges.mjs:36:1",
+      "pageErrors": [],
+      "state": {
+        "current": {
+          "schemaVersion": 4,
+          "epoch": "independent-epoch",
+          "revision": 10,
+          "mode": "current",
+          "dataFormat": "action-v2",
+          "data": {
+            "version": 2,
+            "settings": {
+              "zone": "Asia/Shanghai",
+              "preferences": {
+                "theme": "paper",
+                "density": "comfortable",
+                "startHour": 8,
+                "endHour": 23,
+                "defaultMinutes": 15
+              },
+              "categories": []
+            },
+            "planner": {
+              "version": 2,
+              "definitions": [],
+              "instances": [
+                {
+                  "id": "i",
+                  "version": 7,
+                  "definition": null,
+                  "creationSnapshot": {
+                    "title": "独立合成行动",
+                    "criteria": "完成一个可核对结果",
+                    "presetMinutes": 30,
+                    "minimum": false,
+                    "color": "#336699",
+                    "categoryId": null,
+                    "categoryLabel": null,
+                    "projectIds": [],
+                    "goalIds": [],
+                    "projectLabels": [],
+                    "goalLabels": []
+                  },
+                  "currentContent": {
+                    "title": "独立合成行动",
+                    "criteria": "完成一个可核对结果",
+                    "presetMinutes": 30,
+                    "minimum": false,
+                    "color": "#336699",
+                    "categoryId": null,
+                    "categoryLabel": null,
+                    "projectIds": [],
+                    "goalIds": [],
+                    "projectLabels": [],
+                    "goalLabels": []
+                  },
+                  "source": {
+                    "kind": "manual"
+                  },
+                  "createdAt": "2026-09-28T02:00:00Z",
+                  "targetDate": null,
+                  "state": "open",
+                  "occurrenceId": null,
+                  "makeupOf": null
+                }
+              ],
+              "handOrder": [
+                "i"
+              ],
+              "plans": [],
+              "facts": [],
+              "annotations": [],
+              "fixed": [],
+              "templates": [],
+              "days": [],
+              "rules": [],
+              "occurrences": [],
+              "captures": [],
+              "refs": [],
+              "goals": [],
+              "history": []
+            },
+            "legacySources": [],
+            "migrationBindings": [],
+            "commandReceipts": []
+          },
+          "lifecycleReceipt": null
+        },
+        "recovery": []
+      },
+      "ui": "▦\nCardGrid\n卡格工作台\n我的空间\n▦\nToday\n＋\nInbox\n◫\nSchedule\n❖\n行动定义\n✦\n抽卡手牌\n◇\n配置工坊\n↗\n数据与备份\n数据保存在本机\n行动底座 · 2A\n工作台 / HAND 抽卡手牌\n重新载入\nHAND\n抽卡手牌\n\n抽取建议、管理手牌，并在“当日”安排时间。\n\n抽卡与手牌\n\n抽取只给建议，不占时间、不生成事实；接受后行动进入手牌，由你安排。\n\n抽取建议\n手牌（1）\n当日\n日期\n时区\n默认落点\nTODAY / TIME\n红色＝空时间\n按住表盘旋转 · 指针固定 · 双击改期\n24H\n00\n03\n06\n09\n12\n15\n18\n21\n▶\n现在 09:02\n09:00\n◀\n点色段只读 · 点“现在”复位\n12\n1\n2\n3\n4\n5\n6\n7\n8\n9\n10\n11\n当前刻度\n09:00\n前 12 小时\n前 12 小时\n00–12\n后 12 小时\n12–24\n−5 分钟\n+5 分钟\n手牌（1）\n01 · 30 分钟\n独立合成行动\n完成一个可核对结果\n打出\n记录实际\n选择落点\n2026-09-28T09:00—2026-09-28T09:30\n+08:00/+08:00 · valid\n取消\n确认排期\n已排计划（0）\n\n当天没有已排计划。\n\n固定安排（0）\n\n当天没有固定安排。\n\n事实（0）\n\n还没有已锁定的事实。确认行动实际发生后，会出现在这里。\n\nCardGrid · 卡格工作台\n所有改动保存在此浏览器 · 建议定期导出备份",
+      "layout": {
+        "width": 1280,
+        "scrollWidth": 1280,
+        "active": "<div tabindex=\"-1\" class=\"candidate-adjust\" role=\"dialog\" aria-label=\"调整落点并确认\"><h3>选择落点</h3><div class=\"adjust-candidates\"><button type=\"button\" class=\"adjust-candidate chosen\"><input tabindex=\"-1\" readonly=\"\" type=\"radio\" checked=\"\"><span>2026-09-28T09:00—2026-09-28T09:30<small>+08:00/+08:00 · valid</small></span></button></div><div class=\"adjust-actions\"><button type=\"button\">取消</button><button type=\"button\" class=\"primary\">确认排期</button></div></div>"
+      }
+    }
+  ]
+}

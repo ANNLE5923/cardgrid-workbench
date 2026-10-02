@@ -1,0 +1,123 @@
+{
+  "at": "2026-10-02T06:03:02.036Z",
+  "status": "waiting-for-final-source-freeze",
+  "author": "root",
+  "independentReviewer": "g3_readonly_acceptance",
+  "productionEditedByReviewer": false,
+  "originalAssertionsEdited": false,
+  "round1": {
+    "node": {
+      "total": 217,
+      "pass": 216,
+      "skip": 1,
+      "fail": 0
+    },
+    "independentNode": {
+      "total": 8,
+      "pass": 8,
+      "fail": 0
+    },
+    "build": "passed",
+    "B": {
+      "total": 30,
+      "pass": 30
+    },
+    "C": {
+      "total": 8,
+      "pass": 8
+    },
+    "D": {
+      "total": 8,
+      "pass": 8
+    },
+    "P": {
+      "total": 5,
+      "pass": 5
+    },
+    "G2": {
+      "main": [
+        13,
+        13
+      ],
+      "closure": [
+        6,
+        7
+      ],
+      "saveFailures": [
+        6,
+        6
+      ],
+      "annotation": [
+        2,
+        2
+      ]
+    }
+  },
+  "findings": [
+    {
+      "id": "G3-I01",
+      "priority": 2,
+      "file": "src/components/time-dial/use-placement-session.ts",
+      "trigger": "Click conflict confirmation without overlap acknowledgement",
+      "observed": "commit returns false without feedback; unchanged G2 closure waits for alert",
+      "evidence": "action-2g-closure/results.json",
+      "handoff": "author accepted repair"
+    },
+    {
+      "id": "G3-I02",
+      "priority": 2,
+      "file": "src/components/day-board.tsx",
+      "trigger": "View card at09:00, close, change reading11:00, open placement, cancel",
+      "observed": {
+        "beforeCancel": "11:00",
+        "afterCancel": "09:00"
+      },
+      "handoff": "author repaired; subsequent Q01 observed11:00 preserved"
+    },
+    {
+      "id": "G3-I03",
+      "priority": 2,
+      "file": "src/components/hand/HandFan.tsx",
+      "trigger": "One held drag enters outer132 then moves inward38",
+      "observed": {
+        "outer": "21:00",
+        "after38": "09:00"
+      },
+      "contract": "3A section6 first entry holds outer until75 logical units; actual card top edge required",
+      "handoff": "author repairing actual top edge and swept entry; new Q02 coordinate calibration must target card edge"
+    }
+  ],
+  "invalidRuns": [
+    {
+      "id": "hook-port-collision",
+      "reason": "G2 and hook Vite entry competed for5173; hook did not start",
+      "evidence": "action-3g-hook-faults.log"
+    },
+    {
+      "id": "hook-HMR",
+      "reason": "Author source edit reloaded E09 page during its delay;9/10 not accepted as final test verdict",
+      "evidence": "hook-retry.log"
+    },
+    {
+      "id": "Q01-invalid-selectors",
+      "reason": "New independent script initially used absent card title selector and ambiguous close button; corrected locator only",
+      "evidence": [
+        "edges/harness-invalid-entry.json",
+        "edges/harness-invalid-close.json"
+      ]
+    },
+    {
+      "id": "first-summary-wrapper",
+      "reason": "Early orchestration wrapper referenced absent g after scripts completed; final wrapper corrected and all suites re-executed"
+    }
+  ],
+  "scope": {
+    "coreFiles": 9,
+    "coreChanges": 0,
+    "originalTestChanges": 0,
+    "sourceChangesAtInitialFreeze": 7
+  },
+  "finalVerdict": "G3_PASS",
+  "finalSummary": "summary.json",
+  "resolvedFindings": 4
+}

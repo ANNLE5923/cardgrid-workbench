@@ -1,0 +1,85 @@
+{
+  "at": "2026-10-02T05:41:03.834Z",
+  "results": [
+    {
+      "id": "E01-serial-coalesce-pending",
+      "status": "failed",
+      "error": "page.waitForFunction: Timeout 5000ms exceeded.\n    at check (C:\\Users\\arstot\\Documents\\Codex\\2026-09-20\\抽卡人生\\cardgrid\\tests\\browser\\action-3g-hook-faults.mjs:22:59)\n    at async file:///C:/Users/arstot/Documents/Codex/2026-09-20/%E6%8A%BD%E5%8D%A1%E4%BA%BA%E7%94%9F/cardgrid/tests/browser/action-3g-hook-faults.mjs:27:2",
+      "errors": [],
+      "ui": "▦\nCardGrid\n卡格工作台\n我的空间\n▦\nToday\n＋\nInbox\n◫\nSchedule\n❖\n行动定义\n✦\n抽卡手牌\n◇\n配置工坊\n↗\n数据与备份\n数据保存在本机\n行动底座 · 2A\n工作台 / TODAY Today · 今日\n重新载入\nTODAY\nToday · 今日\n\n看今天的时间盘与手牌；打开和切换日期不会生成安排。\n\n前一天\n2026-10-02\n后一天\n显示时区\n准备日型\n按适用星期选择\n准备这一天\n\n打开和切换日期不会生成安排。此处展示完整时间记录；排期、改期和实际确认请到“抽卡手牌 → 当日”。\n\n完整时间记录\n\n没有已保存的时间记录。\n\nTODAY · P1A\n10月2日星期五\n\n打开 → 看一眼 → 微调 → 开始今天\n\n‹\n未准备日型\n›\n今天最重要的 3 件事\n\n由你确认，Planner 只提供候选。\n\n切换 Minimum Day\n1\n选择今天要保护的任务\n2\n选择今天要保护的任务\n3\n选择今天要保护的任务\n今日日程\n\n固定安排与弹性任务分开显示。\n\n还没有今天的 Planner 安排。可以到 Schedule 页面应用日型。\n\n今日例行\n\n昨天没做不会偷偷搬到今天。\n\n还没有今天的 Planner 例行事项。\n\n昨日遗留\n\n由你决定补做或稍后处理。\n\n没有昨日遗留。\n\n当天事项\n快速记录\n\n先放进 Inbox，之后再整理，不打断当前工作。\n\n约 10 秒\n放入 Inbox\n记录到收件箱\n保存记录\nCardGrid · 卡格工作台\n所有改动保存在此浏览器 · 建议定期导出备份",
+      "probe": null
+    },
+    {
+      "id": "E02-late-preview-cancelled",
+      "status": "failed",
+      "error": "page.waitForFunction: Timeout 5000ms exceeded.\n    at check (C:\\Users\\arstot\\Documents\\Codex\\2026-09-20\\抽卡人生\\cardgrid\\tests\\browser\\action-3g-hook-faults.mjs:22:59)\n    at async file:///C:/Users/arstot/Documents/Codex/2026-09-20/%E6%8A%BD%E5%8D%A1%E4%BA%BA%E7%94%9F/cardgrid/tests/browser/action-3g-hook-faults.mjs:41:2",
+      "errors": [],
+      "ui": "▦\nCardGrid\n卡格工作台\n我的空间\n▦\nToday\n＋\nInbox\n◫\nSchedule\n❖\n行动定义\n✦\n抽卡手牌\n◇\n配置工坊\n↗\n数据与备份\n数据保存在本机\n行动底座 · 2A\n工作台 / TODAY Today · 今日\n重新载入\nTODAY\nToday · 今日\n\n看今天的时间盘与手牌；打开和切换日期不会生成安排。\n\n前一天\n2026-10-02\n后一天\n显示时区\n准备日型\n按适用星期选择\n准备这一天\n\n打开和切换日期不会生成安排。此处展示完整时间记录；排期、改期和实际确认请到“抽卡手牌 → 当日”。\n\n完整时间记录\n\n没有已保存的时间记录。\n\nTODAY · P1A\n10月2日星期五\n\n打开 → 看一眼 → 微调 → 开始今天\n\n‹\n未准备日型\n›\n今天最重要的 3 件事\n\n由你确认，Planner 只提供候选。\n\n切换 Minimum Day\n1\n选择今天要保护的任务\n2\n选择今天要保护的任务\n3\n选择今天要保护的任务\n今日日程\n\n固定安排与弹性任务分开显示。\n\n还没有今天的 Planner 安排。可以到 Schedule 页面应用日型。\n\n今日例行\n\n昨天没做不会偷偷搬到今天。\n\n还没有今天的 Planner 例行事项。\n\n昨日遗留\n\n由你决定补做或稍后处理。\n\n没有昨日遗留。\n\n当天事项\n快速记录\n\n先放进 Inbox，之后再整理，不打断当前工作。\n\n约 10 秒\n放入 Inbox\n记录到收件箱\n保存记录\nCardGrid · 卡格工作台\n所有改动保存在此浏览器 · 建议定期导出备份",
+      "probe": null
+    },
+    {
+      "id": "E03-storage-retry-complete-command",
+      "status": "failed",
+      "error": "page.waitForFunction: Timeout 5000ms exceeded.\n    at check (C:\\Users\\arstot\\Documents\\Codex\\2026-09-20\\抽卡人生\\cardgrid\\tests\\browser\\action-3g-hook-faults.mjs:22:59)\n    at async file:///C:/Users/arstot/Documents/Codex/2026-09-20/%E6%8A%BD%E5%8D%A1%E4%BA%BA%E7%94%9F/cardgrid/tests/browser/action-3g-hook-faults.mjs:47:2",
+      "errors": [],
+      "ui": "▦\nCardGrid\n卡格工作台\n我的空间\n▦\nToday\n＋\nInbox\n◫\nSchedule\n❖\n行动定义\n✦\n抽卡手牌\n◇\n配置工坊\n↗\n数据与备份\n数据保存在本机\n行动底座 · 2A\n工作台 / TODAY Today · 今日\n重新载入\nTODAY\nToday · 今日\n\n看今天的时间盘与手牌；打开和切换日期不会生成安排。\n\n前一天\n2026-10-02\n后一天\n显示时区\n准备日型\n按适用星期选择\n准备这一天\n\n打开和切换日期不会生成安排。此处展示完整时间记录；排期、改期和实际确认请到“抽卡手牌 → 当日”。\n\n完整时间记录\n\n没有已保存的时间记录。\n\nTODAY · P1A\n10月2日星期五\n\n打开 → 看一眼 → 微调 → 开始今天\n\n‹\n未准备日型\n›\n今天最重要的 3 件事\n\n由你确认，Planner 只提供候选。\n\n切换 Minimum Day\n1\n选择今天要保护的任务\n2\n选择今天要保护的任务\n3\n选择今天要保护的任务\n今日日程\n\n固定安排与弹性任务分开显示。\n\n还没有今天的 Planner 安排。可以到 Schedule 页面应用日型。\n\n今日例行\n\n昨天没做不会偷偷搬到今天。\n\n还没有今天的 Planner 例行事项。\n\n昨日遗留\n\n由你决定补做或稍后处理。\n\n没有昨日遗留。\n\n当天事项\n快速记录\n\n先放进 Inbox，之后再整理，不打断当前工作。\n\n约 10 秒\n放入 Inbox\n记录到收件箱\n保存记录\nCardGrid · 卡格工作台\n所有改动保存在此浏览器 · 建议定期导出备份",
+      "probe": null
+    },
+    {
+      "id": "E04-new-input-clears-retry-command",
+      "status": "failed",
+      "error": "page.waitForFunction: Timeout 5000ms exceeded.\n    at check (C:\\Users\\arstot\\Documents\\Codex\\2026-09-20\\抽卡人生\\cardgrid\\tests\\browser\\action-3g-hook-faults.mjs:22:59)\n    at async file:///C:/Users/arstot/Documents/Codex/2026-09-20/%E6%8A%BD%E5%8D%A1%E4%BA%BA%E7%94%9F/cardgrid/tests/browser/action-3g-hook-faults.mjs:53:2",
+      "errors": [],
+      "ui": "▦\nCardGrid\n卡格工作台\n我的空间\n▦\nToday\n＋\nInbox\n◫\nSchedule\n❖\n行动定义\n✦\n抽卡手牌\n◇\n配置工坊\n↗\n数据与备份\n数据保存在本机\n行动底座 · 2A\n工作台 / TODAY Today · 今日\n重新载入\nTODAY\nToday · 今日\n\n看今天的时间盘与手牌；打开和切换日期不会生成安排。\n\n前一天\n2026-10-02\n后一天\n显示时区\n准备日型\n按适用星期选择\n准备这一天\n\n打开和切换日期不会生成安排。此处展示完整时间记录；排期、改期和实际确认请到“抽卡手牌 → 当日”。\n\n完整时间记录\n\n没有已保存的时间记录。\n\nTODAY · P1A\n10月2日星期五\n\n打开 → 看一眼 → 微调 → 开始今天\n\n‹\n未准备日型\n›\n今天最重要的 3 件事\n\n由你确认，Planner 只提供候选。\n\n切换 Minimum Day\n1\n选择今天要保护的任务\n2\n选择今天要保护的任务\n3\n选择今天要保护的任务\n今日日程\n\n固定安排与弹性任务分开显示。\n\n还没有今天的 Planner 安排。可以到 Schedule 页面应用日型。\n\n今日例行\n\n昨天没做不会偷偷搬到今天。\n\n还没有今天的 Planner 例行事项。\n\n昨日遗留\n\n由你决定补做或稍后处理。\n\n没有昨日遗留。\n\n当天事项\n快速记录\n\n先放进 Inbox，之后再整理，不打断当前工作。\n\n约 10 秒\n放入 Inbox\n记录到收件箱\n保存记录\nCardGrid · 卡格工作台\n所有改动保存在此浏览器 · 建议定期导出备份",
+      "probe": null
+    },
+    {
+      "id": "E05-lost-response-idempotent-replay",
+      "status": "failed",
+      "error": "page.waitForFunction: Timeout 5000ms exceeded.\n    at check (C:\\Users\\arstot\\Documents\\Codex\\2026-09-20\\抽卡人生\\cardgrid\\tests\\browser\\action-3g-hook-faults.mjs:22:59)\n    at async file:///C:/Users/arstot/Documents/Codex/2026-09-20/%E6%8A%BD%E5%8D%A1%E4%BA%BA%E7%94%9F/cardgrid/tests/browser/action-3g-hook-faults.mjs:61:2",
+      "errors": [],
+      "ui": "▦\nCardGrid\n卡格工作台\n我的空间\n▦\nToday\n＋\nInbox\n◫\nSchedule\n❖\n行动定义\n✦\n抽卡手牌\n◇\n配置工坊\n↗\n数据与备份\n数据保存在本机\n行动底座 · 2A\n工作台 / TODAY Today · 今日\n重新载入\nTODAY\nToday · 今日\n\n看今天的时间盘与手牌；打开和切换日期不会生成安排。\n\n前一天\n2026-10-02\n后一天\n显示时区\n准备日型\n按适用星期选择\n准备这一天\n\n打开和切换日期不会生成安排。此处展示完整时间记录；排期、改期和实际确认请到“抽卡手牌 → 当日”。\n\n完整时间记录\n\n没有已保存的时间记录。\n\nTODAY · P1A\n10月2日星期五\n\n打开 → 看一眼 → 微调 → 开始今天\n\n‹\n未准备日型\n›\n今天最重要的 3 件事\n\n由你确认，Planner 只提供候选。\n\n切换 Minimum Day\n1\n选择今天要保护的任务\n2\n选择今天要保护的任务\n3\n选择今天要保护的任务\n今日日程\n\n固定安排与弹性任务分开显示。\n\n还没有今天的 Planner 安排。可以到 Schedule 页面应用日型。\n\n今日例行\n\n昨天没做不会偷偷搬到今天。\n\n还没有今天的 Planner 例行事项。\n\n昨日遗留\n\n由你决定补做或稍后处理。\n\n没有昨日遗留。\n\n当天事项\n快速记录\n\n先放进 Inbox，之后再整理，不打断当前工作。\n\n约 10 秒\n放入 Inbox\n记录到收件箱\n保存记录\nCardGrid · 卡格工作台\n所有改动保存在此浏览器 · 建议定期导出备份",
+      "probe": null
+    },
+    {
+      "id": "E06-fixed-repreview-fresh-unlock",
+      "status": "failed",
+      "error": "page.waitForFunction: Timeout 5000ms exceeded.\n    at check (C:\\Users\\arstot\\Documents\\Codex\\2026-09-20\\抽卡人生\\cardgrid\\tests\\browser\\action-3g-hook-faults.mjs:22:59)\n    at async file:///C:/Users/arstot/Documents/Codex/2026-09-20/%E6%8A%BD%E5%8D%A1%E4%BA%BA%E7%94%9F/cardgrid/tests/browser/action-3g-hook-faults.mjs:69:2",
+      "errors": [],
+      "ui": "▦\nCardGrid\n卡格工作台\n我的空间\n▦\nToday\n＋\nInbox\n◫\nSchedule\n❖\n行动定义\n✦\n抽卡手牌\n◇\n配置工坊\n↗\n数据与备份\n数据保存在本机\n行动底座 · 2A\n工作台 / TODAY Today · 今日\n重新载入\nTODAY\nToday · 今日\n\n看今天的时间盘与手牌；打开和切换日期不会生成安排。\n\n前一天\n2026-10-02\n后一天\n显示时区\n准备日型\n按适用星期选择\n准备这一天\n\n打开和切换日期不会生成安排。此处展示完整时间记录；排期、改期和实际确认请到“抽卡手牌 → 当日”。\n\n完整时间记录\n\n没有已保存的时间记录。\n\nTODAY · P1A\n10月2日星期五\n\n打开 → 看一眼 → 微调 → 开始今天\n\n‹\n未准备日型\n›\n今天最重要的 3 件事\n\n由你确认，Planner 只提供候选。\n\n切换 Minimum Day\n1\n选择今天要保护的任务\n2\n选择今天要保护的任务\n3\n选择今天要保护的任务\n今日日程\n\n固定安排与弹性任务分开显示。\n\n还没有今天的 Planner 安排。可以到 Schedule 页面应用日型。\n\n今日例行\n\n昨天没做不会偷偷搬到今天。\n\n还没有今天的 Planner 例行事项。\n\n昨日遗留\n\n由你决定补做或稍后处理。\n\n没有昨日遗留。\n\n当天事项\n快速记录\n\n先放进 Inbox，之后再整理，不打断当前工作。\n\n约 10 秒\n放入 Inbox\n记录到收件箱\n保存记录\nCardGrid · 卡格工作台\n所有改动保存在此浏览器 · 建议定期导出备份",
+      "probe": null
+    },
+    {
+      "id": "E07-late-fixed-unlock-released",
+      "status": "failed",
+      "error": "page.waitForFunction: Timeout 5000ms exceeded.\n    at check (C:\\Users\\arstot\\Documents\\Codex\\2026-09-20\\抽卡人生\\cardgrid\\tests\\browser\\action-3g-hook-faults.mjs:22:59)\n    at async file:///C:/Users/arstot/Documents/Codex/2026-09-20/%E6%8A%BD%E5%8D%A1%E4%BA%BA%E7%94%9F/cardgrid/tests/browser/action-3g-hook-faults.mjs:75:2",
+      "errors": [],
+      "ui": "▦\nCardGrid\n卡格工作台\n我的空间\n▦\nToday\n＋\nInbox\n◫\nSchedule\n❖\n行动定义\n✦\n抽卡手牌\n◇\n配置工坊\n↗\n数据与备份\n数据保存在本机\n行动底座 · 2A\n工作台 / TODAY Today · 今日\n重新载入\nTODAY\nToday · 今日\n\n看今天的时间盘与手牌；打开和切换日期不会生成安排。\n\n前一天\n2026-10-02\n后一天\n显示时区\n准备日型\n按适用星期选择\n准备这一天\n\n打开和切换日期不会生成安排。此处展示完整时间记录；排期、改期和实际确认请到“抽卡手牌 → 当日”。\n\n完整时间记录\n\n没有已保存的时间记录。\n\nTODAY · P1A\n10月2日星期五\n\n打开 → 看一眼 → 微调 → 开始今天\n\n‹\n未准备日型\n›\n今天最重要的 3 件事\n\n由你确认，Planner 只提供候选。\n\n切换 Minimum Day\n1\n选择今天要保护的任务\n2\n选择今天要保护的任务\n3\n选择今天要保护的任务\n今日日程\n\n固定安排与弹性任务分开显示。\n\n还没有今天的 Planner 安排。可以到 Schedule 页面应用日型。\n\n今日例行\n\n昨天没做不会偷偷搬到今天。\n\n还没有今天的 Planner 例行事项。\n\n昨日遗留\n\n由你决定补做或稍后处理。\n\n没有昨日遗留。\n\n当天事项\n快速记录\n\n先放进 Inbox，之后再整理，不打断当前工作。\n\n约 10 秒\n放入 Inbox\n记录到收件箱\n保存记录\nCardGrid · 卡格工作台\n所有改动保存在此浏览器 · 建议定期导出备份",
+      "probe": null
+    },
+    {
+      "id": "E08-fixed-invalid-preview-cleans-unlock",
+      "status": "failed",
+      "error": "page.waitForFunction: Timeout 5000ms exceeded.\n    at check (C:\\Users\\arstot\\Documents\\Codex\\2026-09-20\\抽卡人生\\cardgrid\\tests\\browser\\action-3g-hook-faults.mjs:22:59)\n    at async file:///C:/Users/arstot/Documents/Codex/2026-09-20/%E6%8A%BD%E5%8D%A1%E4%BA%BA%E7%94%9F/cardgrid/tests/browser/action-3g-hook-faults.mjs:83:2",
+      "errors": [],
+      "ui": "▦\nCardGrid\n卡格工作台\n我的空间\n▦\nToday\n＋\nInbox\n◫\nSchedule\n❖\n行动定义\n✦\n抽卡手牌\n◇\n配置工坊\n↗\n数据与备份\n数据保存在本机\n行动底座 · 2A\n工作台 / TODAY Today · 今日\n重新载入\nTODAY\nToday · 今日\n\n看今天的时间盘与手牌；打开和切换日期不会生成安排。\n\n前一天\n2026-10-02\n后一天\n显示时区\n准备日型\n按适用星期选择\n准备这一天\n\n打开和切换日期不会生成安排。此处展示完整时间记录；排期、改期和实际确认请到“抽卡手牌 → 当日”。\n\n完整时间记录\n\n没有已保存的时间记录。\n\nTODAY · P1A\n10月2日星期五\n\n打开 → 看一眼 → 微调 → 开始今天\n\n‹\n未准备日型\n›\n今天最重要的 3 件事\n\n由你确认，Planner 只提供候选。\n\n切换 Minimum Day\n1\n选择今天要保护的任务\n2\n选择今天要保护的任务\n3\n选择今天要保护的任务\n今日日程\n\n固定安排与弹性任务分开显示。\n\n还没有今天的 Planner 安排。可以到 Schedule 页面应用日型。\n\n今日例行\n\n昨天没做不会偷偷搬到今天。\n\n还没有今天的 Planner 例行事项。\n\n昨日遗留\n\n由你决定补做或稍后处理。\n\n没有昨日遗留。\n\n当天事项\n快速记录\n\n先放进 Inbox，之后再整理，不打断当前工作。\n\n约 10 秒\n放入 Inbox\n记录到收件箱\n保存记录\nCardGrid · 卡格工作台\n所有改动保存在此浏览器 · 建议定期导出备份",
+      "probe": null
+    },
+    {
+      "id": "E09-pending-cannot-commit",
+      "status": "failed",
+      "error": "page.waitForFunction: Timeout 5000ms exceeded.\n    at check (C:\\Users\\arstot\\Documents\\Codex\\2026-09-20\\抽卡人生\\cardgrid\\tests\\browser\\action-3g-hook-faults.mjs:22:59)\n    at async file:///C:/Users/arstot/Documents/Codex/2026-09-20/%E6%8A%BD%E5%8D%A1%E4%BA%BA%E7%94%9F/cardgrid/tests/browser/action-3g-hook-faults.mjs:88:2",
+      "errors": [],
+      "ui": "▦\nCardGrid\n卡格工作台\n我的空间\n▦\nToday\n＋\nInbox\n◫\nSchedule\n❖\n行动定义\n✦\n抽卡手牌\n◇\n配置工坊\n↗\n数据与备份\n数据保存在本机\n行动底座 · 2A\n工作台 / TODAY Today · 今日\n重新载入\nTODAY\nToday · 今日\n\n看今天的时间盘与手牌；打开和切换日期不会生成安排。\n\n前一天\n2026-10-02\n后一天\n显示时区\n准备日型\n按适用星期选择\n准备这一天\n\n打开和切换日期不会生成安排。此处展示完整时间记录；排期、改期和实际确认请到“抽卡手牌 → 当日”。\n\n完整时间记录\n\n没有已保存的时间记录。\n\nTODAY · P1A\n10月2日星期五\n\n打开 → 看一眼 → 微调 → 开始今天\n\n‹\n未准备日型\n›\n今天最重要的 3 件事\n\n由你确认，Planner 只提供候选。\n\n切换 Minimum Day\n1\n选择今天要保护的任务\n2\n选择今天要保护的任务\n3\n选择今天要保护的任务\n今日日程\n\n固定安排与弹性任务分开显示。\n\n还没有今天的 Planner 安排。可以到 Schedule 页面应用日型。\n\n今日例行\n\n昨天没做不会偷偷搬到今天。\n\n还没有今天的 Planner 例行事项。\n\n昨日遗留\n\n由你决定补做或稍后处理。\n\n没有昨日遗留。\n\n当天事项\n快速记录\n\n先放进 Inbox，之后再整理，不打断当前工作。\n\n约 10 秒\n放入 Inbox\n记录到收件箱\n保存记录\nCardGrid · 卡格工作台\n所有改动保存在此浏览器 · 建议定期导出备份",
+      "probe": null
+    },
+    {
+      "id": "E10-double-submit-one-command",
+      "status": "failed",
+      "error": "page.waitForFunction: Timeout 5000ms exceeded.\n    at check (C:\\Users\\arstot\\Documents\\Codex\\2026-09-20\\抽卡人生\\cardgrid\\tests\\browser\\action-3g-hook-faults.mjs:22:59)\n    at async file:///C:/Users/arstot/Documents/Codex/2026-09-20/%E6%8A%BD%E5%8D%A1%E4%BA%BA%E7%94%9F/cardgrid/tests/browser/action-3g-hook-faults.mjs:93:2",
+      "errors": [],
+      "ui": "▦\nCardGrid\n卡格工作台\n我的空间\n▦\nToday\n＋\nInbox\n◫\nSchedule\n❖\n行动定义\n✦\n抽卡手牌\n◇\n配置工坊\n↗\n数据与备份\n数据保存在本机\n行动底座 · 2A\n工作台 / TODAY Today · 今日\n重新载入\nTODAY\nToday · 今日\n\n看今天的时间盘与手牌；打开和切换日期不会生成安排。\n\n前一天\n2026-10-02\n后一天\n显示时区\n准备日型\n按适用星期选择\n准备这一天\n\n打开和切换日期不会生成安排。此处展示完整时间记录；排期、改期和实际确认请到“抽卡手牌 → 当日”。\n\n完整时间记录\n\n没有已保存的时间记录。\n\nTODAY · P1A\n10月2日星期五\n\n打开 → 看一眼 → 微调 → 开始今天\n\n‹\n未准备日型\n›\n今天最重要的 3 件事\n\n由你确认，Planner 只提供候选。\n\n切换 Minimum Day\n1\n选择今天要保护的任务\n2\n选择今天要保护的任务\n3\n选择今天要保护的任务\n今日日程\n\n固定安排与弹性任务分开显示。\n\n还没有今天的 Planner 安排。可以到 Schedule 页面应用日型。\n\n今日例行\n\n昨天没做不会偷偷搬到今天。\n\n还没有今天的 Planner 例行事项。\n\n昨日遗留\n\n由你决定补做或稍后处理。\n\n没有昨日遗留。\n\n当天事项\n快速记录\n\n先放进 Inbox，之后再整理，不打断当前工作。\n\n约 10 秒\n放入 Inbox\n记录到收件箱\n保存记录\nCardGrid · 卡格工作台\n所有改动保存在此浏览器 · 建议定期导出备份",
+      "probe": null
+    }
+  ]
+}

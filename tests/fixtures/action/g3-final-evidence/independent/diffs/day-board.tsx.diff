@@ -1,0 +1,240 @@
+diff --git a/tests/fixtures/action/g3-final-evidence/before/day-board.tsx b/src/components/day-board.tsx
+index 53178a6..a0dd7e8 100644
+--- a/tests/fixtures/action/g3-final-evidence/before/day-board.tsx
++++ b/src/components/day-board.tsx
+@@ -10,7 +10,7 @@ import { HandFan } from './hand/HandFan.tsx';
+ import type { DialItem } from './time-dial/types.ts';
+ 
+ type Dialog =
+-  | Readonly<{ kind: 'place'; subject: PlacementSubject; focus: number }>
++  | Readonly<{ kind: 'place'; subject: PlacementSubject; focus: number; date: string; zone: string }>
+   | Readonly<{ kind: 'actual'; instanceId: Id; instanceVersion: number; planned?: Readonly<{ planId: Id; planVersion: number }>; start: Readonly<{ date: string; time: string }>; end: Readonly<{ date: string; time: string }> }>
+   | null;
+ const pad = (n: number) => String(n).padStart(2, '0');
+@@ -35,6 +35,10 @@ export function DayBoard(props: Readonly<{ client: WorkspaceClient; onChanged?:
+   const [titles, setTitles] = useState<Record<Id, string>>({});
+   const [fixedTitles, setFixedTitles] = useState<Record<Id, string>>({});
+   const lock = useRef(false);
++  const readSequence = useRef(0);
++  const originView = useRef<{ date: string; focus: number; zone: string } | null>(null);
++  const [landingNotice, setLandingNotice] = useState<string | null>(null);
++  const [unlockTarget, setUnlockTarget] = useState<ProductionDayView['fixed'][number] | null>(null);
+   // D024: focus follows now until the user moves it manually; reset-now resumes following.
+   const [followNow, setFollowNow] = useState(true);
+   const followRef = useRef(true);
+@@ -65,8 +69,10 @@ export function DayBoard(props: Readonly<{ client: WorkspaceClient; onChanged?:
+ 
+   const reloadDay = useCallback(async () => {
+     if (!zone || !date) return;
++    const sequence = ++readSequence.current;
+     await loadMeta();
+     const r = await client.readDay({ date, zone });
++    if (sequence !== readSequence.current) return;
+     if (r.ok) setDay(r.value); else setError(r.message);
+   }, [client, zone, date, loadMeta]);
+ 
+@@ -84,7 +90,7 @@ export function DayBoard(props: Readonly<{ client: WorkspaceClient; onChanged?:
+       if (lastTodayRef.current === null) { lastTodayRef.current = today; return; }
+       if (today === lastTodayRef.current) return;
+       lastTodayRef.current = today;
+-      if (followRef.current) {
++      if (followRef.current && !operationRef.current) {
+         setFocusTime(toTime(displayInstant(nowIso, zone).minute));
+         setDate(today);
+       } else {
+@@ -99,6 +105,7 @@ export function DayBoard(props: Readonly<{ client: WorkspaceClient; onChanged?:
+   const resetNow = useCallback(() => {
+     if (!zone) return;
+     const nowIso = new Date().toISOString();
++    placement.release(); setDialog(null); originView.current = null; setLandingNotice(null); setMidnightNotice(null);
+     setFollowNow(true);
+     setDate(dateAt(nowIso, zone));
+     setFocusTime(toTime(displayInstant(nowIso, zone).minute));
+@@ -160,10 +167,50 @@ export function DayBoard(props: Readonly<{ client: WorkspaceClient; onChanged?:
+ 
+   const focus = fromTime(focusTime);
+   // The dial consumes the same authoritative projection as the lists; it never recomputes occupancy.
+-  const scene = day ? projectionAdapter.buildScene(day) : null;
++  const scene = day && day.date === date && day.zone === zone ? projectionAdapter.buildScene(day) : null;
+ 
+   // One gesture-driven placement session for the whole day view (single controller).
+   const placement = usePlacementSession(client);
++  const operationRef = useRef(false);
++  operationRef.current = !!dialog || !!viewCard || !!unlockTarget ||
++    ['preparing', 'preview', 'committing'].includes(placement.state.status);
++  function beginInteraction() {
++    followRef.current = false;
++    setFollowNow(false);
++    originView.current ??= { date, focus, zone };
++  }
++  async function showLanding(targetDate: string, targetFocus: number) {
++    if (targetDate === date) return true;
++    const sequence = ++readSequence.current;
++    const result = await client.readDay({ date: targetDate, zone });
++    if (sequence !== readSequence.current) return false;
++    if (!result.ok) { setError(result.message); return false; }
++    setDay(result.value); setDate(targetDate); setFocusTime(toTime(targetFocus));
++    return true;
++  }
++  function restoreOrigin() {
++    const origin = originView.current;
++    originView.current = null; setLandingNotice(null);
++    if (origin) { readSequence.current++; setDate(origin.date); setFocusTime(toTime(origin.focus)); }
++  }
++  function cancelPlacement() { placement.release(); restoreOrigin(); }
++  useEffect(() => {
++    if (!placement.state.subject || placement.state.status === 'idle' || placement.state.status === 'committed') return;
++    const target = placement.state.date;
++    if (target && target !== date && originView.current) {
++      const origin = originView.current;
++      void showLanding(target, 0).then(ok => {
++        if (ok && originView.current === origin) setLandingNotice(origin.date + ' 24:00 → ' + target + ' 00:00（未保存）');
++      });
++    }
++  }, [placement.state.date]);
++  useEffect(() => {
++    if (placement.state.status === 'idle' && originView.current && !dialog) restoreOrigin();
++  }, [placement.state.status, dialog]);
++  useEffect(() => client.subscribe(external => {
++    if (external) { readSequence.current++; setDialog(d => d?.kind === 'place' ? null : d); setUnlockTarget(null); cancelPlacement(); }
++  }), [client]);
++
+ 
+   // Opening any other write dialog must end the gesture session so two committable
+   // sessions never coexist (F04).
+@@ -181,15 +228,16 @@ export function DayBoard(props: Readonly<{ client: WorkspaceClient; onChanged?:
+   const dialWrapRef = useRef<HTMLDivElement | null>(null);
+   const sessionCandidate =
+     placement.state.preview?.candidates.find(c => c.id === placement.state.chosen) ?? null;
+-  const dialCandidate = sessionCandidate ? candidateFragments(sessionCandidate) : null;
++  const dialCandidate = sessionCandidate && scene && placement.state.date === scene.date && placement.state.zone === scene.zone && previewTokenKey === sceneTokenKey
++    ? candidateFragments(sessionCandidate) : null;
+   // While a gesture preview is active, dragging directly on the dial moves the landing (contract §6).
+-  const placementActive = placement.state.status === 'preview' && !!sessionCandidate;
++  const placementActive = ['preparing', 'preview'].includes(placement.state.status) && !!placement.state.subject;
+   const placementLanding = sessionCandidate ? displayInstant(sessionCandidate.range.startAt, zone || 'UTC') : null;
+   const placementMinute = placementLanding?.minute ?? focus;
+-  function handlePlacementMove(minute: number) {
++  function handlePlacementMove(minute: number, originDate = date) {
+     // Dial slide reports continuous minutes; snap to the 5-minute grid before requesting.
+-    const snapped = Math.max(0, Math.min(1435, Math.round(minute / 5) * 5));
+-    void placement.moveTo(placementLanding?.date ?? date, snapped);
++    const snapped = Math.max(0, Math.min(1440, Math.round(minute / 5) * 5));
++    void placement.moveTo(snapped === 1440 ? nextDate(originDate) : originDate, snapped === 1440 ? 0 : snapped);
+   }
+   const getDialRect = useCallback(
+     () =>
+@@ -198,11 +246,21 @@ export function DayBoard(props: Readonly<{ client: WorkspaceClient; onChanged?:
+     [],
+   );
+ 
++  function openPlacement(subject: PlacementSubject) {
++    beginInteraction(); placement.release();
++    const snapped = Math.max(0, Math.min(1440, Math.round(focus / 5) * 5));
++    const landingDate = snapped === 1440 ? nextDate(date) : date;
++    const landingFocus = snapped === 1440 ? 0 : snapped;
++    setDialog({ kind: 'place', subject, focus: landingFocus, date: landingDate, zone });
++    if (landingDate !== date) void showLanding(landingDate, landingFocus).then(ok => {
++      if (ok) setLandingNotice(date + ' 24:00 → ' + landingDate + ' 00:00（未保存）');
++    });
++  }
+   function placeHand(card: ProductionDayView['hand'][number]) {
+-    setDialog({ kind: 'place', subject: { kind: 'hand', instanceId: card.instanceId, version: card.version }, focus });
++    openPlacement({ kind: 'hand', instanceId: card.instanceId, version: card.version });
+   }
+   function movePlan(plan: ProductionDayView['plans'][number]) {
+-    setDialog({ kind: 'place', subject: { kind: 'plan', planId: plan.planId, version: plan.version }, focus });
++    openPlacement({ kind: 'plan', planId: plan.planId, version: plan.version });
+   }
+   function retract(plan: ProductionDayView['plans'][number]) {
+     void submitSimple('RetractPlan', { planId: plan.planId, version: plan.version });
+@@ -216,15 +274,17 @@ export function DayBoard(props: Readonly<{ client: WorkspaceClient; onChanged?:
+   // Unplanned actual: record what happened without creating a plan first. This is
+   // the only entry for no-duration hand cards (打出 would require a duration).
+   function recordActualUnplanned(card: ProductionDayView['hand'][number]) {
+-    const startMin = focus;
++    const startMin = focus === 1440 ? 0 : focus;
++    const actualDate = focus === 1440 ? nextDate(date) : date;
+     const endTotal = startMin + (card.presetMinutes ?? 30);
+     const dayShift = Math.floor(endTotal / 1440);
+     setDialog({ kind: 'actual', instanceId: card.instanceId, instanceVersion: card.version,
+-      start: { date, time: toTime(startMin) },
+-      end: { date: dayShift ? nextDate(date, dayShift) : date, time: toTime(endTotal % 1440) } });
++      start: { date: actualDate, time: toTime(startMin) },
++      end: { date: dayShift ? nextDate(actualDate, dayShift) : actualDate, time: toTime(endTotal % 1440) } });
+   }
+   function onFixedUnlocked(fixed: ProductionDayView['fixed'][number], unlockId: Id) {
+-    setDialog({ kind: 'place', subject: { kind: 'fixed', commitmentId: fixed.commitmentId, version: fixed.version, unlockId }, focus });
++    setUnlockTarget(null);
++    openPlacement({ kind: 'fixed', commitmentId: fixed.commitmentId, version: fixed.version, unlockId });
+   }
+   // Double-click a dial arc: plans open the placement dialog directly; fixed unlock first (F05).
+   function rescheduleItem(item: DialItem) {
+@@ -233,7 +293,7 @@ export function DayBoard(props: Readonly<{ client: WorkspaceClient; onChanged?:
+       if (p) movePlan(p);
+     } else if (item.source === 'fixed') {
+       const f = day?.fixed.find(x => x.commitmentId === item.id);
+-      if (f) void unlockForReschedule(f);
++      if (f) { cancelPlacement(); setUnlockTarget(f); setFollowNow(false); }
+     }
+   }
+   async function unlockForReschedule(fixed: ProductionDayView['fixed'][number]) {
+@@ -266,12 +326,14 @@ export function DayBoard(props: Readonly<{ client: WorkspaceClient; onChanged?:
+   return (
+     <div className="dayboard">
+       <div className="dayboard-controls toolbar">
+-        <label>日期<input type="date" aria-label="日期" value={date} disabled={!date} onChange={e => { setFollowNow(false); setDate(e.target.value); placement.release(); }} /></label>
+-        <label>时区<input type="text" aria-label="时区" value={zone} onChange={e => setZone(e.target.value)} /></label>
++        <label>日期<input type="date" aria-label="日期" value={date} disabled={!date} onChange={e => { followRef.current = false; setFollowNow(false); placement.release(); setDialog(null); originView.current = null; setLandingNotice(null); readSequence.current++; setDate(e.target.value); }} /></label>
++        <label>时区<input type="text" aria-label="时区" value={zone} onChange={e => { followRef.current = false; setFollowNow(false); cancelPlacement(); setDialog(null); setUnlockTarget(null); readSequence.current++; setZone(e.target.value); lastTodayRef.current = null; }} /></label>
+         <label>默认落点<input type="time" step="300" aria-label="默认落点" value={focusTime} onChange={e => { setFollowNow(false); setFocusTime(e.target.value); }} /></label>
+       </div>
+       {error ? <div className="message" role="alert"><span>{error}</span><button aria-label="关闭提示" onClick={() => setError(null)}>×</button></div> : null}
+       {day && !day.occupancyKnown ? <div className="message"><span>当前占用无法完全判定（缺时区或有未保存模板）；排期前请先在配置里确定时区。</span></div> : null}
++      {landingNotice ? <div className="message" role="status">{landingNotice}</div> : null}
++      {unlockTarget ? <div className="message" role="status"><span>固定安排需要解锁后才能改期。</span><button onClick={() => void unlockForReschedule(unlockTarget)}>解锁并调整</button><button onClick={() => setUnlockTarget(null)}>取消</button></div> : null}
+       {midnightNotice ? <div className="message" role="status"><span>{midnightNotice}</span><button aria-label="关闭提示" onClick={() => setMidnightNotice(null)}>×</button></div> : null}
+ 
+       {scene ? (
+@@ -279,6 +341,9 @@ export function DayBoard(props: Readonly<{ client: WorkspaceClient; onChanged?:
+           <TimeDial scene={scene} focus={focus} candidate={dialCandidate}
+             placementActive={placementActive} placementMinute={placementMinute}
+             onPlacementMove={handlePlacementMove}
++            onCancelPlacement={cancelPlacement}
++            onInteractionStart={() => { followRef.current = false; setFollowNow(false); }}
++            onRetractItem={item => { const plan = day?.plans.find(p => p.planId === item.id); if (plan) retract(plan); }}
+             onFocusChange={handleFocusChange}
+             onResetNow={resetNow}
+             onRescheduleItem={item => void rescheduleItem(item)} />
+@@ -293,12 +358,15 @@ export function DayBoard(props: Readonly<{ client: WorkspaceClient; onChanged?:
+             date={date}
+             zone={zone}
+             session={placement}
++            onInteractionStart={beginInteraction}
++            onGestureStart={() => { followRef.current = false; setFollowNow(false); }}
++            onCancel={cancelPlacement}
+             getFocus={() => focus}
+             getDialRect={getDialRect}
+-            onView={c => setViewCard(c)}
++            onView={c => { cancelPlacement(); setViewCard(c); }}
+             onPlace={c => placeHand(c)}
+             onRecordActual={c => recordActualUnplanned(c)}
+-            onCommitted={async () => { await reloadDay(); onChanged?.(); }}
++            onCommitted={async () => { const savedDate = placement.state.date; originView.current = null; setLandingNotice(null); if (savedDate !== date) await showLanding(savedDate, placementMinute); else await reloadDay(); onChanged?.(); }}
+           />
+         ) : null}
+       </section>
+@@ -348,10 +416,10 @@ export function DayBoard(props: Readonly<{ client: WorkspaceClient; onChanged?:
+       </section>
+ 
+       {dialog?.kind === 'place' ? (
+-        <PlacementDialog client={client} subject={dialog.subject} date={date} zone={zone}
++        <PlacementDialog client={client} subject={dialog.subject} date={dialog.date} zone={dialog.zone}
+           initialFocusMinuteOfDay={dialog.focus}
+-          onCommitted={async () => { await reloadDay(); setDialog(null); onChanged?.(); }}
+-          onClose={() => setDialog(null)} />
++          onCommitted={async () => { const savedDate = dialog.date; originView.current = null; setLandingNotice(null); if (savedDate !== date) await showLanding(savedDate, dialog.focus); else await reloadDay(); setDialog(null); onChanged?.(); }}
++          onClose={() => { setDialog(null); restoreOrigin(); }} />
+       ) : null}
+       {dialog?.kind === 'actual' ? (
+         <ActualConfirmDialog client={client} zone={zone}

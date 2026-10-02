@@ -1,0 +1,14 @@
+{
+  "at": "2026-10-01T11:16:47.014Z",
+  "head": "b7eb94e817382975a0e5d16d86f51cf8b1134681",
+  "scope": "当前未提交工作树；相关实现为未跟踪文件，按2G缺陷与2H交接检查，不能以HEAD差异充当完整修复基线",
+  "hashes": {
+    "src/components/action-flow.tsx": "20194dac3341eaf56b4332a9dfb437860dc417a16cd43a44655bd80cd9bc7921",
+    "src/components/day-board.tsx": "7a8638f1fa3e41b8d9aff48159d7f12edc9d6aeb983058a10d1790ec38c47ec0",
+    "src/action-library.tsx": "a278cc8ad6463b5af8620c5f3cb006657e5ce247e356e792285682a791eef623",
+    "src/action-time.ts": "4d244312493269f4f89ea86020218685c8b2f9568641987b438922ec5f7986d1",
+    "src/action.css": "df5f524ad297ba380d5f388117e8bf0e1ee6506d410870a0ce238fe01a66045b",
+    "tests/browser/action-2g.mjs": "95fa48054d9f010ccc018907a5c5af18172948624d10ecce558172f83d95fae3",
+    "tests/browser/action-2h-review.mjs": "0afcb206916820345bbd3b83ff5dfbdeb53c0c4ce4c573df71f0e846ba394f17"
+  }
+}

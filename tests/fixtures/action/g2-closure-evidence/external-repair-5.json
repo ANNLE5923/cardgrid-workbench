@@ -1,0 +1,49 @@
+{
+  "at": "2026-10-01T13:58:33.167Z",
+  "results": [
+    {
+      "name": "2H-F07-manual-choice-creates-only-hand",
+      "status": "pass",
+      "detail": {
+        "handOnly": true
+      }
+    },
+    {
+      "name": "2H-F03-no-duration-actual-commits",
+      "status": "pass",
+      "detail": {
+        "noFakePlan": true
+      }
+    },
+    {
+      "name": "2H-fixed-storage-failure-retry",
+      "status": "pass",
+      "detail": {
+        "retrySucceeded": true
+      }
+    },
+    {
+      "name": "2H-DST-both-endpoints-commit",
+      "status": "pass",
+      "detail": {
+        "elapsedMinutes": 90
+      }
+    },
+    {
+      "name": "2H-DST-future-warning-uses-chosen-offset",
+      "status": "pass",
+      "detail": {
+        "input": {
+          "date": "2026-11-01",
+          "time": "01:30",
+          "zone": "America/New_York",
+          "offset": "-05:00"
+        },
+        "at": "2026-11-01T05:50:00Z",
+        "instant": "2026-11-01T06:30:00Z",
+        "actualFuture": true,
+        "warning": true
+      }
+    }
+  ]
+}
