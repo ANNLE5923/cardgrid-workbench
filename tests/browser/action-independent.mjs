@@ -24,8 +24,8 @@ try {
   async function pageIn(context) {
     const page = await context.newPage(); await page.goto(origin + '/__2b');
     await page.evaluate(async () => {
-      const { createWorkspaceStore } = await import('/src/store.ts');
-      const { createWorkspaceClient } = await import('/src/workspace-client.ts');
+      const { createWorkspaceStore } = await import('/src/workspace/store.ts');
+      const { createWorkspaceClient } = await import('/src/workspace/client.ts');
       const fx = await import('/tests/fixtures/action/independent.ts');
       const dbName = 'cardgrid-isolated-2b';
       const store = createWorkspaceStore({ name: dbName });

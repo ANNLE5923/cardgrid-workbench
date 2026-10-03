@@ -7,7 +7,7 @@
     "dev": "vite --configLoader native --host 127.0.0.1 --port 4173 --strictPort",
     "build": "tsc --noEmit && vite build --configLoader native",
     "start": "vite preview --host 127.0.0.1 --port 4173 --strictPort",
-    "test": "node --experimental-strip-types --test tests/*.test.ts",
+    "test": "node scripts/test.mjs",
     "test:independent": "node --experimental-strip-types --test tests/review/time-dial-3f-independent.test.ts"
   },
   "dependencies": {

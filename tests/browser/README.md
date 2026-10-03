@@ -2,7 +2,7 @@
 
 ## 当前G3回归入口（2026-10-02）
 
-G3已完成分离验收：默认Node220通过/1原有跳过，独立反例8/8，浏览器93/93。下文2B失败记录和G0入口均为历史，当前结论见[G3验收记录](../../docs/测试记录/G3-2026-10-02-有界修复与最终验收.md)。
+G3已完成分离验收：默认Node220通过/1原有跳过，独立反例8/8，浏览器93/93。下文2B失败记录和G0入口均为历史，当前结论见[G3验收记录](../../docs/归档/阶段0-3/测试记录/G3-2026-10-02-有界修复与最终验收.md)。
 
 先运行npm ci和npm run build。浏览器脚本使用外部Playwright及隔离的新context，不使用个人浏览器profile；项目运行依赖不含Playwright。必须将CARDGRID_PLAYWRIGHT_MODULE设置为已安装Playwright的index.mjs文件URL；有本机Chrome时将CARDGRID_CHROME_PATH设为可执行文件路径，否则先准备Playwright Chromium。
 
@@ -34,7 +34,7 @@ node tests/browser/action-2g-annotation.mjs
 沿用下方 Playwright/Chrome 环境变量，在仓库根目录执行：
 
 ```powershell
-node --experimental-strip-types --test tests/action-independent.test.ts
+node --experimental-strip-types --test tests/modules/workspace/action-independent.test.ts
 node tests/browser/action-independent.mjs
 ```
 
@@ -57,8 +57,8 @@ node tests/browser/action-entry.mjs
 - action-storage：真实 IndexedDB/BroadcastChannel，14 组事务、重试、原样恢复、清空、迁移、模板、容量及配置历史保护场景；使用隔离数据库。
 - action-entry：先构建到临时目录，再用生产构建检查 3 组页面流程（打开/切日只读、准备日与捕获、下载/清空/精确恢复、多窗口草稿失效、旧库/未知格式保护）。无需预先覆盖 dist。
 - 所有场景创建全新 context，禁止使用个人浏览器 profile；不接触真实工作区。Service Worker 禁用，离线升级另测。
-- 输出位置在终端 Evidence 行；浏览器与服务在 finally 关闭。最终证据已保存到 docs/测试记录/2A证据-2026-09-28。
-- 2A 主线自测通过不等于 2B 或 G2 外部独立验收。完整接口及入口边界见 docs/测试记录/2A-2026-09-27-实现与交接.md。
+- 输出位置在终端 Evidence 行；浏览器与服务在 finally 关闭。最终证据已保存到 docs/归档/阶段0-3/测试记录/2A证据-2026-09-28。
+- 2A 主线自测通过不等于 2B 或 G2 外部独立验收。完整接口及入口边界见 docs/归档/阶段0-3/测试记录/2A-2026-09-27-实现与交接.md。
 
 ## G0 历史浏览器回归
 
@@ -94,3 +94,7 @@ CARDGRID_G0_OUTPUT 可指定证据输出目录；默认使用系统临时目录�
 测试 fixture 使用真实 validator 和领域命令生成。每轮生成独立 ID/历史时间，记录该轮 fixture 散列；比较同轮前后完整 Data，不忽略历史时间戳。常规用例的浏览器时间固定为 2026-09-24 / Asia/Shanghai；旧版升级用例按运行当日生成例行。
 
 R2-01 在单元列表中保留为跳过的追踪项，真实行为由 C-* 与 transaction-abort 验证，不再把恒过占位当作通过。
+
+## 2026-10-03 路径整理
+
+源码按功能模块迁移，运行时字段、命令与断言保持。六个 G3 浏览器脚本的当前输出写入忽略的 `test-results/<脚本名>/`，避免覆盖 `tests/fixtures/` 中的历史证据；G2 和 action-entry/storage 仍按各脚本 Evidence 输出查找。仅调整导入路径、fixture 定位和结果保存位置，不删除行为断言。

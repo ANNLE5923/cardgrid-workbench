@@ -1,6 +1,6 @@
 import {readFileSync} from 'node:fs';
 import {fileURLToPath} from 'node:url';
-import {emptyPlanner,type Planner,type Rule} from '../src/planner.ts';
+import {emptyPlanner,type Planner,type Rule} from '../src/workspace/legacy/planner.ts';
 
 // 四种日型 fixture：普通日型 A[1,3,4,6] / 固定安排日型[2] / 普通日型 B[5] / 轻量日型[0]
 // 周一 2026-09-21 起，一周正好覆盖全部四种日型，且 weekdays 互不重叠。

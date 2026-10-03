@@ -1,10 +1,10 @@
 // Test-only entry. Real Host/store in an isolated synthetic IndexedDB database.
 import React, { useEffect } from 'react';
 import { createRoot } from 'react-dom/client';
-import { createWorkspaceStore } from '../../src/store.ts';
-import { createWorkspaceClient } from '../../src/workspace-client.ts';
-import { usePlacementSession } from '../../src/components/time-dial/use-placement-session.ts';
-import { HandFan } from '../../src/components/hand/HandFan.tsx';
+import { createWorkspaceStore } from '../../src/workspace/store.ts';
+import { createWorkspaceClient } from '../../src/workspace/client.ts';
+import { usePlacementSession } from '../../src/daily/schedule/time-dial/use-placement-session.ts';
+import { HandFan } from '../../src/daily/hand/HandFan.tsx';
 import { hand, fixed, envelope, AT } from '../fixtures/action/independent.ts';
 
 export async function mountHarness(kind = 'hand') {

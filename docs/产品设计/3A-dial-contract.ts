@@ -5,8 +5,8 @@
 import type {
   CardView, Command, FactView, LegacyRef, PlacementPreview, PlacementSubject,
   ProductionDayView, Range, Result, Segment, Token, VersionRef,
-} from '../../src/action-contract.ts';
-import type { WorkspaceSnapshot } from '../../src/action-commands.ts';
+} from '../../src/workspace/contracts.ts';
+import type { WorkspaceSnapshot } from '../../src/workspace/commands.ts';
 
 export type Half = 0 | 1;
 export type Point = Readonly<{ x: number; y: number }>;

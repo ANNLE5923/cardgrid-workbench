@@ -1,11 +1,11 @@
 // 3F counterexamples against actual production adapter; synthetic authoritative read models.
 import assert from 'node:assert/strict';
 import test from 'node:test';
-import {inspectSnapshot} from '../../src/action-commands.ts';
-import {projectDay} from '../../src/action-projection.ts';
-import {fingerprint} from '../../src/workspace-format.ts';
-import {plannedRange} from '../../src/action-time.ts';
-import {projectionAdapter} from '../../src/components/time-dial/projection-adapter.ts';
+import {inspectSnapshot} from '../../src/workspace/commands.ts';
+import {projectDay} from '../../src/daily/projection.ts';
+import {fingerprint} from '../../src/workspace/format.ts';
+import {plannedRange} from '../../src/daily/schedule/time.ts';
+import {projectionAdapter} from '../../src/daily/schedule/time-dial/projection-adapter.ts';
 import {hand,planned,fixed,confirmed,envelope,old} from '../fixtures/action/independent.ts';
 
 async function view(data=hand(),date='2026-09-28',zone='Asia/Shanghai'){

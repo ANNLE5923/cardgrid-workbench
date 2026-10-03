@@ -28,10 +28,10 @@ try {
     const page = await context.newPage();
     await page.goto(origin + '/__action-test');
     await page.evaluate(async () => {
-      const S = await import('/src/store.ts'), C = await import('/src/action-commands.ts');
-      const F = await import('/src/workspace-format.ts'), D = await import('/src/action-domain.ts'), T = await import('/src/action-time.ts');
+      const S = await import('/src/workspace/store.ts'), C = await import('/src/workspace/commands.ts');
+      const F = await import('/src/workspace/format.ts'), D = await import('/src/daily/model/domain.ts'), T = await import('/src/daily/schedule/time.ts');
       const fixture = await import('/tests/fixtures/action/seed.ts');
-      const W = await import('/src/workspace-client.ts');
+      const W = await import('/src/workspace/client.ts');
       const store = S.createWorkspaceStore({ name: 'cardgrid-isolated-action' });
       const service = C.createActionService(store, { now: () => '2026-09-27T01:30:00Z' });
       const client = W.createWorkspaceClient({ store, now: () => '2026-09-27T01:30:00Z' });
@@ -205,7 +205,7 @@ try {
   await test('migration-reports-and-commits-source-without-old-done-facts', async context => {
     const page = await pageIn(context);
     const result = await page.evaluate(async () => {
-      const P = await import('/src/planner.ts'); const raw = { config: { preferences: { theme: 'paper', density: 'comfortable', startHour: 8, endHour: 23, defaultMinutes: 15 }, categories: [], cards: [], schedules: [] }, legacyArchives: [], planner: P.emptyPlanner() };
+      const P = await import('/src/workspace/legacy/planner.ts'); const raw = { config: { preferences: { theme: 'paper', density: 'comfortable', startHour: 8, endHour: 23, defaultMinutes: 15 }, categories: [], cards: [], schedules: [] }, legacyArchives: [], planner: P.emptyPlanner() };
       raw.planner.tasks.push({ id: 'done', title: '旧完成', date: '2026-09-26', status: 'done', criteria: '', minimum: false, projects: [], goals: [], source: 'manual', occurrence: '', makeupOf: '' });
       await cg.store.atomic(() => ({ write: { schemaVersion: 3, revision: 4, data: raw }, result: null }));
       const backup = await cg.evidence(), before = await cg.snapshot(), preview = await cg.client.previewMigration({ token: backup.token, choices: { zone: 'Asia/Shanghai' } });

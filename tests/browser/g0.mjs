@@ -10,8 +10,8 @@ import {execFileSync} from 'node:child_process';
 
 const repo = fileURLToPath(new URL('../../', import.meta.url));
 const {chromium} = await import(process.env.CARDGRID_PLAYWRIGHT_MODULE || 'playwright');
-const {emptyData, emptyConfig, validateData, backupPack, configPack, mergeConfig} = await import(new URL('../../src/domain.ts', import.meta.url));
-const P = await import(new URL('../../src/planner.ts', import.meta.url));
+const {emptyData, emptyConfig, validateData, backupPack, configPack, mergeConfig} = await import(new URL('../../src/workspace/legacy/domain.ts', import.meta.url));
+const P = await import(new URL('../../src/workspace/legacy/planner.ts', import.meta.url));
 const output = path.resolve(process.env.CARDGRID_G0_OUTPUT || path.join(os.tmpdir(), `cardgrid-g0-${Date.now()}`));
 await fs.mkdir(output, {recursive:true});
 const date = '2026-09-24';

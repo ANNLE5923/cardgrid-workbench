@@ -1,5 +1,5 @@
 // 2B: literal contract fixtures. No domain transition, migration, or time adapter builds the oracle.
-import type { Content, DataV2, EnvelopeV4, RecordedRange } from '../../../src/action-contract.ts';
+import type { Content, DataV2, EnvelopeV4, RecordedRange } from '../../../src/workspace/contracts.ts';
 
 export const AT = '2026-09-28T02:00:00Z';
 export function content(minutes: number | null = 30): Content {

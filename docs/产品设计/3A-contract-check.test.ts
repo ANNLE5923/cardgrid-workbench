@@ -6,13 +6,13 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
-import { segmentsFor, projectDay } from '../../src/action-projection.ts';
-import { ActionTimeError, dayRange, displayInstant, elapsedMinutes, intersectRanges, nextDate, plannedRange, resolveLocal } from '../../src/action-time.ts';
-import { inspectSnapshot } from '../../src/action-commands.ts';
-import { emptyActionData } from '../../src/workspace-format.ts';
+import { segmentsFor, projectDay } from '../../src/daily/projection.ts';
+import { ActionTimeError, dayRange, displayInstant, elapsedMinutes, intersectRanges, nextDate, plannedRange, resolveLocal } from '../../src/daily/schedule/time.ts';
+import { inspectSnapshot } from '../../src/workspace/commands.ts';
+import { emptyActionData } from '../../src/workspace/format.ts';
 import { planned, confirmed, fixed, hand, content, envelope, AT } from '../../tests/fixtures/action/independent.ts';
 
-import type { DataV2 } from '../../src/action-contract.ts';
+import type { DataV2 } from '../../src/workspace/contracts.ts';
 
 const vectors = JSON.parse(readFileSync(new URL('./3A-regression-vectors.json', import.meta.url), 'utf8'));
 const clamp = (v: number, a: number, b: number) => Math.max(a, Math.min(b, v));

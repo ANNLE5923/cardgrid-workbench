@@ -1,6 +1,6 @@
-import type { Content, DataV2, RecordedRange } from '../../../src/action-contract.ts';
-import { plannedRange } from '../../../src/action-time.ts';
-import type { TransitionContext } from '../../../src/action-domain.ts';
+import type { Content, DataV2, RecordedRange } from '../../../src/workspace/contracts.ts';
+import { plannedRange } from '../../../src/daily/schedule/time.ts';
+import type { TransitionContext } from '../../../src/daily/model/domain.ts';
 
 export function content(presetMinutes: number | null = 15): Content {
   return { title: '合成行动', criteria: '完成一项合成结果', presetMinutes, color: '#248866', minimum: false,

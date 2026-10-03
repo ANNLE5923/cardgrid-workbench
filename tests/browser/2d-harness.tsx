@@ -1,14 +1,14 @@
 // 2D isolated mount harness. Real WorkspaceClient + real IDB; renders the production pages inside an .app shell.
 import React from 'react';
 import { createRoot } from 'react-dom/client';
-import { createWorkspaceStore } from '../../src/store.ts';
-import { createWorkspaceClient } from '../../src/workspace-client.ts';
-import { ActionLibrary } from '../../src/action-library.tsx';
-import { ActionHand } from '../../src/action-hand.tsx';
+import { createWorkspaceStore } from '../../src/workspace/store.ts';
+import { createWorkspaceClient } from '../../src/workspace/client.ts';
+import { ActionLibrary } from '../../src/workshop/ui/ActionLibrary.tsx';
+import { ActionHand } from '../../src/app/ActionWorkspace.tsx';
 import * as fx from '../fixtures/action/independent.ts';
-import type { DataV2, EnvelopeV4 } from '../../src/action-contract.ts';
-import '../../src/style.css';
-import '../../src/action.css';
+import type { DataV2, EnvelopeV4 } from '../../src/workspace/contracts.ts';
+import '../../src/app/style.css';
+import '../../src/shared/ui/action.css';
 
 const dbName = 'cardgrid-2d';
 const store = createWorkspaceStore({ name: dbName });
