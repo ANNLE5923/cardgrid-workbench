@@ -2,6 +2,9 @@ export {createWorkspaceClient,type WorkspaceClient,type BackupPreparation} from 
 export {createWorkshopHost} from './workshop-host.ts';
 export type * from './contracts.ts';
 export type * from './contracts-v3.ts';
+export type * from './contracts-v4.ts';
+export {isV3Capable} from './contracts-v4.ts';
 export type {WorkspaceSnapshot} from './commands.ts';
+export type {JournalView} from './journal-queries.ts';
 export type {WorkspacePreview} from './session-types.ts';
 export {DataPage} from './ui/DataPage.tsx';

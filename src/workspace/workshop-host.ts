@@ -1,4 +1,5 @@
 import type {WorkspaceClient} from './client.ts';
+import {isV3Capable} from './contracts-v4.ts';
 import type {Command, Token} from './contracts.ts';
 import type {WorkshopHost, SaveOutcome} from '../workshop/index.ts';
 import {validateWorkshopEntity} from '../workshop/model.ts';
@@ -13,7 +14,7 @@ export function createWorkshopHost(client: WorkspaceClient): WorkshopHost {
   const load = async (): Promise<SaveOutcome<WorkshopContext>> => {
     const snapshot = await client.load();
     if (!snapshot.ok) return snapshot;
-    if (snapshot.value.data?.version !== 3) return {ok: false, code: 'UNSUPPORTED_VERSION', message: '请先备份、预览并显式升级到 Data v3'};
+    if (!isV3Capable(snapshot.value.data)) return {ok: false, code: 'UNSUPPORTED_VERSION', message: '请先备份、预览并显式升级到 Data v3'};
     const read = await client.readWorkshop({token: snapshot.value.token});
     if (!read.ok) return read;
     loaded = {token: read.value.token, catalog: read.value.catalog}; pending = null;
@@ -40,7 +41,7 @@ export function createWorkshopHost(client: WorkspaceClient): WorkshopHost {
     if (!result.ok) {if (result.retry !== 'same-command') pending = null; return result;}
     const snapshot = await client.load();
     if (!snapshot.ok) return snapshot;
-    if (snapshot.value.data?.version !== 3) return {ok: false, code: 'WORKSPACE_REPLACED', message: '工作区已被替换，请重新载入'};
+    if (!isV3Capable(snapshot.value.data)) return {ok: false, code: 'WORKSPACE_REPLACED', message: '工作区已被替换，请重新载入'};
     const data = snapshot.value.data;
     loaded = {token: snapshot.value.token, catalog: {actionCards: data.actionCards, bookEntries: data.bookEntries, pools: data.pools, generationRules: data.generationRules}};
     pending = null;

@@ -1,6 +1,7 @@
 import {useEffect,useRef,useState} from 'react';
 import {createWorkspaceClient,createWorkshopHost,type WorkspaceClient,type BackupPreparation,type WorkspaceSnapshot,type Command,type ConfigV2,type ConfigV3,type ProductionDayView,type Settings,type WorkspacePreview} from '../workspace/index.ts';
 import {validateDefinitionConfig} from '../workspace/codec.ts';
+import {isV3Capable} from '../workspace/contracts-v4.ts';
 import {nextDate} from '../daily/time.ts';
 import {sameValue} from '../daily/model.ts';
 import {merge3} from './config-merge.ts';
@@ -28,7 +29,7 @@ export function useWorkspaceApp(){
  function resetSession(){client.invalidateCapabilities();setPending(null);setBackup(null);setSaved(false);setDiscard(false);retry.current=null;}
  async function install(next:WorkspaceSnapshot){current.current=next;setSnapshot(next);setFatal('');resetSession();setResetText('');setFileText('');setReadonlyPaths([]);setOffsets('{}');setCapture('');
   const common=next.data?{settings:next.data.settings,definitions:next.data.planner.definitions,templates:next.data.planner.templates,rules:next.data.planner.rules}:null;
-  const config:ConfigV2|ConfigV3|null=next.data&&common?(next.data.version===3
+  const config:ConfigV2|ConfigV3|null=next.data&&common?(isV3Capable(next.data)
     ?{format:'cardgrid',version:3,kind:'config',config:{...common,actionCards:next.data.actionCards,bookEntries:next.data.bookEntries,pools:next.data.pools,generationRules:next.data.generationRules}}
     :{format:'cardgrid',version:2,kind:'config',config:common}):null;
   const text=config?JSON.stringify(config,null,2):'';setDraft(config);setJson(text);setBaseline(text);if(next.data?.settings.zone)setZone(next.data.settings.zone);
@@ -78,7 +79,7 @@ export function useWorkspaceApp(){
  function changeSettings(settings:ConfigV2['config']['settings']){if(!draft)return;const update=<T extends ConfigV2|ConfigV3>(pack:T):T=>({...pack,config:{...pack.config,settings}});const next=update(draft);setDraft(next);setJson(JSON.stringify(next,null,2));}
  async function saveSettings(){if(!draft||!snapshot?.data)return;try{validateDefinitionConfig(draft);
   const changedDirectory=JSON.stringify([draft.config.definitions,draft.config.templates,draft.config.rules])!==JSON.stringify([snapshot.data.planner.definitions,snapshot.data.planner.templates,snapshot.data.planner.rules])
-    || draft.version===3&&(snapshot.data.version!==3||!sameValue({actionCards:draft.config.actionCards,bookEntries:draft.config.bookEntries,pools:draft.config.pools,generationRules:draft.config.generationRules},
+    || draft.version===3&&(!isV3Capable(snapshot.data)||!sameValue({actionCards:draft.config.actionCards,bookEntries:draft.config.bookEntries,pools:draft.config.pools,generationRules:draft.config.generationRules},
       {actionCards:snapshot.data.actionCards,bookEntries:snapshot.data.bookEntries,pools:snapshot.data.pools,generationRules:snapshot.data.generationRules}));
   if(changedDirectory){await previewFile(JSON.stringify(draft));setTab('data');}else{
    if(!baseline){setMessage('缺少编辑基线，请重新载入后再保存。');return;}

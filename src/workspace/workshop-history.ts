@@ -1,11 +1,12 @@
 import type {DataV3} from './contracts-v3.ts';
+import type {V3Capable} from './contracts-v4.ts';
 import type {History, Instant, LocalDate} from './contracts.ts';
 import {validateWorkshopEntity, type WorkshopCatalog, type WorkshopEntity} from '../workshop/model.ts';
 import {sameValue} from '../daily/model.ts';
 import {assertInstant, compareInstants, dateAt} from '../daily/time.ts';
 
 export const workshopKinds = {actionCards: 'action-card', bookEntries: 'book-entry', pools: 'pool', generationRules: 'generation-rule'} as const;
-export function workshopCatalog(data: DataV3): WorkshopCatalog {
+export function workshopCatalog(data: V3Capable): WorkshopCatalog {
   return {actionCards: data.actionCards, bookEntries: data.bookEntries, pools: data.pools, generationRules: data.generationRules};
 }
 export function versionSnapshot<K extends keyof WorkshopCatalog>(data: DataV3, collection: K, id: string, version: number): WorkshopCatalog[K][number] | null {
@@ -14,7 +15,7 @@ export function versionSnapshot<K extends keyof WorkshopCatalog>(data: DataV3, c
   return (record?.after ?? null) as WorkshopCatalog[K][number] | null;
 }
 export function historicalWorkshopEntity<K extends keyof WorkshopCatalog>(
-  data: DataV3, collection: K, id: string, sourceDate: LocalDate, zone: string, at: Instant, throughIndex = data.planner.history.length,
+  data: V3Capable, collection: K, id: string, sourceDate: LocalDate, zone: string, at: Instant, throughIndex = data.planner.history.length,
 ): WorkshopCatalog[K][number] | null {
   let result: WorkshopCatalog[K][number] | null = null;
   for (const history of data.planner.history.slice(0, throughIndex)) {

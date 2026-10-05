@@ -1,14 +1,16 @@
 import type { BackupEvidence, Command, ConfigV2, WorkspaceData, EnvelopeV4, Json, MigrationPreview, Result, SubmitResult, Token } from './contracts.ts';
 import type {ConfigV3} from './contracts-v3.ts';
+import {isV3Capable, type V3Capable} from './contracts-v4.ts';
 import type {WorkshopCatalog} from '../workshop/model.ts';
 import {validateWorkshopChange} from '../workshop/model.ts';
 import {workshopCatalog} from './workshop-history.ts';
 import {drawingQueries} from './drawing-queries.ts';
+import {journalQueries} from './journal-queries.ts';
 import {saveWorkshopCatalog} from './v3-operations.ts';
 import {suggestDefinition} from '../drawing/model.ts';
 import { ActionDomainError, sameValue, type ActionOperation } from '../daily/model.ts';
 import { assertCommand, checkToken, commandFailure, createActionService } from './commands.ts';
-import {backupBytes, canonicalJson, emptyWorkspaceData, upgradeActionData, exportWorkspace, fingerprint, inspectImportText, MAX_BACKUP_BYTES, parseRestore, validateActionData, validateDefinitionConfig, validateLegacyConfig, validateSourceFingerprints, type RestoreTarget} from './format.ts';
+import {backupBytes, canonicalJson, emptyWorkspaceData, upgradeActionData, upgradeV3ToV4, exportWorkspace, fingerprint, inspectImportText, MAX_BACKUP_BYTES, parseRestore, validateActionData, validateDefinitionConfig, validateLegacyConfig, validateSourceFingerprints, type RestoreTarget} from './format.ts';
 import { prepareMigration, type MigrationChoices, type MigrationSource } from './migration.ts';
 import { createWorkspaceStore, type WorkspaceStore } from './store.ts';
 import { compatibilityView, projectDay } from '../daily/projection.ts';
@@ -58,7 +60,7 @@ export function createWorkspaceClient(options: {store?: WorkspaceStore; now?: ()
   }
   function workshopConfigOperation(data: WorkspaceData, pack: ConfigV2 | ConfigV3, mode: 'merge' | 'replace'): WorkshopCatalog | null {
     if (pack.version === 2) return null;
-    if (data.version !== 3) throw new ActionDomainError('UNSUPPORTED_VERSION', '请先升级再导入 v3 工坊配置');
+    if (!isV3Capable(data)) throw new ActionDomainError('UNSUPPORTED_VERSION', '请先升级再导入 v3 工坊配置');
     const before = workshopCatalog(data), candidate = structuredClone(before) as Record<keyof WorkshopCatalog, Array<WorkshopCatalog[keyof WorkshopCatalog][number]>>;
     for (const key of ['actionCards', 'bookEntries', 'pools', 'generationRules'] as const) {
       const incoming = pack.config[key];
@@ -88,6 +90,7 @@ export function createWorkspaceClient(options: {store?: WorkspaceStore; now?: ()
   }
   const client = {
     ...drawingQueries(service.readSnapshot, now, options.random ?? (() => crypto.getRandomValues(new Uint32Array(1))[0])),
+    ...journalQueries(service.readSnapshot),
     load: () => result(() => service.readSnapshot()),
     readCompatibilityView(snapshot: Parameters<typeof compatibilityView>[0]) { return compatibilityView(snapshot); },
     subscribe(listener: (external: boolean) => void) { return store.subscribe(listener); },
@@ -114,7 +117,7 @@ export function createWorkspaceClient(options: {store?: WorkspaceStore; now?: ()
       // Config packages are portable definitions, not copies of workspace-local provenance.
       const manual = <T extends { source: unknown }>(items: readonly T[]) => items.map(item => ({ ...item, source: { kind: 'manual' as const } }));
       const common = {settings: snapshot.data.settings, definitions: manual(p.definitions), templates: manual(p.templates), rules: manual(p.rules)};
-      const pack: ConfigV2 | ConfigV3 = snapshot.data.version === 3
+      const pack: ConfigV2 | ConfigV3 = isV3Capable(snapshot.data)
         ? {format: 'cardgrid', version: 3, kind: 'config', config: {...common, actionCards: manual(snapshot.data.actionCards), bookEntries: manual(snapshot.data.bookEntries), pools: manual(snapshot.data.pools), generationRules: manual(snapshot.data.generationRules)}}
         : {format: 'cardgrid', version: 2, kind: 'config', config: common};
       validateDefinitionConfig(pack); return pack;
@@ -138,7 +141,13 @@ export function createWorkspaceClient(options: {store?: WorkspaceStore; now?: ()
         const target = upgradeActionData(snapshot.data), previewId = id();
         lifecycle.set(previewId, {token: snapshot.token, type: 'CommitMigration', target: {mode: 'current', dataFormat: 'action-v3', data: target}, blocked: false});
         return {previewId, token: snapshot.token, sourceFingerprint: await fingerprint(snapshot.data), mappingVersion: 1, bindings: snapshot.data.migrationBindings, issues: [], upgrade: {from: 2, to: 3},
-          targetSummary: {definitions: target.planner.definitions.length, instances: target.planner.instances.length, plans: target.planner.plans.length, facts: target.planner.facts.length, readonlyItems: target.migrationBindings.filter(b => b.disposition === 'readonly').length}};
+          targetSummary: {definitions: target.planner.definitions.length, instances: target.planner.instances.length, plans: target.planner.plans.length, facts: target.planner.facts.length, journalEntries: 0, readonlyItems: target.migrationBindings.filter(b => b.disposition === 'readonly').length}};
+      }
+      if (!input.source && snapshot.data?.version === 3) {
+        const target = upgradeV3ToV4(snapshot.data), previewId = id();
+        lifecycle.set(previewId, {token: snapshot.token, type: 'CommitMigration', target: {mode: 'current', dataFormat: 'action-v4', data: target}, blocked: false});
+        return {previewId, token: snapshot.token, sourceFingerprint: await fingerprint(snapshot.data), mappingVersion: 1, bindings: snapshot.data.migrationBindings, issues: [], upgrade: {from: 3, to: 4},
+          targetSummary: {definitions: target.planner.definitions.length, instances: target.planner.instances.length, plans: target.planner.plans.length, facts: target.planner.facts.length, journalEntries: target.journalEntries.length, readonlyItems: target.migrationBindings.filter(b => b.disposition === 'readonly').length}};
       }
       let source = input.source;
       if (!source) {
@@ -160,7 +169,7 @@ export function createWorkspaceClient(options: {store?: WorkspaceStore; now?: ()
       validateDefinitionConfig(pack); const operation = configOperation(snapshot.data, pack, input.mode);
       const workshop = workshopConfigOperation(snapshot.data, pack, input.mode);
       let target: WorkspaceData = {...snapshot.data, settings: operation.settings, planner: {...snapshot.data.planner, definitions: operation.definitions, templates: operation.templates, rules: operation.rules}};
-      if (workshop && target.version === 3) {
+      if (workshop && isV3Capable(target)) {
         const at = now();
         target = saveWorkshopCatalog(target, workshop, {commandId: 'import-preview', historyId: 'import-preview',
           at, date: dateAt(at, target.settings.zone ?? 'UTC')}, 'ImportDefinitions').data;
@@ -171,9 +180,9 @@ export function createWorkspaceClient(options: {store?: WorkspaceStore; now?: ()
         const previous = snapshot.data!.planner[kind].find(old => old.id === value.id);
         return sameValue(previous, value) ? [] : [{ kind, id: value.id, before: previous ?? null, after: value }];
       }));
-      return {previewId, token: snapshot.token, mode: input.mode, config: structuredClone(pack.config), changes, workshopChanges: workshop && snapshot.data.version === 3
+      return {previewId, token: snapshot.token, mode: input.mode, config: structuredClone(pack.config), changes, workshopChanges: workshop && isV3Capable(snapshot.data)
         ? (['actionCards', 'bookEntries', 'pools', 'generationRules'] as const).flatMap(kind => workshop[kind].flatMap(after => {
-          const before = (snapshot.data as import('./contracts-v3.ts').DataV3)[kind].find(item => item.id === after.id);
+          const before = (snapshot.data as V3Capable)[kind].find(item => item.id === after.id);
           return sameValue(before, after) ? [] : [{kind, id: after.id, before: before ?? null, after}];
         })) : [], settingsBefore: snapshot.data.settings, before: {definitions: snapshot.data.planner.definitions.length, templates: snapshot.data.planner.templates.length, rules: snapshot.data.planner.rules.length},
         after: {definitions: operation.definitions.length, templates: operation.templates.length, rules: operation.rules.length}, retiredDefinitions: operation.definitions.filter(d => !d.enabled).map(d => d.id)};
@@ -201,7 +210,7 @@ export function createWorkspaceClient(options: {store?: WorkspaceStore; now?: ()
           const preview = command.type === 'ClearWorkspace' ? undefined : lifecycle.get(command.payload.previewId);
           if (command.type !== 'ClearWorkspace') requireValue(preview && preview.type === command.type && sameValue(preview.token, token), 'PREVIEW_STALE', '替换预览已失效');
           requireValue(!preview?.blocked, 'MIGRATION_BLOCKED', '迁移仍有未解决问题');
-          let target: RestoreTarget = preview?.target ?? {mode: 'current', dataFormat: 'action-v3', data: emptyWorkspaceData()};
+          let target: RestoreTarget = preview?.target ?? {mode: 'current', dataFormat: 'action-v4', data: emptyWorkspaceData()};
           if (command.type === 'CommitMigration' && target.mode === 'current') {
             const previous = before.data, data = target.data;
             const added = (kind: 'instances' | 'plans' | 'history', value: { id: string }) => !previous?.planner[kind].some(old => old.id === value.id);

@@ -62,7 +62,7 @@ export async function prepareMigration(base: WorkspaceData, source: MigrationSou
   if (found) {
     if (found.fingerprint !== sourceFingerprint) issue('/', 'SOURCE_CHANGED', '同一来源原文已改变，请审查来源差异并使用新的来源身份', true);
     const bindings = base.migrationBindings.filter(b => b.sourceId === sourceId);
-    return { data: base, report: { sourceFingerprint, mappingVersion: 1, bindings, issues, targetSummary: { definitions: 0, instances: 0, plans: 0, facts: 0, readonlyItems: bindings.filter(b => b.disposition === 'readonly').length } } };
+    return { data: base, report: { sourceFingerprint, mappingVersion: 1, bindings, issues, targetSummary: { definitions: 0, instances: 0, plans: 0, facts: 0, journalEntries: 0, readonlyItems: bindings.filter(b => b.disposition === 'readonly').length } } };
   }
   const next = structuredClone(base) as Mutable<WorkspaceData>, p = next.planner, old = rawData(source);
   next.legacySources.push({ id: sourceId, format: source.format, fingerprint: sourceFingerprint, importedAt: at, raw: structuredClone(source.raw) as Mutable<Json> });
@@ -181,7 +181,7 @@ export async function prepareMigration(base: WorkspaceData, source: MigrationSou
   if (backupBytes(next) > MAX_BACKUP_BYTES) issue('/', 'DATA_TOO_LARGE', '迁移后完整备份超过 5 MiB', true);
   const bindings = next.migrationBindings.filter(b => b.sourceId === sourceId);
   return { data: next, report: { sourceFingerprint, mappingVersion: 1, bindings, issues,
-    targetSummary: { definitions: p.definitions.length - base.planner.definitions.length, instances: p.instances.length - base.planner.instances.length, plans: p.plans.length - base.planner.plans.length, facts: 0, readonlyItems: bindings.filter(b => b.disposition === 'readonly').length } } };
+    targetSummary: { definitions: p.definitions.length - base.planner.definitions.length, instances: p.instances.length - base.planner.instances.length, plans: p.plans.length - base.planner.plans.length, facts: 0, journalEntries: 0, readonlyItems: bindings.filter(b => b.disposition === 'readonly').length } } };
 }
 
 export function oldOccurrenceExists(data: WorkspaceData, rule: WorkspaceData['planner']['rules'][number], date: string): boolean {

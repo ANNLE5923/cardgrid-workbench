@@ -9,7 +9,7 @@ function stable(value: unknown): string {
 
 /** A display group, never a merged entity. Copy/date/selection timestamps stay on each member. */
 export function handStackKey(instance: Instance, data: WorkspaceData): string {
-  if (!instance.daily || data.version !== 3) return `instance:${instance.id}`;
+  if (!instance.daily || (data.version !== 3 && data.version !== 4)) return `instance:${instance.id}`;
   const copy = data.dailyCopies.find(copy => copy.id === instance.daily!.copyId);
   if (!copy) return `instance:${instance.id}`;
   return stable({card: copy.actionCard, content: instance.currentContent, ruleId: copy.ruleId, ruleVersion: copy.ruleVersion,

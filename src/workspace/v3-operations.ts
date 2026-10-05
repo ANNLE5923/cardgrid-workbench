@@ -1,5 +1,6 @@
 import type {Command, EntityRef, History, Instance, Json, VersionRef, ErrorCode} from './contracts.ts';
 import type {DataV3, DailyCopy} from './contracts-v3.ts';
+import type {V3Capable} from './contracts-v4.ts';
 import {ActionDomainError, assertActionTransition, type TransitionContext} from '../daily/model.ts';
 import {assertDate, assertInstant, dateAt, nextDate} from '../daily/time.ts';
 import {prepareWorkshopChange, type WorkshopCatalog} from '../workshop/model.ts';
@@ -13,20 +14,20 @@ export const isV3Command = (command: Command): command is V3Command => types.inc
 function need(condition: unknown, code: ErrorCode, message: string): asserts condition {
   if (!condition) throw new ActionDomainError(code, message);
 }
-type Change = Readonly<{data: DataV3; resultRefs: readonly EntityRef[]; changed: boolean}>;
+type Change<T = DataV3> = Readonly<{data: T; resultRefs: readonly EntityRef[]; changed: boolean}>;
 function history(context: TransitionContext, type: string, entity: EntityRef, before: unknown, after: unknown, suffix: string): History {
   return {id: `${context.historyId}:${suffix}`, commandId: context.commandId, at: context.at, date: context.date, type,
     entity, before: structuredClone(before) as Json, after: structuredClone(after) as Json};
 }
-export function saveWorkshopCatalog(data: DataV3, candidate: WorkshopCatalog, context: TransitionContext, type: string): Change {
+export function saveWorkshopCatalog<C extends V3Capable>(data: C, candidate: WorkshopCatalog, context: TransitionContext, type: string): Change<C> {
   const prepared = prepareWorkshopChange(workshopCatalog(data), candidate, {at: context.at});
   if (!prepared.ok) throw new ActionDomainError('INVALID_INPUT', prepared.issues.map(i => `${i.path}: ${i.message}`).join('; '));
   const logs = prepared.value.revisions.map((revision, index) => history(context, type, {kind: workshopKinds[revision.collection], id: revision.after.id},
     revision.before, revision.after, `workshop-${index}`));
-  return {data: {...data, ...prepared.value.catalog, planner: {...data.planner, history: [...data.planner.history, ...logs]}},
+  return {data: {...data, ...prepared.value.catalog, planner: {...data.planner, history: [...data.planner.history, ...logs]}} as C,
     resultRefs: logs.map(log => log.entity), changed: logs.length > 0};
 }
-export function generationFor(data: DataV3, target: Extract<V3Command, {type: 'GenerateDailyCopies'}>['payload']['target'], at: string, newId: () => string): GenerationOutcome {
+export function generationFor(data: V3Capable, target: Extract<V3Command, {type: 'GenerateDailyCopies'}>['payload']['target'], at: string, newId: () => string): GenerationOutcome {
   assertInstant(at);
   if (target !== 'current') {
     assertDate(target.date);
@@ -46,7 +47,7 @@ export function generationFor(data: DataV3, target: Extract<V3Command, {type: 'G
   }
   return runDailyGeneration({rules: data.generationRules, actionCards: data.actionCards, ledger: data.generationLedger, at, newId});
 }
-export function activeCopy(data: DataV3, ref: VersionRef, at: string): DailyCopy {
+export function activeCopy(data: V3Capable, ref: VersionRef, at: string): DailyCopy {
   const copy = data.dailyCopies.find(c => c.id === ref.id);
   need(copy, data.archiveLogs.some(log => log.copyId === ref.id) ? 'COPY_EXPIRED' : 'COPY_NOT_FOUND', '副本不存在或已归档');
   need(copy.version === ref.version, 'REVISION_CONFLICT', '副本已改变，请重新载入');

@@ -1,6 +1,7 @@
 import type {WorkspaceSnapshot} from './commands.ts';
 import type {Result, Token, VersionRef} from './contracts.ts';
-import type {DataV3, SlotSelection} from './contracts-v3.ts';
+import type {SlotSelection} from './contracts-v3.ts';
+import {isV3Capable, type V3Capable} from './contracts-v4.ts';
 import {assertCommand, checkToken, commandFailure} from './commands.ts';
 import {ActionDomainError} from '../daily/model.ts';
 import {assertDate} from '../daily/time.ts';
@@ -9,10 +10,10 @@ import {activeCopy, generationFor} from './v3-operations.ts';
 import {workshopCatalog} from './workshop-history.ts';
 
 export function drawingQueries(read: () => Promise<WorkspaceSnapshot>, now: () => string, random: () => number) {
-  const result = async <T>(token: Token, run: (data: DataV3, at: string) => T): Promise<Result<T & {token: Token}>> => {
+  const result = async <T>(token: Token, run: (data: V3Capable, at: string) => T): Promise<Result<T & {token: Token}>> => {
     try {
       const snapshot = await read(); checkToken(snapshot.token, token);
-      if (snapshot.data?.version !== 3) throw new ActionDomainError('UNSUPPORTED_VERSION', '请先备份、预览并显式升级到 Data v3');
+      if (!isV3Capable(snapshot.data)) throw new ActionDomainError('UNSUPPORTED_VERSION', '请先备份、预览并显式升级到 Data v3');
       return {ok: true, value: structuredClone({...run(snapshot.data, now()), token: snapshot.token})};
     } catch (error) {return commandFailure(error);}
   };

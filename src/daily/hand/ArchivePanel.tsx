@@ -1,7 +1,7 @@
 import type {WorkspaceData} from '../../workspace/index.ts';
 
 export function ArchivePanel({data}: {data: WorkspaceData}) {
-  const logs = data.version === 3 ? data.archiveLogs : [];
+  const logs = (data.version === 3 || data.version === 4) ? data.archiveLogs : [];
   return <section className="panel" aria-label="每日副本归档日志"><h2>归档日志（{logs.length}）</h2>
     <p className="muted">到期副本已退出库存与手牌，未完成排期已撤销。实际事实与批注保留。</p>
     {!logs.length && <p>还没有到期归档记录。</p>}

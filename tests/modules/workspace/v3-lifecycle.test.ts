@@ -5,12 +5,12 @@ import {createWorkshopHost} from '../../../src/workspace/workshop-host.ts';
 import {emptyActionData, emptyWorkspaceData, inspectEnvelope, inspectImport, exportWorkspace, parseRestore, validateActionData, validateDefinitionConfig} from '../../../src/workspace/format.ts';
 import {confirmed, envelope} from '../../fixtures/action/independent.ts';
 
-test('B3 uninitialized reads expose blank v3 without writes or seeded rules', async () => {
-  const h = harness(); const first = ok(await h.client.load()), second = ok(await h.client.load());
-  assert.equal(first.data?.version, 3); assert.deepEqual(first, second); assert.equal(h.writes(), 0);
+test('B4 uninitialized reads expose blank v4 without writes or seeded rules', async () => {
+  const h = harness({version: 4}); const first = ok(await h.client.load()), second = ok(await h.client.load());
+  assert.equal(first.data?.version, 4); assert.deepEqual(first, second); assert.equal(h.writes(), 0);
   assert.deepEqual(first.data, emptyWorkspaceData());
   ok(await h.submit('CreateCapture', {text: '旧捕获入口', source: 'manual'}));
-  assert.equal((h.evidence().raw as any).dataFormat, 'action-v3');
+  assert.equal((h.evidence().raw as any).dataFormat, 'action-v4');
 });
 
 test('B3 workshop saves append complete version evidence and reject invalid references atomically', async () => {

@@ -2,6 +2,7 @@ import {useEffect, useRef, useState, useSyncExternalStore} from 'react';
 import type {WorkspaceDrawSession} from '../workspace-session.ts';
 import {Sphere} from '../../shared/ui/index.ts';
 import {SlotPicker} from './SlotPicker.tsx';
+import {isV3Capable} from '../../workspace/contracts-v4.ts';
 import './production-draw.css';
 
 export function ProductionDrawPanel({drawing, onData, onHand, onToday}: {drawing: WorkspaceDrawSession; onData: () => void; onHand: () => void; onToday?: () => void}) {
@@ -34,7 +35,7 @@ export function ProductionDrawPanel({drawing, onData, onHand, onToday}: {drawing
       {!state.copies.length && <p>库存为空。请在工坊建立行动原卡和生成规则，也可通过配置包导入。</p>}
       <details className="production-supplement"><summary>手动补生成漏日</summary><p>只补所选规则与日期；保留期外或缺少当日版本证据的日期会拒绝。</p>
         <label>生成规则<select aria-label="补生成规则" value={supplementRule} disabled={disabled} onChange={e=>setSupplementRule(e.target.value)}><option value="">请选择规则</option>
-          {state.snapshot?.data?.version===3 && state.snapshot.data.generationRules.map(rule=><option key={rule.id} value={rule.id}>{rule.name}</option>)}
+          {isV3Capable(state.snapshot?.data) && state.snapshot!.data.generationRules.map(rule=><option key={rule.id} value={rule.id}>{rule.name}</option>)}
         </select></label><label>来源日期<input type="date" aria-label="补生成来源日期" value={supplementDate} disabled={disabled} onChange={e=>setSupplementDate(e.target.value)}/></label>
         <button type="button" disabled={disabled || !supplementRule || !supplementDate} onClick={()=>void drawing.supplement(supplementRule,supplementDate)}>补生成这一天</button>
       </details>

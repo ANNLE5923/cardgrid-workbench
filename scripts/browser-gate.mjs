@@ -8,11 +8,13 @@ const scripts=[
   'action-3g-gate-main','action-3g-gate-supplement','action-3g-gate-additional',
   'action-3g-final-extra','action-3g-hook-faults','action-3g-readonly-edges',
   'action-2g','action-2g-closure','action-2g-save-failures','action-2g-annotation',
+  'journal','journal-independent','journal-restore-independent','journal-navigation-independent',
 ];
 const env={...process.env,CARDGRID_PLAYWRIGHT_MODULE:process.env.CARDGRID_PLAYWRIGHT_MODULE||'playwright',
   CARDGRID_V3_OUTPUT:process.env.CARDGRID_V3_OUTPUT||path.join(root,'test-results/v03-core'),
   CARDGRID_A3_OUTPUT:process.env.CARDGRID_A3_OUTPUT||path.join(root,'test-results/v03-sphere'),
   CARDGRID_ACTION_OUTPUT:process.env.CARDGRID_ACTION_OUTPUT||path.join(root,'test-results/v03-storage'),
+  CARDGRID_JOURNAL_REVIEW_OUTPUT:process.env.CARDGRID_JOURNAL_REVIEW_OUTPUT||path.join(root,'test-results/v05-journal-independent'),
   CARDGRID_WS_OUTPUT:process.env.CARDGRID_WS_OUTPUT||path.join(root,'test-results/v03-hierarchy')};
 const failed=[];
 for(const script of scripts){

@@ -14,7 +14,8 @@ const owner=(file:string)=>relative(file).split('/')[0];
 const publicEntries=new Set([
   'app/index.ts','workshop/index.ts','workshop/model.ts','drawing/index.ts','drawing/model.ts',
   'daily/index.ts','daily/model.ts','daily/time.ts','daily/projection.ts',
-  'workspace/index.ts','workspace/codec.ts','workspace/legacy/index.ts','shared/ui/index.ts',
+  'journal/index.ts',
+  'workspace/index.ts','workspace/codec.ts','workspace/contracts-v4.ts','workspace/legacy/index.ts','shared/ui/index.ts',
 ]);
 const runtimeGraph=new Map<string,string[]>();
 const violations:string[]=[];

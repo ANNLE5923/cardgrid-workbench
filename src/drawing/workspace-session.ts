@@ -1,4 +1,5 @@
 import type {WorkspaceClient, WorkspaceSnapshot, Command, Token, SlotSelection, DailyCopy} from '../workspace/index.ts';
+import {isV3Capable} from '../workspace/contracts-v4.ts';
 import {dateAt, nextDate} from '../daily/time.ts';
 import {INITIAL_SESSION, drawReducer, type DrawSession} from './draw-session.ts';
 import {selectCandidate, shuffleCandidates} from './selection.ts';
@@ -34,7 +35,7 @@ export function createWorkspaceDrawSession(host: Host, options: {id?: () => stri
       if (!result.ok) {emit({status: 'error', message: result.message}); return false;}
       const snapshot = result.value, replaced = !!state.snapshot && !sameToken(state.snapshot.token, snapshot.token);
       if (invalidate && replaced) discard('工作区已更新，抽卡草稿已失效，请重新选择。', 'invalidated');
-      if (snapshot.data?.version !== 3) {
+      if (!isV3Capable(snapshot.data)) {
         discard('请先到“数据与备份”备份并升级，再使用每日库存。', 'unsupported');
         emit({snapshot, copies: [], todayIds: [], at: null}); return true;
       }
@@ -87,9 +88,9 @@ export function createWorkspaceDrawSession(host: Host, options: {id?: () => stri
     if (locked || closed || pending) return false;
     locked = true; emit({busy: true});
     try {
-      if (!await refresh() || state.snapshot?.data?.version !== 3) return false;
+      if (!await refresh() || !isV3Capable(state.snapshot?.data)) return false;
       for (let step = 0; step < 3; step++) {
-        const snapshot = state.snapshot!; if (snapshot.data?.version !== 3 || !state.at) return false;
+        const snapshot = state.snapshot!; if (!isV3Capable(snapshot.data) || !state.at) return false;
         const data = snapshot.data;
         const due = data.dailyCopies.some(copy => {
           const rule = data.generationRules.find(r => r.id === copy.ruleId);
@@ -140,7 +141,7 @@ export function createWorkspaceDrawSession(host: Host, options: {id?: () => stri
       if (locked || pending || closed) return false;
       locked = true; emit({busy:true});
       try {
-        if (!await refresh() || state.snapshot?.data?.version !== 3) return false;
+        if (!await refresh() || !isV3Capable(state.snapshot?.data)) return false;
         const token = state.snapshot.token, target = {ruleId,date};
         const planned = await host.previewGeneration({token,target});
         if (!planned.ok) {emit({status:'error',message:planned.message});return false;}

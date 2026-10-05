@@ -100,7 +100,7 @@ export function assertActionState(data: WorkspaceData): void {
     assertDate(occurrence.date);
     requireThat(p.rules.some(rule => rule.id === occurrence.ruleId) && p.instances.some(i => i.id === occurrence.instanceId && i.occurrenceId === occurrence.id), '例行规则或原实例不存在');
   }
-  const archivedIds = new Set(data.version === 3 ? data.archiveLogs.flatMap(log => log.acceptedInstanceIds) : []);
+  const archivedIds = new Set((data.version === 3 || data.version === 4) ? data.archiveLogs.flatMap(log => log.acceptedInstanceIds) : []);
   const expectedHand = p.instances.filter(i => i.state === 'open' && !archivedIds.has(i.id) && !active.some(plan => plan.instanceId === i.id) && !p.facts.some(f => f.instanceId === i.id)).map(i => i.id);
   unique(p.handOrder, 'handOrder');
   requireThat(p.handOrder.length === expectedHand.length && p.handOrder.every(id => expectedHand.includes(id)), '手牌必须恰好覆盖所有可持有实例');
@@ -202,7 +202,7 @@ export function applyAction(data: WorkspaceData, operation: ActionOperation, con
   };
   const editable = (expected: VersionRef): Mutable<Instance> => {
     const instance = versioned(p.instances, expected);
-    if (data.version === 3 && instance.daily) {
+    if ((data.version === 3 || data.version === 4) && instance.daily) {
       const copy = data.dailyCopies.find(c => c.id === instance.daily!.copyId);
       const rule = copy && data.generationRules.find(r => r.id === copy.ruleId);
       requireThat(copy && rule && dateAt(context.at, rule.zone) < nextDate(copy.sourceDate, 7), '每日副本已到期，不能重新安排或放回手牌', 'COPY_EXPIRED');

@@ -5,9 +5,9 @@
 `today-entry.mjs` 已加入完整门禁。使用生产构建、真实 IndexedDB 与全新合成 context，覆盖默认 Today 只读浏览、显式准备日型、1280/320px 抽卡返回日期/时区/落点、排期与分钟精度实际确认、批注持久化，以及 epoch 替换清除旧会话。
 先构建，再运行 `node tests/browser/today-entry.mjs`；浏览器环境变量沿用下文说明。证据默认写入忽略的 `test-results/today-entry/`，可用 `CARDGRID_BROWSER_OUTPUT_ROOT` 指定本轮目录。开发回归与分离验收分别记录。
 
-## 当前完整门禁（v0.4，2026-10-05）
+## 当前完整门禁（v0.5，2026-10-05）
 
-Playwright 1.62.1 已固定为项目开发依赖，所有脚本默认使用项目安装。先构建，再串行运行 Today 入口、正式 v0.3 页面/事务、A3/A4，以及原 G2/G3 矩阵：
+Playwright 1.62.1 已固定为项目开发依赖，所有脚本默认使用项目安装。先构建，再串行运行 Today 入口、正式 v0.3 页面/事务、A3/A4、原 G2/G3 矩阵及四个日记脚本；完整门禁共 20 个脚本：
 
 ```sh
 npm ci
@@ -18,9 +18,11 @@ npm run test:browser
 
 有本机 Chrome 时可以不下载 Chromium：PowerShell 设置 `$env:CARDGRID_CHROME_PATH='C:\Program Files\Google\Chrome\Application\chrome.exe'` 后运行门禁。`CARDGRID_PLAYWRIGHT_MODULE` 仅用于覆盖运行库，旧脚本也由统一门禁提供项目默认值。层级脚本现在自建服务器，也可用 `CARDGRID_DEV_ORIGIN` 指定已有服务器。
 
-`v03-closure.mjs` 使用生产 dist、真实 IndexedDB 与全新 context；18 组覆盖空白工坊建卡到实际确认、随机首项即时固定、两步球面/词条锁 ID、键盘焦点、来源堆叠单份操作、归档事实批注、漏日补生成、外部失效、320/390/720 与 10/100，以及静态 shell 更新和离线重开。2026-10-05 用户设定每池 100 上限与十项下拉：删除 500 张正向压测，新增展示组稳定／全池抽取及第 101 个成员禁入检查。仅为控制种子与断言读取加载源码，产品操作均驱动正式页面。旧壳测试使用合成 prior shell，不冒称跑了整套旧版浏览器。
+`v03-closure.mjs` 使用生产 dist、真实 IndexedDB 与全新 context；20 组覆盖空白工坊建卡到实际确认、随机首项即时固定、两步球面/词条锁 ID、键盘焦点、来源堆叠单份操作、归档事实批注、漏日补生成、外部失效、320/390/720 与 10/100，以及静态 shell 更新和离线重开。2026-10-05 用户设定每池 100 上限与十项下拉：删除 500 张正向压测，新增展示组稳定／全池抽取及第 101 个成员禁入检查。SW 更新新增迟到观察与慢激活两组；监听安装得到确认后才释放旧页面。仅为控制种子与断言读取加载源码，产品操作均驱动正式页面。旧壳测试使用合成 prior shell，不冒称跑了整套旧版浏览器。
 
-GitHub Actions 已配置 Chromium 安装、完整浏览器门禁与失败证据上传；远端结果以精确提交对应的 Actions 为准。当前作者回归与分离检查见[v0.4 版本记录](../../docs/归档/v0.4/README.md)，工坊历史见[v0.3 收尾](../../docs/归档/v0.3/开发/2026-10-05-v0.3收尾与验收.md)。本地结果在忽略的 `test-results/`，不覆盖归档验收证据。
+日记脚本为 `journal.mjs`（5 组作者回归）、`journal-independent.mjs`（R01–R07）、`journal-restore-independent.mjs`（真实显式恢复）、`journal-navigation-independent.mjs`（真实写入失败、离页保留与重试）。后两组使用独立 context，三个独立脚本占用端口 53319，必须串行运行；证据目录可通过 `CARDGRID_JOURNAL_REVIEW_OUTPUT` 指定。
+
+GitHub Actions 已配置 Chromium 安装、完整浏览器门禁与失败证据上传；远端结果以精确提交对应的 Actions 为准。当前非作者复验和追加修复回归见[v0.5 末轮报告](../../docs/归档/v0.5/验收/2026-10-05-分离复验与收尾.md)，前版见[v0.4 版本记录](../../docs/归档/v0.4/README.md)，工坊历史见[v0.3 收尾](../../docs/归档/v0.3/开发/2026-10-05-v0.3收尾与验收.md)。本地结果在忽略的 `test-results/`，不覆盖归档验收证据。
 
 下列章节保留各阶段当时的证据与运行方式，外部 Playwright/未接线/旧 CI 状态不代表当前版本状态。
 

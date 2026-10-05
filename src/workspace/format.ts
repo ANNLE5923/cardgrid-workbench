@@ -1,5 +1,7 @@
 import type {BackupV2, Command, ConfigV2, DataV2, WorkspaceData, EntityRef, EnvelopeV4, Json, LegacyBackupV1, LegacyFormat, LegacyRef} from './contracts.ts';
 import type {DataV3, BackupV3, ConfigV3} from './contracts-v3.ts';
+import type {DataV4, BackupV4} from './contracts-v4.ts';
+import {assertV4State} from './v4-operations.ts';
 import {poolCapacityIssue, validateWorkshopCatalog, validateWorkshopEntity} from '../workshop/model.ts';
 import {assertV3State} from './v3-state.ts';
 import { assertActionState, sameValue } from '../daily/model.ts';
@@ -18,7 +20,12 @@ export function upgradeActionData(data: DataV2): DataV3 {
   validateActionData(data);
   return {...structuredClone(data), version: 3, actionCards: [], bookEntries: [], pools: [], generationRules: [], dailyCopies: [], archiveLogs: [], generationLedger: []};
 }
-export function emptyWorkspaceData(): DataV3 {return upgradeActionData(emptyActionData());}
+/** v3→v4: keep every existing collection, add an empty journal. */
+export function upgradeV3ToV4(data: DataV3): DataV4 {
+  validateActionData(data);
+  return {...structuredClone(data), version: 4, journalEntries: []};
+}
+export function emptyWorkspaceData(): DataV4 {return upgradeV3ToV4(upgradeActionData(emptyActionData()));}
 /** Stable JSON identity: retain field presence and array order; ignore object key order. */
 export function canonicalJson(value: unknown): string {
   if (value === null || typeof value === 'boolean' || typeof value === 'string') return JSON.stringify(value);
@@ -32,7 +39,8 @@ export async function fingerprint(value: unknown): Promise<string> {
   return [...new Uint8Array(hash)].map(byte => byte.toString(16).padStart(2, '0')).join('');
 }
 export function backupBytes(data: WorkspaceData): number {
-  return new TextEncoder().encode(JSON.stringify({format: 'cardgrid', version: data.version, kind: 'backup', dataFormat: data.version === 3 ? 'action-v3' : 'action-v2', data})).length;
+  const dataFormat = data.version === 4 ? 'action-v4' : data.version === 3 ? 'action-v3' : 'action-v2';
+  return new TextEncoder().encode(JSON.stringify({format: 'cardgrid', version: data.version, kind: 'backup', dataFormat, data})).length;
 }
 
 /** A read-only format boundary. Never use this result as authorization to commit: 2A.4 adds full semantic validation. */
@@ -42,6 +50,7 @@ export type WorkspaceInspection =
   | Readonly<{ kind: 'legacy-readonly'; raw: unknown; sourceFormat: LegacyFormat | 'envelope-v2' | 'envelope-v3'; semanticValidationPending: true }>;
 
 export type ImportInspection =
+  | Readonly<{kind: 'backup-v4'; raw: unknown; backup: unknown; semanticValidationPending: true}>
   | Readonly<{kind: 'backup-v3'; raw: unknown; backup: unknown; semanticValidationPending: true}>
   | Readonly<{kind: 'config-v3'; raw: unknown; config: unknown; semanticValidationPending: true}>
   | Readonly<{ kind: 'backup-v2'; raw: unknown; backup: unknown; semanticValidationPending: true }>
@@ -128,8 +137,8 @@ export function inspectEnvelope(raw: unknown): WorkspaceInspection {
       }
     }
     if (env.mode === 'current') {
-      oneOf(env.dataFormat, ['action-v2', 'action-v3'], '$.dataFormat');
-      inspectActionData(env.data, '$.data', env.dataFormat === 'action-v3' ? 3 : 2);
+      oneOf(env.dataFormat, ['action-v2', 'action-v3', 'action-v4'], '$.dataFormat');
+      inspectActionData(env.data, '$.data', env.dataFormat === 'action-v4' ? 4 : env.dataFormat === 'action-v3' ? 3 : 2);
       return { kind: 'current', raw, envelope: env, semanticValidationPending: true };
     }
     oneOf(env.mode, ['legacy-readonly'], '$.mode');
@@ -193,9 +202,12 @@ function inspectLegacyData(raw: unknown, path: string, expected?: 'cardgrid-v1-p
 export function inspectDataV2(raw: unknown, path = '$'): void {
   inspectActionData(raw, path, 2);
 }
-function inspectActionData(raw: unknown, path: string, version: 2 | 3): void {
+function inspectActionData(raw: unknown, path: string, version: 2 | 3 | 4): void {
   const data = record(raw, path);
-  const additions = version === 3 ? ['actionCards', 'bookEntries', 'pools', 'generationRules', 'dailyCopies', 'archiveLogs', 'generationLedger'] : [];
+  const additions = [
+    ...(version >= 3 ? ['actionCards', 'bookEntries', 'pools', 'generationRules', 'dailyCopies', 'archiveLogs', 'generationLedger'] : []),
+    ...(version === 4 ? ['journalEntries'] : []),
+  ];
   exact(data, ['version', 'settings', 'planner', 'legacySources', 'migrationBindings', 'commandReceipts', ...additions], [], path);
   oneOf(data.version, [version], `${path}.version`);
   additions.forEach(name => array(data[name], `${path}.${name}`));
@@ -246,6 +258,11 @@ function inspectActionData(raw: unknown, path: string, version: 2 | 3): void {
 
 export function inspectImport(raw: unknown): ImportInspection {
   const pack = record(raw, '$');
+  if (pack.format === 'cardgrid' && pack.version === 4 && pack.kind === 'backup') {
+    exact(pack, ['format', 'version', 'kind', 'dataFormat', 'data'], [], '$');
+    oneOf(pack.dataFormat, ['action-v4'], '$.dataFormat'); inspectActionData(pack.data, '$.data', 4);
+    return {kind: 'backup-v4', raw, backup: pack, semanticValidationPending: true};
+  }
   if (pack.format === 'cardgrid' && pack.version === 3 && pack.kind === 'backup') {
     exact(pack, ['format', 'version', 'kind', 'dataFormat', 'data'], [], '$');
     oneOf(pack.dataFormat, ['action-v3'], '$.dataFormat'); inspectActionData(pack.data, '$.data', 3);
@@ -354,8 +371,8 @@ const entityRef: Check = (v, p) => {
 };
 const entityRefV3: Check = (v, p) => {
   const kind = record(v, p).kind;
-  if (['action-card', 'book-entry', 'pool', 'generation-rule', 'daily-copy', 'archive-log'].includes(kind as string))
-    shape({kind: literal('action-card', 'book-entry', 'pool', 'generation-rule', 'daily-copy', 'archive-log'), id: nonempty})(v, p);
+  if (['action-card', 'book-entry', 'pool', 'generation-rule', 'daily-copy', 'archive-log', 'journal-entry'].includes(kind as string))
+    shape({kind: literal('action-card', 'book-entry', 'pool', 'generation-rule', 'daily-copy', 'archive-log', 'journal-entry'), id: nonempty})(v, p);
   else entityRef(v, p);
 };
 const instanceRef: Check = (v, p) => { if (record(v, p).kind === 'legacy') legacyRefShape(v, p); else shape({ kind: literal('instance'), id: nonempty })(v, p); };
@@ -382,6 +399,8 @@ const dailyCopyShape = shape({id: nonempty, version: versionValue, ruleId: nonem
 const archiveLogShape = shape({id: nonempty, version: versionValue, copyId: nonempty, ruleId: nonempty, actionCard: versionRef, sourceDate: dateValue, contentSnapshot: contentShape,
   slotSelectionsSnapshot: items(slotSelectionShape), acceptedInstanceIds: items(nonempty), disposition: literal('accepted', 'none-accepted'), archivedAt: instantValue});
 const generationLedgerShape = shape({ruleId: nonempty, sourceDate: dateValue, copyId: nonempty, at: instantValue});
+const journalEntryShape = shape({id: nonempty, version: versionValue, date: dateValue, zone: zoneValue,
+  text: textValue, createdAt: instantValue, updatedAt: instantValue});
 const planShape = shape({ id: nonempty, version: versionValue, instanceId: nonempty, range: recordedRangeShape, contentSnapshot: contentShape, status: literal('active', 'retracted', 'confirmed'), createdAt: instantValue, changedAt: instantValue });
 const factFields = {id: nonempty, instanceId: nonempty, contentSnapshot: contentShape, actualRange: recordedRangeShape,
   plannedSnapshot: nullable(shape({planId: nonempty, planVersion: versionValue, range: recordedRangeShape, content: contentShape})), confirmedAt: instantValue, source: sourceRef};
@@ -419,18 +438,20 @@ export function resolveLegacyPath(raw: unknown, path: string): unknown {
 }
 export const sourcePathPart = (id: string): string => '@' + id.replace(/~/g, '~0').replace(/\//g, '~1');
 export function validateActionData(raw: unknown, path = '$'): asserts raw is WorkspaceData {
-  const v3 = record(raw, path).version === 3;
-  inspectActionData(raw, path, v3 ? 3 : 2);
-  const additions: Record<string, Check> = v3 ? {
+  const version = record(raw, path).version as 2 | 3 | 4;
+  if (version !== 2 && version !== 3 && version !== 4) fail(path, '不支持的数据版本');
+  inspectActionData(raw, path, version);
+  const additions: Record<string, Check> = version >= 3 ? {
     actionCards: items((v, p) => {const result = validateWorkshopEntity('actionCards', v); if (!result.ok) fail(p, result.issues.map(i => i.message).join('; '));}),
     bookEntries: items(bookShape), pools: items((v, p) => {const result = validateWorkshopEntity('pools', v); if (!result.ok) fail(p, result.issues.map(i => i.message).join('; '));}),
     generationRules: items((v, p) => {const result = validateWorkshopEntity('generationRules', v); if (!result.ok) fail(p, result.issues.map(i => i.message).join('; '));}),
     dailyCopies: items(dailyCopyShape), archiveLogs: items(archiveLogShape), generationLedger: items(generationLedgerShape),
+    ...(version === 4 ? {journalEntries: items(journalEntryShape)} : {}),
   } : {};
-  shape({version: literal(v3 ? 3 : 2), settings: settingsShape, planner: v3 ? plannerShapeV3 : plannerShape,
+  shape({version: literal(version), settings: settingsShape, planner: version >= 3 ? plannerShapeV3 : plannerShape,
     legacySources: items(shape({ id: nonempty, format: literal('cardgrid-v1-p1a', 'cardgrid-v1-pre-planner', 'envelope-v1', 'legacy-archive'), fingerprint: nonempty, importedAt: instantValue, raw: jsonValue })),
-    migrationBindings: items(shape({ sourceId: nonempty, path: nonempty, sourceFingerprint: nonempty, mappingVersion: literal(1), target: v3 ? entityRefV3 : entityRef, disposition: literal('converted', 'readonly') })),
-    commandReceipts: items(shape({commandId: nonempty, type: nonempty, payloadFingerprint: nonempty, resultRefs: items(v3 ? entityRefV3 : entityRef)})), ...additions})(raw, path);
+    migrationBindings: items(shape({ sourceId: nonempty, path: nonempty, sourceFingerprint: nonempty, mappingVersion: literal(1), target: version >= 3 ? entityRefV3 : entityRef, disposition: literal('converted', 'readonly') })),
+    commandReceipts: items(shape({commandId: nonempty, type: nonempty, payloadFingerprint: nonempty, resultRefs: items(version >= 3 ? entityRefV3 : entityRef)})), ...additions})(raw, path);
   const data = raw as WorkspaceData, p = data.planner;
   data.legacySources.forEach((source, i) => {
     const at = `${path}.legacySources[${i}].raw`;
@@ -441,8 +462,9 @@ export function validateActionData(raw: unknown, path = '$'): asserts raw is Wor
   if (data.settings.preferences.endHour <= data.settings.preferences.startHour) fail(`${path}.settings.preferences.endHour`, '结束小时必须晚于开始');
   const collections: Record<string, readonly {id: string}[]> = { definition: p.definitions, instance: p.instances, plan: p.plans, fact: p.facts, annotation: p.annotations, fixed: p.fixed,
     template: p.templates, rule: p.rules, occurrence: p.occurrences, capture: p.captures, project: p.refs, goal: p.goals, day: p.days.map(d => ({ id: d.date })), settings: [{ id: 'workspace' }] };
-  if (data.version === 3) Object.assign(collections, {'action-card': data.actionCards, 'book-entry': data.bookEntries, pool: data.pools,
+  if (data.version === 3 || data.version === 4) Object.assign(collections, {'action-card': data.actionCards, 'book-entry': data.bookEntries, pool: data.pools,
     'generation-rule': data.generationRules, 'daily-copy': data.generationLedger.map(l => ({id: l.copyId})), 'archive-log': data.archiveLogs});
+  if (data.version === 4) collections['journal-entry'] = data.journalEntries;
   const legacy = (ref: LegacyRef, at: string, allowed?: RegExp) => {
     const source = data.legacySources.find(s => s.id === ref.sourceId);
     if (!source) fail(at, '旧来源不存在');
@@ -461,7 +483,7 @@ export function validateActionData(raw: unknown, path = '$'): asserts raw is Wor
   };
   for (const [name, objects] of Object.entries({ definitions: p.definitions, instances: p.instances, facts: p.facts, fixed: p.fixed, templates: p.templates, rules: p.rules }))
     objects.forEach((item, i) => sourceCheck(item.source, `${path}.planner.${name}[${i}].source`));
-  if (data.version === 3) for (const name of ['actionCards', 'bookEntries', 'pools', 'generationRules'] as const)
+  if (data.version === 3 || data.version === 4) for (const name of ['actionCards', 'bookEntries', 'pools', 'generationRules'] as const)
     data[name].forEach((item, i) => sourceCheck(item.source, `${path}.${name}[${i}].source`));
   p.rules.forEach((rule, i) => refCheck({ kind: 'definition', id: rule.definitionId }, `${path}.planner.rules[${i}].definitionId`));
   p.templates.forEach((template, i) => {
@@ -504,7 +526,8 @@ export function validateActionData(raw: unknown, path = '$'): asserts raw is Wor
     receipt.resultRefs.forEach(ref => refCheck(ref, `${path}.commandReceipts[${i}].resultRefs`));
   });
   try { assertActionState(data); } catch (error) { fail(path, (error as Error).message); }
-  if (data.version === 3) try {assertV3State(data);} catch (error) {fail(path, (error as Error).message);}
+  if (data.version >= 3) try {assertV3State(data as DataV3);} catch (error) {fail(path, (error as Error).message);}
+  if (data.version === 4) try {assertV4State(data);} catch (error) {fail(path, (error as Error).message);}
 }
 export async function validateSourceFingerprints(data: WorkspaceData): Promise<void> {
   for (const [i, source] of data.legacySources.entries()) if (await fingerprint(source.raw) !== source.fingerprint) fail(`$.legacySources[${i}].fingerprint`, '原文摘要不匹配');
@@ -639,7 +662,11 @@ export function validateWorkspace(raw: unknown): void {
 }
 export type RestoreTarget = Pick<Extract<EnvelopeV4, { mode: 'current' }>, 'mode' | 'dataFormat' | 'data'> | Pick<Extract<EnvelopeV4, { mode: 'legacy-readonly' }>, 'mode' | 'dataFormat' | 'data'>;
 export function parseRestore(text: string): RestoreTarget {
-  const inspected = inspectImportText(text), pack = inspected.raw as BackupV2 | BackupV3 | LegacyBackupV1;
+  const inspected = inspectImportText(text), pack = inspected.raw as BackupV2 | BackupV3 | BackupV4 | LegacyBackupV1;
+  if (inspected.kind === 'backup-v4') {
+    const backup = pack as BackupV4; validateActionData(backup.data);
+    return {mode: 'current', dataFormat: 'action-v4', data: structuredClone(backup.data)};
+  }
   if (inspected.kind === 'backup-v3') {
     const backup = pack as BackupV3; validateActionData(backup.data);
     return {mode: 'current', dataFormat: 'action-v3', data: structuredClone(backup.data)};
@@ -652,12 +679,13 @@ export function parseRestore(text: string): RestoreTarget {
   if (inspected.kind === 'backup-v1') { validateLegacyData(pack.data); return { mode: 'legacy-readonly', dataFormat: inspected.sourceFormat, data: structuredClone(pack.data) as Json }; }
   fail('$.kind', '此文件不是完整工作区备份，请使用定义或旧档案导入');
 }
-export function exportWorkspace(raw: unknown): BackupV2 | BackupV3 | LegacyBackupV1 {
+export function exportWorkspace(raw: unknown): BackupV2 | BackupV3 | BackupV4 | LegacyBackupV1 {
   validateWorkspace(raw);
-  if (raw === undefined) return {format: 'cardgrid', version: 3, kind: 'backup', dataFormat: 'action-v3', data: emptyWorkspaceData()};
+  if (raw === undefined) return {format: 'cardgrid', version: 4, kind: 'backup', dataFormat: 'action-v4', data: emptyWorkspaceData()};
   const envelope = raw as EnvelopeV4 | { schemaVersion: 1; revision: number; config: unknown } | { schemaVersion: 2 | 3; data: Json };
   if (envelope.schemaVersion === 1) return { format: 'cardgrid', version: 2, kind: 'backup', dataFormat: 'envelope-v1', data: structuredClone(raw) as Json };
   if (envelope.schemaVersion !== 4) return { format: 'cardgrid', version: 1, kind: 'backup', data: structuredClone(envelope.data) };
+  if (envelope.dataFormat === 'action-v4') return {format: 'cardgrid', version: 4, kind: 'backup', dataFormat: 'action-v4', data: structuredClone(envelope.data)};
   if (envelope.dataFormat === 'action-v3') return {format: 'cardgrid', version: 3, kind: 'backup', dataFormat: 'action-v3', data: structuredClone(envelope.data)};
   if (envelope.dataFormat === 'action-v2') return { format: 'cardgrid', version: 2, kind: 'backup', dataFormat: 'action-v2', data: structuredClone(envelope.data) };
   if (envelope.dataFormat === 'envelope-v1') return { format: 'cardgrid', version: 2, kind: 'backup', dataFormat: 'envelope-v1', data: structuredClone(envelope.data) };
@@ -684,7 +712,8 @@ export function validateCommandPayload(command: Command): void {
     CommitPlacement: shape({ previewId: nonempty, candidateId: nonempty, acknowledgedOverlap: acknowledgement }), RetractPlan: shape({ planId: nonempty, version: versionValue }), CancelFixed: shape({ commitment: versionRef, unlockId: nonempty }),
     ApplyDayTemplate: shape({ previewId: nonempty, acknowledgedOverlap: acknowledgement }), ConfirmActual: shape({ previewId: nonempty, acknowledgedOverlap: acknowledgement }), AppendAnnotation: shape({ factId: nonempty, text: nonempty }),
     PrepareDay: shape({ date: dateValue, zone: zoneValue, templateId: nullable(nonempty) }), CreateMakeup: shape({ occurrence: makeupRef, targetDate: dateValue }),
-    ImportDefinitions: shape({ previewId: nonempty, mode: literal('merge', 'replace'), backup }), RestoreWorkspace: shape({ previewId: nonempty, backup, discardDraftsConfirmed: literal(true) }), ClearWorkspace: shape({ backup, discardDraftsConfirmed: literal(true) }), CommitMigration: shape({ previewId: nonempty, backup, discardDraftsConfirmed: literal(true) })
+    ImportDefinitions: shape({ previewId: nonempty, mode: literal('merge', 'replace'), backup }), RestoreWorkspace: shape({ previewId: nonempty, backup, discardDraftsConfirmed: literal(true) }), ClearWorkspace: shape({ backup, discardDraftsConfirmed: literal(true) }), CommitMigration: shape({ previewId: nonempty, backup, discardDraftsConfirmed: literal(true) }),
+    SaveJournalEntry: shape({ date: dateValue, zone: zoneValue, text: textValue })
   };
   checks[command.type](command.payload, '$.payload');
 }

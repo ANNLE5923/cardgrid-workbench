@@ -8,7 +8,7 @@ const root=fileURLToPath(new URL('../../',import.meta.url));
 const output=process.env.CARDGRID_V03_OUTPUT||path.join(root,'test-results/v03-closure/browser');
 await fs.mkdir(output,{recursive:true});
 const {chromium}=await import(process.env.CARDGRID_PLAYWRIGHT_MODULE||'playwright');
-let previousShell=false;
+let previousShell=false,activationDelayMs=0;
 const server=await createServer({root,configFile:false,logLevel:'error',server:{host:'127.0.0.1',port:0},
   optimizeDeps:{noDiscovery:true,entries:[],include:['@js-temporal/polyfill','jsbi']},plugins:[{name:'closure-built-shell',configureServer(vite){
     vite.middlewares.use(async(req,res,next)=>{
@@ -18,6 +18,7 @@ const server=await createServer({root,configFile:false,logLevel:'error',server:{
       if(!['index.html','sw.js','favicon.svg','manifest.webmanifest'].includes(file)&&!/^assets\/[^/]+\.(js|css)$/.test(file))return next();
       try{let body=await fs.readFile(path.join(root,'dist',file));
         if(previousShell&&file==='sw.js')body=Buffer.from(body.toString().replace(/cardgrid-shell-[a-f0-9]+/,'cardgrid-shell-previous-fixture'));
+        if(file==='sw.js'&&activationDelayMs)body=Buffer.from(body.toString()+`\nself.addEventListener('activate',e=>e.waitUntil(new Promise(resolve=>setTimeout(resolve,${activationDelayMs}))));`);
         if(previousShell&&file==='index.html')body=Buffer.from(body.toString().replace('<head>','<head><meta name="test-prior-shell" content="yes">'));
         res.setHeader('Content-Type',file.endsWith('.js')?'text/javascript':file.endsWith('.css')?'text/css':file.endsWith('.html')?'text/html':'application/octet-stream');
         res.setHeader('Cache-Control','no-cache');res.end(body);
@@ -76,6 +77,47 @@ async function seed(page,{days=[0],accepts=0,books=2,poolMembers=books,secondAct
 const hand=page=>page.locator('nav').getByRole('button',{name:'抽卡手牌'}).click();
 async function combo(page,copyId){await page.getByLabel('手选库存副本').selectOption(copyId);await page.getByRole('button',{name:'翻开查看',exact:true}).click();await page.getByRole('button',{name:'填写槽位',exact:true}).click();await page.getByLabel('书名选择').waitFor();}
 const waitData=async(page,predicate)=>{for(let i=0;i<100;i++){const value=await read(page);if(predicate(value))return value;await new Promise(resolve=>setTimeout(resolve,50));}throw Error('Authoritative data condition timed out');};
+// The worker acknowledges listener installation before the old page is released. The latch
+// remains readable after the event, even if Node starts observing it late.
+async function waitForActivation(worker){
+  const deadline=Date.now()+10000;
+  do{
+    if(await worker.evaluate(()=>self.__cardgridActivationStarted))return;
+    await new Promise(resolve=>setTimeout(resolve,50));
+  }while(Date.now()<deadline);
+  throw Error('Expected update worker did not dispatch activate');
+}
+async function offlineUpdate(page,context,{observerDelayMs=0}={}){
+  previousShell=true;await seed(page,{accepts:1});await page.goto(origin);
+  await page.waitForFunction(async()=>(await navigator.serviceWorker.getRegistration())?.active?.state==='activated');
+  await page.reload();await page.waitForFunction(()=>navigator.serviceWorker.controller?.state==='activated');
+  const before=await read(page);assert.equal(await page.locator('meta[name="test-prior-shell"]').count(),1);
+  const expectedCache=(await fs.readFile(path.join(root,'dist/sw.js'),'utf8')).match(/const CACHE='([^']+)'/)[1];
+  // Arm before changing the server's worker bytes and requesting the update.
+  const nextWorkerPromise=context.waitForEvent('serviceworker',{predicate:async worker=>worker.url()===origin+'/sw.js'&&await worker.evaluate(()=>CACHE)===expectedCache});
+  previousShell=false;await page.evaluate(async()=>{const r=await navigator.serviceWorker.getRegistration();await r.update();});
+  const nextWorker=await nextWorkerPromise;
+  await page.waitForFunction(async()=>(await navigator.serviceWorker.getRegistration())?.waiting?.state==='installed');
+  await nextWorker.evaluate(()=>{
+    self.__cardgridActivationStarted=false;
+    self.addEventListener('activate',()=>{self.__cardgridActivationStarted=true;},{once:true});
+  });
+  await page.goto('about:blank');
+  if(observerDelayMs)await new Promise(resolve=>setTimeout(resolve,observerDelayMs));
+  await waitForActivation(nextWorker);
+  await page.goto(origin);await page.waitForFunction(()=>!document.querySelector('meta[name="test-prior-shell"]'));
+  assert.deepEqual(await read(page),before);
+  await page.waitForFunction(()=>navigator.serviceWorker.controller?.state==='activated');
+  const cached=await page.evaluate(async()=>{const names=await caches.keys();return Promise.all(names.map(async name=>{
+    const cache=await caches.open(name);return {name,assets:await Promise.all((await cache.keys()).map(async r=>({url:r.url,requestHeaders:[...r.headers],responseHeaders:[...(await cache.match(r)).headers]})))};
+  }));});
+  assert(cached.some(cache=>cache.name===expectedCache),'current build cache must exist');
+  await fs.writeFile(path.join(output,`offline-cache-${activationDelayMs}-${observerDelayMs}.json`),JSON.stringify(cached,null,2));
+  page.on('requestfailed',r=>console.log('OFFLINE request failed:',r.url(),r.failure()?.errorText));
+  await context.setOffline(true);await page.reload();await hand(page);await page.getByRole('tab',{name:/^手牌（/}).click();
+  await page.locator('.act-titles strong').filter({hasText:/^阅读《书目1》$/}).waitFor();
+  return {offlineReopen:true,cacheTransition:'synthetic prior shell -> real final shell',idbPreserved:true,activationDelayMs,observerDelayMs};
+}
 async function test(name,fn,options={}){
   if(process.env.CARDGRID_V03_ONLY&&!new RegExp(process.env.CARDGRID_V03_ONLY).test(name))return;
   const context=await browser.newContext({timezoneId:'Asia/Shanghai',serviceWorkers:'block',...options}),page=await context.newPage(),errors=[];
@@ -267,28 +309,13 @@ try{
     assert.equal(await page.getByLabel('书名选择').locator('option[value^="book:"]').count(),9);
     return {count,dropdownCapacity:10,fullSphere:true};
   },{reducedMotion:'reduce'});
-  await test('offline-shell-update-keeps-idb-and-current-build-reopens',async(page,context)=>{
-    previousShell=true;await seed(page,{accepts:1});await page.goto(origin);
-    await page.waitForFunction(async()=>!!(await navigator.serviceWorker.getRegistration())?.active);
-    await page.reload();await page.waitForFunction(()=>!!navigator.serviceWorker.controller);
-    const before=await read(page);assert.equal(await page.locator('meta[name="test-prior-shell"]').count(),1);
-    previousShell=false;await page.evaluate(async()=>{const r=await navigator.serviceWorker.getRegistration();await r.update();});
-    await page.waitForFunction(async()=>!!(await navigator.serviceWorker.getRegistration())?.waiting);
-    const nextWorker=context.serviceWorkers().at(-1);
-    const activated=nextWorker.evaluate(()=>new Promise(resolve=>self.addEventListener('activate',()=>resolve(true),{once:true})));
-    await page.goto('about:blank');await activated;await page.goto(origin);await page.waitForFunction(()=>!document.querySelector('meta[name="test-prior-shell"]'));
-    assert.deepEqual(await read(page),before);
-    await page.waitForFunction(()=>!!navigator.serviceWorker.controller);
-    const cached=await page.evaluate(async()=>{const names=await caches.keys();return Promise.all(names.map(async name=>{
-      const cache=await caches.open(name);return {name,assets:await Promise.all((await cache.keys()).map(async r=>({url:r.url,requestHeaders:[...r.headers],responseHeaders:[...(await cache.match(r)).headers]})))};
-    }));});
-    await fs.writeFile(path.join(output,'offline-cache.json'),JSON.stringify(cached,null,2));
-    page.on('requestfailed',r=>console.log('OFFLINE request failed:',r.url(),r.failure()?.errorText));
-    await context.setOffline(true);await page.reload();await hand(page);await page.getByRole('tab',{name:/^手牌（/}).click();
-    await page.locator('.act-titles strong').filter({hasText:/^阅读《书目1》$/}).waitFor();return {offlineReopen:true,cacheTransition:'synthetic prior shell -> real final shell',idbPreserved:true};
-  },{serviceWorkers:'allow'});
+  await test('offline-shell-update-keeps-idb-and-current-build-reopens',offlineUpdate,{serviceWorkers:'allow'});
+  await test('offline-shell-late-observer-keeps-idb-and-current-build-reopens',
+    (page,context)=>offlineUpdate(page,context,{observerDelayMs:250}),{serviceWorkers:'allow'});
+  activationDelayMs=1500;
+  await test('offline-shell-delayed-activation-keeps-idb-and-current-build-reopens',offlineUpdate,{serviceWorkers:'allow'});
 }finally{
-  previousShell=false;await fs.writeFile(path.join(output,'results.json'),JSON.stringify(results,null,2));
+  previousShell=false;activationDelayMs=0;await fs.writeFile(path.join(output,'results.json'),JSON.stringify(results,null,2));
   await browser?.close();await server.close();
 }
 const failures=results.filter(r=>r.status!=='pass');console.log(`v0.3 production browser: ${results.length-failures.length}/${results.length}; evidence ${output}`);

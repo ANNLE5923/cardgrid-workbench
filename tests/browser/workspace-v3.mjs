@@ -102,7 +102,7 @@ try {
       return {before, after: await cg.snapshot(), restored, pack: JSON.parse(prepared.text)};
     });
     assert.deepEqual(result.before, saved); assert.deepEqual(result.after, saved);
-    assert.equal(result.pack.version, 3); assert.deepEqual(result.restored.data, saved.raw.data);
+    assert.equal(result.pack.version, 4); assert.deepEqual(result.restored.data, saved.raw.data);
     return {persistentInstances: saved.raw.data.planner.instances.length, readsNeverGenerate: true};
   });
   await test('two-windows-generation-and-accept-compete-notify-and-replay', async context => {
@@ -187,7 +187,7 @@ try {
     assert.equal(lifecycle.stale.code, 'REVISION_CONFLICT'); assert.deepEqual(lifecycle.beforeStale, lifecycle.afterStale);
     assert.deepEqual(lifecycle.restoredData, archived.after); assert.equal(lifecycle.rollback.failed.code, 'STORAGE_FAILED');
     assert.deepEqual(lifecycle.rollback.before, lifecycle.rollback.after); assert.equal(lifecycle.rollback.retry.ok, true);
-    assert.equal(lifecycle.cleared.raw.data.version, 3); assert.deepEqual(lifecycle.cleared.raw.data.actionCards, []); assert.deepEqual(lifecycle.cleared.recovery, []);
+    assert.equal(lifecycle.cleared.raw.data.version, 4); assert.deepEqual(lifecycle.cleared.raw.data.actionCards, []); assert.deepEqual(lifecycle.cleared.recovery, []);
     return {factsKept: 1, annotationsKept: 1, staleRestoreBlocked: true, restoreExact: true, clearRollback: true};
   });
   await test('v2-read-stays-v2-explicit-backed-up-upgrade-preserves-history', async context => {

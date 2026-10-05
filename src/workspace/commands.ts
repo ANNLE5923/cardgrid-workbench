@@ -1,8 +1,11 @@
-import type { ActualDraft, ActualPreview, Command, Content, WorkspaceData, Day, EnvelopeV4, ErrorCode, Fixed, Instance, LocalInput, PlacementPreview, PlacementQuery, Range, Result, SubmitResult, Token, VersionRef } from './contracts.ts';
+import type { ActualDraft, ActualPreview, Command, Content, WorkspaceData, Day, EnvelopeV4, EntityRef, ErrorCode, Fixed, Instance, LocalInput, PlacementPreview, PlacementQuery, Range, Result, SubmitResult, Token, VersionRef } from './contracts.ts';
 import { ActionDomainError, applyAction, assertActionState, overlaps, sameValue, type ActionOperation, type CompatibilityOccupancy, type Occupancy, type Overlap } from '../daily/model.ts';
 import { ActionTimeError, actualRange, assertDate, assertZone, dateAt, elapsedMinutes, intersectRanges, nextDate, plannedRange, weekday } from '../daily/time.ts';
 import {backupBytes, canonicalJson, emptyWorkspaceData, fingerprint, inspectEnvelope, MAX_BACKUP_BYTES, validateActionData, validateCommandPayload, validateSourceFingerprints, validateWorkspace, WorkspaceFormatError} from './format.ts';
 import {applyV3Command, isV3Command, saveWorkshopCatalog} from './v3-operations.ts';
+import {applyV4Command, applyV3CommandOnV4, isV4Command} from './v4-operations.ts';
+import type {DataV3} from './contracts-v3.ts';
+import type {DataV4} from './contracts-v4.ts';
 import type {WorkshopCatalog} from '../workshop/model.ts';
 import { legacyMakeup, oldOccurrenceExists } from './migration.ts';
 import { compatibilityFor, projectedTemplates, segmentsFor } from '../daily/projection.ts';
@@ -43,7 +46,7 @@ export function assertCommand(command: Command): void {
     GenerateDailyCopies: 'target', ArchiveDueCopies: '', AcceptDailyCopy: 'copy,selections,composedText',
     SaveSettings: 'settings', CreateCapture: 'text,source', SetCaptureStatus: 'capture,status', UpdateDay: 'date,version,minimum,top3', SaveTemplate: 'template,expectedVersion', SaveRule: 'rule,expectedVersion', SaveProject: 'project', SaveGoal: 'goal',
     SaveDefinition: 'id,expectedVersion,content,enabled,parentDefinitionId', ArchiveDefinition: 'definition', AcceptOffer: 'definition,targetDate', ResolveCaptureToAction: 'capture,content,targetDate', UpdateOpenInstance: 'instance,content,targetDate,placementPreviewId,acknowledgedOverlap',
-    ReorderHand: 'instanceIds', WithdrawInstance: 'instance', ReturnWithdrawnToHand: 'instance', CommitPlacement: 'previewId,candidateId,acknowledgedOverlap', RetractPlan: 'planId,version', CancelFixed: 'commitment,unlockId', ApplyDayTemplate: 'previewId,acknowledgedOverlap', ConfirmActual: 'previewId,acknowledgedOverlap', AppendAnnotation: 'factId,text', PrepareDay: 'date,zone,templateId', CreateMakeup: 'occurrence,targetDate', ImportDefinitions: 'previewId,mode,backup', RestoreWorkspace: 'previewId,backup,discardDraftsConfirmed', ClearWorkspace: 'backup,discardDraftsConfirmed', CommitMigration: 'previewId,backup,discardDraftsConfirmed'
+    ReorderHand: 'instanceIds', WithdrawInstance: 'instance', ReturnWithdrawnToHand: 'instance', CommitPlacement: 'previewId,candidateId,acknowledgedOverlap', RetractPlan: 'planId,version', CancelFixed: 'commitment,unlockId', ApplyDayTemplate: 'previewId,acknowledgedOverlap', ConfirmActual: 'previewId,acknowledgedOverlap', AppendAnnotation: 'factId,text', PrepareDay: 'date,zone,templateId', CreateMakeup: 'occurrence,targetDate', ImportDefinitions: 'previewId,mode,backup', RestoreWorkspace: 'previewId,backup,discardDraftsConfirmed', ClearWorkspace: 'backup,discardDraftsConfirmed', CommitMigration: 'previewId,backup,discardDraftsConfirmed', SaveJournalEntry: 'date,text,zone'
   };
   need(Object.hasOwn(fields, command.type) && command.payload && typeof command.payload === 'object' && Object.keys(command.payload).sort().join(',') === fields[command.type].split(',').sort().join(','), 'INVALID_INPUT', '命令内容缺字段或含未知字段');
   try { validateCommandPayload(command); } catch (error) { throw new ActionDomainError('INVALID_INPUT', (error as Error).message, error instanceof WorkspaceFormatError ? error.path : undefined); }
@@ -319,10 +322,17 @@ export function createActionService(store: WorkspaceStore, options: ActionServic
           checkToken(token, cmd.expected);
           need((raw === undefined ? 'uninitialized' : canonicalJson(raw)) === before.rawKey, 'REVISION_CONFLICT', '读取后工作区已改变，请重新提交');
           const snapshot = { mode: 'current' as const, token, data, raw, rawKey: '' };
-          let changed: ReturnType<typeof applyAction>;
-          if (isV3Command(cmd)) {
-            need(data.version === 3, 'UNSUPPORTED_VERSION', '请先备份、预览并显式升级到 Data v3');
-            changed = applyV3Command(data, cmd, {...context(data, cmd.commandId, at), historyId}, id);
+          let changed: Readonly<{data: WorkspaceData; resultRefs: readonly EntityRef[]; changed: boolean}>;
+          if (isV4Command(cmd)) {
+            need(data.version === 4, 'UNSUPPORTED_VERSION', '请先备份、预览并显式升级到 Data v4');
+            changed = applyV4Command(data as DataV4, cmd, {...context(data, cmd.commandId, at), historyId}, id);
+          } else if (isV3Command(cmd)) {
+            if (data.version === 4) {
+              changed = applyV3CommandOnV4(data as DataV4, cmd, {...context(data, cmd.commandId, at), historyId}, id);
+            } else {
+              need(data.version === 3, 'UNSUPPORTED_VERSION', '请先备份、预览并显式升级到 Data v3');
+              changed = applyV3Command(data as DataV3, cmd, {...context(data, cmd.commandId, at), historyId}, id);
+            }
           } else {
             const operation = operationFrom(cmd, snapshot);
             const operationRange = 'range' in operation ? operation.range : operation.type === 'UpdateInstance' ? operation.replacementRange : undefined;
@@ -330,8 +340,8 @@ export function createActionService(store: WorkspaceStore, options: ActionServic
             if (cmd.type === 'ImportDefinitions' && options.workshopImport) {
               const candidate = options.workshopImport(cmd, snapshot);
               if (candidate) {
-                need(changed.data.version === 3, 'UNSUPPORTED_VERSION', '请先升级再导入 v3 工坊配置');
-                const workshop = saveWorkshopCatalog(changed.data, candidate, {...context(data, cmd.commandId, at), historyId: `${historyId}:import`}, cmd.type);
+                need(changed.data.version >= 3, 'UNSUPPORTED_VERSION', '请先升级再导入 v3 工坊配置');
+                const workshop = saveWorkshopCatalog(changed.data as DataV3, candidate, {...context(data, cmd.commandId, at), historyId: `${historyId}:import`}, cmd.type);
                 changed = {...workshop, resultRefs: [...changed.resultRefs, ...workshop.resultRefs]};
               }
             }
@@ -342,7 +352,9 @@ export function createActionService(store: WorkspaceStore, options: ActionServic
           const nextToken = { epoch: token.epoch, revision: token.revision + 1 };
           need(Number.isSafeInteger(nextToken.revision), 'INVALID_INPUT', '修订号已超出范围');
           const write: EnvelopeV4 = {schemaVersion: 4, ...nextToken, mode: 'current',
-            ...(nextData.version === 3 ? {dataFormat: 'action-v3', data: nextData} : {dataFormat: 'action-v2', data: nextData}),
+            ...(nextData.version === 4 ? {dataFormat: 'action-v4', data: nextData as DataV4}
+              : nextData.version === 3 ? {dataFormat: 'action-v3', data: nextData as DataV3}
+              : {dataFormat: 'action-v2', data: nextData}),
             lifecycleReceipt: envelope?.schemaVersion === 4 ? envelope.lifecycleReceipt : null};
           return { write, at, reason: cmd.type, result: { ok: true, value: { token: nextToken, resultRefs: changed.resultRefs, replayed: false } } as SubmitResult };
         });

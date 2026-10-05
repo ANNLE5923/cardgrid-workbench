@@ -1,5 +1,6 @@
 /** 1F-contract-1 production type contract. Runtime checks are implemented separately. */
 import type {ActionCard, BookEntry, Pool, GenerationRule, DailyAcceptance, SlotSelection, DataV3} from './contracts-v3.ts';
+import type {DataV4, JournalEntry} from './contracts-v4.ts';
 export type Id = string;
 export type LocalDate = string; // YYYY-MM-DD, validated by Host
 export type Instant = string; // canonical UTC ISO string, validated by Host
@@ -97,7 +98,7 @@ export type Json = null | boolean | number | string | readonly Json[] | { readon
 export type VersionRef = Readonly<{ id: Id; version: number }>;
 export type LegacyRef = Readonly<{ kind: 'legacy'; sourceId: Id; path: string }>;
 export type EntityRef = LegacyRef | Readonly<{
-  kind: 'definition' | 'instance' | 'plan' | 'fact' | 'annotation' | 'fixed' | 'template' | 'rule' | 'occurrence' | 'capture' | 'project' | 'goal' | 'day' | 'settings' | 'action-card' | 'book-entry' | 'pool' | 'generation-rule' | 'daily-copy' | 'archive-log'; id: Id;
+  kind: 'definition' | 'instance' | 'plan' | 'fact' | 'annotation' | 'fixed' | 'template' | 'rule' | 'occurrence' | 'capture' | 'project' | 'goal' | 'day' | 'settings' | 'action-card' | 'book-entry' | 'pool' | 'generation-rule' | 'daily-copy' | 'archive-log' | 'journal-entry'; id: Id;
 }>;
 export type SourceRef = LegacyRef | Readonly<{ kind: 'manual' }> | Readonly<{ kind: 'definition' | 'capture' | 'occurrence' | 'makeup' | 'daily-copy'; id: Id }>;
 export type Content = Readonly<{
@@ -195,7 +196,7 @@ export type DataV2 = Readonly<{
   legacySources: readonly LegacySource[]; migrationBindings: readonly MigrationBinding[];
   commandReceipts: readonly Receipt[];
 }>;
-export type WorkspaceData = DataV2 | DataV3;
+export type WorkspaceData = DataV2 | DataV3 | DataV4;
 export type LifecycleReceipt = Readonly<{
   commandId: Id; payloadFingerprint: string; previousToken: Token; resultToken: Token;
   type: 'RestoreWorkspace' | 'ClearWorkspace' | 'CommitMigration';
@@ -203,6 +204,7 @@ export type LifecycleReceipt = Readonly<{
 export type EnvelopeV4 = Readonly<{ schemaVersion: 4; epoch: string; revision: number; lifecycleReceipt: LifecycleReceipt | null }> & (
   | Readonly<{ mode: 'current'; dataFormat: 'action-v2'; data: DataV2 }>
   | Readonly<{ mode: 'current'; dataFormat: 'action-v3'; data: DataV3 }>
+  | Readonly<{ mode: 'current'; dataFormat: 'action-v4'; data: DataV4 }>
   | Readonly<{ mode: 'legacy-readonly'; dataFormat: Exclude<LegacyFormat, 'legacy-archive'>; data: Json }>
 );
 export type BackupV2 = Readonly<{ format: 'cardgrid'; version: 2; kind: 'backup' }> & (
@@ -253,6 +255,7 @@ export type CommandPayloads = {
   RestoreWorkspace: Readonly<{ previewId: Id; backup: BackupEvidence; discardDraftsConfirmed: true }>;
   ClearWorkspace: Readonly<{ backup: BackupEvidence; discardDraftsConfirmed: true }>;
   CommitMigration: Readonly<{ previewId: Id; backup: BackupEvidence; discardDraftsConfirmed: true }>;
+  SaveJournalEntry: Readonly<{ date: LocalDate; zone: string; text: string }>;
 };
 export type Command = { [K in keyof CommandPayloads]: Readonly<{ commandId: Id; expected: Token; type: K; payload: CommandPayloads[K] }> }[keyof CommandPayloads];
 
@@ -260,8 +263,8 @@ export type MigrationIssue = Readonly<{ source: LegacyRef; code: string; message
 export type MigrationPreview = Readonly<{
   previewId: Id; token: Token; sourceFingerprint: string; mappingVersion: 1;
   bindings: readonly MigrationBinding[]; issues: readonly MigrationIssue[];
-  upgrade?: Readonly<{from: 2; to: 3}>;
-  targetSummary: Readonly<{ definitions: number; instances: number; plans: number; facts: number; readonlyItems: number }>;
+  upgrade?: Readonly<{from: 2; to: 3}> | Readonly<{from: 3; to: 4}>;
+  targetSummary: Readonly<{ definitions: number; instances: number; plans: number; facts: number; journalEntries: number; readonlyItems: number }>;
 }>;
 /** 2A extends the prototype read shape, adding mixed-zone/legacy projections without exposing storage. */
 export type ProductionDayView = DayView & Readonly<{

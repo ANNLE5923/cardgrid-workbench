@@ -5,6 +5,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import type { Command, Definition, Id, Instance, SubmitResult } from '../workspace/index.ts';
 import type { WorkspaceClient } from '../workspace/index.ts';
 import type { WorkspaceSnapshot } from '../workspace/index.ts';
+import {isV3Capable} from '../workspace/contracts-v4.ts';
 import '../shared/ui/action.css';
 
 type View = 'draw' | 'hand' | 'archive';
@@ -39,7 +40,7 @@ export function ActionHand({ client, drawing, onData, onToday }: { client: Works
   const hand: Instance[] = handOrder
     .map(id => instances.find(i => i.id === id))
     .filter((i): i is Instance => Boolean(i));
-  const archived = new Set(data?.version === 3 ? data.archiveLogs.flatMap(log => log.acceptedInstanceIds) : []);
+  const archived = new Set(isV3Capable(data) ? data.archiveLogs.flatMap(log => log.acceptedInstanceIds) : []);
   const withdrawn = instances.filter(i => i.state === 'withdrawn' && !archived.has(i.id));
 
   async function run(type: Command['type'], payload: unknown): Promise<boolean> {

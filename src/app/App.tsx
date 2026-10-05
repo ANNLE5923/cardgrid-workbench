@@ -1,15 +1,23 @@
-import {useState} from 'react';
+import {useCallback,useRef,useState} from 'react';
 import {useWorkspaceApp} from './use-workspace-app.ts';
 import {TAB_META} from './navigation.ts';
 import {download} from './files.ts';
 import {ActionLibrary,ConfigurationPanel,WorkshopEditor} from '../workshop/index.ts';
 import {DataPage} from '../workspace/index.ts';
 import {DayBoard,Today,ScheduleView,InboxView,type DayBoardView} from '../daily/index.ts';
+import {JournalWorkbench} from '../journal/index.ts';
 import {ActionHand} from './ActionWorkspace.tsx';
 import './style.css';
+import '../journal/journal.css';
 export function App(){
  const [todayView,setTodayView]=useState<{epoch:string;view:DayBoardView}|null>(null);
+ const journalSaveGuard=useRef<(() => Promise<boolean>)|null>(null);
+ const registerJournalSaveGuard=useCallback((guard:(() => Promise<boolean>)|null)=>{journalSaveGuard.current=guard;},[]);
  const {client,drawing,workshopHost,snapshot,fatal,message,setMessage,tab,setTab,templateId,setTemplateId,preparationRevision,date,setDate,zone,setZone,day,draft,setDraft,json,setJson,baseline,editor,setEditor,busy,backup,saved,setSaved,discard,setDiscard,resetText,setResetText,pending,setPending,fileText,merge,setMerge,recovery,readonlyPaths,setReadonlyPaths,offsets,setOffsets,capture,setCapture,file,retry,dirty,reload,submit,command,prepareBackup,previewFile,migration,execute,navigation,stepDate,changeSettings,saveSettings}=useWorkspaceApp();
+ async function navigate(next:Parameters<typeof navigation>[0]){
+  if(next!==tab&&tab==='journal'&&journalSaveGuard.current&&!await journalSaveGuard.current())return;
+  navigation(next);
+ }
  if(fatal)return <div className="failure"><h1>本地数据暂时无法打开</h1><p>{fatal}</p><p>原记录没有被空白数据覆盖。</p><button onClick={()=>void reload()}>重试</button><button onClick={()=>void client.exportRaw().then(r=>{if(r.ok)download('CardGrid-诊断原文.json',r.value);})}>导出原始数据</button></div>;
  if(!snapshot)return <div className="failure">正在打开本地工作台…</div>;
  const data=client.readCompatibilityView(snapshot),p=data.config.preferences,readOnly=snapshot.mode==='legacy-readonly';
@@ -21,7 +29,7 @@ export function App(){
   setDate(view.date);
   setZone(view.zone);
  };
- return <div className={`app ${p.theme} ${p.density}`}><aside className="sidebar"><div className="brand"><span className="brandmark">▦</span><div>CardGrid<small>卡格工作台</small></div></div><div className="navcaption">我的空间</div><nav>{([['agenda','Today','▦'],['inbox','Inbox','＋'],['schedule','Schedule','◫'],['definitions','行动定义','❖'],['workshop','制卡工坊','❐'],['hand','抽卡手牌','✦'],['config','配置工坊','◇'],['data','数据与备份','↗']] as const).map(([id,label,icon])=><button key={id} aria-current={tab===id?'page':undefined} className={tab===id?'active':''} onClick={()=>navigation(id)}><span>{icon}</span>{label}</button>)}</nav><div className="sidebar-bottom"><span className="dot"/>数据保存在本机<div className="version">v0.4 · 今日日常</div></div></aside><main>
+ return <div className={`app ${p.theme} ${p.density}`}><aside className="sidebar"><div className="brand"><span className="brandmark">▦</span><div>CardGrid<small>卡格工作台</small></div></div><div className="navcaption">我的空间</div><nav>{([['agenda','Today','▦'],['inbox','Inbox','＋'],['schedule','Schedule','◫'],['definitions','行动定义','❖'],['workshop','制卡工坊','❐'],['hand','抽卡手牌','✦'],['journal','日记','✎'],['config','配置工坊','◇'],['data','数据与备份','↗']] as const).map(([id,label,icon])=><button key={id} aria-current={tab===id?'page':undefined} className={tab===id?'active':''} onClick={()=>void navigate(id)}><span>{icon}</span>{label}</button>)}</nav><div className="sidebar-bottom"><span className="dot"/>数据保存在本机<div className="version">v0.5 · 每日日记</div></div></aside><main>
  <header><div className="breadcrumbs">工作台 / <strong>{TAB_META[tab].en}</strong> {TAB_META[tab].zh}</div><button onClick={()=>{if(dirty&&!confirm('重新载入将放弃配置草稿，继续？'))return;void reload();}}>重新载入</button></header>
  {message&&<div className="message" role="status"><span>{message}</span><button aria-label="关闭提示" onClick={()=>setMessage('')}>×</button>{retry.current&&<button disabled={busy} onClick={()=>void submit(retry.current!)}>重试本次保存</button>}</div>}
  {readOnly&&<section className="message"><strong>旧工作区只读</strong><span>原文已保留。查看、备份、恢复与清空可用；请在“数据与备份”审阅后显式升级。</span></section>}
@@ -32,6 +40,7 @@ export function App(){
  </section>
  {(tab==='definitions'||tab==='hand')&&(tab==='definitions'?<ActionLibrary key={snapshot.token.epoch} client={client}/>:<ActionHand key={snapshot.token.epoch} client={client} drawing={drawing} onData={()=>navigation('data')} onToday={()=>navigation('agenda')}/>)}
  {tab==='workshop'&&<WorkshopEditor key={snapshot.token.epoch} host={workshopHost} onUpgrade={()=>navigation('data')}/>}
+ {tab==='journal'&&<JournalWorkbench key={snapshot.token.epoch} client={client} readOnly={readOnly} registerSaveGuard={registerJournalSaveGuard}/>}
  {tab==='agenda'&&<section className="panel"><button type="button" className="primary" onClick={()=>navigation('hand')}>去抽卡</button></section>}
  {tab==='agenda'&&!readOnly&&<><DayBoard
   key={workspaceEpoch}
