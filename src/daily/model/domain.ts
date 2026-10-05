@@ -1,5 +1,5 @@
-import type { Content, DataV2, Day, EntityRef, ErrorCode, Fixed, Instance, Json, LegacyRef, Range, RecordedRange, Rule, Settings, Template, VersionRef } from '../../workspace/index.ts';
-import { assertDate, assertInstant, assertPlannedRange, assertPresetMinutes, assertRecordedRange, dateAt, elapsedMinutes, intersectRanges } from '../schedule/time.ts';
+import type { Content, WorkspaceData, Day, EntityRef, ErrorCode, Fixed, Instance, Json, LegacyRef, Range, RecordedRange, Rule, Settings, Template, VersionRef } from '../../workspace/index.ts';
+import {assertDate, assertInstant, assertPlannedRange, assertPresetMinutes, assertRecordedRange, dateAt, elapsedMinutes, intersectRanges, nextDate} from '../schedule/time.ts';
 
 export class ActionDomainError extends Error {
   readonly code: ErrorCode;
@@ -39,7 +39,7 @@ function prefixUnchanged(before: readonly unknown[], after: readonly unknown[], 
   requireThat(after.length >= before.length && before.every((item, i) => sameValue(item, after[i])), message, 'FACT_LOCKED');
 }
 /** Semantic checks for already-shaped action data; not a replacement for the 2A.4 import validator. */
-export function assertActionState(data: DataV2): void {
+export function assertActionState(data: WorkspaceData): void {
   const p = data.planner;
   for (const name of ['definitions', 'instances', 'plans', 'facts', 'annotations', 'fixed', 'templates', 'rules', 'occurrences', 'captures', 'refs', 'goals', 'history'] as const)
     unique(p[name].map(item => item.id), name);
@@ -100,7 +100,8 @@ export function assertActionState(data: DataV2): void {
     assertDate(occurrence.date);
     requireThat(p.rules.some(rule => rule.id === occurrence.ruleId) && p.instances.some(i => i.id === occurrence.instanceId && i.occurrenceId === occurrence.id), '例行规则或原实例不存在');
   }
-  const expectedHand = p.instances.filter(i => i.state === 'open' && !active.some(plan => plan.instanceId === i.id) && !p.facts.some(f => f.instanceId === i.id)).map(i => i.id);
+  const archivedIds = new Set(data.version === 3 ? data.archiveLogs.flatMap(log => log.acceptedInstanceIds) : []);
+  const expectedHand = p.instances.filter(i => i.state === 'open' && !archivedIds.has(i.id) && !active.some(plan => plan.instanceId === i.id) && !p.facts.some(f => f.instanceId === i.id)).map(i => i.id);
   unique(p.handOrder, 'handOrder');
   requireThat(p.handOrder.length === expectedHand.length && p.handOrder.every(id => expectedHand.includes(id)), '手牌必须恰好覆盖所有可持有实例');
   requireThat(p.refs.filter(ref => ref.status === 'active').length <= 3, '进行中的项目最多三个');
@@ -112,14 +113,14 @@ export function assertActionState(data: DataV2): void {
   }
 }
 /** Ordinary business transitions only. Explicit restore/clear have separate lifecycle rules. */
-export function assertActionTransition(before: DataV2, after: DataV2): void {
+export function assertActionTransition(before: WorkspaceData, after: WorkspaceData): void {
   prefixUnchanged(before.planner.facts, after.planner.facts, '原事实永久锁定');
   prefixUnchanged(before.planner.annotations, after.planner.annotations, '已有批注只能保留并追加');
   prefixUnchanged(before.planner.history, after.planner.history, '已有历史不可改写');
   for (const instance of before.planner.instances) {
     const next = after.planner.instances.find(item => item.id === instance.id);
     requireThat(next, '不能删除既有实例');
-    for (const field of ['creationSnapshot', 'source', 'createdAt', 'definition', 'occurrenceId', 'makeupOf'] as const)
+    for (const field of ['creationSnapshot', 'source', 'createdAt', 'definition', 'occurrenceId', 'makeupOf', 'daily'] as const)
       requireThat(sameValue(instance[field], next[field]), '实例创建来源快照不可改变', 'FACT_LOCKED', field);
     if (before.planner.facts.some(f => f.instanceId === instance.id)) requireThat(sameValue(instance, next), '已确认实例不可修改', 'FACT_LOCKED');
   }
@@ -135,7 +136,7 @@ export function assertActionTransition(before: DataV2, after: DataV2): void {
 export type Occupancy = Readonly<{ kind: 'plan' | 'fixed' | 'fact' | 'legacy'; id: string; title: string; range: Range }>;
 export type Overlap = Occupancy & Readonly<{ overlap: Range }>;
 export type CompatibilityOccupancy = Readonly<{ items: readonly Occupancy[]; unknown: boolean }>;
-export function occupancy(data: DataV2, compatibility?: CompatibilityOccupancy): readonly Occupancy[] {
+export function occupancy(data: WorkspaceData, compatibility?: CompatibilityOccupancy): readonly Occupancy[] {
   requireThat(!compatibility?.unknown && (data.legacySources.length === 0 || compatibility !== undefined), '旧占用尚未完整解释，不能作为空闲', 'MIGRATION_BLOCKED');
   return [
     ...data.planner.fixed.filter(f => !f.cancelled).map(f => ({ kind: 'fixed' as const, id: f.id, title: f.title, range: f.range })),
@@ -144,7 +145,7 @@ export function occupancy(data: DataV2, compatibility?: CompatibilityOccupancy):
     ...(compatibility?.items ?? [])
   ];
 }
-export function overlaps(data: DataV2, range: Range, exclude?: Pick<Occupancy, 'kind' | 'id'>, compatibility?: CompatibilityOccupancy): readonly Overlap[] {
+export function overlaps(data: WorkspaceData, range: Range, exclude?: Pick<Occupancy, 'kind' | 'id'>, compatibility?: CompatibilityOccupancy): readonly Overlap[] {
   return occupancy(data, compatibility).flatMap(item => {
     if (exclude?.kind === item.kind && exclude.id === item.id) return [];
     const overlap = intersectRanges(range, item.range);
@@ -163,10 +164,10 @@ export type ActionOperation =
   | Readonly<{ type: 'UpdateDay'; date: string; version: number; minimum: boolean; top3: Day['top3'] }>
   | Readonly<{ type: 'SaveTemplate'; template: Template; expectedVersion: number | null }>
   | Readonly<{ type: 'SaveRule'; rule: Rule; expectedVersion: number | null }>
-  | Readonly<{ type: 'SaveProject'; project: DataV2['planner']['refs'][number] }>
-  | Readonly<{ type: 'SaveGoal'; goal: DataV2['planner']['goals'][number] }>
-  | Readonly<{ type: 'ApplyCalendar'; day: Day; fixed: readonly Fixed[]; instances: readonly Instance[]; occurrences: DataV2['planner']['occurrences'] }>
-  | Readonly<{ type: 'ImportDefinitions'; settings: Settings; definitions: DataV2['planner']['definitions']; templates: readonly Template[]; rules: readonly Rule[] }>
+  | Readonly<{ type: 'SaveProject'; project: WorkspaceData['planner']['refs'][number] }>
+  | Readonly<{ type: 'SaveGoal'; goal: WorkspaceData['planner']['goals'][number] }>
+  | Readonly<{ type: 'ApplyCalendar'; day: Day; fixed: readonly Fixed[]; instances: readonly Instance[]; occurrences: WorkspaceData['planner']['occurrences'] }>
+  | Readonly<{ type: 'ImportDefinitions'; settings: Settings; definitions: WorkspaceData['planner']['definitions']; templates: readonly Template[]; rules: readonly Rule[] }>
   | Readonly<{ type: 'SaveDefinition'; id: string; expectedVersion: number | null; content: Content; enabled: boolean; parentDefinitionId: string | null }>
   | Readonly<{ type: 'AcceptDefinition'; definition: VersionRef; instanceId: string; targetDate: string | null }>
   | Readonly<{ type: 'CreateManualInstance'; instanceId: string; content: Content; targetDate: string | null }>
@@ -186,10 +187,10 @@ export type TransitionContext = Readonly<{ commandId: string; historyId: string;
 type Mutable<T> = T extends readonly (infer U)[] ? Mutable<U>[] : T extends object ? { -readonly [K in keyof T]: Mutable<T[K]> } : T;
 function json(value: unknown): Json { return structuredClone(value) as Json; }
 
-export function applyAction(data: DataV2, operation: ActionOperation, context: TransitionContext): Readonly<{ data: DataV2; resultRefs: readonly EntityRef[]; changed: boolean }> {
+export function applyAction(data: WorkspaceData, operation: ActionOperation, context: TransitionContext): Readonly<{ data: WorkspaceData; resultRefs: readonly EntityRef[]; changed: boolean }> {
   assertActionState(data); assertDate(context.date); assertInstant(context.at);
   unique([context.commandId], 'commandId'); unique([context.historyId], 'historyId');
-  const next = structuredClone(data) as Mutable<DataV2>;
+  const next = structuredClone(data) as Mutable<WorkspaceData>;
   const p = next.planner;
   let ref: EntityRef = { kind: 'day', id: context.date };
   let before: Json = null, after: Json = null;
@@ -201,6 +202,11 @@ export function applyAction(data: DataV2, operation: ActionOperation, context: T
   };
   const editable = (expected: VersionRef): Mutable<Instance> => {
     const instance = versioned(p.instances, expected);
+    if (data.version === 3 && instance.daily) {
+      const copy = data.dailyCopies.find(c => c.id === instance.daily!.copyId);
+      const rule = copy && data.generationRules.find(r => r.id === copy.ruleId);
+      requireThat(copy && rule && dateAt(context.at, rule.zone) < nextDate(copy.sourceDate, 7), '每日副本已到期，不能重新安排或放回手牌', 'COPY_EXPIRED');
+    }
     requireThat(!p.facts.some(fact => fact.instanceId === instance.id), '事实已确认并锁定', 'FACT_LOCKED');
     if (instance.occurrenceId) {
       const occurrence = p.occurrences.find(o => o.id === instance.occurrenceId)!;
@@ -273,13 +279,13 @@ export function applyAction(data: DataV2, operation: ActionOperation, context: T
         if (old) p.fixed[p.fixed.indexOf(old)] = structuredClone(value) as Mutable<Fixed>; else p.fixed.push(structuredClone(value) as Mutable<Fixed>);
       }
       p.instances.push(...structuredClone(operation.instances) as Mutable<Instance>[]); p.handOrder.push(...operation.instances.map(i => i.id));
-      p.occurrences.push(...structuredClone(operation.occurrences) as Mutable<DataV2['planner']['occurrences']>);
+      p.occurrences.push(...structuredClone(operation.occurrences) as Mutable<WorkspaceData['planner']['occurrences']>);
       ref = { kind: 'day', id: operation.day.date }; after = json(operation.day);
       if (sameValue(data, next)) return { data, resultRefs: [ref], changed: false }; break;
     }
     case 'ImportDefinitions': {
       before = json({ settings: next.settings, definitions: p.definitions, templates: p.templates, rules: p.rules });
-      next.settings = structuredClone(operation.settings) as Mutable<Settings>; p.definitions = structuredClone(operation.definitions) as Mutable<DataV2['planner']['definitions']>;
+      next.settings = structuredClone(operation.settings) as Mutable<Settings>; p.definitions = structuredClone(operation.definitions) as Mutable<WorkspaceData['planner']['definitions']>;
       p.templates = structuredClone(operation.templates) as Mutable<Template>[]; p.rules = structuredClone(operation.rules) as Mutable<Rule>[];
       after = json({ settings: next.settings, definitions: p.definitions, templates: p.templates, rules: p.rules }); ref = { kind: 'settings', id: 'workspace' }; break;
     }
@@ -411,7 +417,7 @@ export function applyAction(data: DataV2, operation: ActionOperation, context: T
       makeInstance(operation.instanceId, original.currentContent, operation.targetDate, { kind: 'makeup', id: occurrence.id }, original.definition, { kind: 'occurrence', id: occurrence.id }); break;
     }
   }
-  p.history.push({ id: context.historyId, commandId: context.commandId, at: context.at, date: context.date, type: operation.type, entity: ref, before, after } as Mutable<DataV2>['planner']['history'][number]);
+  p.history.push({ id: context.historyId, commandId: context.commandId, at: context.at, date: context.date, type: operation.type, entity: ref, before, after } as Mutable<WorkspaceData>['planner']['history'][number]);
   assertActionTransition(data, next);
   return { data: next, resultRefs: [ref], changed: true };
 }

@@ -172,7 +172,7 @@ try {
       await new Promise((resolve, reject) => { const tx = db.transaction('recovery', 'readwrite'); for (const key of ['previous', 'pre-p1a', 'other-backup']) tx.objectStore('recovery').put({ secret: key }, key); tx.oncomplete = resolve; tx.onabort = () => reject(tx.error); }); db.close();
       const backup = await cg.evidence(); const command = { commandId: 'clear-once', expected: backup.token, type: 'ClearWorkspace', payload: { backup, discardDraftsConfirmed: true } };
       const first = await cg.client.submit(command), cleared = await cg.snapshot(); await cg.save('after-clear'); const afterWrite = await cg.snapshot();
-      const replay = await cg.client.submit(command), afterReplay = await cg.snapshot(); return { command, first, cleared, afterWrite, replay, afterReplay, empty: cg.F.emptyActionData() };
+      const replay = await cg.client.submit(command), afterReplay = await cg.snapshot(); return { command, first, cleared, afterWrite, replay, afterReplay, empty: cg.F.emptyWorkspaceData() };
     });
     assert.equal(result.first.ok, true); assert.deepEqual(result.cleared.raw.data, result.empty); assert.deepEqual(result.cleared.recovery, []);
     assert.equal(result.replay.value.replayed, true); assert.deepEqual(result.afterWrite, result.afterReplay);

@@ -1,4 +1,4 @@
-import type { Content, DataV2, EntityRef, Json, LegacyFormat, LegacyRef, MigrationIssue, MigrationPreview, Range, RecordedRange } from './contracts.ts';
+import type { Content, WorkspaceData, EntityRef, Json, LegacyFormat, LegacyRef, MigrationIssue, MigrationPreview, Range, RecordedRange } from './contracts.ts';
 import type { Data, Config } from './legacy/domain.ts';
 import type { Planner, Block, Task } from './legacy/planner.ts';
 import { ActionDomainError, sameValue, type ActionOperation, type CompatibilityOccupancy } from '../daily/model.ts';
@@ -8,7 +8,7 @@ import { backupBytes, emptyActionData, fingerprint, MAX_BACKUP_BYTES, resolveLeg
 type Mutable<T> = T extends readonly (infer U)[] ? Mutable<U>[] : T extends object ? { -readonly [K in keyof T]: Mutable<T[K]> } : T;
 export type MigrationChoices = Readonly<{ zone: string | null; readonlyPaths?: readonly string[]; offsets?: Readonly<Record<string, Readonly<{ start?: string; end?: string }>>> }>;
 export type MigrationSource = Readonly<{ id?: string; format: LegacyFormat; raw: Json }>;
-export type MigrationTarget = Readonly<{ data: DataV2; report: Omit<MigrationPreview, 'previewId' | 'token'> }>;
+export type MigrationTarget = Readonly<{ data: WorkspaceData; report: Omit<MigrationPreview, 'previewId' | 'token'> }>;
 const keyed = (base: string, id: string) => `${base}/${sourcePathPart(id)}`;
 const minuteText = (minute: number) => `${String(Math.floor(minute / 60)).padStart(2, '0')}:${String(minute % 60).padStart(2, '0')}`;
 function oldRange(date: string, block: Pick<Block, 'start' | 'end'>, zone: string, offsets?: { start?: string; end?: string }): RecordedRange {
@@ -18,11 +18,11 @@ function oldRange(date: string, block: Pick<Block, 'start' | 'end'>, zone: strin
 function rawData(source: MigrationSource): Partial<Data> {
   return source.format === 'legacy-archive' ? {} : source.raw as unknown as Data;
 }
-function reportChoices(data: DataV2, sourceId: string): MigrationChoices | null {
+function reportChoices(data: WorkspaceData, sourceId: string): MigrationChoices | null {
   const entry = [...data.planner.history].reverse().find(h => h.type === 'MigrationCommitted' && h.entity.kind === 'legacy' && h.entity.sourceId === sourceId);
   return entry ? (entry.after as unknown as { choices: MigrationChoices }).choices : null;
 }
-export function legacyProjection(data: DataV2): Readonly<{ items: readonly { source: LegacyRef; title: string; range: Range | null; occupancy: 'known' | 'unknown' | 'none' }[]; occupancy: CompatibilityOccupancy }> {
+export function legacyProjection(data: WorkspaceData): Readonly<{ items: readonly { source: LegacyRef; title: string; range: Range | null; occupancy: 'known' | 'unknown' | 'none' }[]; occupancy: CompatibilityOccupancy }> {
   const items: { source: LegacyRef; title: string; range: Range | null; occupancy: 'known' | 'unknown' | 'none' }[] = [];
   for (const source of data.legacySources) {
     const old = rawData(source), choices = reportChoices(data, source.id);
@@ -49,7 +49,7 @@ export function legacyProjection(data: DataV2): Readonly<{ items: readonly { sou
 }
 
 /** Pure target preparation except SHA-256; all parsing/choices run before any IDB transaction. */
-export async function prepareMigration(base: DataV2, source: MigrationSource, choices: MigrationChoices, at: string, commandId: string): Promise<MigrationTarget> {
+export async function prepareMigration(base: WorkspaceData, source: MigrationSource, choices: MigrationChoices, at: string, commandId: string): Promise<MigrationTarget> {
   if (source.format === 'envelope-v1') validateLegacyEnvelope(source.raw);
   else if (source.format === 'legacy-archive') validateLegacyArchive(source.raw, '$');
   else validateLegacyData(source.raw);
@@ -64,7 +64,7 @@ export async function prepareMigration(base: DataV2, source: MigrationSource, ch
     const bindings = base.migrationBindings.filter(b => b.sourceId === sourceId);
     return { data: base, report: { sourceFingerprint, mappingVersion: 1, bindings, issues, targetSummary: { definitions: 0, instances: 0, plans: 0, facts: 0, readonlyItems: bindings.filter(b => b.disposition === 'readonly').length } } };
   }
-  const next = structuredClone(base) as Mutable<DataV2>, p = next.planner, old = rawData(source);
+  const next = structuredClone(base) as Mutable<WorkspaceData>, p = next.planner, old = rawData(source);
   next.legacySources.push({ id: sourceId, format: source.format, fingerprint: sourceFingerprint, importedAt: at, raw: structuredClone(source.raw) as Mutable<Json> });
   const id = (path: string) => `${sourceId}:${path}`;
   const bind = (path: string, target: EntityRef = ref(path)) => {
@@ -184,7 +184,7 @@ export async function prepareMigration(base: DataV2, source: MigrationSource, ch
     targetSummary: { definitions: p.definitions.length - base.planner.definitions.length, instances: p.instances.length - base.planner.instances.length, plans: p.plans.length - base.planner.plans.length, facts: 0, readonlyItems: bindings.filter(b => b.disposition === 'readonly').length } } };
 }
 
-export function oldOccurrenceExists(data: DataV2, rule: DataV2['planner']['rules'][number], date: string): boolean {
+export function oldOccurrenceExists(data: WorkspaceData, rule: WorkspaceData['planner']['rules'][number], date: string): boolean {
   if (rule.source.kind !== 'legacy') return false;
   const sourceRef = rule.source, source = data.legacySources.find(s => s.id === sourceRef.sourceId);
   if (!source) return false;
@@ -192,7 +192,7 @@ export function oldOccurrenceExists(data: DataV2, rule: DataV2['planner']['rules
   return !!old.planner?.occurrences.some(o => o.rule === original.id && o.date === date) || !!old.occurrences?.some(o => o.routineId === original.id && o.plannedDate === date);
 }
 
-export function legacyMakeup(data: DataV2, ref: LegacyRef, targetDate: string, at: string, instanceId: string): ActionOperation {
+export function legacyMakeup(data: WorkspaceData, ref: LegacyRef, targetDate: string, at: string, instanceId: string): ActionOperation {
   assertDate(targetDate);
   const source = data.legacySources.find(s => s.id === ref.sourceId), choices = reportChoices(data, ref.sourceId);
   if (!source || !choices?.zone || !/^\/(planner\/)?occurrences\/@/.test(ref.path)) throw new ActionDomainError('MIGRATION_BLOCKED', '旧例行的来源或原时区尚未解释');

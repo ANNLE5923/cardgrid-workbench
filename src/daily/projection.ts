@@ -1,4 +1,4 @@
-import type { DataV2, ProductionDayView, Range, Segment } from '../workspace/index.ts';
+import type { WorkspaceData, ProductionDayView, Range, Segment } from '../workspace/index.ts';
 import type { WorkspaceSnapshot } from '../workspace/index.ts';
 import { ActionDomainError, occupancy, type Occupancy } from './model/domain.ts';
 import { compareInstants, dateAt, dayRange, displayInstant, elapsedMinutes, freeRanges, intersectRanges, nextDate, plannedRange, splitRangeForDay, weekday } from './schedule/time.ts';
@@ -34,13 +34,13 @@ export function segmentsFor(range: Range, date: string, zone: string, sourceId: 
       startMinuteOfHalf: minute, endMinuteOfHalf: endMinute, label: `${start.time}—${endLabel}`, offsetLabel: slice.offset, locked, continuesBefore: slice.continuesBefore, continuesAfter: slice.continuesAfter };
   });
 }
-export function projectedTemplates(data: DataV2, date: string, zone: string): readonly Occupancy[] {
+export function projectedTemplates(data: WorkspaceData, date: string, zone: string): readonly Occupancy[] {
   if (data.planner.days.some(d => d.date === date)) return [];
   const matches = data.planner.templates.filter(t => t.weekdays.includes(weekday(date)));
   if (matches.length > 1) throw new ActionDomainError('AMBIGUOUS_DAY_TEMPLATE', '当天有多个未保存模板，请明确选择后准备日期');
   return (matches[0]?.entries ?? []).map(entry => ({ kind: 'legacy' as const, id: `template-projection:${date}:${matches[0].id}:${entry.id}`, title: `${entry.title}（未保存模板）`, range: plannedRange({ date, time: entry.start, zone }, entry.elapsedMinutes) }));
 }
-export function compatibilityFor(data: DataV2, range?: Range) {
+export function compatibilityFor(data: WorkspaceData, range?: Range) {
   const legacy = legacyProjection(data).occupancy;
   if (!range) return legacy;
   const zone = data.settings.zone;
@@ -56,7 +56,7 @@ export function projectDay(snapshot: WorkspaceSnapshot, input: { date: string; z
   let data = snapshot.data;
   if (!data) {
     const pack = exportWorkspace(snapshot.raw), blank = emptyActionData();
-    data = { ...blank, legacySources: [{ id: snapshot.token.epoch, format: pack.version === 2 ? 'envelope-v1' : Object.hasOwn(pack.data as object, 'planner') ? 'cardgrid-v1-p1a' : 'cardgrid-v1-pre-planner', fingerprint: snapshot.rawKey, importedAt: now, raw: pack.data as DataV2['legacySources'][number]['raw'] }] };
+    data = { ...blank, legacySources: [{ id: snapshot.token.epoch, format: pack.version === 2 ? 'envelope-v1' : Object.hasOwn(pack.data as object, 'planner') ? 'cardgrid-v1-p1a' : 'cardgrid-v1-pre-planner', fingerprint: snapshot.rawKey, importedAt: now, raw: pack.data as WorkspaceData['legacySources'][number]['raw'] }] };
   }
   const p = data.planner, legacy = legacyProjection(data), compatibility = compatibilityFor(data, range);
   const templateItems = compatibility.items.filter(x => x.id.startsWith('template-projection:'));

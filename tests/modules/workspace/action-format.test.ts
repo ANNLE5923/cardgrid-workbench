@@ -50,7 +50,8 @@ test('2A.1 preserves both legacy backup shapes and schema 1 envelope verbatim', 
 });
 
 test('2A.1 rejects version ambiguity, unknown fields, missing fields and mismatched dataFormat', () => {
-  badAt(() => inspectImport({ format: 'cardgrid', version: 3, kind: 'backup', data: data() }), '$.version');
+  // v3 is now known. Keep the same unknown-version rejection contract with v99.
+  badAt(() => inspectImport({format: 'cardgrid', version: 99, kind: 'backup', data: data()}), '$.version');
   badAt(() => inspectEnvelope({ ...envelope(), schemaVersion: 5 }), '$.schemaVersion');
   badAt(() => inspectEnvelope({ ...envelope(), surprise: 1 }), '$.surprise');
   const missing = envelope();

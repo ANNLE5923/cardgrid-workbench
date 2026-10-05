@@ -14,6 +14,7 @@ const radiusOf = (p: LogicalPoint) => Math.hypot(p.x - CENTER, p.y - CENTER);
 
 export function HandFan(props: Readonly<{
   hand: readonly CardView[];
+  handMeta?: Readonly<Record<string,{key: string; sourceDate: string}>>;
   date: string;
   zone: string;
   session: PlacementSession;
@@ -35,6 +36,16 @@ export function HandFan(props: Readonly<{
   const [page, setPage] = useState(0);
   const [expanded, setExpanded] = useState(false);
   const [narrow, setNarrow] = useState(false);
+  const [openStacks, setOpenStacks] = useState<Readonly<Record<string,boolean>>>({});
+  const grouped = new Map<string, CardView[]>();
+  for (const card of hand) {const key = props.handMeta?.[card.instanceId]?.key ?? card.instanceId; grouped.set(key,[...(grouped.get(key) ?? []),card]);}
+  const displayHand: CardView[] = [], counts = new Map<string,number>(), collapseKeys = new Map<string,string>();
+  for (const [key,members] of grouped) {
+    if (members.length > 1 && !openStacks[key]) {
+      const representative = members.find(c => props.handMeta?.[c.instanceId]?.sourceDate === date) ?? members[0];
+      displayHand.push(representative); counts.set(representative.instanceId,members.length);
+    } else {displayHand.push(...members); if (members.length > 1) collapseKeys.set(members[0].instanceId,key);}
+  }
   useEffect(() => {
     const mq = window.matchMedia('(max-width: 560px)');
     const upd = () => setNarrow(mq.matches);
@@ -43,9 +54,9 @@ export function HandFan(props: Readonly<{
     return () => mq.removeEventListener('change', upd);
   }, []);
   const showAll = expanded || narrow;
-  const pageCount = Math.max(1, Math.ceil(hand.length / PAGE));
+  const pageCount = Math.max(1, Math.ceil(displayHand.length / PAGE));
   const safePage = Math.min(page, pageCount - 1);
-  const visible = showAll ? hand : hand.slice(safePage * PAGE, safePage * PAGE + PAGE);
+  const visible = showAll ? displayHand : displayHand.slice(safePage * PAGE, safePage * PAGE + PAGE);
   const angles = fanLayout(visible.length);
 
   const dragCardRef = useRef<CardView | null>(null);
@@ -210,8 +221,12 @@ export function HandFan(props: Readonly<{
               selected={dragId === card.instanceId}
               dragging={dragId === card.instanceId}
               previewing={activeSubjectId === card.instanceId && status === 'preview'}
-              onPointerDown={onPointerDown}
-              onView={card => { if (!movedRef.current) props.onView(card); }}
+              stackCount={counts.get(card.instanceId)}
+              sourceDate={props.handMeta?.[card.instanceId]?.sourceDate}
+              onExpand={() => {const key = props.handMeta?.[card.instanceId]?.key; if (key) setOpenStacks(s => ({...s,[key]:true}));}}
+              onCollapse={collapseKeys.has(card.instanceId) ? () => {const key = collapseKeys.get(card.instanceId)!; if (activeSubjectId && grouped.get(key)?.some(c => c.instanceId === activeSubjectId)) props.onCancel(); setOpenStacks(s => ({...s,[key]:false}));} : undefined}
+              onPointerDown={counts.has(card.instanceId) ? undefined : onPointerDown}
+              onView={card => { if (!movedRef.current) {const key = props.handMeta?.[card.instanceId]?.key; if (key && counts.has(card.instanceId)) setOpenStacks(s => ({...s,[key]:true})); else props.onView(card);} }}
               onPlace={props.onPlace}
               onRecordActual={props.onRecordActual}
               disabled={status === 'committing'}
@@ -222,7 +237,7 @@ export function HandFan(props: Readonly<{
         )}
       </div>
 
-      {hand.length > PAGE && !narrow ? (
+      {displayHand.length > PAGE && !narrow ? (
         <div className="hand-pager">
           {!expanded ? (
             <>

@@ -1,16 +1,18 @@
-import type { ActualDraft, ActualPreview, Command, Content, DataV2, Day, EnvelopeV4, ErrorCode, Fixed, Instance, LocalInput, PlacementPreview, PlacementQuery, Range, Result, SubmitResult, Token, VersionRef } from './contracts.ts';
+import type { ActualDraft, ActualPreview, Command, Content, WorkspaceData, Day, EnvelopeV4, ErrorCode, Fixed, Instance, LocalInput, PlacementPreview, PlacementQuery, Range, Result, SubmitResult, Token, VersionRef } from './contracts.ts';
 import { ActionDomainError, applyAction, assertActionState, overlaps, sameValue, type ActionOperation, type CompatibilityOccupancy, type Occupancy, type Overlap } from '../daily/model.ts';
 import { ActionTimeError, actualRange, assertDate, assertZone, dateAt, elapsedMinutes, intersectRanges, nextDate, plannedRange, weekday } from '../daily/time.ts';
-import { backupBytes, canonicalJson, emptyActionData, fingerprint, inspectEnvelope, MAX_BACKUP_BYTES, validateActionData, validateCommandPayload, validateSourceFingerprints, validateWorkspace, WorkspaceFormatError } from './format.ts';
+import {backupBytes, canonicalJson, emptyWorkspaceData, fingerprint, inspectEnvelope, MAX_BACKUP_BYTES, validateActionData, validateCommandPayload, validateSourceFingerprints, validateWorkspace, WorkspaceFormatError} from './format.ts';
+import {applyV3Command, isV3Command, saveWorkshopCatalog} from './v3-operations.ts';
+import type {WorkshopCatalog} from '../workshop/model.ts';
 import { legacyMakeup, oldOccurrenceExists } from './migration.ts';
 import { compatibilityFor, projectedTemplates, segmentsFor } from '../daily/projection.ts';
 import type { WorkspaceStore } from './store.ts';
 
-export type WorkspaceSnapshot = Readonly<{ mode: 'uninitialized' | 'current' | 'legacy-readonly'; token: Token; data: DataV2 | null; raw: unknown; rawKey: string }>;
+export type WorkspaceSnapshot = Readonly<{ mode: 'uninitialized' | 'current' | 'legacy-readonly'; token: Token; data: WorkspaceData | null; raw: unknown; rawKey: string }>;
 export async function inspectSnapshot(raw: unknown): Promise<WorkspaceSnapshot> {
   const inspection = inspectEnvelope(raw);
   validateWorkspace(raw);
-  if (inspection.kind === 'uninitialized') return { mode: 'uninitialized', token: { epoch: 'uninitialized', revision: 0 }, data: emptyActionData(), raw, rawKey: 'uninitialized' };
+  if (inspection.kind === 'uninitialized') return {mode: 'uninitialized', token: {epoch: 'uninitialized', revision: 0}, data: emptyWorkspaceData(), raw, rawKey: 'uninitialized'};
   if (inspection.kind === 'current') {
     const envelope = raw as EnvelopeV4 & { mode: 'current' };
     await validateSourceFingerprints(envelope.data);
@@ -37,6 +39,8 @@ export function assertCommand(command: Command): void {
   need(command && typeof command === 'object' && Object.keys(command).sort().join(',') === 'commandId,expected,payload,type', 'INVALID_INPUT', '命令字段无效');
   need(typeof command.commandId === 'string' && command.commandId.trim() && typeof command.expected?.epoch === 'string' && command.expected.epoch && Number.isSafeInteger(command.expected.revision) && command.expected.revision >= 0 && Object.keys(command.expected).sort().join(',') === 'epoch,revision', 'INVALID_INPUT', '请求标识或令牌无效');
   const fields: Record<Command['type'], string> = {
+    SaveActionCard: 'actionCard,expectedVersion', SaveBookEntry: 'bookEntry,expectedVersion', SavePool: 'pool,expectedVersion', SaveGenerationRule: 'generationRule,expectedVersion',
+    GenerateDailyCopies: 'target', ArchiveDueCopies: '', AcceptDailyCopy: 'copy,selections,composedText',
     SaveSettings: 'settings', CreateCapture: 'text,source', SetCaptureStatus: 'capture,status', UpdateDay: 'date,version,minimum,top3', SaveTemplate: 'template,expectedVersion', SaveRule: 'rule,expectedVersion', SaveProject: 'project', SaveGoal: 'goal',
     SaveDefinition: 'id,expectedVersion,content,enabled,parentDefinitionId', ArchiveDefinition: 'definition', AcceptOffer: 'definition,targetDate', ResolveCaptureToAction: 'capture,content,targetDate', UpdateOpenInstance: 'instance,content,targetDate,placementPreviewId,acknowledgedOverlap',
     ReorderHand: 'instanceIds', WithdrawInstance: 'instance', ReturnWithdrawnToHand: 'instance', CommitPlacement: 'previewId,candidateId,acknowledgedOverlap', RetractPlan: 'planId,version', CancelFixed: 'commitment,unlockId', ApplyDayTemplate: 'previewId,acknowledgedOverlap', ConfirmActual: 'previewId,acknowledgedOverlap', AppendAnnotation: 'factId,text', PrepareDay: 'date,zone,templateId', CreateMakeup: 'occurrence,targetDate', ImportDefinitions: 'previewId,mode,backup', RestoreWorkspace: 'previewId,backup,discardDraftsConfirmed', ClearWorkspace: 'backup,discardDraftsConfirmed', CommitMigration: 'previewId,backup,discardDraftsConfirmed'
@@ -46,10 +50,11 @@ export function assertCommand(command: Command): void {
 }
 type Grant = { token: Token; operation: ActionOperation; conflicts: readonly Overlap[]; acknowledgementId: string | null; candidateId?: string; unlockId?: string };
 type Unlock = { token: Token; id: string; version: number };
-export type ActionServiceOptions = Readonly<{ now?: () => string; id?: () => string; compatibility?: (data: DataV2) => CompatibilityOccupancy | undefined;
-  definitionImport?: (command: Extract<Command, { type: 'ImportDefinitions' }>, snapshot: WorkspaceSnapshot & { data: DataV2 }) => Extract<ActionOperation, { type: 'ImportDefinitions' }> }>;
+export type ActionServiceOptions = Readonly<{ now?: () => string; id?: () => string; compatibility?: (data: WorkspaceData) => CompatibilityOccupancy | undefined;
+  workshopImport?: (command: Extract<Command, {type: 'ImportDefinitions'}>, snapshot: WorkspaceSnapshot & {data: WorkspaceData}) => WorkshopCatalog | null;
+  definitionImport?: (command: Extract<Command, { type: 'ImportDefinitions' }>, snapshot: WorkspaceSnapshot & { data: WorkspaceData }) => Extract<ActionOperation, { type: 'ImportDefinitions' }> }>;
 
-export function calendarOperation(data: DataV2, input: { date: string; zone: string; templateId: string | null; entryOffsets?: Readonly<Record<string, string>> }, replace: boolean, at: string, prefix: string): Extract<ActionOperation, { type: 'ApplyCalendar' }> {
+export function calendarOperation(data: WorkspaceData, input: { date: string; zone: string; templateId: string | null; entryOffsets?: Readonly<Record<string, string>> }, replace: boolean, at: string, prefix: string): Extract<ActionOperation, { type: 'ApplyCalendar' }> {
   assertDate(input.date); assertZone(input.zone);
   const p = data.planner, old = p.days.find(d => d.date === input.date);
   const matches = p.templates.filter(t => t.weekdays.includes(weekday(input.date)));
@@ -70,7 +75,7 @@ export function calendarOperation(data: DataV2, input: { date: string; zone: str
     }
   }
   const day: Day = old && !replace ? old : { date: input.date, zone: input.zone, version: old ? old.version + 1 : 1, name: template?.name ?? '未选择日型', template: template ? { id: template.id, version: template.version } : null, minimum: old?.minimum ?? false, top3: old?.top3 ?? [], overrides: old?.overrides ?? [] };
-  const instances: Instance[] = [], occurrences: DataV2['planner']['occurrences'][number][] = [];
+  const instances: Instance[] = [], occurrences: WorkspaceData['planner']['occurrences'][number][] = [];
   for (const rule of p.rules) {
     if (rule.status !== 'active' || rule.startDate > input.date || input.date < dateAt(at, rule.zone) || !rule.weekdays.includes(weekday(input.date)) || p.occurrences.some(o => o.ruleId === rule.id && o.date === input.date) || oldOccurrenceExists(data, rule, input.date)) continue;
     const definition = p.definitions.find(d => d.id === rule.definitionId)!;
@@ -81,7 +86,7 @@ export function calendarOperation(data: DataV2, input: { date: string; zone: str
   }
   return { type: 'ApplyCalendar', day, fixed, instances, occurrences };
 }
-function calendarConflicts(data: DataV2, operation: Extract<ActionOperation, { type: 'ApplyCalendar' }>, compatibility?: CompatibilityOccupancy): readonly Overlap[] {
+function calendarConflicts(data: WorkspaceData, operation: Extract<ActionOperation, { type: 'ApplyCalendar' }>, compatibility?: CompatibilityOccupancy): readonly Overlap[] {
   const changedIds = new Set(operation.fixed.map(f => f.id));
   const filtered = { ...data, planner: { ...data.planner, fixed: data.planner.fixed.filter(f => !changedIds.has(f.id)) } };
   const changed = operation.fixed.filter(f => !f.cancelled);
@@ -122,14 +127,14 @@ export function createActionService(store: WorkspaceStore, options: ActionServic
       for (const [key, value] of unlocks) if (!sameValue(value.token, snapshot.token)) unlocks.delete(key);
     }).catch(invalidate);
   });
-  const compatible = (data: DataV2, range?: Range) => options.compatibility?.(data) ?? compatibilityFor(data, range);
+  const compatible = (data: WorkspaceData, range?: Range) => options.compatibility?.(data) ?? compatibilityFor(data, range);
   const current = async (expected?: Token) => {
     const snapshot = await readSnapshot();
     if (expected) checkToken(snapshot.token, expected);
     need(snapshot.data, 'LEGACY_READ_ONLY', '旧版数据只读，请先备份并显式升级');
     return { ...snapshot, data: snapshot.data };
   };
-  const context = (data: DataV2, commandId: string, at: string) => ({ commandId, historyId: id(), at, date: dateAt(at, data.settings.zone ?? 'UTC'), compatibility: compatible(data) });
+  const context = (data: WorkspaceData, commandId: string, at: string) => ({ commandId, historyId: id(), at, date: dateAt(at, data.settings.zone ?? 'UTC'), compatibility: compatible(data) });
   function checkGrant(grant: Grant, snapshot: WorkspaceSnapshot): void {
     need(sameValue(grant.token, snapshot.token), 'PREVIEW_STALE', '预览已过期，请重新预览');
     if (grant.unlockId) {
@@ -137,7 +142,7 @@ export function createActionService(store: WorkspaceStore, options: ActionServic
       need(unlock && sameValue(unlock.token, snapshot.token), 'FIXED_LOCKED', '固定安排授权已失效');
     }
   }
-  function operationFrom(command: Command, snapshot: WorkspaceSnapshot & { data: DataV2 }): ActionOperation {
+  function operationFrom(command: Command, snapshot: WorkspaceSnapshot & { data: WorkspaceData }): ActionOperation {
     switch (command.type) {
       case 'ImportDefinitions': need(options.definitionImport, 'PREVIEW_STALE', '请重新预览配置'); return options.definitionImport(command, snapshot);
       case 'CreateCapture': return { ...command.payload, type: 'CreateCapture', captureId: id() };
@@ -305,7 +310,7 @@ export function createActionService(store: WorkspaceStore, options: ActionServic
           const token = envelope?.schemaVersion === 4 ? { epoch: envelope.epoch, revision: envelope.revision } : before.token;
           checkToken(token, cmd.expected, false);
           need(inspection.kind !== 'legacy-readonly', 'LEGACY_READ_ONLY', '旧版数据只读，请先备份并显式升级');
-          const data = inspection.kind === 'uninitialized' ? emptyActionData() : (envelope as EnvelopeV4 & { mode: 'current' }).data;
+          const data = inspection.kind === 'uninitialized' ? emptyWorkspaceData() : (envelope as EnvelopeV4 & {mode: 'current'}).data;
           const receipt = data.commandReceipts.find(r => r.commandId === cmd.commandId);
           if (receipt) {
             need(receipt.payloadFingerprint === payloadFingerprint && receipt.type === cmd.type, 'COMMAND_ID_REUSED', '请求标识已用于其他内容');
@@ -314,15 +319,31 @@ export function createActionService(store: WorkspaceStore, options: ActionServic
           checkToken(token, cmd.expected);
           need((raw === undefined ? 'uninitialized' : canonicalJson(raw)) === before.rawKey, 'REVISION_CONFLICT', '读取后工作区已改变，请重新提交');
           const snapshot = { mode: 'current' as const, token, data, raw, rawKey: '' };
-          const operation = operationFrom(cmd, snapshot);
-          const operationRange = 'range' in operation ? operation.range : operation.type === 'UpdateInstance' ? operation.replacementRange : undefined;
-          const changed = applyAction(data, operation, { ...context(data, cmd.commandId, at), historyId, compatibility: compatible(data, operationRange) });
-          const nextData: DataV2 = { ...changed.data, commandReceipts: [...data.commandReceipts, { commandId: cmd.commandId, type: cmd.type, payloadFingerprint, resultRefs: changed.resultRefs }] };
+          let changed: ReturnType<typeof applyAction>;
+          if (isV3Command(cmd)) {
+            need(data.version === 3, 'UNSUPPORTED_VERSION', '请先备份、预览并显式升级到 Data v3');
+            changed = applyV3Command(data, cmd, {...context(data, cmd.commandId, at), historyId}, id);
+          } else {
+            const operation = operationFrom(cmd, snapshot);
+            const operationRange = 'range' in operation ? operation.range : operation.type === 'UpdateInstance' ? operation.replacementRange : undefined;
+            changed = applyAction(data, operation, {...context(data, cmd.commandId, at), historyId, compatibility: compatible(data, operationRange)});
+            if (cmd.type === 'ImportDefinitions' && options.workshopImport) {
+              const candidate = options.workshopImport(cmd, snapshot);
+              if (candidate) {
+                need(changed.data.version === 3, 'UNSUPPORTED_VERSION', '请先升级再导入 v3 工坊配置');
+                const workshop = saveWorkshopCatalog(changed.data, candidate, {...context(data, cmd.commandId, at), historyId: `${historyId}:import`}, cmd.type);
+                changed = {...workshop, resultRefs: [...changed.resultRefs, ...workshop.resultRefs]};
+              }
+            }
+          }
+          const nextData: WorkspaceData = { ...changed.data, commandReceipts: [...data.commandReceipts, { commandId: cmd.commandId, type: cmd.type, payloadFingerprint, resultRefs: changed.resultRefs }] };
           validateActionData(nextData);
           need(backupBytes(nextData) <= MAX_BACKUP_BYTES, 'DATA_TOO_LARGE', '完整备份超过 5 MiB，本次未写入');
           const nextToken = { epoch: token.epoch, revision: token.revision + 1 };
           need(Number.isSafeInteger(nextToken.revision), 'INVALID_INPUT', '修订号已超出范围');
-          const write: EnvelopeV4 = { schemaVersion: 4, ...nextToken, mode: 'current', dataFormat: 'action-v2', data: nextData, lifecycleReceipt: envelope?.schemaVersion === 4 ? envelope.lifecycleReceipt : null };
+          const write: EnvelopeV4 = {schemaVersion: 4, ...nextToken, mode: 'current',
+            ...(nextData.version === 3 ? {dataFormat: 'action-v3', data: nextData} : {dataFormat: 'action-v2', data: nextData}),
+            lifecycleReceipt: envelope?.schemaVersion === 4 ? envelope.lifecycleReceipt : null};
           return { write, at, reason: cmd.type, result: { ok: true, value: { token: nextToken, resultRefs: changed.resultRefs, replayed: false } } as SubmitResult };
         });
       } catch (error) {

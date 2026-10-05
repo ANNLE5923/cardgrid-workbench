@@ -1,4 +1,7 @@
-import type { BackupV2, Command, ConfigV2, DataV2, EntityRef, EnvelopeV4, Json, LegacyBackupV1, LegacyFormat, LegacyRef } from './contracts.ts';
+import type {BackupV2, Command, ConfigV2, DataV2, WorkspaceData, EntityRef, EnvelopeV4, Json, LegacyBackupV1, LegacyFormat, LegacyRef} from './contracts.ts';
+import type {DataV3, BackupV3, ConfigV3} from './contracts-v3.ts';
+import {validateWorkshopCatalog, validateWorkshopEntity} from '../workshop/model.ts';
+import {assertV3State} from './v3-state.ts';
 import { assertActionState, sameValue } from '../daily/model.ts';
 import { assertDate, assertInstant, assertZone, legacyInstant } from '../daily/time.ts';
 import type { Config, Data } from './legacy/domain.ts';
@@ -10,6 +13,12 @@ export function emptyActionData(): DataV2 {
     planner: { version: 2, definitions: [], instances: [], handOrder: [], plans: [], facts: [], annotations: [], fixed: [], templates: [], days: [], rules: [], occurrences: [], captures: [], refs: [], goals: [], history: [] },
     legacySources: [], migrationBindings: [], commandReceipts: [] };
 }
+/** Explicit pure preparation, never called as a side effect of reading existing v2 data. */
+export function upgradeActionData(data: DataV2): DataV3 {
+  validateActionData(data);
+  return {...structuredClone(data), version: 3, actionCards: [], bookEntries: [], pools: [], generationRules: [], dailyCopies: [], archiveLogs: [], generationLedger: []};
+}
+export function emptyWorkspaceData(): DataV3 {return upgradeActionData(emptyActionData());}
 /** Stable JSON identity: retain field presence and array order; ignore object key order. */
 export function canonicalJson(value: unknown): string {
   if (value === null || typeof value === 'boolean' || typeof value === 'string') return JSON.stringify(value);
@@ -22,8 +31,8 @@ export async function fingerprint(value: unknown): Promise<string> {
   const hash = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(canonicalJson(value)));
   return [...new Uint8Array(hash)].map(byte => byte.toString(16).padStart(2, '0')).join('');
 }
-export function backupBytes(data: DataV2): number {
-  return new TextEncoder().encode(JSON.stringify({ format: 'cardgrid', version: 2, kind: 'backup', dataFormat: 'action-v2', data })).length;
+export function backupBytes(data: WorkspaceData): number {
+  return new TextEncoder().encode(JSON.stringify({format: 'cardgrid', version: data.version, kind: 'backup', dataFormat: data.version === 3 ? 'action-v3' : 'action-v2', data})).length;
 }
 
 /** A read-only format boundary. Never use this result as authorization to commit: 2A.4 adds full semantic validation. */
@@ -33,6 +42,8 @@ export type WorkspaceInspection =
   | Readonly<{ kind: 'legacy-readonly'; raw: unknown; sourceFormat: LegacyFormat | 'envelope-v2' | 'envelope-v3'; semanticValidationPending: true }>;
 
 export type ImportInspection =
+  | Readonly<{kind: 'backup-v3'; raw: unknown; backup: unknown; semanticValidationPending: true}>
+  | Readonly<{kind: 'config-v3'; raw: unknown; config: unknown; semanticValidationPending: true}>
   | Readonly<{ kind: 'backup-v2'; raw: unknown; backup: unknown; semanticValidationPending: true }>
   | Readonly<{ kind: 'backup-v1'; raw: unknown; backup: unknown; sourceFormat: 'cardgrid-v1-p1a' | 'cardgrid-v1-pre-planner'; semanticValidationPending: true }>
   | Readonly<{ kind: 'config-v2'; raw: unknown; config: unknown; semanticValidationPending: true }>
@@ -62,6 +73,7 @@ function string(value: unknown, path: string): void {
 }
 function array(value: unknown, path: string): readonly unknown[] {
   if (!Array.isArray(value)) fail(path, 'expected array');
+  for (let i = 0; i < value.length; i++) if (!Object.hasOwn(value, i)) fail(`${path}[${i}]`, '数组不能含空缺项');
   return value;
 }
 function nullableString(value: unknown, path: string): void { if (value !== null) string(value, path); }
@@ -116,8 +128,8 @@ export function inspectEnvelope(raw: unknown): WorkspaceInspection {
       }
     }
     if (env.mode === 'current') {
-      oneOf(env.dataFormat, ['action-v2'], '$.dataFormat');
-      inspectDataV2(env.data, '$.data');
+      oneOf(env.dataFormat, ['action-v2', 'action-v3'], '$.dataFormat');
+      inspectActionData(env.data, '$.data', env.dataFormat === 'action-v3' ? 3 : 2);
       return { kind: 'current', raw, envelope: env, semanticValidationPending: true };
     }
     oneOf(env.mode, ['legacy-readonly'], '$.mode');
@@ -179,9 +191,14 @@ function inspectLegacyData(raw: unknown, path: string, expected?: 'cardgrid-v1-p
 
 /** Structural checks and the core cross-record references needed for safe format recognition. */
 export function inspectDataV2(raw: unknown, path = '$'): void {
+  inspectActionData(raw, path, 2);
+}
+function inspectActionData(raw: unknown, path: string, version: 2 | 3): void {
   const data = record(raw, path);
-  exact(data, ['version', 'settings', 'planner', 'legacySources', 'migrationBindings', 'commandReceipts'], [], path);
-  oneOf(data.version, [2], `${path}.version`);
+  const additions = version === 3 ? ['actionCards', 'bookEntries', 'pools', 'generationRules', 'dailyCopies', 'archiveLogs', 'generationLedger'] : [];
+  exact(data, ['version', 'settings', 'planner', 'legacySources', 'migrationBindings', 'commandReceipts', ...additions], [], path);
+  oneOf(data.version, [version], `${path}.version`);
+  additions.forEach(name => array(data[name], `${path}.${name}`));
   const settings = record(data.settings, `${path}.settings`);
   exact(settings, ['zone', 'preferences', 'categories'], [], `${path}.settings`);
   nullableString(settings.zone, `${path}.settings.zone`);
@@ -229,6 +246,19 @@ export function inspectDataV2(raw: unknown, path = '$'): void {
 
 export function inspectImport(raw: unknown): ImportInspection {
   const pack = record(raw, '$');
+  if (pack.format === 'cardgrid' && pack.version === 3 && pack.kind === 'backup') {
+    exact(pack, ['format', 'version', 'kind', 'dataFormat', 'data'], [], '$');
+    oneOf(pack.dataFormat, ['action-v3'], '$.dataFormat'); inspectActionData(pack.data, '$.data', 3);
+    return {kind: 'backup-v3', raw, backup: pack, semanticValidationPending: true};
+  }
+  if (pack.format === 'cardgrid' && pack.version === 3 && pack.kind === 'config') {
+    exact(pack, ['format', 'version', 'kind', 'config'], [], '$');
+    const config = record(pack.config, '$.config');
+    exact(config, ['settings', 'definitions', 'templates', 'rules', 'actionCards', 'bookEntries', 'pools', 'generationRules'], [], '$.config');
+    record(config.settings, '$.config.settings');
+    for (const name of ['definitions', 'templates', 'rules', 'actionCards', 'bookEntries', 'pools', 'generationRules']) array(config[name], `$.config.${name}`);
+    return {kind: 'config-v3', raw, config: pack, semanticValidationPending: true};
+  }
   if (pack.format !== 'cardgrid') {
     if (pack.version === 2 && Object.hasOwn(pack, 'days') && Object.hasOwn(pack, 'daily') && Object.hasOwn(pack, 'customTemplates'))
       return { kind: 'legacy-archive', raw, semanticValidationPending: true };
@@ -317,9 +347,16 @@ const sourceRef: Check = (v, p) => {
   else if (source.kind === 'manual') shape({ kind: literal('manual') })(v, p);
   else shape({ kind: literal('definition', 'capture', 'occurrence', 'makeup'), id: nonempty })(v, p);
 };
+const sourceRefV3: Check = (v, p) => {if (record(v, p).kind === 'daily-copy') shape({kind: literal('daily-copy'), id: nonempty})(v, p); else sourceRef(v, p);};
 const entityRef: Check = (v, p) => {
   if (record(v, p).kind === 'legacy') legacyRefShape(v, p);
   else shape({ kind: literal('definition', 'instance', 'plan', 'fact', 'annotation', 'fixed', 'template', 'rule', 'occurrence', 'capture', 'project', 'goal', 'day', 'settings'), id: nonempty })(v, p);
+};
+const entityRefV3: Check = (v, p) => {
+  const kind = record(v, p).kind;
+  if (['action-card', 'book-entry', 'pool', 'generation-rule', 'daily-copy', 'archive-log'].includes(kind as string))
+    shape({kind: literal('action-card', 'book-entry', 'pool', 'generation-rule', 'daily-copy', 'archive-log'), id: nonempty})(v, p);
+  else entityRef(v, p);
 };
 const instanceRef: Check = (v, p) => { if (record(v, p).kind === 'legacy') legacyRefShape(v, p); else shape({ kind: literal('instance'), id: nonempty })(v, p); };
 const makeupRef: Check = (v, p) => { if (record(v, p).kind === 'legacy') legacyRefShape(v, p); else shape({ kind: literal('occurrence'), id: nonempty })(v, p); };
@@ -332,21 +369,36 @@ const settingsShape = shape({ zone: nullable(zoneValue), preferences: preference
 const definitionShape = shape({ id: nonempty, version: versionValue, content: contentShape, enabled: booleanValue, parentDefinitionId: nullable(nonempty), source: sourceRef });
 const templateShape = shape({ id: nonempty, version: versionValue, name: nonempty, weekdays, entries: items(shape({ id: nonempty, title: nonempty, start: clockValue, elapsedMinutes: numberWithin(5, 1440), definitionId: nullable(nonempty) })), source: sourceRef });
 const ruleShape = shape({ id: nonempty, version: versionValue, name: nonempty, definitionId: nonempty, weekdays, startDate: dateValue, zone: zoneValue, status: literal('active', 'paused', 'archived'), source: sourceRef });
-const instanceShape = shape({ id: nonempty, version: versionValue, definition: nullable(versionRef), creationSnapshot: contentShape, currentContent: contentShape, source: sourceRef, createdAt: instantValue,
-  targetDate: nullable(dateValue), state: literal('open', 'withdrawn'), occurrenceId: nullable(nonempty), makeupOf: nullable(makeupRef) });
+const instanceFields = {id: nonempty, version: versionValue, definition: nullable(versionRef), creationSnapshot: contentShape, currentContent: contentShape, source: sourceRef, createdAt: instantValue,
+  targetDate: nullable(dateValue), state: literal('open', 'withdrawn'), occurrenceId: nullable(nonempty), makeupOf: nullable(makeupRef)};
+const instanceShape = shape(instanceFields);
+const bookShape: Check = (v, p) => {const result = validateWorkshopEntity('bookEntries', v); if (!result.ok) fail(p, result.issues.map(i => i.message).join('; '));};
+const slotSelectionShape = shape({slotId: nonempty, entryId: nonempty, entrySnapshot: bookShape, selectedAt: instantValue});
+const dailyAcceptanceShape = shape({copyId: nonempty, sourceDate: dateValue, slotSelections: items(slotSelectionShape)});
+const instanceShapeV3 = shape({...instanceFields, source: sourceRefV3, daily: nullable(dailyAcceptanceShape)}, ['daily']);
+const slotSpecShape = shape({id: nonempty, label: nonempty, poolId: nonempty, required: booleanValue, valueKind: literal('entry')});
+const dailyCopyShape = shape({id: nonempty, version: versionValue, ruleId: nonempty, ruleVersion: versionValue, actionCard: versionRef, sourceDate: dateValue, generatedAt: instantValue,
+  contentSnapshot: contentShape, slotSpecSnapshot: items(slotSpecShape), status: literal('active'), acceptedInstanceIds: items(nonempty)});
+const archiveLogShape = shape({id: nonempty, version: versionValue, copyId: nonempty, ruleId: nonempty, actionCard: versionRef, sourceDate: dateValue, contentSnapshot: contentShape,
+  slotSelectionsSnapshot: items(slotSelectionShape), acceptedInstanceIds: items(nonempty), disposition: literal('accepted', 'none-accepted'), archivedAt: instantValue});
+const generationLedgerShape = shape({ruleId: nonempty, sourceDate: dateValue, copyId: nonempty, at: instantValue});
 const planShape = shape({ id: nonempty, version: versionValue, instanceId: nonempty, range: recordedRangeShape, contentSnapshot: contentShape, status: literal('active', 'retracted', 'confirmed'), createdAt: instantValue, changedAt: instantValue });
-const factShape = shape({ id: nonempty, instanceId: nonempty, contentSnapshot: contentShape, actualRange: recordedRangeShape,
-  plannedSnapshot: nullable(shape({ planId: nonempty, planVersion: versionValue, range: recordedRangeShape, content: contentShape })), confirmedAt: instantValue, source: sourceRef });
+const factFields = {id: nonempty, instanceId: nonempty, contentSnapshot: contentShape, actualRange: recordedRangeShape,
+  plannedSnapshot: nullable(shape({planId: nonempty, planVersion: versionValue, range: recordedRangeShape, content: contentShape})), confirmedAt: instantValue, source: sourceRef};
+const factShape = shape(factFields), factShapeV3 = shape({...factFields, source: sourceRefV3});
 const fixedShape = shape({ id: nonempty, version: versionValue, title: nonempty, range: recordedRangeShape, cancelled: booleanValue, ownerDate: dateValue,
   template: nullable(versionRef), templateEntryId: nullable(nonempty), manuallyOverridden: booleanValue, source: sourceRef });
 const dayShape = shape({ date: dateValue, zone: zoneValue, version: versionValue, name: textValue, template: nullable(versionRef), minimum: booleanValue, top3: items(instanceRef),
   overrides: items(shape({ entryId: nonempty, fixedId: nullable(nonempty), kind: literal('edited', 'cancelled'), at: instantValue })) });
-const plannerShape = shape({ version: literal(2), definitions: items(definitionShape), instances: items(instanceShape), handOrder: items(nonempty), plans: items(planShape), facts: items(factShape),
+const plannerFields = {version: literal(2), definitions: items(definitionShape), instances: items(instanceShape), handOrder: items(nonempty), plans: items(planShape), facts: items(factShape),
   annotations: items(shape({ id: nonempty, factId: nonempty, text: nonempty, createdAt: instantValue })), fixed: items(fixedShape), templates: items(templateShape), days: items(dayShape), rules: items(ruleShape),
   occurrences: items(shape({ id: nonempty, ruleId: nonempty, date: dateValue, instanceId: nonempty, disposition: literal('generated', 'skipped', 'missed', 'cancelled') })),
   captures: items(shape({ id: nonempty, version: versionValue, text: nonempty, createdAt: instantValue, source: textValue, status: literal('unprocessed', 'resolved', 'archived', 'discarded'), target: nullable(instanceRef) })),
   refs: items(shape({ id: nonempty, name: nonempty, status: literal('active', 'paused', 'archived', 'completed') })), goals: items(shape({ id: nonempty, name: nonempty })),
-  history: items(shape({ id: nonempty, commandId: nonempty, at: instantValue, date: dateValue, type: nonempty, entity: entityRef, before: jsonValue, after: jsonValue })) });
+  history: items(shape({id: nonempty, commandId: nonempty, at: instantValue, date: dateValue, type: nonempty, entity: entityRef, before: jsonValue, after: jsonValue}))};
+const plannerShape = shape(plannerFields);
+const plannerShapeV3 = shape({...plannerFields, instances: items(instanceShapeV3), facts: items(factShapeV3),
+  history: items(shape({id: nonempty, commandId: nonempty, at: instantValue, date: dateValue, type: nonempty, entity: entityRefV3, before: jsonValue, after: jsonValue}))});
 
 /** Keyed source paths: /planner/days/@YYYY-MM-DD/blocks/@id. Root is '/'. */
 export function resolveLegacyPath(raw: unknown, path: string): unknown {
@@ -366,13 +418,20 @@ export function resolveLegacyPath(raw: unknown, path: string): unknown {
   return current;
 }
 export const sourcePathPart = (id: string): string => '@' + id.replace(/~/g, '~0').replace(/\//g, '~1');
-export function validateActionData(raw: unknown, path = '$'): asserts raw is DataV2 {
-  inspectDataV2(raw, path);
-  shape({ version: literal(2), settings: settingsShape, planner: plannerShape,
+export function validateActionData(raw: unknown, path = '$'): asserts raw is WorkspaceData {
+  const v3 = record(raw, path).version === 3;
+  inspectActionData(raw, path, v3 ? 3 : 2);
+  const additions: Record<string, Check> = v3 ? {
+    actionCards: items((v, p) => {const result = validateWorkshopEntity('actionCards', v); if (!result.ok) fail(p, result.issues.map(i => i.message).join('; '));}),
+    bookEntries: items(bookShape), pools: items((v, p) => {const result = validateWorkshopEntity('pools', v); if (!result.ok) fail(p, result.issues.map(i => i.message).join('; '));}),
+    generationRules: items((v, p) => {const result = validateWorkshopEntity('generationRules', v); if (!result.ok) fail(p, result.issues.map(i => i.message).join('; '));}),
+    dailyCopies: items(dailyCopyShape), archiveLogs: items(archiveLogShape), generationLedger: items(generationLedgerShape),
+  } : {};
+  shape({version: literal(v3 ? 3 : 2), settings: settingsShape, planner: v3 ? plannerShapeV3 : plannerShape,
     legacySources: items(shape({ id: nonempty, format: literal('cardgrid-v1-p1a', 'cardgrid-v1-pre-planner', 'envelope-v1', 'legacy-archive'), fingerprint: nonempty, importedAt: instantValue, raw: jsonValue })),
-    migrationBindings: items(shape({ sourceId: nonempty, path: nonempty, sourceFingerprint: nonempty, mappingVersion: literal(1), target: entityRef, disposition: literal('converted', 'readonly') })),
-    commandReceipts: items(shape({ commandId: nonempty, type: nonempty, payloadFingerprint: nonempty, resultRefs: items(entityRef) })) })(raw, path);
-  const data = raw as DataV2, p = data.planner;
+    migrationBindings: items(shape({ sourceId: nonempty, path: nonempty, sourceFingerprint: nonempty, mappingVersion: literal(1), target: v3 ? entityRefV3 : entityRef, disposition: literal('converted', 'readonly') })),
+    commandReceipts: items(shape({commandId: nonempty, type: nonempty, payloadFingerprint: nonempty, resultRefs: items(v3 ? entityRefV3 : entityRef)})), ...additions})(raw, path);
+  const data = raw as WorkspaceData, p = data.planner;
   data.legacySources.forEach((source, i) => {
     const at = `${path}.legacySources[${i}].raw`;
     if (source.format === 'envelope-v1') validateLegacyEnvelope(source.raw, at);
@@ -380,8 +439,10 @@ export function validateActionData(raw: unknown, path = '$'): asserts raw is Dat
     else { validateLegacyData(source.raw, at); if (inspectLegacyData(source.raw, at) !== source.format) fail(at, '来源格式标记不匹配'); }
   });
   if (data.settings.preferences.endHour <= data.settings.preferences.startHour) fail(`${path}.settings.preferences.endHour`, '结束小时必须晚于开始');
-  const collections = { definition: p.definitions, instance: p.instances, plan: p.plans, fact: p.facts, annotation: p.annotations, fixed: p.fixed,
+  const collections: Record<string, readonly {id: string}[]> = { definition: p.definitions, instance: p.instances, plan: p.plans, fact: p.facts, annotation: p.annotations, fixed: p.fixed,
     template: p.templates, rule: p.rules, occurrence: p.occurrences, capture: p.captures, project: p.refs, goal: p.goals, day: p.days.map(d => ({ id: d.date })), settings: [{ id: 'workspace' }] };
+  if (data.version === 3) Object.assign(collections, {'action-card': data.actionCards, 'book-entry': data.bookEntries, pool: data.pools,
+    'generation-rule': data.generationRules, 'daily-copy': data.generationLedger.map(l => ({id: l.copyId})), 'archive-log': data.archiveLogs});
   const legacy = (ref: LegacyRef, at: string, allowed?: RegExp) => {
     const source = data.legacySources.find(s => s.id === ref.sourceId);
     if (!source) fail(at, '旧来源不存在');
@@ -391,7 +452,7 @@ export function validateActionData(raw: unknown, path = '$'): asserts raw is Dat
   };
   const refCheck = (ref: EntityRef, at: string) => {
     if (ref.kind === 'legacy') legacy(ref, at);
-    else if (!collections[ref.kind].some(item => item.id === ref.id)) fail(at, '引用对象不存在');
+    else if (!collections[ref.kind]?.some(item => item.id === ref.id)) fail(at, '引用对象不存在');
   };
   const sourceCheck = (ref: DataV2['planner']['instances'][number]['source'], at: string) => {
     if (ref.kind === 'manual') return;
@@ -400,6 +461,8 @@ export function validateActionData(raw: unknown, path = '$'): asserts raw is Dat
   };
   for (const [name, objects] of Object.entries({ definitions: p.definitions, instances: p.instances, facts: p.facts, fixed: p.fixed, templates: p.templates, rules: p.rules }))
     objects.forEach((item, i) => sourceCheck(item.source, `${path}.planner.${name}[${i}].source`));
+  if (data.version === 3) for (const name of ['actionCards', 'bookEntries', 'pools', 'generationRules'] as const)
+    data[name].forEach((item, i) => sourceCheck(item.source, `${path}.${name}[${i}].source`));
   p.rules.forEach((rule, i) => refCheck({ kind: 'definition', id: rule.definitionId }, `${path}.planner.rules[${i}].definitionId`));
   p.templates.forEach((template, i) => {
     uniqueIds(template.entries, `${path}.planner.templates[${i}].entries`);
@@ -441,11 +504,21 @@ export function validateActionData(raw: unknown, path = '$'): asserts raw is Dat
     receipt.resultRefs.forEach(ref => refCheck(ref, `${path}.commandReceipts[${i}].resultRefs`));
   });
   try { assertActionState(data); } catch (error) { fail(path, (error as Error).message); }
+  if (data.version === 3) try {assertV3State(data);} catch (error) {fail(path, (error as Error).message);}
 }
-export async function validateSourceFingerprints(data: DataV2): Promise<void> {
+export async function validateSourceFingerprints(data: WorkspaceData): Promise<void> {
   for (const [i, source] of data.legacySources.entries()) if (await fingerprint(source.raw) !== source.fingerprint) fail(`$.legacySources[${i}].fingerprint`, '原文摘要不匹配');
 }
-export function validateDefinitionConfig(raw: unknown): asserts raw is ConfigV2 {
+export function validateDefinitionConfig(raw: unknown): asserts raw is ConfigV2 | ConfigV3 {
+  if (record(raw, '$').version === 3) {
+    shape({format: literal('cardgrid'), version: literal(3), kind: literal('config'), config: shape({settings: settingsShape, definitions: items(definitionShape),
+      templates: items(templateShape), rules: items(ruleShape), actionCards: items(jsonValue), bookEntries: items(jsonValue), pools: items(jsonValue), generationRules: items(jsonValue)})})(raw, '$');
+    const pack = raw as ConfigV3, config = pack.config;
+    validateDefinitionConfig({format: 'cardgrid', version: 2, kind: 'config', config: {settings: config.settings, definitions: config.definitions, templates: config.templates, rules: config.rules}});
+    const result = validateWorkshopCatalog({actionCards: config.actionCards, bookEntries: config.bookEntries, pools: config.pools, generationRules: config.generationRules});
+    if (!result.ok) fail('$.config', result.issues.map(i => `${i.path}: ${i.message}`).join('; '));
+    return;
+  }
   shape({ format: literal('cardgrid'), version: literal(2), kind: literal('config'), config: shape({ settings: settingsShape, definitions: items(definitionShape), templates: items(templateShape), rules: items(ruleShape) }) })(raw, '$');
   const pack = raw as ConfigV2, blank = emptyActionData();
   // Sources and project/goal snapshots can refer to the destination workspace. Import checks those after merging.
@@ -562,7 +635,11 @@ export function validateWorkspace(raw: unknown): void {
 }
 export type RestoreTarget = Pick<Extract<EnvelopeV4, { mode: 'current' }>, 'mode' | 'dataFormat' | 'data'> | Pick<Extract<EnvelopeV4, { mode: 'legacy-readonly' }>, 'mode' | 'dataFormat' | 'data'>;
 export function parseRestore(text: string): RestoreTarget {
-  const inspected = inspectImportText(text), pack = inspected.raw as BackupV2 | LegacyBackupV1;
+  const inspected = inspectImportText(text), pack = inspected.raw as BackupV2 | BackupV3 | LegacyBackupV1;
+  if (inspected.kind === 'backup-v3') {
+    const backup = pack as BackupV3; validateActionData(backup.data);
+    return {mode: 'current', dataFormat: 'action-v3', data: structuredClone(backup.data)};
+  }
   if (inspected.kind === 'backup-v2') {
     const backup = pack as BackupV2;
     if (backup.dataFormat === 'action-v2') { validateActionData(backup.data); return { mode: 'current', dataFormat: 'action-v2', data: structuredClone(backup.data) }; }
@@ -571,12 +648,13 @@ export function parseRestore(text: string): RestoreTarget {
   if (inspected.kind === 'backup-v1') { validateLegacyData(pack.data); return { mode: 'legacy-readonly', dataFormat: inspected.sourceFormat, data: structuredClone(pack.data) as Json }; }
   fail('$.kind', '此文件不是完整工作区备份，请使用定义或旧档案导入');
 }
-export function exportWorkspace(raw: unknown): BackupV2 | LegacyBackupV1 {
+export function exportWorkspace(raw: unknown): BackupV2 | BackupV3 | LegacyBackupV1 {
   validateWorkspace(raw);
-  if (raw === undefined) return { format: 'cardgrid', version: 2, kind: 'backup', dataFormat: 'action-v2', data: emptyActionData() };
+  if (raw === undefined) return {format: 'cardgrid', version: 3, kind: 'backup', dataFormat: 'action-v3', data: emptyWorkspaceData()};
   const envelope = raw as EnvelopeV4 | { schemaVersion: 1; revision: number; config: unknown } | { schemaVersion: 2 | 3; data: Json };
   if (envelope.schemaVersion === 1) return { format: 'cardgrid', version: 2, kind: 'backup', dataFormat: 'envelope-v1', data: structuredClone(raw) as Json };
   if (envelope.schemaVersion !== 4) return { format: 'cardgrid', version: 1, kind: 'backup', data: structuredClone(envelope.data) };
+  if (envelope.dataFormat === 'action-v3') return {format: 'cardgrid', version: 3, kind: 'backup', dataFormat: 'action-v3', data: structuredClone(envelope.data)};
   if (envelope.dataFormat === 'action-v2') return { format: 'cardgrid', version: 2, kind: 'backup', dataFormat: 'action-v2', data: structuredClone(envelope.data) };
   if (envelope.dataFormat === 'envelope-v1') return { format: 'cardgrid', version: 2, kind: 'backup', dataFormat: 'envelope-v1', data: structuredClone(envelope.data) };
   return { format: 'cardgrid', version: 1, kind: 'backup', data: structuredClone(envelope.data) };
@@ -587,6 +665,13 @@ export function validateCommandPayload(command: Command): void {
   const backup = shape({ token: shape({ epoch: nonempty, revision: numberWithin(0, Number.MAX_SAFE_INTEGER) }), dataFingerprint: nonempty, fileSavedConfirmed: literal(true) });
   const acknowledgement = nullable(nonempty);
   const checks: Record<Command['type'], Check> = {
+    SaveActionCard: shape({actionCard: (v, p) => {const r = validateWorkshopEntity('actionCards', v); if (!r.ok) fail(p, r.issues.map(i => i.message).join('; '));}, expectedVersion: nullable(versionValue)}),
+    SaveBookEntry: shape({bookEntry: bookShape, expectedVersion: nullable(versionValue)}),
+    SavePool: shape({pool: (v, p) => {const r = validateWorkshopEntity('pools', v); if (!r.ok) fail(p, r.issues.map(i => i.message).join('; '));}, expectedVersion: nullable(versionValue)}),
+    SaveGenerationRule: shape({generationRule: (v, p) => {const r = validateWorkshopEntity('generationRules', v); if (!r.ok) fail(p, r.issues.map(i => i.message).join('; '));}, expectedVersion: nullable(versionValue)}),
+    GenerateDailyCopies: shape({target: (v, p) => {if (v !== 'current') shape({ruleId: nonempty, date: dateValue})(v, p);}}),
+    ArchiveDueCopies: shape({}),
+    AcceptDailyCopy: shape({copy: versionRef, selections: items(slotSelectionShape), composedText: nonempty}),
     SaveSettings: shape({ settings: settingsShape }), CreateCapture: shape({ text: nonempty, source: textValue }), SetCaptureStatus: shape({ capture: versionRef, status: literal('archived', 'discarded') }),
     UpdateDay: shape({ date: dateValue, version: versionValue, minimum: booleanValue, top3: items(instanceRef) }), SaveTemplate: shape({ template: templateShape, expectedVersion: nullable(versionValue) }), SaveRule: shape({ rule: ruleShape, expectedVersion: nullable(versionValue) }), SaveProject: shape({ project: legacyProjectShape }), SaveGoal: shape({ goal: shape({ id: nonempty, name: nonempty }) }),
     SaveDefinition: shape({ id: nullable(nonempty), expectedVersion: nullable(versionValue), content: contentShape, enabled: booleanValue, parentDefinitionId: nullable(nonempty) }), ArchiveDefinition: shape({ definition: versionRef }), AcceptOffer: shape({ definition: versionRef, targetDate: nullable(dateValue) }),

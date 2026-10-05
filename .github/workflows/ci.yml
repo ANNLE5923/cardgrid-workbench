@@ -18,3 +18,10 @@ jobs:
       - run: npm test
       - run: npm run test:independent
       - run: npm run build
+      - run: npx playwright install --with-deps chromium
+      - run: npm run test:browser
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: browser-evidence
+          path: test-results/

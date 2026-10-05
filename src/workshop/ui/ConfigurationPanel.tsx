@@ -1,7 +1,8 @@
-import type {ConfigV2} from '../../workspace/index.ts';
+import type {ConfigV2, ConfigV3} from '../../workspace/index.ts';
+type ConfigPackage = ConfigV2 | ConfigV3;
 import {validateDefinitionConfig} from '../../workspace/codec.ts';
-type Props={readOnly:boolean;draft:ConfigV2|null;editor:'form'|'json';json:string;busy:boolean;
- setDraft:(value:ConfigV2)=>void;setEditor:(value:'form'|'json')=>void;setMessage:(value:string)=>void;setJson:(value:string)=>void;
+type Props={readOnly:boolean;draft:ConfigPackage|null;editor:'form'|'json';json:string;busy:boolean;
+ setDraft:(value:ConfigPackage)=>void;setEditor:(value:'form'|'json')=>void;setMessage:(value:string)=>void;setJson:(value:string)=>void;
  changeSettings:(value:ConfigV2['config']['settings'])=>void;saveSettings:()=>Promise<void>;previewFile:(value:string)=>Promise<void>;setTab:(value:'data')=>void;};
 export function ConfigurationPanel({readOnly,draft,editor,json,busy,setDraft,setEditor,setMessage,setJson,changeSettings,saveSettings,previewFile,setTab}:Props){return <>{readOnly?<p>旧配置只读，请先导出并升级。</p>:draft&&<>
  <div className="segmented"><button aria-pressed={editor==='form'} onClick={()=>{try{const parsed=JSON.parse(json);validateDefinitionConfig(parsed);setDraft(parsed);setEditor('form');}catch(error){setMessage((error as Error).message);}}}>界面配置</button><button aria-pressed={editor==='json'} onClick={()=>setEditor('json')}>文字配置 JSON</button></div>

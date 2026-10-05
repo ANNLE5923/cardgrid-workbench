@@ -1,5 +1,63 @@
 # 浏览器回归
 
+## v0.3 完整门禁（2026-10-05）
+
+Playwright 1.62.1 已固定为项目开发依赖，所有脚本默认使用项目安装。先构建，再串行运行正式 v0.3 页面/事务、A3/A4，以及原 G2/G3 矩阵：
+
+```sh
+npm ci
+npm run build
+npx playwright install chromium
+npm run test:browser
+```
+
+有本机 Chrome 时可以不下载 Chromium：PowerShell 设置 `$env:CARDGRID_CHROME_PATH='C:\Program Files\Google\Chrome\Application\chrome.exe'` 后运行门禁。`CARDGRID_PLAYWRIGHT_MODULE` 仅用于覆盖运行库，旧脚本也由统一门禁提供项目默认值。层级脚本现在自建服务器，也可用 `CARDGRID_DEV_ORIGIN` 指定已有服务器。
+
+新增 `v03-closure.mjs` 使用生产 dist、真实 IndexedDB 与全新 context；17 组覆盖空白工坊建卡到实际确认、随机首项即时固定、两步球面/词条锁 ID、键盘焦点、来源堆叠单份操作、归档事实批注、漏日补生成、外部失效、320/390/720 与 10/100/500，以及静态 shell 更新和离线重开。仅为控制种子与断言读取加载源码，产品操作均驱动正式页面。旧壳测试使用合成 prior shell，不冒称跑了整套旧版浏览器。
+
+GitHub Actions 已配置 Chromium 安装、完整浏览器门禁与失败证据上传；远端执行结果需本轮发布后确认。作者测试与分离检查结果见[v0.3 收尾](../../docs/归档/v0.3/开发/2026-10-05-v0.3收尾与验收.md)。本地结果在忽略的 `test-results/`，不覆盖归档验收证据。
+
+下列章节保留各阶段当时的证据与运行方式，外部 Playwright/未接线/旧 CI 状态不代表 v0.3 当前状态。
+
+## v0.3 B3 作者验证（2026-10-04，隔离工作区）
+
+先运行 `npm run build`，按下方通用说明配置外部 Playwright 和 Chrome。在仓库根目录运行：
+
+```powershell
+$env:CARDGRID_V3_OUTPUT='test-results/b3-2026-10-04/browser-recheck'
+node tests/browser/workspace-v3.mjs
+```
+
+脚本包含 7 组真实 IndexedDB 检查：只读/刷新与完整备份、双窗口生成/接受竞争和通知、生成/接受/归档事务中断、丢回复重放、归档事实与生命周期失效、显式 v2→v3 升级、生产构建升级页面。每组使用全新 context 与合成数据库，失败返回非零退出码并留截图。只运行构建产物的升级页面，其余用 Vite 加载真实 workspace-client/store 源码；未接入的新抽取页面属于 B4/A4，不能从这些结果推断整版验收通过。
+
+既有 `action-storage.mjs` 的清空断言改为新空白 Data v3；旧 v2 合成 fixture、精确恢复、多窗口、原子回滚等业务断言保持。完整结果和首次失败原因见 [B3 交接](../../docs/归档/v0.3/开发/2026-10-04-B3正式Host与事务.md)。
+
+## A4 制卡工坊层级验证（2026-10-04）
+
+先起一个 dev server（如 `npm run dev -- --port 5180 --strictPort`），再按下方通用说明配置 Playwright/Chrome，在仓库根目录另开终端运行：
+
+```powershell
+$env:CARDGRID_PLAYWRIGHT_MODULE='file:///C:/Users/arstot/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright/index.mjs'
+$env:CARDGRID_CHROME_PATH='C:\Program Files\Google\Chrome\Application\chrome.exe'
+$env:CARDGRID_DEV_ORIGIN='http://127.0.0.1:5180'
+node tests/browser/workshop-hierarchy.mjs
+```
+
+脚本在全新 context 内向默认库灌入含跨种类层级的合成 v3 数据，再驱动真实 App：面包屑、钻取、返回上层、编辑此池、＋子池预选父池；截图写入 `test-results/ws-hierarchy-2026-10-04`。真实用户数据不接触。
+
+## A3 中立矩阵/球面验证（2026-10-04）
+
+脚本自带 Vite（无需外部 dev server），经中间件页 `/__sphere` 加载挂架 `sphere-harness.tsx`（纯合成卡，不接 IDB/工作区）。运行：
+
+```powershell
+$env:CARDGRID_PLAYWRIGHT_MODULE='file:///C:/Users/arstot/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright/index.mjs'
+$env:CARDGRID_CHROME_PATH='C:\Program Files\Google\Chrome\Application\chrome.exe'
+$env:CARDGRID_A3_OUTPUT='test-results/a3-2026-10-04'   # 可选，默认系统临时目录
+node tests/browser/sphere-a3.mjs
+```
+
+6 组：抽取矩阵卡背且不渲染 front 文本；两次点击（选旋转中第 4 张 → 点前方卡翻开）id 一致、翻开前无 front 文本；键盘两步 Enter（第 7 张）；edit 模式矩阵/球面卡面；10/100/500 容量无页面错误；减动效静止。组件经 `src/shared/ui` 导出，不读工作区、不决定随机、不保存/消耗副本；正式接入抽卡会话属 B4.2。
+
 ## 当前G3回归入口（2026-10-02）
 
 G3已完成分离验收：默认Node220通过/1原有跳过，独立反例8/8，浏览器93/93。下文2B失败记录和G0入口均为历史，当前结论见[G3验收记录](../../docs/归档/阶段0-3/测试记录/G3-2026-10-02-有界修复与最终验收.md)。
@@ -34,7 +92,7 @@ node tests/browser/action-2g-annotation.mjs
 沿用下方 Playwright/Chrome 环境变量，在仓库根目录执行：
 
 ```powershell
-node --experimental-strip-types --test tests/modules/workspace/action-independent.test.ts
+node --experimental-strip-types --test tests/modules/daily/action-independent.test.ts
 node tests/browser/action-independent.mjs
 ```
 

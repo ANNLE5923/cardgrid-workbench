@@ -7,6 +7,7 @@ import { projectionAdapter, candidateFragments } from '../schedule/time-dial/pro
 import { TimeDial } from '../schedule/time-dial/TimeDial.tsx';
 import { usePlacementSession } from '../schedule/time-dial/use-placement-session.ts';
 import { HandFan } from '../hand/HandFan.tsx';
+import {handStackKey} from '../hand/stacking.ts';
 import type { DialItem } from '../schedule/time-dial/types.ts';
 
 type Dialog =
@@ -34,6 +35,7 @@ export function DayBoard(props: Readonly<{ client: WorkspaceClient; onChanged?: 
   const [viewCard, setViewCard] = useState<CardView | null>(null);
   const [titles, setTitles] = useState<Record<Id, string>>({});
   const [fixedTitles, setFixedTitles] = useState<Record<Id, string>>({});
+  const [handMeta, setHandMeta] = useState<Record<string,{key: string; sourceDate: string}>>({});
   const lock = useRef(false);
   const readSequence = useRef(0);
   const originView = useRef<{ date: string; focus: number; zone: string } | null>(null);
@@ -50,6 +52,7 @@ export function DayBoard(props: Readonly<{ client: WorkspaceClient; onChanged?: 
     const p = r.value.data.planner;
     setTitles(Object.fromEntries(p.instances.map(i => [i.id, i.currentContent.title])));
     setFixedTitles(Object.fromEntries(p.fixed.map(f => [f.id, f.title])));
+    setHandMeta(Object.fromEntries(p.instances.filter(i => i.daily).map(i => [i.id, {key: handStackKey(i, r.value.data!), sourceDate: i.daily!.sourceDate}])));
   }, [client]);
 
   // One-time init: take the zone from authoritative settings (explicit; no device zone) and today's date.
@@ -355,6 +358,7 @@ export function DayBoard(props: Readonly<{ client: WorkspaceClient; onChanged?: 
         {day ? (
           <HandFan
             hand={day.hand}
+            handMeta={handMeta}
             date={date}
             zone={zone}
             session={placement}

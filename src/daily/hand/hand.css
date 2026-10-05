@@ -1,5 +1,9 @@
 /* Hand fan: floating stacked cards. Cards stay in hand during preview; only a
    confirmed commit schedules them. Every drag has equivalent buttons. */
+.hand-stack-member {border-top: 1px solid var(--line); padding: 10px 0;}
+.hand-archive {border-top: 1px solid var(--line); padding: 12px 0; overflow-wrap: anywhere;}
+.hand-archive article {padding: 8px; margin: 8px 0; background: var(--soft); border-radius: 8px;}
+.fan-stack-count {position: absolute; right: 10px; top: 8px; border-radius: 12px; padding: 3px 8px; background: var(--accent); color: white; font-weight: bold;}
 .hand-fan {
   position: relative;
   min-height: 150px;

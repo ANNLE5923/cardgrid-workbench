@@ -8,7 +8,7 @@ import {hand,planned,confirmed,fixed,envelope,shanghai} from '../fixtures/action
 import {plannedRange} from '../../src/daily/schedule/time.ts';
 import {validateActionData} from '../../src/workspace/format.ts';
 const root=fileURLToPath(new URL('../../',import.meta.url));
-const out=path.join(root,'test-results','action-3g-final-extra');
+const out=path.join(process.env.CARDGRID_BROWSER_OUTPUT_ROOT||path.join(root,'test-results'),'action-3g-final-extra');
 await fs.mkdir(out,{recursive:true});
 const {chromium}=await import(process.env.CARDGRID_PLAYWRIGHT_MODULE);
 const server=await preview({root,configLoader:'native',preview:{host:'127.0.0.1',port:0,strictPort:false}});

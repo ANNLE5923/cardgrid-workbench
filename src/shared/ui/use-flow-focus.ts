@@ -1,14 +1,14 @@
 import { useEffect, useRef } from 'react';
 
 /** Keep keyboard interaction in a modal and restore the launch context on exit. */
-export function useFlowFocus(onEscape: () => void) {
+export function useFlowFocus(onEscape: () => void, returnFocus?: HTMLElement | null) {
   const rootRef = useRef<HTMLDivElement>(null);
   const escapeRef = useRef(onEscape);
   escapeRef.current = onEscape;
   useEffect(() => {
     const root = rootRef.current;
     if (!root) return;
-    const trigger = document.activeElement instanceof HTMLElement ? document.activeElement : null;
+    const trigger = returnFocus ?? (document.activeElement instanceof HTMLElement ? document.activeElement : null);
     const section = trigger?.closest('section');
     root.focus();
     const controls = () => Array.from(root.querySelectorAll<HTMLElement>('button, input, select, textarea, a[href], [tabindex]'))

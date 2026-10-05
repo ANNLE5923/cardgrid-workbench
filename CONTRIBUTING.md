@@ -12,6 +12,8 @@ npm run dev
 npm test
 npm run test:independent
 npm run build
+npx playwright install chromium
+npm run test:browser
 ```
 
 浏览器专项见[运行说明](tests/browser/README.md)。测试只使用隔离工作区与合成数据。

@@ -1,0 +1,22 @@
+{
+  "role": "independent read-only compatibility check",
+  "baseline": "ef71af30a9c9f7bfa8cca671ea87b160c6094c82",
+  "baselineFile": "src/workspace/format.ts",
+  "baselineSha256": "869a6d06f09e76580ab57cc5594fe24032a2f0da8232b72a19a3b6d6c637464a",
+  "importsRelocatedOnly": true,
+  "checks": [
+    {
+      "name": "previous format still accepts v2",
+      "status": "pass"
+    },
+    {
+      "name": "previous cached format refuses v3 envelope before writes",
+      "status": "pass"
+    },
+    {
+      "name": "previous cached format refuses v3 backup",
+      "status": "pass"
+    }
+  ],
+  "limitation": "Executes the original parser relocated to current unchanged shared helpers; it does not boot the entire historical browser bundle."
+}

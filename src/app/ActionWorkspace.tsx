@@ -1,5 +1,6 @@
-import {DrawPanel} from '../drawing/index.ts';
-import {HandPanel} from '../daily/index.ts';
+import {DrawPanel, ProductionDrawPanel} from '../drawing/index.ts';
+import type {WorkspaceDrawSession} from '../drawing/model.ts';
+import {HandPanel, ArchivePanel} from '../daily/index.ts';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import type { Command, Definition, Id, Instance, SubmitResult } from '../workspace/index.ts';
 import type { WorkspaceClient } from '../workspace/index.ts';
@@ -7,11 +8,11 @@ import type { WorkspaceSnapshot } from '../workspace/index.ts';
 import { DayBoard } from '../daily/index.ts';
 import '../shared/ui/action.css';
 
-type View = 'draw' | 'hand' | 'day';
+type View = 'draw' | 'hand' | 'day' | 'archive';
 type Notice = { kind: 'ok' | 'err'; text: string };
 type Offer = Definition | null | undefined; // undefined = not drawn yet, null = no eligible definition
 
-export function ActionHand({ client }: { client: WorkspaceClient }) {
+export function ActionHand({ client, drawing, onData }: { client: WorkspaceClient; drawing: WorkspaceDrawSession; onData: () => void }) {
   const [snap, setSnap] = useState<WorkspaceSnapshot | null>(null);
   const [view, setView] = useState<View>('draw');
   const [notice, setNotice] = useState<Notice | null>(null);
@@ -39,7 +40,8 @@ export function ActionHand({ client }: { client: WorkspaceClient }) {
   const hand: Instance[] = handOrder
     .map(id => instances.find(i => i.id === id))
     .filter((i): i is Instance => Boolean(i));
-  const withdrawn = instances.filter(i => i.state === 'withdrawn');
+  const archived = new Set(data?.version === 3 ? data.archiveLogs.flatMap(log => log.acceptedInstanceIds) : []);
+  const withdrawn = instances.filter(i => i.state === 'withdrawn' && !archived.has(i.id));
 
   async function run(type: Command['type'], payload: unknown): Promise<boolean> {
     if (lock.current || !snap) return false;
@@ -92,13 +94,16 @@ export function ActionHand({ client }: { client: WorkspaceClient }) {
           <button type="button" role="tab" aria-pressed={view === 'draw'} onClick={() => setView('draw')}>抽取建议</button>
           <button type="button" role="tab" aria-pressed={view === 'hand'} onClick={() => setView('hand')}>手牌（{hand.length}）</button>
           <button type="button" role="tab" aria-pressed={view === 'day'} onClick={() => setView('day')}>当日</button>
+          <button type="button" role="tab" aria-pressed={view === 'archive'} onClick={() => setView('archive')}>归档日志</button>
         </div>
       </div>
       {notice ? <div className="message action-notice" role="status"><span>{notice.text}</span><button aria-label="关闭提示" onClick={() => setNotice(null)}>×</button></div> : null}
       {readOnly ? <div className="message action-notice"><span>旧工作区只读：请先升级后再抽取或管理手牌。</span></div> : null}
 
-      {view === 'draw' && data ? <DrawPanel {...{categories,categoryId,minimum,offer,busy,readOnly,setCategoryId,setMinimum,setOffer,draw,accept}}/> : null}
-      {view === 'hand' && data ? <HandPanel {...{hand,withdrawn,busy,readOnly,move,withdraw,returnToHand}}/> : null}
+      {view === 'draw' && <ProductionDrawPanel drawing={drawing} onData={onData} onHand={() => setView('hand')}/>}
+      {view === 'draw' && data && data.planner.definitions.length > 0 ? <details><summary>已有行动定义抽取</summary><DrawPanel {...{categories,categoryId,minimum,offer,busy,readOnly,setCategoryId,setMinimum,setOffer,draw,accept}}/></details> : null}
+      {view === 'hand' && data ? <HandPanel {...{hand,withdrawn,data,busy,readOnly,move,withdraw,returnToHand}}/> : null}
+      {view === 'archive' && data ? <ArchivePanel data={data}/> : null}
       {view === 'day' ? <DayBoard client={client} onChanged={() => void reload()} /> : null}
     </div>
   );

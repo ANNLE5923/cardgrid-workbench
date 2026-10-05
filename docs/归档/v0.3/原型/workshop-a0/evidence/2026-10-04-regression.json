@@ -1,0 +1,29 @@
+{
+  "task": "A0 author regression",
+  "clientDate": "2026-10-04",
+  "node": "v24.19.0",
+  "scope": "Earlier production snapshot only. Another line changed production files after these checks. This is not current integrated acceptance.",
+  "npmTest": {
+    "passed": 226,
+    "failed": 0,
+    "skipped": 1
+  },
+  "existingIndependentCases": {
+    "passed": 8,
+    "role": "author rerun, not new independent acceptance",
+    "failed": 0
+  },
+  "productionBuild": {
+    "existingWarning": "Production chunk larger than 500 kB",
+    "passed": true
+  },
+  "protectedFilesAtCheck": {
+    "changed": 0,
+    "checked": 421
+  },
+  "logs": "test-results/workshop-a0/2026-10-04-regression-a0-1",
+  "a0ProductionCodeChanged": false,
+  "realDataAccessed": false,
+  "committed": false,
+  "pushed": false
+}

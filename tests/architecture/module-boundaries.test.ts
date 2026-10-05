@@ -12,7 +12,7 @@ const files=walk(source).filter(f=>/\.tsx?$/.test(f));
 const relative=(file:string)=>path.relative(source,file).replaceAll('\\','/');
 const owner=(file:string)=>relative(file).split('/')[0];
 const publicEntries=new Set([
-  'app/index.ts','workshop/index.ts','drawing/index.ts','drawing/model.ts',
+  'app/index.ts','workshop/index.ts','workshop/model.ts','drawing/index.ts','drawing/model.ts',
   'daily/index.ts','daily/model.ts','daily/time.ts','daily/projection.ts',
   'workspace/index.ts','workspace/codec.ts','workspace/legacy/index.ts','shared/ui/index.ts',
 ]);

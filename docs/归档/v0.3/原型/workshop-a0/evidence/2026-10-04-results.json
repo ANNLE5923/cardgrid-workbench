@@ -1,0 +1,172 @@
+{
+  "task": "A0",
+  "role": "author",
+  "syntheticOnly": true,
+  "productionPersistence": false,
+  "clientDate": "2026-10-04",
+  "at": "2026-10-04T07:46:18.358Z",
+  "browser": "157.0.8081.0",
+  "node": "v24.19.0",
+  "platform": "win32",
+  "viewport": "1280x960; 720/390/320x844",
+  "performanceNote": "Headless requestAnimationFrame intervals are local scheduling measurements, not display FPS or a capacity guarantee.",
+  "passed": 19,
+  "failed": 0,
+  "results": [
+    {
+      "id": "A01-matrix-and-layer-pause",
+      "status": "passed",
+      "observations": {
+        "result": "Matrix pauses under sphere; sphere pauses under detail; focus returns to the same card and pool."
+      }
+    },
+    {
+      "id": "A02-directory-depth-and-return",
+      "status": "passed",
+      "observations": {
+        "result": "Returning to the parent preserves its card order and focus."
+      }
+    },
+    {
+      "id": "A03-edit-only-in-memory",
+      "status": "passed",
+      "observations": {
+        "result": "Editing survives reopening, and refresh restores the synthetic source."
+      }
+    },
+    {
+      "id": "A04-two-clicks-same-card-and-no-leak",
+      "status": "passed",
+      "observations": {
+        "id": "action-walk-1"
+      }
+    },
+    {
+      "id": "A05-immediate-random-stable-and-manual-slot",
+      "status": "passed",
+      "observations": {
+        "immediateSelection": "book-6",
+        "result": "Selection survives rerender, cancelled nested selection and reopening the same card."
+      }
+    },
+    {
+      "id": "A06-optional-nested-sphere-return",
+      "status": "passed",
+      "observations": {
+        "result": "Optional book sphere returns the chosen term into the same action draft."
+      }
+    },
+    {
+      "id": "A07-cancel-does-not-create-hand",
+      "status": "passed",
+      "observations": {}
+    },
+    {
+      "id": "A08-repeat-accept-distinct-copies",
+      "status": "passed",
+      "observations": {
+        "ids": [
+          "sample-hand-1",
+          "sample-hand-2"
+        ]
+      }
+    },
+    {
+      "id": "A09-book-fields-and-empty-pool",
+      "status": "passed",
+      "observations": {}
+    },
+    {
+      "id": "A10-mode-switch-and-new-entry-shuffle",
+      "status": "passed",
+      "observations": {
+        "editOrder": "action-idea-7,action-reading-0,action-learn-9,action-desk-5,action-walk-1,action-focus-6,action-stretch-4,action-notes-2,action-water-8,action-review-3",
+        "switchedOrder": "action-reading-0,action-notes-2,action-desk-5,action-review-3,action-water-8,action-idea-7,action-learn-9,action-walk-1,action-focus-6,action-stretch-4",
+        "reenteredOrder": "action-learn-9,action-notes-2,action-desk-5,action-focus-6,action-review-3,action-stretch-4,action-idea-7,action-walk-1,action-water-8,action-reading-0"
+      }
+    },
+    {
+      "id": "A11-keyboard-trap-and-return",
+      "status": "passed",
+      "observations": {}
+    },
+    {
+      "id": "A12-responsive-720",
+      "status": "passed",
+      "observations": {
+        "layout": {
+          "width": 720,
+          "listByDefault": false,
+          "dialogWidth": 450
+        }
+      }
+    },
+    {
+      "id": "A12-responsive-390",
+      "status": "passed",
+      "observations": {
+        "layout": {
+          "width": 390,
+          "listByDefault": true,
+          "dialogWidth": 350,
+          "optionalSphere": "static; all ten sample cards fit the viewport"
+        }
+      }
+    },
+    {
+      "id": "A12-responsive-320",
+      "status": "passed",
+      "observations": {
+        "layout": {
+          "width": 320,
+          "listByDefault": true,
+          "dialogWidth": 280,
+          "optionalSphere": "static; all ten sample cards fit the viewport"
+        }
+      }
+    },
+    {
+      "id": "A13-system-reduced-motion",
+      "status": "passed",
+      "observations": {}
+    },
+    {
+      "id": "A14-today-and-subordinate-archive-entry",
+      "status": "passed",
+      "observations": {}
+    },
+    {
+      "id": "A15-density-10",
+      "status": "passed",
+      "observations": {
+        "openMilliseconds": 65,
+        "frameMedianMilliseconds": 4.2,
+        "frameP95Milliseconds": 4.3,
+        "estimatedMedianFPS": 238.1,
+        "result": "All sample cards are reachable via the static list. Measurements are local evidence, not a production capacity promise."
+      }
+    },
+    {
+      "id": "A15-density-100",
+      "status": "passed",
+      "observations": {
+        "openMilliseconds": 120,
+        "frameMedianMilliseconds": 7.4,
+        "frameP95Milliseconds": 8.5,
+        "estimatedMedianFPS": 135.1,
+        "result": "All sample cards are reachable via the static list. Measurements are local evidence, not a production capacity promise."
+      }
+    },
+    {
+      "id": "A15-density-500",
+      "status": "passed",
+      "observations": {
+        "openMilliseconds": 260,
+        "frameMedianMilliseconds": 25.1,
+        "frameP95Milliseconds": 33.4,
+        "estimatedMedianFPS": 39.8,
+        "result": "All sample cards are reachable via the static list. Measurements are local evidence, not a production capacity promise."
+      }
+    }
+  ]
+}

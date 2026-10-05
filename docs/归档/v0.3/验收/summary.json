@@ -1,0 +1,285 @@
+{
+  "role": "independent read-only acceptance",
+  "at": "2026-10-05T01:10:23.382Z",
+  "decision": "recommend-pass-G-V03",
+  "baseline": "ef71af30a9c9f7bfa8cca671ea87b160c6094c82",
+  "freeze": {
+    "role": "independent read-only acceptance",
+    "phase": "after",
+    "manifestSha256": "582044a3d05c0f75c4a67ae5a7f1313b5ba4a7d7a24627e09144d6054a7cb17f",
+    "files": 284,
+    "changed": []
+  },
+  "node": {
+    "file": "final-npm-test.txt",
+    "tests": 349,
+    "pass": 348,
+    "fail": 0,
+    "skipped": 1
+  },
+  "legacyIndependent": {
+    "file": "final-old-independent.txt",
+    "tests": 8,
+    "pass": 8,
+    "fail": 0,
+    "skipped": 0
+  },
+  "independentCore": {
+    "file": "final-core.txt",
+    "tests": 17,
+    "pass": 17,
+    "fail": 0,
+    "skipped": 0
+  },
+  "compatibility": {
+    "passed": 3,
+    "total": 3,
+    "file": "baseline-compatibility.json",
+    "limitation": "Executes the original parser relocated to current unchanged shared helpers; it does not boot the entire historical browser bundle."
+  },
+  "build": {
+    "passed": true,
+    "modules": 113,
+    "file": "final-build.txt",
+    "artifacts": [
+      {
+        "file": "index.html",
+        "bytes": 603,
+        "sha256": "81a57faf1890ecbfa031d88c4112dfbc0dc7514e489867bbd8db5ac63730f16c"
+      },
+      {
+        "file": "sw.js",
+        "bytes": 771,
+        "sha256": "ed09e7c3e98c3c9ca32b1a0e58461512e171e68dd99b80d1503194b756eb06b7"
+      },
+      {
+        "file": "assets/index-DSKGEWml.js",
+        "bytes": 689588,
+        "sha256": "c359df2d7eb911f6408431a4a6d318e2238855fb649854b09e3189e0f99eb316"
+      },
+      {
+        "file": "assets/index-DtKUwT9N.css",
+        "bytes": 37904,
+        "sha256": "ab64cd9610c4cfdb1308c20a9bee5ddd35ff46fdbeabab66e50d4f6f8b85224a"
+      }
+    ]
+  },
+  "originalBrowserGate": {
+    "total": 138,
+    "passed": 138,
+    "failed": 0,
+    "groups": [
+      {
+        "name": "v03-closure",
+        "file": "gates/v03-closure/results.json",
+        "total": 17,
+        "passed": 17,
+        "failed": 0
+      },
+      {
+        "name": "workspace-v3",
+        "file": "gates/workspace-v3/browser-results.json",
+        "total": 7,
+        "passed": 7,
+        "failed": 0
+      },
+      {
+        "name": "action-storage",
+        "file": "gates/action-storage/results.json",
+        "total": 14,
+        "passed": 14,
+        "failed": 0
+      },
+      {
+        "name": "sphere-a3",
+        "file": "gates/sphere-a3/a3-results.json",
+        "total": 6,
+        "passed": 6,
+        "failed": 0
+      },
+      {
+        "name": "workshop-hierarchy",
+        "file": "final-browser-gate.txt",
+        "screenshots": "gates/workshop-hierarchy",
+        "total": 1,
+        "passed": 1,
+        "failed": 0
+      },
+      {
+        "name": "action-3g-gate-main",
+        "file": "gates/action-3g-gate-main/browser-results.json",
+        "total": 30,
+        "passed": 30,
+        "failed": 0
+      },
+      {
+        "name": "action-3g-gate-supplement",
+        "file": "gates/action-3g-gate-supplement/supplement-results.json",
+        "total": 8,
+        "passed": 8,
+        "failed": 0
+      },
+      {
+        "name": "action-3g-gate-additional",
+        "file": "gates/action-3g-gate-additional/additional-browser-results.json",
+        "total": 8,
+        "passed": 8,
+        "failed": 0
+      },
+      {
+        "name": "action-3g-final-extra",
+        "file": "gates/action-3g-final-extra/production-extra.json",
+        "total": 6,
+        "passed": 6,
+        "failed": 0
+      },
+      {
+        "name": "action-3g-hook-faults",
+        "file": "gates/action-3g-hook-faults/hook-faults.json",
+        "total": 10,
+        "passed": 10,
+        "failed": 0
+      },
+      {
+        "name": "action-3g-readonly-edges",
+        "file": "gates/action-3g-readonly-edges/edge-results.json",
+        "total": 3,
+        "passed": 3,
+        "failed": 0
+      },
+      {
+        "name": "action-2g",
+        "file": "gates/action-2g/results.json",
+        "total": 13,
+        "passed": 13,
+        "failed": 0
+      },
+      {
+        "name": "action-2g-closure",
+        "file": "gates/action-2g-closure/results.json",
+        "total": 7,
+        "passed": 7,
+        "failed": 0
+      },
+      {
+        "name": "action-2g-save-failures",
+        "file": "gates/action-2g-save-failures/results.json",
+        "total": 6,
+        "passed": 6,
+        "failed": 0
+      },
+      {
+        "name": "action-2g-annotation",
+        "file": "gates/action-2g-annotation/results.json",
+        "total": 2,
+        "passed": 2,
+        "failed": 0
+      }
+    ],
+    "file": "final-browser-gate.txt"
+  },
+  "independentBrowser": {
+    "total": 7,
+    "passed": 7,
+    "failed": 0,
+    "file": "browser-evidence/results.json",
+    "cases": [
+      {
+        "name": "I-V03-01-real-idb-accept-and-archive-abort-are-atomic",
+        "status": "pass",
+        "durationMs": 757,
+        "detail": {
+          "acceptAbort": true,
+          "archiveAbort": true,
+          "receipts": 8
+        }
+      },
+      {
+        "name": "I-V03-02-two-pages-reject-stale-and-lost-reply-does-not-duplicate",
+        "status": "pass",
+        "durationMs": 732,
+        "detail": {
+          "stale": "REVISION_CONFLICT",
+          "replayed": true,
+          "instances": 1
+        }
+      },
+      {
+        "name": "I-V03-03-production-selector-fixes-choice-immediately-and-cancel-writes-no-action",
+        "status": "pass",
+        "durationMs": 1200,
+        "detail": {
+          "randomFirst": true,
+          "fixed": "book:ind-book-b",
+          "cancelInstances": 0
+        }
+      },
+      {
+        "name": "I-V03-04-production-sphere-locks-exact-card-and-keyboard-escape-restores-trigger",
+        "status": "pass",
+        "durationMs": 988,
+        "detail": {
+          "id": "ind-browser-17-3fc8b182-f4b9-441a-8faf-fd82c3cc86dd",
+          "front": "阅读《{书名}》",
+          "cancelInstances": 0
+        }
+      },
+      {
+        "name": "I-V03-05-320px-reduced-motion-uses-static-two-step-list-and-no-overflow",
+        "status": "pass",
+        "durationMs": 864,
+        "detail": {
+          "staticList": true,
+          "count": 2,
+          "width": 320,
+          "scroll": 320
+        }
+      },
+      {
+        "name": "I-V03-06-distinct-source-dates-stack-as-display-only-and-one-withdraw-leaves-other-instances",
+        "status": "pass",
+        "durationMs": 1556,
+        "detail": {
+          "sourceDates": [
+            "2026-10-03",
+            "2026-10-04",
+            "2026-10-05"
+          ],
+          "withdrawn": "7af89241-fd45-4803-91c6-9796b98db34e",
+          "remaining": 2
+        }
+      },
+      {
+        "name": "I-V03-07-visible-v3-rule-midnight-generates-once-and-archives-due-with-browsed-date-independent",
+        "status": "pass",
+        "durationMs": 1084,
+        "detail": {
+          "viewDate": "2026-10-06",
+          "sourceDates": [
+            "2026-10-09",
+            "2026-10-10"
+          ],
+          "archived": "2026-10-03",
+          "newDayLedger": 1,
+          "duplicateWrites": 0
+        }
+      }
+    ]
+  },
+  "openBlockingFindings": [],
+  "closedFinding": {
+    "id": "I-V03-R01",
+    "priority": "P2",
+    "description": "Duplicate slot labels previously saved unusable frozen candidates",
+    "regression": "N-V03-17",
+    "state": "closed"
+  },
+  "evidenceRoutingOnly": "evidence-paths.mjs changes only per-child CARDGRID_2G_OUTPUT; all original source and assertions hash-verified",
+  "limitations": [
+    "Physical touch devices not exercised",
+    "Real private-data migration/recovery not performed; synthetic real-IDB transactions were tested",
+    "Seven calendar dates tested via clock/domain, not seven consecutive real-use days",
+    "Previous parser executed; entire historical production browser bundle not booted",
+    "Visual preferences remain user decisions"
+  ]
+}
