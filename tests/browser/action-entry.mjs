@@ -30,7 +30,8 @@ try {
   await test('production-open-date-navigation-explicit-prepare-and-capture', async context => {
     const page = await context.newPage(); await page.goto(origin); await waitUI(page);
     assert.equal((await raw(page)).current, null);
-    await page.getByRole('button', { name: '查看后一天' }).click(); await page.getByRole('button', { name: '查看前一天' }).click();
+    const dateInput=page.getByLabel('日期',{exact:true});await page.locator('.dial-svg').waitFor();const originalDate=await dateInput.inputValue();
+    await dateInput.fill('2026-10-06');await dateInput.fill(originalDate);
     await page.getByRole('button', { name: 'Schedule', exact: false }).first().click();
     assert.equal((await raw(page)).current, null);
     assert.equal(await page.getByRole('group', { name: '旧版页面只读' }).locator('button:enabled').count(), 0);

@@ -20,7 +20,7 @@ const ctx=await browser.newContext({timezoneId:'Asia/Shanghai',serviceWorkers:'b
 try{
 const p=await ctx.newPage();await p.goto(origin);await p.getByRole('button',{name:'重新载入',exact:true}).waitFor();
 await p.evaluate(async v=>{const db=await new Promise((res,rej)=>{const r=indexedDB.open('cardgrid-workspace',3);r.onsuccess=()=>res(r.result);r.onerror=()=>rej(r.error);});await new Promise((res,rej)=>{const t=db.transaction('workspace','readwrite');t.objectStore('workspace').put(v,'current');t.oncomplete=res;t.onabort=()=>rej(t.error);});db.close();},envelope(hand()));
-await p.reload();await p.locator('nav').getByText('抽卡手牌').click();await p.getByRole('tab',{name:'当日',exact:true}).click();await p.getByLabel('日期',{exact:true}).fill('2026-09-28');await p.locator('.dial-svg').waitFor();await p.locator('.fan-card').waitFor();
+await p.reload();await p.locator('nav').getByText('抽卡手牌').click();await p.getByRole('button',{name:'当日',exact:true}).click();await p.getByLabel('日期',{exact:true}).fill('2026-09-28');await p.locator('.dial-svg').waitFor();await p.locator('.fan-card').waitFor();
 console.log(JSON.stringify({text:await p.locator('body').innerText(),dial:await p.locator('.dial-svg').boundingBox(),card:await p.locator('.fan-card').boundingBox(),scroll:await p.evaluate(()=>({x:scrollX,y:scrollY,innerWidth,scrollWidth:document.documentElement.scrollWidth}))}));
 await p.screenshot({path:path.join(out,'initial-desktop.png'),fullPage:true});
 }finally{await ctx.close();await browser.close();await new Promise(res=>server.httpServer.close(res));}

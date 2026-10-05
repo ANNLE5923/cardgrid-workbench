@@ -3,6 +3,7 @@
 .action-workbar{display:flex;justify-content:space-between;align-items:flex-end;gap:18px;margin-bottom:20px;flex-wrap:wrap}
 .action-workbar h1{margin:0 0 6px;font-size:26px}
 .action-workbar .sub{font-size:12px;color:var(--muted);margin:0}
+.action-viewnav{display:flex;align-items:center;gap:8px;flex-wrap:wrap;max-width:100%;min-width:0}
 .action-viewtabs{display:flex;gap:4px;background:var(--soft);padding:4px;border-radius:9px;width:max-content}
 .action-viewtabs button{background:transparent;border-color:transparent;font-size:13px}
 .action-viewtabs button[aria-pressed=true]{background:var(--surface);border-color:var(--line)}

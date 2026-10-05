@@ -28,7 +28,7 @@ async function seed(p,kind='hand'){
  const template={id:'monday',version:1,name:'合成固定模板',weekdays:[1],source:{kind:'manual'},entries:[{id:'x',title:'固定甲',start:'09:15',elapsedMinutes:30,definitionId:null},{id:'y',title:'固定乙',start:'10:00',elapsedMinutes:30,definitionId:null}]};
  await submit('SaveTemplate',{template,expectedVersion:null},'seed-template');await submit('PrepareDay',{date:'2026-09-28',zone:'Asia/Shanghai',templateId:'monday'},'seed-day');c.close();}else s.close();
  },kind);
- await p.reload({waitUntil:'networkidle'});await p.locator('nav').getByText('抽卡手牌').click();await p.getByRole('tab',{name:'当日',exact:true}).click();await p.getByLabel('日期',{exact:true}).fill('2026-09-28');
+ await p.reload({waitUntil:'networkidle'});await p.locator('nav').getByText('抽卡手牌').click();await p.getByRole('button',{name:'当日',exact:true}).click();await p.getByLabel('日期',{exact:true}).fill('2026-09-28');
  await p.getByLabel('时区',{exact:true}).fill('Asia/Shanghai');await p.locator('.dayboard-row').first().waitFor();
 }
 async function actual(p){await row(p,'独立合成行动').getByRole('button',{name:'确认实际',exact:true}).click();const dlg=p.getByRole('dialog',{name:'确认实际发生'});await dlg.waitFor();await dlg.locator('.flow-actualrange').waitFor();return dlg;}

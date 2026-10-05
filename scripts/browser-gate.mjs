@@ -4,7 +4,7 @@ import path from 'node:path';
 import {fileURLToPath} from 'node:url';
 const root=fileURLToPath(new URL('../',import.meta.url));
 const scripts=[
-  'v03-closure','workspace-v3','action-storage','sphere-a3','workshop-hierarchy',
+  'today-entry','v03-closure','workspace-v3','action-storage','sphere-a3','workshop-hierarchy',
   'action-3g-gate-main','action-3g-gate-supplement','action-3g-gate-additional',
   'action-3g-final-extra','action-3g-hook-faults','action-3g-readonly-edges',
   'action-2g','action-2g-closure','action-2g-save-failures','action-2g-annotation',

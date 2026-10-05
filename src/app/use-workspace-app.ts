@@ -16,6 +16,7 @@ export function useWorkspaceApp(){
  const [snapshot,setSnapshot]=useState<WorkspaceSnapshot|null>(null),current=useRef<WorkspaceSnapshot|null>(null);
  const [fatal,setFatal]=useState(''),[message,setMessage]=useState(''),[tab,setTab]=useState<TabId>('agenda');
  const [templateId,setTemplateId]=useState('');
+ const [preparationRevision,setPreparationRevision]=useState(0);
  const [date,setDate]=useState(dateKey()),[zone,setZone]=useState(Intl.DateTimeFormat().resolvedOptions().timeZone),[day,setDay]=useState<ProductionDayView|null>(null);
  const [draft,setDraft]=useState<ConfigV2|ConfigV3|null>(null),[json,setJson]=useState(''),[baseline,setBaseline]=useState(''),[editor,setEditor]=useState<'form'|'json'>('form');
  const [busy,setBusy]=useState(false),[backup,setBackup]=useState<BackupPreparation|null>(null),[saved,setSaved]=useState(false),[discard,setDiscard]=useState(false),[resetText,setResetText]=useState('');
@@ -53,7 +54,7 @@ export function useWorkspaceApp(){
  useEffect(()=>{const unload=(event:BeforeUnloadEvent)=>{if(dirty){event.preventDefault();event.returnValue='';}};window.addEventListener('beforeunload',unload);return()=>window.removeEventListener('beforeunload',unload);},[dirty]);
  async function submit(command:Command){if(lock.current)return false;lock.current=true;setBusy(true);retry.current=command;
   try{const response=await client.submit(command);if(!response.ok){setMessage(response.message);if(response.retry!=='same-command')retry.current=null;if(response.code==='WORKSPACE_REPLACED')await reload();return false;}
-   await reload();setMessage('已保存到本机');return true;
+   await reload();if(command.type==='PrepareDay')setPreparationRevision(value=>value+1);setMessage('已保存到本机');return true;
   }finally{lock.current=false;setBusy(false);}
  }
  function command(type:Command['type'],payload:unknown){if(!snapshot)return Promise.resolve(false);return submit({commandId:crypto.randomUUID(),expected:snapshot.token,type,payload} as Command);}
@@ -89,5 +90,5 @@ export function useWorkspaceApp(){
   }
  }catch(error){setMessage((error as Error).message);}}
 
- return {client,drawing,workshopHost,snapshot,fatal,message,setMessage,tab,setTab,templateId,setTemplateId,date,setDate,zone,setZone,day,draft,setDraft,json,setJson,baseline,editor,setEditor,busy,backup,saved,setSaved,discard,setDiscard,resetText,setResetText,pending,setPending,fileText,merge,setMerge,recovery,readonlyPaths,setReadonlyPaths,offsets,setOffsets,capture,setCapture,file,retry,dirty,reload,submit,command,prepareBackup,previewFile,migration,execute,navigation,stepDate,changeSettings,saveSettings};
+ return {client,drawing,workshopHost,snapshot,fatal,message,setMessage,tab,setTab,templateId,setTemplateId,preparationRevision,date,setDate,zone,setZone,day,draft,setDraft,json,setJson,baseline,editor,setEditor,busy,backup,saved,setSaved,discard,setDiscard,resetText,setResetText,pending,setPending,fileText,merge,setMerge,recovery,readonlyPaths,setReadonlyPaths,offsets,setOffsets,capture,setCapture,file,retry,dirty,reload,submit,command,prepareBackup,previewFile,migration,execute,navigation,stepDate,changeSettings,saveSettings};
 }

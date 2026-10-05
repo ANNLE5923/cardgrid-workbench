@@ -5,14 +5,13 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import type { Command, Definition, Id, Instance, SubmitResult } from '../workspace/index.ts';
 import type { WorkspaceClient } from '../workspace/index.ts';
 import type { WorkspaceSnapshot } from '../workspace/index.ts';
-import { DayBoard } from '../daily/index.ts';
 import '../shared/ui/action.css';
 
-type View = 'draw' | 'hand' | 'day' | 'archive';
+type View = 'draw' | 'hand' | 'archive';
 type Notice = { kind: 'ok' | 'err'; text: string };
 type Offer = Definition | null | undefined; // undefined = not drawn yet, null = no eligible definition
 
-export function ActionHand({ client, drawing, onData }: { client: WorkspaceClient; drawing: WorkspaceDrawSession; onData: () => void }) {
+export function ActionHand({ client, drawing, onData, onToday }: { client: WorkspaceClient; drawing: WorkspaceDrawSession; onData: () => void; onToday: () => void }) {
   const [snap, setSnap] = useState<WorkspaceSnapshot | null>(null);
   const [view, setView] = useState<View>('draw');
   const [notice, setNotice] = useState<Notice | null>(null);
@@ -90,21 +89,22 @@ export function ActionHand({ client, drawing, onData }: { client: WorkspaceClien
           <h1>抽卡与手牌</h1>
           <p className="sub">抽取只给建议，不占时间、不生成事实；接受后行动进入手牌，由你安排。</p>
         </div>
-        <div className="action-viewtabs" role="tablist" aria-label="抽卡手牌视图">
-          <button type="button" role="tab" aria-pressed={view === 'draw'} onClick={() => setView('draw')}>抽取建议</button>
-          <button type="button" role="tab" aria-pressed={view === 'hand'} onClick={() => setView('hand')}>手牌（{hand.length}）</button>
-          <button type="button" role="tab" aria-pressed={view === 'day'} onClick={() => setView('day')}>当日</button>
-          <button type="button" role="tab" aria-pressed={view === 'archive'} onClick={() => setView('archive')}>归档日志</button>
+        <div className="action-viewnav">
+          <div className="action-viewtabs" role="tablist" aria-label="抽卡手牌视图">
+            <button type="button" role="tab" aria-pressed={view === 'draw'} onClick={() => setView('draw')}>抽取建议</button>
+            <button type="button" role="tab" aria-pressed={view === 'hand'} onClick={() => setView('hand')}>手牌（{hand.length}）</button>
+            <button type="button" role="tab" aria-pressed={view === 'archive'} onClick={() => setView('archive')}>归档日志</button>
+          </div>
+          <button type="button" onClick={onToday}>当日</button>
         </div>
       </div>
       {notice ? <div className="message action-notice" role="status"><span>{notice.text}</span><button aria-label="关闭提示" onClick={() => setNotice(null)}>×</button></div> : null}
       {readOnly ? <div className="message action-notice"><span>旧工作区只读：请先升级后再抽取或管理手牌。</span></div> : null}
 
-      {view === 'draw' && <ProductionDrawPanel drawing={drawing} onData={onData} onHand={() => setView('hand')}/>}
+      {view === 'draw' && <ProductionDrawPanel drawing={drawing} onData={onData} onHand={() => setView('hand')} onToday={onToday}/>}
       {view === 'draw' && data && data.planner.definitions.length > 0 ? <details><summary>已有行动定义抽取</summary><DrawPanel {...{categories,categoryId,minimum,offer,busy,readOnly,setCategoryId,setMinimum,setOffer,draw,accept}}/></details> : null}
       {view === 'hand' && data ? <HandPanel {...{hand,withdrawn,data,busy,readOnly,move,withdraw,returnToHand}}/> : null}
       {view === 'archive' && data ? <ArchivePanel data={data}/> : null}
-      {view === 'day' ? <DayBoard client={client} onChanged={() => void reload()} /> : null}
     </div>
   );
 }

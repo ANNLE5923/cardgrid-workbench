@@ -22,8 +22,23 @@ const endLabel = (r: RecordedRange) => r.localEnd;
 // localStart is a PlainDateTime "YYYY-MM-DDTHH:mm"; split it into date and minute inputs.
 const splitLocal = (s: string) => { const [d, t] = s.split('T'); return { date: d, time: t }; };
 
-export function DayBoard(props: Readonly<{ client: WorkspaceClient; onChanged?: () => void }>) {
-  const { client, onChanged } = props;
+export type DayBoardView = Readonly<{
+  date: string;
+  zone: string;
+  focusTime: string;
+  followNow: boolean;
+}>;
+
+export function DayBoard(props: Readonly<{
+  client: WorkspaceClient;
+  preparationRevision?: number;
+  initialView?: DayBoardView;
+  onViewChange?: (view: DayBoardView) => void;
+}>) {
+  const { client, preparationRevision } = props;
+  const initialView = useRef(props.initialView).current;
+  const onViewChange = useRef(props.onViewChange);
+  onViewChange.current = props.onViewChange;
   const [zone, setZone] = useState('');
   const [date, setDate] = useState('');
   const [focusTime, setFocusTime] = useState(toTime(540));
@@ -38,12 +53,13 @@ export function DayBoard(props: Readonly<{ client: WorkspaceClient; onChanged?: 
   const [handMeta, setHandMeta] = useState<Record<string,{key: string; sourceDate: string}>>({});
   const lock = useRef(false);
   const readSequence = useRef(0);
+  const tokenRef = useRef<Token | null>(null);
   const originView = useRef<{ date: string; focus: number; zone: string } | null>(null);
   const [landingNotice, setLandingNotice] = useState<string | null>(null);
   const [unlockTarget, setUnlockTarget] = useState<ProductionDayView['fixed'][number] | null>(null);
   // D024: focus follows now until the user moves it manually; reset-now resumes following.
-  const [followNow, setFollowNow] = useState(true);
-  const followRef = useRef(true);
+  const [followNow, setFollowNow] = useState(initialView?.followNow ?? true);
+  const followRef = useRef(followNow);
   followRef.current = followNow;
 
   const loadMeta = useCallback(async () => {
@@ -55,20 +71,25 @@ export function DayBoard(props: Readonly<{ client: WorkspaceClient; onChanged?: 
     setHandMeta(Object.fromEntries(p.instances.filter(i => i.daily).map(i => [i.id, {key: handStackKey(i, r.value.data!), sourceDate: i.daily!.sourceDate}])));
   }, [client]);
 
-  // One-time init: take the zone from authoritative settings (explicit; no device zone) and today's date.
+  // The app may restore a manual browsing session. Following now resumes at the real current instant.
   useEffect(() => {
     let alive = true;
     void client.load().then(r => {
       if (!alive) return;
       if (!r.ok) { setError(r.message); return; }
-      const z = r.value.data?.settings.zone ?? 'UTC';
+      tokenRef.current = r.value.token;
+      const z = initialView?.zone ?? r.value.data?.settings.zone ?? 'UTC';
       const nowIso = new Date().toISOString();
       setZone(z);
-      setDate(dateAt(nowIso, z));
-      setFocusTime(toTime(displayInstant(nowIso, z).minute)); // D024: start at now
+      setDate(initialView && !initialView.followNow ? initialView.date : dateAt(nowIso, z));
+      setFocusTime(initialView && !initialView.followNow ? initialView.focusTime : toTime(displayInstant(nowIso, z).minute));
     });
     return () => { alive = false; };
-  }, [client]);
+  }, [client, initialView]);
+
+  useEffect(() => {
+    if (date && zone) onViewChange.current?.({ date, zone, focusTime, followNow });
+  }, [date, zone, focusTime, followNow]);
 
   const reloadDay = useCallback(async () => {
     if (!zone || !date) return;
@@ -79,7 +100,9 @@ export function DayBoard(props: Readonly<{ client: WorkspaceClient; onChanged?: 
     if (r.ok) setDay(r.value); else setError(r.message);
   }, [client, zone, date, loadMeta]);
 
-  useEffect(() => { void reloadDay(); }, [reloadDay]);
+  // PrepareDay is submitted by the app. Other local writes refresh their own
+  // projection once; a second subscription refresh can remove the focus target.
+  useEffect(() => { void reloadDay(); }, [reloadDay, preparationRevision]);
 
   // D024/B25: detect the real date crossing midnight. Following now advances the view;
   // manual mode keeps the viewed date and only shows a "new day" notice.
@@ -124,7 +147,6 @@ export function DayBoard(props: Readonly<{ client: WorkspaceClient; onChanged?: 
   // React to authoritative changes: an epoch replacement must discard this
   // component's local dialog / unlock choices, since they belong to the old
   // workspace; a same-epoch external revision only refreshes the projection.
-  const tokenRef = useRef<Token | null>(null);
   useEffect(() => {
     let alive = true;
     const sync = async (external: boolean) => {
@@ -165,7 +187,7 @@ export function DayBoard(props: Readonly<{ client: WorkspaceClient; onChanged?: 
     const r = await client.submit(cmd);
     setBusy(false); lock.current = false;
     if (!r.ok) { setError(r.message); return false; }
-    await reloadDay(); onChanged?.(); return true;
+    await reloadDay(); return true;
   }
 
   const focus = fromTime(focusTime);
@@ -323,7 +345,7 @@ export function DayBoard(props: Readonly<{ client: WorkspaceClient; onChanged?: 
     const r = await client.submit(cmd);
     setBusy(false); lock.current = false;
     if (!r.ok) { setError(r.message); return; }
-    await reloadDay(); onChanged?.();
+    await reloadDay();
   }
 
   return (
@@ -370,7 +392,7 @@ export function DayBoard(props: Readonly<{ client: WorkspaceClient; onChanged?: 
             onView={c => { cancelPlacement(); setViewCard(c); }}
             onPlace={c => placeHand(c)}
             onRecordActual={c => recordActualUnplanned(c)}
-            onCommitted={async () => { const savedDate = placement.state.date; originView.current = null; setLandingNotice(null); if (savedDate !== date) await showLanding(savedDate, placementMinute); else await reloadDay(); onChanged?.(); }}
+            onCommitted={async () => { const savedDate = placement.state.date; originView.current = null; setLandingNotice(null); if (savedDate !== date) await showLanding(savedDate, placementMinute); else await reloadDay(); }}
           />
         ) : null}
       </section>
@@ -416,13 +438,13 @@ export function DayBoard(props: Readonly<{ client: WorkspaceClient; onChanged?: 
 
       <section>
         <div className="sectiontitle"><h2>事实（{day?.facts.length ?? 0}）</h2></div>
-        {day ? <FactThread client={client} facts={day.facts} zone={zone} onChanged={() => { void reloadDay(); onChanged?.(); }} /> : null}
+        {day ? <FactThread client={client} facts={day.facts} zone={zone} onChanged={() => { void reloadDay(); }} /> : null}
       </section>
 
       {dialog?.kind === 'place' ? (
         <PlacementDialog client={client} subject={dialog.subject} date={dialog.date} zone={dialog.zone}
           initialFocusMinuteOfDay={dialog.focus}
-          onCommitted={async () => { const savedDate = dialog.date; originView.current = null; setLandingNotice(null); if (savedDate !== date) await showLanding(savedDate, dialog.focus); else await reloadDay(); setDialog(null); onChanged?.(); }}
+          onCommitted={async () => { const savedDate = dialog.date; originView.current = null; setLandingNotice(null); if (savedDate !== date) await showLanding(savedDate, dialog.focus); else await reloadDay(); setDialog(null); }}
           onClose={() => { setDialog(null); restoreOrigin(); }} />
       ) : null}
       {dialog?.kind === 'actual' ? (
@@ -430,7 +452,7 @@ export function DayBoard(props: Readonly<{ client: WorkspaceClient; onChanged?: 
           instanceId={dialog.instanceId} instanceVersion={dialog.instanceVersion} planned={dialog.planned}
           initialStart={dialog.start}
           initialEnd={dialog.end}
-          onConfirmed={async () => { await reloadDay(); setDialog(null); onChanged?.(); }}
+          onConfirmed={async () => { await reloadDay(); setDialog(null); }}
           onClose={() => setDialog(null)} />
       ) : null}
       {viewCard ? (

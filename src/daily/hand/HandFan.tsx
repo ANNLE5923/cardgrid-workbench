@@ -233,7 +233,7 @@ export function HandFan(props: Readonly<{
             />
           ))
         ) : (
-          <p className="empty-hint">手牌为空。去“收件箱”把待办加入手牌。</p>
+          <p className="empty-hint">手牌为空。去抽卡接受一张行动，再回来安排。</p>
         )}
       </div>
 

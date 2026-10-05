@@ -4,7 +4,7 @@ import {Sphere} from '../../shared/ui/index.ts';
 import {SlotPicker} from './SlotPicker.tsx';
 import './production-draw.css';
 
-export function ProductionDrawPanel({drawing, onData, onHand}: {drawing: WorkspaceDrawSession; onData: () => void; onHand: () => void}) {
+export function ProductionDrawPanel({drawing, onData, onHand, onToday}: {drawing: WorkspaceDrawSession; onData: () => void; onHand: () => void; onToday?: () => void}) {
   const state = useSyncExternalStore(drawing.subscribe, drawing.getSnapshot);
   const [sphereOpen, setSphereOpen] = useState(false);
   const sphereTrigger = useRef<HTMLElement | null>(null);
@@ -49,7 +49,7 @@ export function ProductionDrawPanel({drawing, onData, onHand}: {drawing: Workspa
         <p className="production-draw-result">组合文字：<strong>{state.preview?.composedText ?? '正在预览…'}</strong></p>
         <button type="button" className="primary" disabled={disabled || !state.preview?.ready} onClick={() => void drawing.accept()}>{state.status === 'submitting' ? '正在保存…' : '接受，加入手牌'}</button>
       </div>}
-      {state.status === 'success' && <button type="button" onClick={onHand}>查看手牌</button>}
+      {state.status === 'success' && <><button type="button" onClick={onHand}>查看手牌</button>{onToday && <button type="button" className="primary" onClick={onToday}>返回 Today 安排</button>}</>}
       {state.session.deck.length > 0 && <button type="button" disabled={state.status === 'submitting' || state.canRetry} onClick={drawing.cancel}>取消本次抽卡</button>}
       {sphereOpen && state.session.deck.length > 0 && phase.kind !== 'combo' && <div className="sphere-modal"><Sphere mode="draw" returnFocus={sphereTrigger.current}
         cards={state.session.deck.map(copy => ({id: copy.id, face: 'back', frontData: {title: copy.contentSnapshot.title, subtitle: `来源 ${copy.sourceDate}`}}))}

@@ -111,7 +111,7 @@ try{
     await page.getByRole('button',{name:'保存',exact:true}).click();await waitData(page,d=>d.generationRules.length===1);
     await hand(page);const inventory=await waitData(page,d=>d.dailyCopies.length===1);await combo(page,inventory.dailyCopies[0].id);
     await page.getByLabel('书名选择').selectOption('random');await page.getByRole('button',{name:'接受，加入手牌'}).click();await waitData(page,d=>d.planner.instances.length===1);
-    await page.reload();await hand(page);await page.getByRole('tab',{name:'当日',exact:true}).click();await page.locator('.fan-card').getByRole('button',{name:'打出',exact:true}).click();
+    await page.reload();await hand(page);await page.getByRole('button',{name:'当日',exact:true}).click();await page.locator('.fan-card').getByRole('button',{name:'打出',exact:true}).click();
     const placement=page.getByRole('dialog',{name:'排期与重叠确认',exact:true});await placement.getByRole('button',{name:'确认排期',exact:true}).click();
     await placement.waitFor({state:'detached'});await waitData(page,d=>d.planner.plans.length===1);
     await page.getByRole('button',{name:'确认实际',exact:true}).click();const actual=page.getByRole('dialog',{name:'确认实际发生',exact:true});await actual.getByRole('button',{name:'确认实际',exact:true}).click();await actual.waitFor({state:'detached'});
@@ -176,7 +176,7 @@ try{
     const removed=await members.first().getAttribute('data-instance-id');await members.first().getByRole('button',{name:'撤出'}).click();
     const d=await waitData(page,d=>d.planner.handOrder.length===3);assert.equal(d.planner.handOrder.includes(removed),false);
     assert.equal(d.planner.instances.length,4);assert.equal(d.planner.instances.find(i=>i.id===removed).daily.sourceDate,s.dates[0]);
-    await page.getByRole('tab',{name:'当日',exact:true}).click();await page.getByRole('button',{name:'展开 3 份',exact:true}).click();
+    await page.getByRole('button',{name:'当日',exact:true}).click();await page.getByRole('button',{name:'展开 3 份',exact:true}).click();
     assert.equal(await page.locator('.fan-card').count(),3);return {remaining:3,withdrawn:removed};
   });
   await test('archive-ui-keeps-facts-annotations-and-retracted-plan',async page=>{

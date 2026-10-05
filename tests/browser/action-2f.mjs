@@ -78,7 +78,7 @@ try {
 
   await check('2F-3 place-jia-valid', async () => {
     const page = context.page;
-    await page.getByRole('tab', {name: '当日'}).click();
+    await page.getByRole('button', {name: '当日'}).click();
     await page.getByLabel('时区').fill('Asia/Tokyo');
     await boardSection(page, HAND).locator('.dayboard-row').first().waitFor();
     await rowByName(page, '任务甲').getByRole('button', {name: '打出'}).click();
@@ -148,7 +148,7 @@ try {
     const page = context.page;
     await page.reload({waitUntil: 'networkidle'});
     await page.locator('nav').getByText('抽卡手牌').click();
-    await page.getByRole('tab', {name: '当日'}).click();
+    await page.getByRole('button', {name: '当日'}).click();
     await boardSection(page, FACTS).locator('.fact-item').waitFor();
     await page.getByText('实际只做了 20 分钟').waitFor();
     assert.equal(await boardSection(page, FACTS).locator('.fact-item').getByRole('button').count(), 1);
