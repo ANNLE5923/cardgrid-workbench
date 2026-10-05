@@ -64,13 +64,17 @@ Tab / Shift+Tab 在当前弹层内移动，Enter 操作，Esc 逐层返回。输
 ## 实际验证
 
 ```powershell
-# 按机器填写外部 Playwright 模块与 Chrome 路径，或使用已安装的 Playwright Chromium。
-$env:CARDGRID_PLAYWRIGHT_MODULE='file:///C:/tools/browser-tests/node_modules/playwright/index.mjs'
-$env:CARDGRID_CHROME_PATH='C:\Program Files\Google\Chrome\Application\chrome.exe'
+# 从仓库根执行，安装完成后回到仓库根；默认使用 app 内 Playwright 与项目 Chromium。
+Push-Location app
+npm ci
+npx playwright install chromium
+Pop-Location
 node docs/归档/v0.3/原型/workshop-a0/verify.mjs
 ```
 
-脚本启动自己的随机端口服务，逐项使用全新浏览器 context，阻止 IndexedDB 打开和 Web Storage 写入，并在 finally 关闭测试服务/浏览器。证据写入新的 `test-results/workshop-a0/<时间戳>/`，不覆盖旧记录。预览服务与测试服务独立。
+需要外部模块或系统 Chrome 时，再按本机实际路径设置 `CARDGRID_PLAYWRIGHT_MODULE`、`CARDGRID_CHROME_PATH`；默认运行不需要这两个覆盖项。
+
+脚本启动自己的随机端口服务，逐项使用全新浏览器 context，阻止 IndexedDB 打开和 Web Storage 写入，并在 finally 关闭测试服务/浏览器。证据写入新的 `app/test-results/workshop-a0/<时间戳>/`，不覆盖旧记录。预览服务与测试服务独立。
 
 - 作者浏览器行为检查：19/19；Chrome 157.0.8081.0，Node v24.19.0，Windows，1280×960 与 720/390/320×844。
 - 覆盖矩阵/分层暂停、目录返回、编辑内存边界、真实指针选择、同 ID 两次点击、卡背 DOM/属性隐藏、立即随机/手选、重开不重抽、可选球面返回、取消、重复接受、空池、模式切换、焦点约束、小屏、减少动态与三档容量。

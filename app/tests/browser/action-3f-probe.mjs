@@ -9,7 +9,7 @@ const root=fileURLToPath(new URL('../../',import.meta.url));
 const out=path.join(root,'tests/fixtures/action/3f-evidence');
 await fs.mkdir(out,{recursive:true});
 async function walk(dir){const result=[];for(const e of await fs.readdir(dir,{withFileTypes:true})){const p=path.join(dir,e.name);if(e.isDirectory())result.push(...await walk(p));else result.push(p);}return result;}
-const paths=[...await walk(path.join(root,'src')),...await walk(path.join(root,'dist')),...['package.json','package-lock.json','tests/time-dial-3b.test.ts','tests/time-dial-3c.test.ts','docs/产品设计/11-3A正式投影几何与手势合同.md'].map(p=>path.join(root,p))];
+const paths=[...await walk(path.join(root,'src')),...await walk(path.join(root,'dist')),...['package.json','package-lock.json','tests/time-dial-3b.test.ts','tests/time-dial-3c.test.ts'].map(p=>path.join(root,p)),path.join(root,'..','docs/产品设计/11-3A正式投影几何与手势合同.md')];
 const hashes=Object.fromEntries(await Promise.all(paths.map(async p=>[path.relative(root,p).replaceAll('\\','/'),createHash('sha256').update(await fs.readFile(p)).digest('hex')])));
 await fs.writeFile(path.join(out,'scope.json'),JSON.stringify({task:'3F',at:new Date().toISOString(),scope:'production/source/build and author tests frozen for independent review',hashes},null,2));
 const {chromium}=await import(process.env.CARDGRID_PLAYWRIGHT_MODULE);

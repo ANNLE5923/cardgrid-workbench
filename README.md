@@ -18,11 +18,12 @@
 需要 Node.js 22.18+（22.x）或 24+。
 
 ```sh
+cd app
 npm ci
 npm run dev
 ```
 
-打开 <http://127.0.0.1:4173/>。Windows 可使用 [启动脚本](scripts/启动卡格工作台.bat)。首次打开没有个人预置数据。
+打开 <http://127.0.0.1:4173/>。Windows 可使用 [启动脚本](app/scripts/启动卡格工作台.bat)。首次打开没有个人预置数据。
 
 数据保存在当前浏览器的 IndexedDB，定期从“数据与备份”导出完整备份。更换浏览器来源可能看到不同工作区，升级或迁移前先保留独立备份。详见[使用说明](docs/使用/使用说明.md)。
 
@@ -30,8 +31,8 @@ npm run dev
 
 | 想了解什么 | 入口 |
 | --- | --- |
-| 产品实现 | [源码](src/)、[模块地图](docs/架构/README.md) |
-| 测试与验证 | [测试](tests/)、[浏览器回归](tests/browser/README.md) |
+| 产品实现 | [源码](app/src/)、[模块地图](docs/架构/README.md) |
+| 测试与验证 | [测试](app/tests/)、[浏览器回归](app/tests/browser/README.md) |
 | 设计与历史 | [文档入口](docs/README.md) |
 | 开发与贡献 | [贡献指南](.github/CONTRIBUTING.md) |
 | 上传与分发 | [分发说明](docs/使用/分发说明.md) |

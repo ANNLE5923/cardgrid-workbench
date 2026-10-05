@@ -14,7 +14,7 @@ import type { DialHit, DialHalf, HitAnchor } from '../../../src/daily/schedule/t
 import { confirmed, envelope, fixed, planned } from '../../fixtures/action/independent.ts';
 
 const vectors = JSON.parse(
-  readFileSync(new URL('../../../docs/产品设计/3A-regression-vectors.json', import.meta.url), 'utf8'),
+  readFileSync(new URL('../../../../docs/产品设计/3A-regression-vectors.json', import.meta.url), 'utf8'),
 );
 const angleDelta = (a: number, b: number) => ((b - a + 540) % 360) - 180;
 const halfFromCode = (code: number): DialHalf => (code === 0 ? 'inner' : 'outer');

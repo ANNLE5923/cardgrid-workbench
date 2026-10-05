@@ -7,6 +7,7 @@
 需要 Node.js 22.18+（22.x）或 24+。
 
 ```sh
+cd app
 npm ci
 npm run dev
 npm test
@@ -16,7 +17,7 @@ npx playwright install chromium
 npm run test:browser
 ```
 
-浏览器专项见[运行说明](../tests/browser/README.md)。测试只使用隔离工作区与合成数据。
+浏览器专项见[运行说明](../app/tests/browser/README.md)。测试只使用隔离工作区与合成数据。
 
 ## 改动边界
 

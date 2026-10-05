@@ -13,7 +13,7 @@ import type { DataV2 } from '../../../src/workspace/contracts.ts';
 import { blank, content, shanghai } from '../../fixtures/action/independent.ts';
 
 const vectors = JSON.parse(
-  fs.readFileSync(new URL('../../../docs/产品设计/3A-regression-vectors.json', import.meta.url), 'utf8'),
+  fs.readFileSync(new URL('../../../../docs/产品设计/3A-regression-vectors.json', import.meta.url), 'utf8'),
 );
 const NOW0 = '2026-10-01T00:00:00Z';
 const halfWord = (h: number): 'inner' | 'outer' => (h === 0 ? 'inner' : 'outer');

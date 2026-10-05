@@ -1,17 +1,23 @@
 // A0 author interaction checks in fresh synthetic browser contexts.
-// Playwright is an external test prerequisite; production dependencies are unchanged.
+// After the root simplification Playwright belongs to the app package and is resolved through
+// app/package.json, not a bare lookup from this archived prototype.
 import assert from 'node:assert/strict';
 import fs from 'node:fs/promises';
 import path from 'node:path';
-import {fileURLToPath} from 'node:url';
+import {fileURLToPath, pathToFileURL} from 'node:url';
 import {once} from 'node:events';
+import {createRequire} from 'node:module';
 import {serve} from './server.mjs';
 const directory = fileURLToPath(new URL('.', import.meta.url));
-const root = path.resolve(directory, '../../../../..');
+const repoRoot = path.resolve(directory, '../../../../..');
+const appDir = path.join(repoRoot, 'app');
 const stamp = new Date().toISOString().replace(/[:.]/g, '-');
-const out = process.env.CARDGRID_A0_OUTPUT ?? path.join(root, 'test-results', 'workshop-a0', stamp);
+const out = process.env.CARDGRID_A0_OUTPUT ?? path.join(appDir, 'test-results', 'workshop-a0', stamp);
 await fs.mkdir(out, {recursive: true});
-const {chromium} = await import(process.env.CARDGRID_PLAYWRIGHT_MODULE ?? 'playwright');
+const requireFromApp = createRequire(path.join(appDir, 'package.json'));
+const playwrightModule = process.env.CARDGRID_PLAYWRIGHT_MODULE
+  ?? pathToFileURL(path.join(path.dirname(requireFromApp.resolve('playwright')), 'index.mjs')).href;
+const {chromium} = await import(playwrightModule);
 const server = serve(0); await once(server, 'listening');
 const origin = 'http://127.0.0.1:' + server.address().port;
 const browser = await chromium.launch({headless: true, executablePath: process.env.CARDGRID_CHROME_PATH});

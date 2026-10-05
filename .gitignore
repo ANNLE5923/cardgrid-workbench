@@ -19,9 +19,13 @@ Thumbs.db
 /private-data/
 /browser-profiles/
 /playwright-report/
+/app/backups/
+/app/private-data/
+/app/browser-profiles/
+/app/playwright-report/
 *.tsbuildinfo
 
 # Bulk browser-run images and pre-fix source snapshots stay local.
 # Keep result JSON, acceptance reports, scripts and synthetic fixtures.
-tests/fixtures/action/*evidence*/**/*.png
-tests/fixtures/action/g3-final-evidence/before/
+app/tests/fixtures/action/*evidence*/**/*.png
+app/tests/fixtures/action/g3-final-evidence/before/
