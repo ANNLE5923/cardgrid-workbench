@@ -6,7 +6,7 @@ const narrow = matchMedia('(max-width: 650px)');
 const query = new URLSearchParams(location.search);
 const state = {
   view: ['today', 'workshop', 'drawing'].includes(query.get('view')) ? query.get('view') : 'workshop',
-  count: [10, 100, 500].includes(Number(query.get('count'))) ? Number(query.get('count')) : 10,
+  count: [10, 100].includes(Number(query.get('count'))) ? Number(query.get('count')) : 10,
   display: ['list', 'sphere'].includes(query.get('display')) ? query.get('display') : 'auto',
   still: query.get('still') === '1', pools: {}, scenes: [], hand: [], archive: false, filter: 'all', notice: '',
 };
@@ -38,7 +38,7 @@ function shell() {
       <div class="preview-controls" aria-label="样稿显示设置">
         <label>展示方式<select id="display"><option value="auto" ${state.display === 'auto' ? 'selected' : ''}>自动（窄屏 / 减少动态用列表）</option><option value="sphere" ${state.display === 'sphere' ? 'selected' : ''}>球面</option><option value="list" ${state.display === 'list' ? 'selected' : ''}>列表</option></select></label>
         <label class="check"><input id="still" type="checkbox" ${isStill() ? 'checked' : ''} ${reduced.matches ? 'disabled' : ''}>${reduced.matches ? '系统减少动态：静止' : '静止 / 停止运动'}</label>
-        <label>样本密度<select id="count">${[10, 100, 500].map(n => `<option value="${n}" ${n === state.count ? 'selected' : ''}>${n} 张</option>`).join('')}</select></label>
+        <label>样本密度<select id="count">${[10, 100].map(n => `<option value="${n}" ${n === state.count ? 'selected' : ''}>${n} 张</option>`).join('')}</select></label>
       </div>
     </main>
   </div>`;
@@ -100,7 +100,6 @@ function sceneView(scene, index) {
     <section class="scene-panel" role="dialog" aria-modal="${active}" aria-label="${h(pool.name)}牌堆" data-scene-index="${index}" data-phase="${scene.phase}" data-still="${isStill()}">
       <header class="scene-header"><div><div class="breadcrumbs">${button('close-all', '所有牌堆', 'class="quiet"')}<span>/</span>${state.scenes.slice(0, index + 1).map((s, i) => `<span>${h(state.pools[s.poolId].name)}</span>`).join('<span>/</span>')}</div><h2>${h(pool.name)} ${badge(pool.kind === 'collection' ? '目录' : scene.order.length + ' 张')}</h2><p>${caption}</p></div>${button('close-scene', index ? '返回上一层' : '返回牌堆', 'class="scene-close"')}</header>
       <div class="scene-toolbar"><span>${list ? '逐张列表' : '球面展开'}${isStill() ? ' · 静止' : ''}</span><div>${!Number.isInteger(scene.slotTarget) ? `<div class="segments" aria-label="当前牌堆模式">${button('scene-mode', '编辑', `data-mode="edit" aria-pressed="${scene.mode === 'edit'}"`)}${button('scene-mode', '抽取', `data-mode="draw" aria-pressed="${scene.mode === 'draw'}"`)}</div>` : badge('填写书名')}${button('toggle-display', list ? '切换球面' : '切换列表', 'class="quiet"')}${button('toggle-still', isStill() ? '静止中' : '停止运动', `class="quiet" aria-pressed="${isStill()}" ${reduced.matches ? 'disabled' : ''}`)}</div></div>
-      ${scene.order.length > 100 ? '<p class="density-note">500 张是压力样本。密集时可切到列表逐张查看；正式支持容量待确认。</p>' : ''}
       <div class="scene-stage ${list ? 'list-stage' : 'sphere-stage'} ${scene.phase !== 'candidate' ? 'has-selection' : ''}" data-motion="${speed}">
         ${!scene.order.length ? '<div class="empty-pool"><span aria-hidden="true">+</span><h3>这个牌堆还没有书目</h3><p>空池不选卡，也不随机。编辑表单将在 A2 推进。</p></div>' : ''}
         <div class="${list ? 'card-list' : 'sphere-surface'}" ${scene.phase !== 'candidate' ? 'inert' : ''} data-order="${scene.order.join(',')}">${!list ? '<div class="sphere-ring ring-one" aria-hidden="true"></div><div class="sphere-ring ring-two" aria-hidden="true"></div>' : ''}${entries.map(renderCard).join('')}</div>

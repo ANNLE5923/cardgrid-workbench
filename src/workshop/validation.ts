@@ -6,6 +6,7 @@ export type WorkshopIssueCode =
   | 'INVALID_SHAPE' | 'MISSING_FIELD' | 'UNKNOWN_FIELD' | 'INVALID_VALUE'
   | 'DUPLICATE_ID' | 'MISSING_REFERENCE' | 'POOL_KIND_MISMATCH'
   | 'SLOT_POOL_KIND_MISMATCH' | 'HIERARCHY_CYCLE'
+  | 'POOL_CAPACITY_EXCEEDED'
   | 'VERSION_CONFLICT' | 'SOURCE_CHANGED' | 'RULE_ZONE_CHANGED' | 'DELETE_FORBIDDEN'
   | 'INVALID_JSON';
 export type WorkshopIssue = Readonly<{code: WorkshopIssueCode; path: string; message: string}>;

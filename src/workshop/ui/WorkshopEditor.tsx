@@ -10,6 +10,7 @@ import {
   formToAction, formToBook, formToPool, formToRule, parseWorkshopJson,
 } from '../drafts.ts';
 import type { WorkshopContext } from '../model.ts';
+import {POOL_CAPACITY} from '../capacity.ts';
 import {allowedParentPools} from '../hierarchy.ts';
 import {PoolHierarchy} from './PoolHierarchy.tsx';
 import {Sphere} from '../../shared/ui/index.ts';
@@ -341,8 +342,11 @@ function PoolFields({ form, set, ctx }: Readonly<{ form: PoolForm; set: (f: AnyF
         </select></label>
       </div>
       <fieldset className="member-picker" style={{ marginTop: 12 }}><legend>成员（同种类）</legend>
+        <p role="status">已选 {form.memberIds.length} / {POOL_CAPACITY} 张</p>
+        {form.memberIds.length > POOL_CAPACITY && <p role="alert">该池超出当前上限，原数据保持；新增成员已禁用。</p>}
         {candidates.length ? candidates.map(c => (
-          <label key={c.id}><input type="checkbox" checked={form.memberIds.includes(c.id)} onChange={() => toggle(c.id)} />{candidateName(c)}</label>
+          <label key={c.id}><input type="checkbox" checked={form.memberIds.includes(c.id)}
+            disabled={!form.memberIds.includes(c.id) && form.memberIds.length >= POOL_CAPACITY} onChange={() => toggle(c.id)} />{candidateName(c)}</label>
         )) : <p className="muted">还没有可加入的同种类实体。</p>}
       </fieldset>
     </>

@@ -193,7 +193,6 @@ main {min-width:0; padding:22px 38px 24px; max-width:1350px}
 .empty-pool>span {font-size:48px; color:var(--muted)}
 .empty-pool h3 {font-size:17px}
 .empty-pool p {color:var(--muted); font-size:12px}
-.density-note {margin:0; padding:0 24px 12px; color:var(--warning); font-size:11px}
 .archive-layer {--layer:60}
 .archive-panel {background:var(--surface); border:1px solid var(--line); border-radius:16px; padding:28px; width:min(600px,100%); max-height:calc(100dvh - 48px); overflow-y:auto}
 .archive-panel header {display:flex; align-items:center; justify-content:space-between; gap:20px}
@@ -238,7 +237,7 @@ main {min-width:0; padding:22px 38px 24px; max-width:1350px}
   .scene-footer {padding:10px 14px;font-size:10px}.keyboard-hint {font-size:9px}.front-card {width:150px;height:220px}.front-explainer {font-size:11px}
   .detail-backdrop {padding:9px;border-radius:12px}.detail-panel {padding:15px 18px}.detail-title {margin:7px 0 14px}.detail-title h3 {font-size:20px}
   .detail-symbol {font-size:29px}.detail-panel header .eyebrow {font-size:8px}.detail-panel header .quiet {font-size:11px;padding:5px}
-  .slot-field {padding:12px 0}.density-note {padding:0 14px 9px;font-size:10px}.today-aside {padding:20px 0}
+  .slot-field {padding:12px 0}.today-aside {padding:20px 0}
   .archive-panel {padding:18px}.archive-panel h2 {font-size:18px}.archive-panel header {gap:12px}.archive-row dl {grid-template-columns:70px 1fr;gap:10px}
 }
 @media (prefers-reduced-motion:reduce) {

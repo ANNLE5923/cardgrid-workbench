@@ -31,17 +31,18 @@ async function read(page){return page.evaluate(async()=>{
   const store=createWorkspaceStore(),client=createWorkspaceClient({store});
   try{const r=await client.load();if(!r.ok)throw Error(JSON.stringify(r));return r.value.data;}finally{client.close();}
 });}
-async function seed(page,{days=[0],accepts=0,books=2,secondAction=false,archive=false}={}){
+async function seed(page,{days=[0],accepts=0,books=2,poolMembers=books,secondAction=false,archive=false}={}){
   await page.goto(origin+'/__seed');
   return page.evaluate(async options=>{
     const {createWorkspaceClient}=await import('/src/workspace/client.ts'),{createWorkspaceStore}=await import('/src/workspace/store.ts');
     const fx=await import('/tests/modules/workshop/a1-fixtures.ts'),time=await import('/src/daily/time.ts');
     const today=time.dateAt(new Date().toISOString(),'Asia/Shanghai'),date=n=>time.nextDate(today,n);
-    let at=`${date(-8)}T04:00:00Z`;const client=createWorkspaceClient({store:createWorkspaceStore(),now:()=>at,random:()=>0});
+    let at=`${date(-8)}T04:00:00Z`;const store=createWorkspaceStore(),client=createWorkspaceClient({store,now:()=>at,random:()=>0});
     const ok=r=>{if(!r.ok)throw Error(JSON.stringify(r));return r.value;},data=async()=>ok(await client.load()).data;
     const submit=async(type,payload)=>ok(await client.submit({commandId:crypto.randomUUID(),expected:ok(await client.load()).token,type,payload}));
     for(let i=1;i<=options.books;i++)await submit('SaveBookEntry',{bookEntry:fx.bookEntry({id:`book-${i}`,title:`书目${i}`}),expectedVersion:null});
-    await submit('SavePool',{pool:fx.pool({memberIds:Array.from({length:options.books},(_,i)=>`book-${i+1}`)}),expectedVersion:null});
+    const members=Array.from({length:options.poolMembers},(_,i)=>`book-${i+1}`);
+    await submit('SavePool',{pool:fx.pool({memberIds:members}),expectedVersion:null});
     await submit('SavePool',{pool:fx.pool({id:'book-child',name:'从属池',parentPoolId:'books',memberIds:[]}),expectedVersion:null});
     await submit('SaveActionCard',{actionCard:fx.actionCard(),expectedVersion:null});
     await submit('SaveGenerationRule',{generationRule:fx.rule({startDate:date(-8)}),expectedVersion:null});
@@ -70,7 +71,7 @@ async function seed(page,{days=[0],accepts=0,books=2,secondAction=false,archive=
       }
     }
     const value=await data();client.close();return {today,dates:options.days.map(date),data:value};
-  },{days,accepts,books,secondAction,archive});
+  },{days,accepts,books,poolMembers,secondAction,archive});
 }
 const hand=page=>page.locator('nav').getByRole('button',{name:'抽卡手牌'}).click();
 async function combo(page,copyId){await page.getByLabel('手选库存副本').selectOption(copyId);await page.getByRole('button',{name:'翻开查看',exact:true}).click();await page.getByRole('button',{name:'填写槽位',exact:true}).click();await page.getByLabel('书名选择').waitFor();}
@@ -216,15 +217,55 @@ try{
     const box=await sphere.boundingBox();assert.ok(box.x>=-1&&box.x+box.width<=width+1);
     await page.screenshot({path:path.join(output,`responsive-${width}.png`),fullPage:true});return {width};
   },{viewport:{width,height:860},reducedMotion:'reduce'});
-  for(const count of [10,100,500])await test(`production-capacity-${count}-static-book-selection`,async page=>{
+  await test('dropdown-ten-stable-options-random-draws-from-full-pool',async page=>{
+    const s=await seed(page,{books:100});
+    await page.addInitScript(()=>{const original=crypto.getRandomValues.bind(crypto);crypto.getRandomValues=values=>
+      values instanceof Uint32Array?values.fill(99):original(values);});
+    await page.goto(origin);await hand(page);await combo(page,s.data.dailyCopies[0].id);
+    const picker=page.getByLabel('书名选择'),options=picker.locator('option[value^="book:"]');
+    await options.first().waitFor({state:'attached'});
+    const initial=await options.evaluateAll(nodes=>nodes.map(node=>node.value));
+    assert.equal(initial.length,9);assert.equal(new Set(initial).size,9);assert.ok(!initial.includes('book:book-100'));
+    assert.equal(await picker.locator('option:not([hidden])').count(),10);
+    assert.equal(await picker.inputValue(),'');assert.equal((await read(page)).planner.instances.length,0);
+    await page.getByRole('button',{name:'从球面选书名'}).click();await page.getByRole('dialog',{name:'卡球面'}).waitFor();await page.keyboard.press('Escape');
+    assert.deepEqual(await options.evaluateAll(nodes=>nodes.map(node=>node.value)),initial);
+    await picker.selectOption('random');await page.getByText('已固定：书目100',{exact:true}).waitFor();
+    assert.equal(await picker.inputValue(),'book:book-100');assert.equal(await options.count(),9);
+    assert.deepEqual((await options.evaluateAll(nodes=>nodes.map(node=>node.value))).slice(0,8),initial.slice(0,8));
+    assert.equal((await read(page)).planner.instances.length,0);
+    return {displayed:10,fullPool:100,randomSelected:'book-100',noImplicitAcceptance:true};
+  });
+  await test('pool-full-100-blocks-101st-member-until-a-place-is-freed',async page=>{
+    await seed(page,{books:101,poolMembers:100});await page.goto(origin);
+    await page.locator('nav').getByRole('button',{name:'制卡工坊'}).click();await page.getByRole('tab',{name:'卡池',exact:true}).click();
+    const row=page.locator('.action-list-row',{hasText:'书目池'});
+    await row.getByRole('button',{name:'编辑',exact:true}).click();
+    assert.equal(await page.getByRole('checkbox',{name:'书目101',exact:true}).isDisabled(),true);
+    await page.getByRole('checkbox',{name:'书目100',exact:true}).uncheck();await page.getByRole('checkbox',{name:'书目101',exact:true}).check();
+    assert.equal((await read(page)).pools.find(pool=>pool.id==='books').memberIds.includes('book-101'),false,'editing the draft does not save');
+    await page.getByRole('button',{name:'保存',exact:true}).click();
+    const replaced=await waitData(page,d=>d.pools.find(pool=>pool.id==='books').memberIds.includes('book-101'));
+    assert.equal(replaced.pools.find(pool=>pool.id==='books').memberIds.length,100);
+    await page.reload();await page.locator('nav').getByRole('button',{name:'制卡工坊'}).click();await page.getByRole('tab',{name:'卡池',exact:true}).click();
+    await row.getByRole('button',{name:'编辑',exact:true}).click();
+    assert.equal(await page.getByRole('checkbox',{name:'书目100',exact:true}).isDisabled(),true);
+    assert.equal(await page.getByRole('checkbox',{name:'书目101',exact:true}).isChecked(),true);
+    return {members:100,blocked101st:true,explicitSave:true};
+  });
+  for(const count of [10,100])await test(`production-capacity-${count}-static-book-selection`,async page=>{
     const s=await seed(page,{books:count});await page.goto(origin);await hand(page);await combo(page,s.data.dailyCopies[0].id);
-    assert.equal(await page.getByLabel('书名选择').locator('option[value^="book:"]').count(),count);
+    await page.getByLabel('书名选择').locator('option[value^="book:"]').first().waitFor({state:'attached'});
+    assert.equal(await page.getByLabel('书名选择').locator('option[value^="book:"]').count(),9);
+    assert.equal(await page.getByLabel('书名选择').locator('option:not([hidden])').count(),10);
     await page.getByRole('button',{name:'从球面选书名'}).click();const sphere=page.getByRole('dialog',{name:'卡球面'});
     await sphere.waitFor();
     assert.equal(await sphere.locator('.sphere-card').count(),count);assert.equal(await sphere.locator('strong').count(),0);
     const card=sphere.locator(`.sphere-card[data-card-id="book-${count}"]`);await card.focus();await page.keyboard.press('Enter');await page.keyboard.press('Enter');
     await sphere.getByRole('button',{name:'使用这本书'}).click();await sphere.waitFor({state:'detached'});
-    assert.equal(await page.getByLabel('书名选择').inputValue(),`book:book-${count}`);return {count,noTruncation:true};
+    assert.equal(await page.getByLabel('书名选择').inputValue(),`book:book-${count}`);
+    assert.equal(await page.getByLabel('书名选择').locator('option[value^="book:"]').count(),9);
+    return {count,dropdownCapacity:10,fullSphere:true};
   },{reducedMotion:'reduce'});
   await test('offline-shell-update-keeps-idb-and-current-build-reopens',async(page,context)=>{
     previousShell=true;await seed(page,{accepts:1});await page.goto(origin);

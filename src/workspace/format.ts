@@ -1,6 +1,6 @@
 import type {BackupV2, Command, ConfigV2, DataV2, WorkspaceData, EntityRef, EnvelopeV4, Json, LegacyBackupV1, LegacyFormat, LegacyRef} from './contracts.ts';
 import type {DataV3, BackupV3, ConfigV3} from './contracts-v3.ts';
-import {validateWorkshopCatalog, validateWorkshopEntity} from '../workshop/model.ts';
+import {poolCapacityIssue, validateWorkshopCatalog, validateWorkshopEntity} from '../workshop/model.ts';
 import {assertV3State} from './v3-state.ts';
 import { assertActionState, sameValue } from '../daily/model.ts';
 import { assertDate, assertInstant, assertZone, legacyInstant } from '../daily/time.ts';
@@ -517,6 +517,10 @@ export function validateDefinitionConfig(raw: unknown): asserts raw is ConfigV2 
     validateDefinitionConfig({format: 'cardgrid', version: 2, kind: 'config', config: {settings: config.settings, definitions: config.definitions, templates: config.templates, rules: config.rules}});
     const result = validateWorkshopCatalog({actionCards: config.actionCards, bookEntries: config.bookEntries, pools: config.pools, generationRules: config.generationRules});
     if (!result.ok) fail('$.config', result.issues.map(i => `${i.path}: ${i.message}`).join('; '));
+    config.pools.forEach((pool, index) => {
+      const capacity = poolCapacityIssue(pool, `$.config.pools[${index}]`);
+      if (capacity) fail(capacity.path, capacity.message);
+    });
     return;
   }
   shape({ format: literal('cardgrid'), version: literal(2), kind: literal('config'), config: shape({ settings: settingsShape, definitions: items(definitionShape), templates: items(templateShape), rules: items(ruleShape) }) })(raw, '$');

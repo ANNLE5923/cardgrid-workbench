@@ -6,6 +6,8 @@ import type {
   ActionCard, BookEntry, GenerationRule, Pool,
 } from '../workspace/index.ts';
 import { assertDate, assertZone } from '../daily/time.ts';
+import {poolCapacityIssue} from './capacity.ts';
+export {POOL_CAPACITY, poolCapacityIssue} from './capacity.ts';
 export type {ActionCard, BookEntry, Pool, PoolKind, SlotSpec, GenerationRule, GenerationSchedule, WorkshopEntityStatus} from '../workspace/index.ts';
 export {validateWorkshopCatalog, validateWorkshopEntity, parseWorkshopJson, validateWorkshopChange, type WorkshopCatalog, type WorkshopValidation, type WorkshopEntity} from './catalog.ts';
 export {prepareWorkshopChange, workshopChangeEffectiveDate, type WorkshopChangeContext, type WorkshopRevision, type PreparedWorkshopChange} from './change.ts';
@@ -64,6 +66,8 @@ function poolHasCycle(draft: Pool, pools: readonly Pool[]): boolean {
 
 export function validatePoolDraft(draft: Pool, ctx: WorkshopContext): WorkshopIssue[] {
   const issues: WorkshopIssue[] = [];
+  const capacity = poolCapacityIssue(draft);
+  if (capacity) issues.push(capacity);
   if (draft.name.trim() === '') issues.push(issue('NAME_REQUIRED', 'name', '池名称必填'));
 
   if (draft.parentPoolId !== null) {

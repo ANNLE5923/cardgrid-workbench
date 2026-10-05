@@ -20,6 +20,7 @@ export const bookSeeds = [
 ];
 
 export function fixtures(count = 10) {
+  count = Math.min(count, 100);
   const actions = Array.from({length: count}, (_, i) => {
     const [key, title, minutes, criterion, slot] = actionSeeds[i % actionSeeds.length];
     return {id: `action-${key}-${i}`, kind: 'action', title: title + (i >= 10 ? ` · 样本 ${i + 1}` : ''), minutes, criterion, slot};

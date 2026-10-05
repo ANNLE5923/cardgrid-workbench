@@ -119,8 +119,8 @@ try {
     await page.screenshot({path: path.join(output, 'sphere-edit.png'), fullPage: true});
   });
 
-  await test('capacity-10-100-500-render-without-page-errors', {}, async (page, pageErrors) => {
-    for (const n of [10, 100, 500]) {
+  await test('capacity-10-100-render-without-page-errors', {}, async (page, pageErrors) => {
+    for (const n of [10, 100]) {
       await page.getByRole('button', {name: `${n} 张`}).click();
       assert.equal(await page.locator('.matrix-cell').count(), n);
       await page.screenshot({path: path.join(output, `cap-${n}.png`), fullPage: true});

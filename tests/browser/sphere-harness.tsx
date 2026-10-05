@@ -1,5 +1,5 @@
 // A3 neutral-visual harness. No workspace / IDB: feeds synthetic cards to Matrix/Sphere and drives
-// matrix -> sphere -> two-click reveal, mode switch, and 10/100/500 capacities. Used by the browser check.
+// matrix -> sphere -> two-click reveal, mode switch, and 10/100 capacities. Used by the browser check.
 import React, {useState} from 'react';
 import {createRoot} from 'react-dom/client';
 import {Sphere} from '../../src/shared/ui/sphere/Sphere.tsx';
@@ -9,7 +9,7 @@ import '../../src/app/style.css';
 
 const TITLES = ['阅读', '散步', '写作', '运动', '冥想', '整理', '复习', '拉伸', '喝水', '计划', '清扫', '采购'];
 function makeCards(n: number): SphereCard[] {
-  return Array.from({length: n}, (_, i) => ({
+  return Array.from({length: Math.min(n, 100)}, (_, i) => ({
     id: `c-${i + 1}`, face: 'back',
     // frontData is passed even in draw mode; the neutral components must keep it out of the DOM
     // until reveal, which is exactly what the browser check verifies.
@@ -48,7 +48,7 @@ function Harness() {
       <main className="action-shell">
         <div className="toolbar" style={{flexWrap: 'wrap'}}>
           <button type="button" onClick={toggleMode}>模式：{mode === 'draw' ? '抽取（卡背）' : '编辑（卡面）'}</button>
-          {[10, 100, 500].map(n =>
+          {[10, 100].map(n =>
             <button key={n} type="button" onClick={() => load(n)}>{n} 张</button>)}
           {view === 'sphere' ? <button type="button" onClick={() => setView('matrix')}>返回矩阵</button> : null}
         </div>

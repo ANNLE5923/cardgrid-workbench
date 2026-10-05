@@ -1,5 +1,6 @@
 import type {ActionCard, BookEntry, GenerationRule, Pool} from '../workspace/index.ts';
 import {WorkshopChecks, freezeCopy, sameWorkshopValue, type WorkshopIssue} from './validation.ts';
+import {poolCapacityIssue} from './capacity.ts';
 
 /** A business projection, not Data v3, a config package or a replacement workspace. */
 export type WorkshopCatalog = Readonly<{
@@ -124,6 +125,11 @@ export function validateWorkshopChange(before: unknown, after: unknown): Worksho
     }
     next.value[collection].forEach((item, i) => {
       const original = old.get(item.id), field = `${collection}[${i}]`;
+      // Historical backups remain readable. New or edited pools must satisfy today's limit.
+      if (collection === 'pools' && (!original || !sameWorkshopValue(original, item))) {
+        const capacity = poolCapacityIssue(item as Pool, field);
+        if (capacity) checks.issues.push(capacity);
+      }
       if (!original) {if (item.version !== 1) checks.issue('VERSION_CONFLICT', `${field}.version`, '新对象从版本 1 开始'); return;}
       if (!sameWorkshopValue(original.source, item.source)) checks.issue('SOURCE_CHANGED', `${field}.source`, '既有对象的创建来源不可替换');
       const {version: _oldVersion, ...oldFields} = original;

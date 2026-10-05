@@ -243,7 +243,7 @@ try {
     await act(p, 'archive').click(); assert.match(await p.getByRole('dialog', {name: '副本归档样例'}).innerText(), /已有完成事实与批注继续保留/);
     await p.keyboard.press('Escape'); assert.equal(await p.evaluate(() => document.activeElement.dataset.action), 'archive');
   });
-  for (const count of [10, 100, 500]) {
+  for (const count of [10, 100]) {
     await check('A15-density-' + count, async (p, o) => {
       await start(p, `count=${count}&view=drawing`);
       const started = await p.evaluate(() => performance.now());
