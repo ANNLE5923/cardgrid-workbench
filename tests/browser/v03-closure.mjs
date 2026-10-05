@@ -90,7 +90,10 @@ async function waitForActivation(worker){
 async function offlineUpdate(page,context,{observerDelayMs=0}={}){
   previousShell=true;await seed(page,{accepts:1});await page.goto(origin);
   await page.waitForFunction(async()=>(await navigator.serviceWorker.getRegistration())?.active?.state==='activated');
-  await page.reload();await page.waitForFunction(()=>navigator.serviceWorker.controller?.state==='activated');
+  // A reload of the first uncontrolled document can remain uncontrolled even after
+  // registration activation. Enter a fresh document after activation before updating.
+  await page.goto('about:blank');await page.goto(origin);
+  await page.waitForFunction(()=>navigator.serviceWorker.controller?.state==='activated');
   const before=await read(page);assert.equal(await page.locator('meta[name="test-prior-shell"]').count(),1);
   const expectedCache=(await fs.readFile(path.join(root,'dist/sw.js'),'utf8')).match(/const CACHE='([^']+)'/)[1];
   // Arm before changing the server's worker bytes and requesting the update.

@@ -22,6 +22,8 @@ npm run test:browser
 
 日记脚本为 `journal.mjs`（5 组作者回归）、`journal-independent.mjs`（R01–R07）、`journal-restore-independent.mjs`（真实显式恢复）、`journal-navigation-independent.mjs`（真实写入失败、离页保留与重试）。后两组使用独立 context，三个独立脚本占用端口 53319，必须串行运行；证据目录可通过 `CARDGRID_JOURNAL_REVIEW_OUTPUT` 指定。
 
+SW 场景在初始注册激活后离开旧文档，再重新进入应用并确认受控，避免首次 `reload` 留下未受控页面；更新时仍在释放旧页面前确认监听已安装，保留缓存版本、离线重开与数据精确保留断言。
+
 GitHub Actions 已配置 Chromium 安装、完整浏览器门禁与失败证据上传；远端结果以精确提交对应的 Actions 为准。当前非作者复验和追加修复回归见[v0.5 末轮报告](../../docs/归档/v0.5/验收/2026-10-05-分离复验与收尾.md)，前版见[v0.4 版本记录](../../docs/归档/v0.4/README.md)，工坊历史见[v0.3 收尾](../../docs/归档/v0.3/开发/2026-10-05-v0.3收尾与验收.md)。本地结果在忽略的 `test-results/`，不覆盖归档验收证据。
 
 下列章节保留各阶段当时的证据与运行方式，外部 Playwright/未接线/旧 CI 状态不代表当前版本状态。
