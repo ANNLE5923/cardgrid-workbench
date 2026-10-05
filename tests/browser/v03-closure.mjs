@@ -220,6 +220,7 @@ try{
     const s=await seed(page,{books:count});await page.goto(origin);await hand(page);await combo(page,s.data.dailyCopies[0].id);
     assert.equal(await page.getByLabel('书名选择').locator('option[value^="book:"]').count(),count);
     await page.getByRole('button',{name:'从球面选书名'}).click();const sphere=page.getByRole('dialog',{name:'卡球面'});
+    await sphere.waitFor();
     assert.equal(await sphere.locator('.sphere-card').count(),count);assert.equal(await sphere.locator('strong').count(),0);
     const card=sphere.locator(`.sphere-card[data-card-id="book-${count}"]`);await card.focus();await page.keyboard.press('Enter');await page.keyboard.press('Enter');
     await sphere.getByRole('button',{name:'使用这本书'}).click();await sphere.waitFor({state:'detached'});
