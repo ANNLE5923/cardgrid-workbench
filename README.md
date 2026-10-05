@@ -32,7 +32,7 @@ npm run dev
 | 产品实现 | [源码](src/)、[模块地图](docs/架构/README.md) |
 | 测试与验证 | [测试](tests/)、[浏览器回归](tests/browser/README.md) |
 | 设计与历史 | [文档入口](docs/README.md) |
-| 开发与贡献 | [贡献指南](CONTRIBUTING.md) |
+| 开发与贡献 | [贡献指南](.github/CONTRIBUTING.md) |
 | 上传与分发 | [分发说明](docs/使用/分发说明.md) |
 
 ## 当前状态
@@ -43,4 +43,4 @@ npm run dev
 
 ## License
 
-[AGPL-3.0-or-later](LICENSE)。安全问题见 [SECURITY](SECURITY.md)。
+[AGPL-3.0-or-later](LICENSE)。安全问题见 [SECURITY](.github/SECURITY.md)。

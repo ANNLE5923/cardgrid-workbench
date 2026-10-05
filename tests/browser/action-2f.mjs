@@ -25,7 +25,7 @@ const HAND = 0, PLANS = 1, FIXED = 2, FACTS = 3;
 const boardSection = (page, i) => page.locator('.dayboard > section').nth(i);
 
 async function serve() {
-  const server = await createServer({root: repo, configFile: join(repo, 'vite.config.ts'), logLevel: 'error',
+  const server = await createServer({root: repo, configFile: join(repo, 'scripts', 'vite.config.ts'), logLevel: 'error',
     server: {host: '127.0.0.1', port: 0, strictPort: false}});
   await server.listen();
   return {server, url: `http://127.0.0.1:${server.httpServer.address().port}/`};

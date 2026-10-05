@@ -23,7 +23,7 @@ const btn = (page, name) => page.getByRole('button', {name, exact: true});
 async function serve() {
   const server = await createServer({
     root: repo,
-    configFile: join(repo, 'vite.config.ts'),
+    configFile: join(repo, 'scripts', 'vite.config.ts'),
     logLevel: 'error',
     server: {host: '127.0.0.1', port: 0, strictPort: false},
   });

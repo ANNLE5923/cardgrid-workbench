@@ -4,9 +4,9 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "vite --configLoader native --host 127.0.0.1 --port 4173 --strictPort",
-    "build": "tsc --noEmit && vite build --configLoader native",
-    "start": "vite preview --host 127.0.0.1 --port 4173 --strictPort",
+    "dev": "vite --config scripts/vite.config.ts --configLoader native --host 127.0.0.1 --port 4173 --strictPort",
+    "build": "tsc --noEmit && vite build --config scripts/vite.config.ts --configLoader native",
+    "start": "vite preview --config scripts/vite.config.ts --host 127.0.0.1 --port 4173 --strictPort",
     "test": "node scripts/test.mjs",
     "test:independent": "node scripts/test.mjs --independent",
     "test:browser": "node scripts/browser-gate.mjs"

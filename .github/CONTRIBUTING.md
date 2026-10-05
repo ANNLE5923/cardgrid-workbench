@@ -1,6 +1,6 @@
 # 贡献指南
 
-先读 [README](README.md)、[模块地图](docs/架构/README.md) 和[产品规则](docs/产品设计/03-项目决策与问题.md)。
+先读 [README](../README.md)、[模块地图](../docs/架构/README.md) 和[产品规则](../docs/产品设计/03-项目决策与问题.md)。
 
 ## 开发
 
@@ -16,7 +16,7 @@ npx playwright install chromium
 npm run test:browser
 ```
 
-浏览器专项见[运行说明](tests/browser/README.md)。测试只使用隔离工作区与合成数据。
+浏览器专项见[运行说明](../tests/browser/README.md)。测试只使用隔离工作区与合成数据。
 
 ## 改动边界
 
@@ -31,4 +31,4 @@ npm run test:browser
 
 说明目标、受影响模块、验证结果、未测项和数据影响。普通修改无需新增长文档；重要设计理由写入已有架构/决策文档。
 
-不要提交个人备份、数据库、浏览器 profile、真实日程截图、依赖目录或构建产物。安全问题见 [SECURITY](SECURITY.md)，分发说明见[上传与分发](docs/使用/分发说明.md)。
+不要提交个人备份、数据库、浏览器 profile、真实日程截图、依赖目录或构建产物。安全问题见 [SECURITY](SECURITY.md)，分发说明见[上传与分发](../docs/使用/分发说明.md)。

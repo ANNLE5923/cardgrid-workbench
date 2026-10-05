@@ -13,7 +13,7 @@ const paths=[...await walk(path.join(root,'src')),...await walk(path.join(root,'
 const hashes=Object.fromEntries(await Promise.all(paths.map(async p=>[path.relative(root,p).replaceAll('\\','/'),createHash('sha256').update(await fs.readFile(p)).digest('hex')])));
 await fs.writeFile(path.join(out,'scope.json'),JSON.stringify({task:'3F',at:new Date().toISOString(),scope:'production/source/build and author tests frozen for independent review',hashes},null,2));
 const {chromium}=await import(process.env.CARDGRID_PLAYWRIGHT_MODULE);
-const server=await preview({root,configLoader:'native',preview:{host:'127.0.0.1',port:0,strictPort:false}});
+const server=await preview({root,configFile:path.join(root,'scripts','vite.config.ts'),configLoader:'native',preview:{host:'127.0.0.1',port:0,strictPort:false}});
 const origin='http://127.0.0.1:'+server.httpServer.address().port;
 const browser=await chromium.launch({headless:true,executablePath:process.env.CARDGRID_CHROME_PATH});
 const ctx=await browser.newContext({timezoneId:'Asia/Shanghai',serviceWorkers:'block',viewport:{width:1280,height:900}});

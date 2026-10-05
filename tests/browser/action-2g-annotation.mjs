@@ -9,7 +9,7 @@ const root=fileURLToPath(new URL('../../',import.meta.url));
 const out=process.env.CARDGRID_2G_OUTPUT||path.join(os.tmpdir(),'cardgrid-2g-annotation-'+Date.now());
 await fs.mkdir(out,{recursive:true});
 const {chromium}=await import(process.env.CARDGRID_PLAYWRIGHT_MODULE||'playwright');
-const server=await createServer({root,configFile:path.join(root,'vite.config.ts'),logLevel:'error',server:{host:'127.0.0.1',port:0}});
+const server=await createServer({root,configFile:path.join(root,'scripts','vite.config.ts'),logLevel:'error',server:{host:'127.0.0.1',port:0}});
 await server.listen();const url='http://127.0.0.1:'+server.httpServer.address().port+'/';
 const browser=await chromium.launch({headless:true,...(process.env.CARDGRID_CHROME_PATH?{executablePath:process.env.CARDGRID_CHROME_PATH}:{})});
 const results=[];const btn=(p,n)=>p.getByRole('button',{name:n,exact:true});

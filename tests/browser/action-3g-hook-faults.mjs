@@ -7,7 +7,7 @@ const root=fileURLToPath(new URL('../../',import.meta.url));
 const out=path.join(process.env.CARDGRID_BROWSER_OUTPUT_ROOT||path.join(root,'test-results'),'action-3g-hook-faults');
 await fs.mkdir(out,{recursive:true});
 const {chromium}=await import(process.env.CARDGRID_PLAYWRIGHT_MODULE);
-const server=await createServer({root,configLoader:'native',server:{host:'127.0.0.1',port:0,strictPort:false}});
+const server=await createServer({root,configFile:path.join(root,'scripts','vite.config.ts'),configLoader:'native',server:{host:'127.0.0.1',port:0,strictPort:false}});
 await server.listen();
 const origin='http://127.0.0.1:'+server.httpServer.address().port;
 const browser=await chromium.launch({headless:true,executablePath:process.env.CARDGRID_CHROME_PATH});
