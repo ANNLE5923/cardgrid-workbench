@@ -89,9 +89,13 @@ async function waitForActivation(worker){
 }
 async function offlineUpdate(page,context,{observerDelayMs=0}={}){
   previousShell=true;await seed(page,{accepts:1});await page.goto(origin);
-  await page.waitForFunction(async()=>(await navigator.serviceWorker.getRegistration())?.active?.state==='activated');
-  // Begin the update scenario in a new controlled client. Activation of the
-  // registration alone does not establish control of the registering document.
+  // Wait for clients.claim() to reach the registering document before opening a
+  // new client. Registration state alone can precede observable controller adoption.
+  await page.waitForFunction(async()=>{
+    const registration=await navigator.serviceWorker.getRegistration();
+    return registration?.active?.state==='activated'&&navigator.serviceWorker.controller===registration.active;
+  });
+  // Begin the update scenario in a new controlled client after that barrier.
   const registeringPage=page;page=await context.newPage();await page.goto(origin);
   await page.waitForFunction(()=>navigator.serviceWorker.controller?.state==='activated');
   await registeringPage.close();
