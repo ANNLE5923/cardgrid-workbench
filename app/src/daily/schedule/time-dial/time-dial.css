@@ -109,9 +109,15 @@
   opacity: 0.9;
   cursor: pointer;
 }
-.preview-schedule.fixed { background: var(--fixed); }
-.preview-schedule.plan { background: var(--planned); }
-.preview-schedule.fact { background: var(--fact); }
+.preview-schedule.fixed {
+  background: var(--fixed);
+}
+.preview-schedule.plan {
+  background: var(--planned);
+}
+.preview-schedule.fact {
+  background: var(--fact);
+}
 .preview-schedule:hover,
 .preview-schedule:focus-visible {
   width: 11px;
@@ -142,14 +148,22 @@
   font-size: 8px;
   font-weight: 700;
 }
-.preview-pointer.now { right: calc(100% + 2px); }
-.preview-pointer.now span { right: 12px; }
+.preview-pointer.now {
+  right: calc(100% + 2px);
+}
+.preview-pointer.now span {
+  right: 12px;
+}
 .preview-pointer.focus {
   left: calc(100% + 2px);
   color: var(--accent);
 }
-.preview-pointer.focus span { left: 12px; }
-.preview-pointer.now:hover { transform: translateY(-50%) scale(1.25); }
+.preview-pointer.focus span {
+  left: 12px;
+}
+.preview-pointer.now:hover {
+  transform: translateY(-50%) scale(1.25);
+}
 .day-preview > small {
   white-space: nowrap;
   font-size: 8px;
@@ -191,7 +205,9 @@
   display: grid;
   gap: 4px;
 }
-.preview-note-item strong { font-size: 12px; }
+.preview-note-item strong {
+  font-size: 12px;
+}
 .preview-note-item small {
   color: var(--muted);
   line-height: 1.4;
@@ -205,8 +221,12 @@
   font-weight: 700;
   color: var(--fixed);
 }
-.time-kind.plan { color: var(--planned); }
-.time-kind.fact { color: var(--fact); }
+.time-kind.plan {
+  color: var(--planned);
+}
+.time-kind.fact {
+  color: var(--fact);
+}
 
 /* Dial frame */
 .dial-frame {
@@ -248,9 +268,15 @@
   outline: none;
   stroke-width: 17;
 }
-.dial-segment.fixed { stroke: var(--fixed); }
-.dial-segment.plan { stroke: var(--planned); }
-.dial-segment.fact { stroke: var(--fact); }
+.dial-segment.fixed {
+  stroke: var(--fixed);
+}
+.dial-segment.plan {
+  stroke: var(--planned);
+}
+.dial-segment.fact {
+  stroke: var(--fact);
+}
 .dial-segment.plan-reference {
   stroke: var(--reference);
   stroke-width: 2;
@@ -262,7 +288,9 @@
   opacity: 0.88;
   pointer-events: none;
 }
-.dial-segment.legacy { stroke: var(--reference); }
+.dial-segment.legacy {
+  stroke: var(--reference);
+}
 .dial-segment.active {
   stroke-width: 22;
   filter: drop-shadow(0 0 4px var(--viewer));
@@ -325,8 +353,12 @@
   color: var(--ink);
   font-variant-numeric: tabular-nums;
 }
-.ring-label-a { top: 24%; }
-.ring-label-b { bottom: 22%; }
+.ring-label-a {
+  top: 24%;
+}
+.ring-label-b {
+  bottom: 22%;
+}
 
 .focus-controls {
   display: flex;
@@ -337,7 +369,9 @@
   color: var(--muted);
   text-align: center;
 }
-.focus-controls button { white-space: nowrap; }
+.focus-controls button {
+  white-space: nowrap;
+}
 .dial-slider {
   flex: 1 1 auto;
   min-width: 80px;

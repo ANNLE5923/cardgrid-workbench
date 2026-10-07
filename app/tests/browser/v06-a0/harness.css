@@ -1,0 +1,24 @@
+/* A0 harness chrome: banner, tab rows, scene container, mock log. */
+.v06-banner {
+  display: grid; gap: 5px;
+  border: 1px solid #d8cfae; background: var(--soft); border-radius: 11px;
+  padding: 13px 17px; margin-bottom: 16px;
+}
+.v06-banner strong {font-size: 15px;}
+.v06-banner span {font-size: 12px; color: var(--muted);}
+.v06-tabrow {
+  display: flex; justify-content: space-between; align-items: center; gap: 12px;
+  flex-wrap: wrap; margin-bottom: 14px;
+}
+.v06-segmented {max-width: 100%; overflow-x: auto;}
+.v06-questions {margin-bottom: 16px;}
+.v06-scene {margin-bottom: 22px;}
+.v06-scene .panel:last-child {margin-bottom: 0;}
+.v06-log {padding: 16px 18px;}
+.v06-log summary {cursor: pointer; font-size: 13px;}
+.v06-log ul {margin: 12px 0 0; padding-left: 20px; display: grid; gap: 6px;}
+.v06-log li {font-size: 12px; color: var(--muted);}
+@media (max-width: 650px) {
+  .v06-banner {padding: 11px 13px;}
+  .v06-tabrow {justify-content: flex-start;}
+}

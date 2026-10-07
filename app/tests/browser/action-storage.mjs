@@ -168,7 +168,7 @@ try {
     const page = await pageIn(context), other = await pageIn(context);
     const result = await page.evaluate(async () => {
       await cg.save('before');
-      const db = await new Promise((resolve, reject) => { const r = indexedDB.open('cardgrid-isolated-action', 3); r.onsuccess = () => resolve(r.result); r.onerror = () => reject(r.error); });
+      const db = await new Promise((resolve, reject) => { const r = indexedDB.open('cardgrid-isolated-action'); r.onsuccess = () => resolve(r.result); r.onerror = () => reject(r.error); });
       await new Promise((resolve, reject) => { const tx = db.transaction('recovery', 'readwrite'); for (const key of ['previous', 'pre-p1a', 'other-backup']) tx.objectStore('recovery').put({ secret: key }, key); tx.oncomplete = resolve; tx.onabort = () => reject(tx.error); }); db.close();
       const backup = await cg.evidence(); const command = { commandId: 'clear-once', expected: backup.token, type: 'ClearWorkspace', payload: { backup, discardDraftsConfirmed: true } };
       const first = await cg.client.submit(command), cleared = await cg.snapshot(); await cg.save('after-clear'); const afterWrite = await cg.snapshot();
@@ -246,7 +246,7 @@ try {
       let failed; try { failed = await cg.client.submit(command); } finally { IDBObjectStore.prototype.put = original; }
       const afterFailure = await cg.snapshot(), retried = await cg.client.submit(command), confirmed = await cg.snapshot();
       const latest = (await cg.client.load()).value.token;
-      const oversized = await cg.client.submit({ commandId: 'oversized', expected: latest, type: 'CreateCapture', payload: { text: '字'.repeat(2 * 1024 * 1024), source: 'size-test' } });
+      const oversized = await cg.client.submit({ commandId: 'oversized', expected: latest, type: 'CreateCapture', payload: { text: '字'.repeat(6 * 1024 * 1024), source: 'size-test' } });
       return { before, failed, afterFailure, retried, confirmed, oversized, afterSize: await cg.snapshot() };
     });
     assert.equal(result.failed.code, 'STORAGE_FAILED'); assert.deepEqual(result.before, result.afterFailure); assert.equal(result.retried.ok, true);

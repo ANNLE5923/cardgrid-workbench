@@ -8,6 +8,7 @@ import {fileURLToPath} from 'node:url';
 import {createServer} from 'vite';
 
 const server = process.env.CARDGRID_DEV_ORIGIN ? null : await createServer({root:fileURLToPath(new URL('../../',import.meta.url)),configFile:false,
+  optimizeDeps:{noDiscovery:true,entries:[],include:['react','react-dom/client','react/jsx-dev-runtime','@js-temporal/polyfill','jsbi']},
   server:{host:'127.0.0.1',port:0},logLevel:'error'});
 await server?.listen();
 const origin = process.env.CARDGRID_DEV_ORIGIN || `http://127.0.0.1:${server.httpServer.address().port}`;

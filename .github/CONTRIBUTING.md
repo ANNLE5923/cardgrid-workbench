@@ -1,6 +1,6 @@
 # 贡献指南
 
-先读 [README](../README.md)、[模块地图](../docs/架构/README.md) 和[产品规则](../docs/产品设计/03-项目决策与问题.md)。
+先读 [README](../README.md)、[编码与版本收尾原则](../AGENTS.md)、[模块地图](../docs/架构/README.md) 和[产品规则](../docs/产品设计/03-项目决策与问题.md)。
 
 ## 开发
 
@@ -10,6 +10,8 @@
 cd app
 npm ci
 npm run dev
+npm run format
+npm run format:check
 npm test
 npm run test:independent
 npm run build
@@ -18,6 +20,8 @@ npm run test:browser
 ```
 
 浏览器专项见[运行说明](../app/tests/browser/README.md)。测试只使用隔离工作区与合成数据。
+
+每个版本按“开发完成 → 整理代码 → 整理文件 → 验证 → 按授权提交上传”收尾。格式由 Prettier 与 CI 检查统一，源码换行由 `.gitattributes` 固定，Windows 启动脚本保留 CRLF。具体状态、请求、数据和文件边界以仓库编码原则为准。
 
 ## 改动边界
 

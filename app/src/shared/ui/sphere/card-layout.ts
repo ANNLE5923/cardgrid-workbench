@@ -6,9 +6,12 @@
 export type SpherePoint = Readonly<{
   index: number;
   /** Unit vector times radius. */
-  x: number; y: number; z: number;
+  x: number;
+  y: number;
+  z: number;
   /** CSS angles (deg) for: rotateY(azimuth) rotateX(elevation) translateZ(radius). */
-  azimuth: number; elevation: number;
+  azimuth: number;
+  elevation: number;
 }>;
 
 const GOLDEN_ANGLE = Math.PI * (3 - Math.sqrt(5));
@@ -28,7 +31,9 @@ export function spherePoints(count: number, radius: number): readonly SpherePoin
     const z = Math.sin(theta) * ring;
     points.push({
       index: i,
-      x: x * radius, y: y * radius, z: z * radius,
+      x: x * radius,
+      y: y * radius,
+      z: z * radius,
       azimuth: Math.atan2(x, z) * RAD2DEG,
       elevation: Math.asin(clamp1(-y)) * RAD2DEG,
     });
@@ -36,15 +41,15 @@ export function spherePoints(count: number, radius: number): readonly SpherePoin
   return points;
 }
 
-export type GridDims = Readonly<{rows: number; cols: number}>;
+export type GridDims = Readonly<{ rows: number; cols: number }>;
 
 /** Near-square grid dimensions for a given item count. */
 export function gridDims(count: number, maxCols?: number): GridDims {
   const n = Math.max(0, Math.floor(count));
-  if (n === 0) return {rows: 0, cols: 0};
+  if (n === 0) return { rows: 0, cols: 0 };
   const ideal = Math.ceil(Math.sqrt(n));
   const cols = maxCols ? Math.min(ideal, maxCols) : ideal;
-  return {rows: Math.ceil(n / cols), cols};
+  return { rows: Math.ceil(n / cols), cols };
 }
 
 /** Stable per-cell wave phase (radians) so the matrix ripples in reading order. */

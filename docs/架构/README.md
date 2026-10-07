@@ -1,8 +1,31 @@
 # 模块地图
 
-CardGrid 采用模块化单体：一套浏览器应用，三个业务模块，共用工作区保存机制。
+CardGrid 采用模块化单体：一套浏览器应用，共用工作区保存机制。当前应用、依赖、脚本和测试都在 `app/`；下面 v0.3 的 `src/` 等路径以 `app/` 为前缀理解，历史引用保留原语境。
 
-根目录保留产品入口、许可证、依赖清单及 Git／TypeScript 默认配置。`.github/` 集中 CI、贡献指南与安全说明；`scripts/` 集中启动、测试与 Vite 构建配置；`docs/`、`src/`、`public/`、`tests/` 分别承载文档、源码、静态资源与验证。现有 npm 命令和源码入口保持，历史验收记录中的旧路径保留当时语境。
+根目录保留产品入口、许可证、Git 与文档；`.github/` 集中 CI、贡献指南与安全说明。`app/scripts/`、`app/src/`、`app/public/`、`app/tests/` 分别承载脚本、源码、静态资源和验证，所有 npm 命令从 `app/` 执行。
+
+[仓库编码原则](../../AGENTS.md)是新会话的执行入口：开发时保持状态归属、请求身份和数据边界；每个版本依次整理代码、整理文件、验证和按授权提交上传。格式规则由 `app/.prettierrc.json` 及 CI 检查保持。
+
+## v0.6 当前集成路径
+
+| 模块／入口 | 职责 |
+| --- | --- |
+| `app/src/app/RootApp.tsx`、`app/src/app/v06/V06App.tsx` | 按 Data 格式分派旧入口／通用入口，显式升级、页面装配、离页 flush |
+| `app/src/app/v06/BackupRestore.tsx`、`ReferencePlacement.tsx` | 各自拥有表单、对应预览与异步失效；换输入／离页后晚到结果不能恢复旧确认 |
+| `app/src/workspace/v06-host.ts`、`v5-*.ts` | Data5、具名事务、回执与来源校验；旧备份精确恢复，不自动升级 |
+| `app/src/decision/`、`drawing/v06-action-session.ts` | 通用候选、稳定决策、字段合成／消费和行动球面会话 |
+| `app/src/workshop/ui/v06/`、`formal-catalog-editor.ts` | 正式工坊／独立清单、三槽合成；未确认命令重试保留原身份 |
+| `app/src/daily/hand/`、`workspace/v06-today-client.ts` | 统一浮窗、Today 独占打出、参考和事实冻结 |
+| `app/src/journal/`、`app/src/app/v06/V06JournalView.tsx` | 表盘自动段投影、独立感想与旧正文、草稿保存及修改时间 |
+| `app/src/maintenance/`、`workspace/v06-maintenance.ts` | 应用内具名操作及清单网址发起的独立日志 |
+| `app/src/text-output/`、`workspace/v06-text-source.ts` | 日记／日志共用单向队列、权限、intent、字节核对、外部副本与最后成功输出 |
+| `app/src/workspace/v06-archives.ts`、`archive-*.ts` | 月度闭包 ZIP、外部重读证明、明确原子移出、只读历史与单包解码缓存 |
+
+自动段不重复保存为可写事实，感想与旧正文分别保存。归档只读按实际时间区间及封存时区判断；保留在活动区的未完成安排仍可移到活动日或收回。完整历史文本按各包冻结上下文投影，多个源日跨到同一展示日时不采用单一新模板。所有文件检查只处理输出，不反向改写工作区。当前证据与发布限制见[计划第 23 节](../开发/2026-10-06-v0.6并行开发计划.md#23-主线集成与整体收尾2026-10-07)。
+
+同日整理：`app/src/app/v06/` 集中正式 V06App、抽卡／日记／文件／归档／配置页面和对应 CSS；`RootApp.tsx` 与旧 App 保持原位，外部调用继续经 `app/index.ts`。内部文件的位置可调整，调用方依赖的公开出口保持稳定。业务、存储及其他模块边界未变，A6 样稿保持隔离。
+
+旧根依赖、构建和历史测试输出在忽略的 `.local/legacy-root/{node_modules,dist,test-results}/` 原样保留；当前运行只使用 `app/` 中相应目录。移动清单、字节保留及整理后回归见[计划第 24 节](../开发/2026-10-06-v0.6并行开发计划.md#24-代码与本地文件整理2026-10-07)。
 
 ## 源码树
 

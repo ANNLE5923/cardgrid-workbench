@@ -77,7 +77,7 @@ test('2A.1 limits input and leaves the original text with its caller on parse fa
   const malformed = '{"format":"cardgrid",';
   badAt(() => inspectImportText(malformed), '$');
   assert.equal(malformed, '{"format":"cardgrid",');
-  badAt(() => inspectImportText(' '.repeat(5 * 1024 * 1024 + 1)), '$');
+  badAt(() => inspectImportText(' '.repeat(64 * 1024 * 1024 + 1)), '$');
 });
 
 test('2A.1 database reader requests a readonly transaction and never opens or upgrades a database', async () => {

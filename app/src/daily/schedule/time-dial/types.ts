@@ -1,13 +1,7 @@
 import type { Id, ProductionDayView, Range } from '../../../workspace/index.ts';
 
 export type DialSource =
-  | 'plan'
-  | 'fixed'
-  | 'fact'
-  | 'plan-reference'
-  | 'empty'
-  | 'legacy'
-  | 'projected-readonly';
+  'plan' | 'fixed' | 'fact' | 'plan-reference' | 'empty' | 'legacy' | 'projected-readonly';
 export type DialHalf = 'inner' | 'outer';
 export type LogicalPoint = Readonly<{ x: number; y: number }>;
 export type DialViewport = Readonly<{ width: number; height: number }>;

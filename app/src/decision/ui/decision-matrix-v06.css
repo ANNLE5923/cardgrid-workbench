@@ -1,0 +1,248 @@
+/* A4 decision matrix. Neutral surfaces with the decision-purple accent. */
+.dm6 {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.dm6 * {
+  box-sizing: border-box;
+}
+
+/* Flip stage */
+.dm6-stage {
+  perspective: 1500px;
+}
+.dm6-flip {
+  transform-style: preserve-3d;
+}
+.dm6-inner {
+  position: relative;
+  transform-style: preserve-3d;
+  transition: transform 0.55s ease;
+}
+.dm6-flip.is-revealed .dm6-inner {
+  transform: rotateY(180deg);
+}
+.dm6-face {
+  min-height: 320px;
+  border-radius: 16px;
+  border: 1px solid var(--line, #dfe4da);
+  background: var(--surface, #fffefa);
+  padding: 28px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  text-align: center;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+.dm6-front {
+  transform: rotateY(0deg);
+}
+.dm6-back {
+  position: absolute;
+  inset: 0;
+  transform: rotateY(180deg);
+}
+
+.dm6-mark {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 32px;
+  color: #fff;
+  background: #6b5b95;
+}
+.dm6-front h2 {
+  margin: 0;
+  font-size: 22px;
+  color: var(--ink, #2c4239);
+}
+.dm6-front p {
+  margin: 0;
+  font-size: 13px;
+  color: var(--muted, #758279);
+}
+.dm6-empty-hint {
+  color: #ab5142 !important;
+}
+
+.dm6-source {
+  font-size: 12px;
+  color: #6b5b95;
+  font-weight: 600;
+}
+.dm6-back strong {
+  font-size: 24px;
+  color: var(--ink, #2c4239);
+}
+.dm6-values {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  width: 100%;
+  max-width: 320px;
+}
+.dm6-values li {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  font-size: 13px;
+  background: var(--soft, #eef1e9);
+  border-radius: 8px;
+  padding: 6px 11px;
+  color: var(--ink, #2c4239);
+}
+.dm6-stable {
+  margin: 0;
+  font-size: 12px;
+  color: var(--muted, #758279);
+}
+.dm6-back-pattern {
+  font-size: 44px;
+  color: var(--line, #dfe4da);
+  width: 96px;
+  height: 96px;
+  border-radius: 16px;
+  border: 1px dashed var(--line, #dfe4da);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Controls */
+.dm6-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.dm6-spacer {
+  flex: 1;
+}
+.dm6-controls button {
+  appearance: none;
+  border: 1px solid var(--line, #dfe4da);
+  background: var(--surface, #fffefa);
+  color: var(--ink, #2c4239);
+  border-radius: 8px;
+  padding: 9px 15px;
+  font-size: 13px;
+  cursor: pointer;
+}
+.dm6-controls button:hover:not(:disabled) {
+  background: var(--soft, #eef1e9);
+}
+.dm6-controls button:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+.dm6-controls .primary {
+  background: #6b5b95;
+  border-color: #6b5b95;
+  color: #fff;
+}
+.dm6-controls .primary:hover:not(:disabled) {
+  background: #5c4d80;
+}
+.dm6-exit {
+  margin-left: auto;
+}
+
+.dm6-note {
+  background: #efecf6;
+  border: 1px solid #d6cfe6;
+  color: #5c4d80;
+  border-radius: 10px;
+  padding: 10px 14px;
+  font-size: 13px;
+}
+.dm6-error {
+  background: #f6ecea;
+  border: 1px solid #e2c4bd;
+  color: #ab5142;
+  border-radius: 10px;
+  padding: 10px 14px;
+  font-size: 13px;
+}
+
+/* Manual pick panel */
+.dm6-manual {
+  padding: 18px 20px;
+}
+.dm6-manual-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+.dm6-manual-head h2 {
+  margin: 0;
+  font-size: 16px;
+  color: var(--ink, #2c4239);
+}
+.dm6-manual-head button {
+  appearance: none;
+  border: none;
+  background: transparent;
+  font-size: 22px;
+  line-height: 1;
+  color: var(--muted, #758279);
+  cursor: pointer;
+}
+.dm6-candidates {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 10px;
+}
+.dm6-candidates button {
+  width: 100%;
+  appearance: none;
+  border: 1px solid var(--line, #dfe4da);
+  background: var(--bg, #f7f8f4);
+  color: var(--ink, #2c4239);
+  border-radius: 10px;
+  padding: 12px;
+  font-size: 14px;
+  cursor: pointer;
+}
+.dm6-candidates button:hover:not(:disabled) {
+  background: var(--soft, #eef1e9);
+}
+.dm6-candidates button.is-chosen {
+  border-color: #6b5b95;
+  background: #efecf6;
+}
+.dm6-candidates button:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+@media (max-width: 560px) {
+  .dm6-face {
+    min-height: 280px;
+    padding: 20px;
+  }
+  .dm6-controls .dm6-spacer {
+    display: none;
+  }
+  .dm6-controls button {
+    flex: 1 1 auto;
+  }
+  .dm6-exit {
+    margin-left: 0;
+    flex-basis: 100%;
+  }
+}

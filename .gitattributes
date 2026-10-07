@@ -1,2 +1,18 @@
+* text=auto
+*.ts text eol=lf
+*.tsx text eol=lf
+*.js text eol=lf
+*.mjs text eol=lf
+*.css text eol=lf
+*.json text eol=lf
+*.yml text eol=lf
+*.yaml text eol=lf
+*.md text eol=lf
+.gitignore text eol=lf
+*.bat text eol=crlf
+
+# Preserve the original independent acceptance manifest byte for byte.
+"docs/归档/v0.3/验收/final-code-snapshot.json" -text whitespace=cr-at-eol
+
 # Preserve the original independent acceptance manifest byte for byte.
 "docs/归档/v0.3/验收/final-code-snapshot.json" -text whitespace=cr-at-eol

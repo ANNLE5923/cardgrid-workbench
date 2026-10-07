@@ -1,0 +1,43 @@
+.v06-app {
+  width: 100%;
+  padding: 24px clamp(12px, 3vw, 42px);
+  overflow-wrap: anywhere;
+}
+.v06-app > nav {
+  display: flex;
+  flex-wrap: wrap;
+  margin-bottom: 24px;
+}
+.v06-app > nav button[aria-current='page'] {
+  background: var(--accent);
+  color: #fff;
+}
+.v06-journal {
+  max-width: 900px;
+  min-width: 0;
+}
+.v06-journal article {
+  margin: 16px 0;
+  padding: 16px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+}
+.v06-journal article h3 {
+  margin: 0 0 10px;
+  font-size: 16px;
+}
+.v06-journal-text {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  font-family: inherit;
+}
+.v06-journal-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 12px;
+}
+.v06-journal time {
+  font-variant-numeric: tabular-nums;
+}

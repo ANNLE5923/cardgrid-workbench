@@ -1,15 +1,86 @@
-.production-draw{display:grid;gap:16px}
-.production-draw-head{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;flex-wrap:wrap}
-.production-draw-head h2,.production-draw-card h3{margin:0 0 8px}
-.production-draw-head p{margin:0;color:var(--muted);font-size:13px}
-.production-draw-choice{display:flex;align-items:end;gap:12px;flex-wrap:wrap}
-.production-draw-choice label{flex:1;min-width:220px}
-.production-draw-card{display:grid;gap:14px;border:1px solid var(--line);border-radius:12px;padding:18px;background:var(--soft)}
-.production-draw-card p{margin:0;overflow-wrap:anywhere}
-.production-draw-card button{justify-self:start}
-.production-draw-slot{border:1px solid var(--line);border-radius:8px;padding:12px;display:grid;gap:10px;min-width:0}
-.production-draw-modes{display:flex;gap:16px;flex-wrap:wrap}
-.production-draw-modes label{display:flex;flex-direction:row;align-items:center;gap:6px}
-.production-draw-modes input{width:auto}
-.production-draw-result{font-size:16px}
-@media(max-width:480px){.production-draw-choice{align-items:stretch}.production-draw-choice label{min-width:0;flex-basis:100%}.production-draw select{width:100%;min-width:0}.production-draw-card{padding:12px}}
+.production-draw {
+  display: grid;
+  gap: 16px;
+}
+.production-draw-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+.production-draw-head h2,
+.production-draw-card h3 {
+  margin: 0 0 8px;
+}
+.production-draw-head p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 13px;
+}
+.production-draw-choice {
+  display: flex;
+  align-items: end;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.production-draw-choice label {
+  flex: 1;
+  min-width: 220px;
+}
+.production-draw-card {
+  display: grid;
+  gap: 14px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 18px;
+  background: var(--soft);
+}
+.production-draw-card p {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+.production-draw-card button {
+  justify-self: start;
+}
+.production-draw-slot {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 12px;
+  display: grid;
+  gap: 10px;
+  min-width: 0;
+}
+.production-draw-modes {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+.production-draw-modes label {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 6px;
+}
+.production-draw-modes input {
+  width: auto;
+}
+.production-draw-result {
+  font-size: 16px;
+}
+@media (max-width: 480px) {
+  .production-draw-choice {
+    align-items: stretch;
+  }
+  .production-draw-choice label {
+    min-width: 0;
+    flex-basis: 100%;
+  }
+  .production-draw select {
+    width: 100%;
+    min-width: 0;
+  }
+  .production-draw-card {
+    padding: 12px;
+  }
+}

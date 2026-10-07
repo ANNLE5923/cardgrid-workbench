@@ -142,10 +142,12 @@ test('2B C37 all old envelopes restore exact field presence and order without in
     for (let i = 0; i < 3; i++) { const target = parseRestore(JSON.stringify(pack)); assert.equal(target.mode, 'legacy-readonly'); assert.deepEqual(target.data, pack.data); }
   }
 });
-test('2B C16 capacity counts UTF-8 bytes and accepts exactly 5 MiB, rejects the next byte', () => {
+test('2B C16 capacity counts UTF-8 bytes and accepts exactly 64 MiB input, rejects the next byte (B4 gate)', () => {
   const raw = JSON.stringify({ format: 'cardgrid', version: 2, kind: 'backup', dataFormat: 'action-v2', data: blank() });
-  const size = new TextEncoder().encode(raw).length, boundary = raw + ' '.repeat(MAX_BACKUP_BYTES - size);
-  assert.equal(new TextEncoder().encode(boundary).length, MAX_BACKUP_BYTES); assert.deepEqual(parseRestore(boundary).data, blank()); assert.throws(() => parseRestore(boundary + ' '));
+  const inputLimit=64*1024*1024;
+  assert.equal(MAX_BACKUP_BYTES,32*1024*1024);
+  const size = new TextEncoder().encode(raw).length, boundary = raw + ' '.repeat(inputLimit - size);
+  assert.equal(new TextEncoder().encode(boundary).length, inputLimit); assert.deepEqual(parseRestore(boundary).data, blank()); assert.throws(() => parseRestore(boundary + ' '));
   const data = clone(blank()); data.planner.captures = [{ id: 'c', version: 1, text: '字'.repeat(1000), createdAt: AT, source: '', status: 'unprocessed', target: null }];
   assert.equal(backupBytes(data), new TextEncoder().encode(JSON.stringify({ format: 'cardgrid', version: 2, kind: 'backup', dataFormat: 'action-v2', data })).length);
 });

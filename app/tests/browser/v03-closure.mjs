@@ -90,10 +90,11 @@ async function waitForActivation(worker){
 async function offlineUpdate(page,context,{observerDelayMs=0}={}){
   previousShell=true;await seed(page,{accepts:1});await page.goto(origin);
   await page.waitForFunction(async()=>(await navigator.serviceWorker.getRegistration())?.active?.state==='activated');
-  // A reload of the first uncontrolled document can remain uncontrolled even after
-  // registration activation. Enter a fresh document after activation before updating.
-  await page.goto('about:blank');await page.goto(origin);
+  // Begin the update scenario in a new controlled client. Activation of the
+  // registration alone does not establish control of the registering document.
+  const registeringPage=page;page=await context.newPage();await page.goto(origin);
   await page.waitForFunction(()=>navigator.serviceWorker.controller?.state==='activated');
+  await registeringPage.close();
   const before=await read(page);assert.equal(await page.locator('meta[name="test-prior-shell"]').count(),1);
   const expectedCache=(await fs.readFile(path.join(root,'dist/sw.js'),'utf8')).match(/const CACHE='([^']+)'/)[1];
   // Arm before changing the server's worker bytes and requesting the update.
@@ -123,10 +124,11 @@ async function offlineUpdate(page,context,{observerDelayMs=0}={}){
 }
 async function test(name,fn,options={}){
   if(process.env.CARDGRID_V03_ONLY&&!new RegExp(process.env.CARDGRID_V03_ONLY).test(name))return;
-  const context=await browser.newContext({timezoneId:'Asia/Shanghai',serviceWorkers:'block',...options}),page=await context.newPage(),errors=[];
-  page.on('pageerror',e=>errors.push(e.message));const start=Date.now();
+  const context=await browser.newContext({timezoneId:'Asia/Shanghai',serviceWorkers:'block',...options}),errors=[];
+  context.on('page',p=>p.on('pageerror',e=>errors.push(e.message)));
+  const page=await context.newPage(),start=Date.now();
   try{const detail=await fn(page,context);assert.deepEqual(errors,[]);results.push({name,status:'pass',durationMs:Date.now()-start,detail});console.log('PASS',name);}
-  catch(error){results.push({name,status:'fail',error:error.stack});console.error('FAIL',name,error);await page.screenshot({path:path.join(output,`failure-${name}.png`),fullPage:true}).catch(()=>{});}
+  catch(error){results.push({name,status:'fail',error:error.stack});console.error('FAIL',name,error);await context.pages().at(-1)?.screenshot({path:path.join(output,`failure-${name}.png`),fullPage:true}).catch(()=>{});}
   finally{await context.close();}
 }
 try{

@@ -39,6 +39,7 @@ async function check(id,fn,options={}){
     r.onsuccess=()=>resolve(undefined);r.onerror=()=>reject(r.error);r.onblocked=()=>reject(new Error('delete blocked'));
   }));
   if(options.clock!==false)await page.clock.install({time:new Date('2026-10-05T12:00:00Z')});
+  else await page.clock.setFixedTime(new Date('2026-10-05T12:00:00Z')); // Fixed Date; real autosave timers keep running.
   try{const detail=await fn(page);assert.deepEqual(errors,[]);results.push({id,status:'pass',detail});console.log('PASS',id);}
   catch(e){results.push({id,status:'fail',error:String(e.stack??e),errors});console.error('FAIL',id,e);
     await page.screenshot({path:path.join(out,'failure-'+id+'.png'),fullPage:true}).catch(()=>{});}

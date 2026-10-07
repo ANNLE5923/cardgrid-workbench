@@ -43,7 +43,7 @@ function absoluteMinute(seg: Segment, edge: 'start' | 'end'): number {
 
 // Unprepared day-template projections are read-only previews, never saved fixed sources (N06).
 function effectiveSource(seg: Segment, day?: ProductionDayView): DialSource {
-  if (seg.kind === 'fixed' && day && !day.fixed.some(f => f.commitmentId === seg.sourceId)) {
+  if (seg.kind === 'fixed' && day && !day.fixed.some((f) => f.commitmentId === seg.sourceId)) {
     return 'projected-readonly';
   }
   return seg.kind;
@@ -161,7 +161,7 @@ export const projectionAdapter: DialProjectionPort = {
     }
 
     // Legacy read-only entries: identity includes the full LegacyRef (sourceId + path).
-    day.legacyItems.forEach(li => {
+    day.legacyItems.forEach((li) => {
       const fragments = legacyFragments(li, day.date, day.zone);
       if (!fragments.length) return;
       const key = JSON.stringify(['legacy', li.source.sourceId, li.source.path]);
@@ -196,10 +196,15 @@ export const projectionAdapter: DialProjectionPort = {
 
     // Axis = valid wall intervals of this day, sliced at noon and offset transitions (F08/N03).
     // Absolute wall minutes are stored so a spring-forward gap is simply omitted.
-    const axis: AxisPiece[] = splitRangeForDay(day.dayRange, day.date, day.zone).map(slice => {
+    const axis: AxisPiece[] = splitRangeForDay(day.dayRange, day.date, day.zone).map((slice) => {
       const { absStart, absEnd } = sliceWall(slice, day.zone);
       const half = slice.half === 0 ? 'inner' : 'outer';
-      return { half, label: `${clockShort(absStart)}—${clockShort(absEnd)}`, startMinute: absStart, endMinute: absEnd };
+      return {
+        half,
+        label: `${clockShort(absStart)}—${clockShort(absEnd)}`,
+        startMinute: absStart,
+        endMinute: absEnd,
+      };
     });
 
     return {
@@ -237,13 +242,13 @@ export const projectionAdapter: DialProjectionPort = {
   hourOverview(scene: DialScene, hour: number): readonly DialItem[] {
     const s = hour * 60;
     const e = s + 60;
-    return scene.items.filter(item =>
-      item.fragments.some(f => f.startMinute < e && f.endMinute > s),
+    return scene.items.filter((item) =>
+      item.fragments.some((f) => f.startMinute < e && f.endMinute > s),
     );
   },
 };
 
 // Convert a placement candidate's projected segments to dial fragments for the live overlay.
 export function candidateFragments(candidate: Candidate): readonly DialFragment[] {
-  return candidate.segments.map(seg => segmentFragment(seg));
+  return candidate.segments.map((seg) => segmentFragment(seg));
 }

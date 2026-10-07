@@ -4,9 +4,7 @@
  * transaction: write logs -> retract unfinished schedules -> move hand out of the
  * active read model -> delete active copies.
  */
-import type {
-  ArchiveLog, DailyCopy, GenerationRule, Id, Instant,
-} from '../workspace/index.ts';
+import type { ArchiveLog, DailyCopy, GenerationRule, Id, Instant } from '../workspace/index.ts';
 import { dateAt, nextDate } from '../daily/time.ts';
 
 export type ArchivePlan = Readonly<{
@@ -26,8 +24,11 @@ export type ArchiveInput = Readonly<{
 
 function makeArchiveLog(copy: DailyCopy, at: Instant, logId: Id): ArchiveLog {
   return {
-    id: logId, version: 1,
-    copyId: copy.id, ruleId: copy.ruleId, actionCard: copy.actionCard,
+    id: logId,
+    version: 1,
+    copyId: copy.id,
+    ruleId: copy.ruleId,
+    actionCard: copy.actionCard,
     sourceDate: copy.sourceDate,
     contentSnapshot: copy.contentSnapshot,
     // B1 does not read the hand; B3 gathers per-instance slot selections when committing.
@@ -49,7 +50,7 @@ export function planArchive(input: ArchiveInput): ArchivePlan {
   const instanceIdsToRelease: Id[] = [];
   for (const copy of input.copies) {
     if (copy.status !== 'active') continue;
-    const rule = input.rules.find(candidate => candidate.id === copy.ruleId);
+    const rule = input.rules.find((candidate) => candidate.id === copy.ruleId);
     const today = dateAt(input.asOf, rule?.zone ?? 'UTC');
     const retainFrom = nextDate(today, -6); // sourceDate >= retainFrom is kept
     if (copy.sourceDate >= retainFrom) continue;

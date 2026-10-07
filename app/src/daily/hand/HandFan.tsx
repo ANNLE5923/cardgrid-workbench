@@ -1,6 +1,12 @@
 import { useEffect, useRef, useState } from 'react';
 import type { CardView, PlacementSubject } from '../../workspace/index.ts';
-import { fanLayout, clientPointToLogical, advanceHandEntry, emptyHandEntry, isReclaim } from '../schedule/time-dial/interaction.ts';
+import {
+  fanLayout,
+  clientPointToLogical,
+  advanceHandEntry,
+  emptyHandEntry,
+  isReclaim,
+} from '../schedule/time-dial/interaction.ts';
 import { useFlowFocus } from '../../shared/ui/index.ts';
 import { geometry } from '../schedule/time-dial/geometry.ts';
 import type { HandEntryState } from '../schedule/time-dial/interaction.ts';
@@ -12,22 +18,24 @@ import './hand.css';
 const CENTER = 200;
 const radiusOf = (p: LogicalPoint) => Math.hypot(p.x - CENTER, p.y - CENTER);
 
-export function HandFan(props: Readonly<{
-  hand: readonly CardView[];
-  handMeta?: Readonly<Record<string,{key: string; sourceDate: string}>>;
-  date: string;
-  zone: string;
-  session: PlacementSession;
-  getFocus: () => number;
-  getDialRect: () => DOMRect | null;
-  onView: (card: CardView) => void;
-  onPlace: (card: CardView) => void;
-  onRecordActual: (card: CardView) => void;
-  onCommitted: () => void | Promise<void>;
-  onInteractionStart: () => void;
-  onGestureStart?: () => void;
-  onCancel: () => void;
-}>) {
+export function HandFan(
+  props: Readonly<{
+    hand: readonly CardView[];
+    handMeta?: Readonly<Record<string, { key: string; sourceDate: string }>>;
+    date: string;
+    zone: string;
+    session: PlacementSession;
+    getFocus: () => number;
+    getDialRect: () => DOMRect | null;
+    onView: (card: CardView) => void;
+    onPlace: (card: CardView) => void;
+    onRecordActual: (card: CardView) => void;
+    onCommitted: () => void | Promise<void>;
+    onInteractionStart: () => void;
+    onGestureStart?: () => void;
+    onCancel: () => void;
+  }>,
+) {
   const { hand, date, zone, session, onCommitted } = props;
 
   // Wide screens show at most PAGE cards with paging/expand; on narrow screens all cards
@@ -36,15 +44,25 @@ export function HandFan(props: Readonly<{
   const [page, setPage] = useState(0);
   const [expanded, setExpanded] = useState(false);
   const [narrow, setNarrow] = useState(false);
-  const [openStacks, setOpenStacks] = useState<Readonly<Record<string,boolean>>>({});
+  const [openStacks, setOpenStacks] = useState<Readonly<Record<string, boolean>>>({});
   const grouped = new Map<string, CardView[]>();
-  for (const card of hand) {const key = props.handMeta?.[card.instanceId]?.key ?? card.instanceId; grouped.set(key,[...(grouped.get(key) ?? []),card]);}
-  const displayHand: CardView[] = [], counts = new Map<string,number>(), collapseKeys = new Map<string,string>();
-  for (const [key,members] of grouped) {
+  for (const card of hand) {
+    const key = props.handMeta?.[card.instanceId]?.key ?? card.instanceId;
+    grouped.set(key, [...(grouped.get(key) ?? []), card]);
+  }
+  const displayHand: CardView[] = [],
+    counts = new Map<string, number>(),
+    collapseKeys = new Map<string, string>();
+  for (const [key, members] of grouped) {
     if (members.length > 1 && !openStacks[key]) {
-      const representative = members.find(c => props.handMeta?.[c.instanceId]?.sourceDate === date) ?? members[0];
-      displayHand.push(representative); counts.set(representative.instanceId,members.length);
-    } else {displayHand.push(...members); if (members.length > 1) collapseKeys.set(members[0].instanceId,key);}
+      const representative =
+        members.find((c) => props.handMeta?.[c.instanceId]?.sourceDate === date) ?? members[0];
+      displayHand.push(representative);
+      counts.set(representative.instanceId, members.length);
+    } else {
+      displayHand.push(...members);
+      if (members.length > 1) collapseKeys.set(members[0].instanceId, key);
+    }
   }
   useEffect(() => {
     const mq = window.matchMedia('(max-width: 560px)');
@@ -56,7 +74,9 @@ export function HandFan(props: Readonly<{
   const showAll = expanded || narrow;
   const pageCount = Math.max(1, Math.ceil(displayHand.length / PAGE));
   const safePage = Math.min(page, pageCount - 1);
-  const visible = showAll ? displayHand : displayHand.slice(safePage * PAGE, safePage * PAGE + PAGE);
+  const visible = showAll
+    ? displayHand
+    : displayHand.slice(safePage * PAGE, safePage * PAGE + PAGE);
   const angles = fanLayout(visible.length);
 
   const dragCardRef = useRef<CardView | null>(null);
@@ -64,47 +84,97 @@ export function HandFan(props: Readonly<{
   const anchorRef = useRef<HitAnchor | null>(null);
   const startRadiusRef = useRef(-1);
   const reclaimRef = useRef(false);
-  const pointerRef = useRef<{ id: number; date: string; zone: string; focus: number;
-    sx: number; sy: number; dx: number; dy: number; width: number; height: number;
-    previousEdge: LogicalPoint; entry: HandEntryState } | null>(null);
+  const pointerRef = useRef<{
+    id: number;
+    date: string;
+    zone: string;
+    focus: number;
+    sx: number;
+    sy: number;
+    dx: number;
+    dy: number;
+    width: number;
+    height: number;
+    previousEdge: LogicalPoint;
+    entry: HandEntryState;
+  } | null>(null);
 
   const [dragId, setDragId] = useState<string | null>(null);
-  const [ghost, setGhost] = useState<{ x: number; y: number; width: number; height: number; title: string; color: string; label: string } | null>(null);
+  const [ghost, setGhost] = useState<{
+    x: number;
+    y: number;
+    width: number;
+    height: number;
+    title: string;
+    color: string;
+    label: string;
+  } | null>(null);
   const [ack, setAck] = useState(false);
 
   const { status, preview, chosen, error } = session.state;
-  const activeSubjectId = session.state.subject?.kind === 'hand'
-    ? (session.state.subject as PlacementSubject & { kind: 'hand'; instanceId: string }).instanceId
-    : null;
+  const activeSubjectId =
+    session.state.subject?.kind === 'hand'
+      ? (session.state.subject as PlacementSubject & { kind: 'hand'; instanceId: string })
+          .instanceId
+      : null;
 
   // Switching candidate, moving or a new preview/revision all clear the overlap acknowledgement (F01).
-  useEffect(() => { setAck(false); }, [chosen, preview?.previewId]);
+  useEffect(() => {
+    setAck(false);
+  }, [chosen, preview?.previewId]);
 
   function onPointerDown(event: React.PointerEvent<HTMLDivElement>, card: CardView) {
-    if (status === 'committing' || event.button !== 0 || (event.target as Element).closest('button')) return;
+    if (
+      status === 'committing' ||
+      event.button !== 0 ||
+      (event.target as Element).closest('button')
+    )
+      return;
     props.onGestureStart?.();
     event.currentTarget.focus();
-        const rect = event.currentTarget.getBoundingClientRect();
-    const width = event.currentTarget.offsetWidth, height = event.currentTarget.offsetHeight;
+    const rect = event.currentTarget.getBoundingClientRect();
+    const width = event.currentTarget.offsetWidth,
+      height = event.currentTarget.offsetHeight;
     const style = getComputedStyle(event.currentTarget);
     const matrix = new DOMMatrix(style.transform === 'none' ? undefined : style.transform);
     const [ox, oy] = style.transformOrigin.split(' ').map(Number.parseFloat);
-    const transform = (x: number, y: number) => new DOMPoint(x - ox, y - oy).matrixTransform(matrix);
-    const corners = [transform(0, 0), transform(width, 0), transform(0, height), transform(width, height)];
+    const transform = (x: number, y: number) =>
+      new DOMPoint(x - ox, y - oy).matrixTransform(matrix);
+    const corners = [
+      transform(0, 0),
+      transform(width, 0),
+      transform(0, height),
+      transform(width, height),
+    ];
     const top = transform(width / 2, 0);
-    const minX = Math.min(...corners.map(p => p.x)), minY = Math.min(...corners.map(p => p.y));
-    const scaleX = rect.width / (Math.max(...corners.map(p => p.x)) - minX);
-    const scaleY = rect.height / (Math.max(...corners.map(p => p.y)) - minY);
+    const minX = Math.min(...corners.map((p) => p.x)),
+      minY = Math.min(...corners.map((p) => p.y));
+    const scaleX = rect.width / (Math.max(...corners.map((p) => p.x)) - minX);
+    const scaleY = rect.height / (Math.max(...corners.map((p) => p.y)) - minY);
     // The DOMMatrix describes this card; rect also includes ancestor scaling on narrow screens.
-    const edge = { x: rect.left + (top.x - minX) * scaleX,
-      y: rect.top + (top.y - minY) * scaleY };
+    const edge = { x: rect.left + (top.x - minX) * scaleX, y: rect.top + (top.y - minY) * scaleY };
     const dial = props.getDialRect();
     if (!dial) return;
-    pointerRef.current = { id: event.pointerId, date, zone, focus: props.getFocus(),
-      sx: event.clientX, sy: event.clientY, dx: edge.x - event.clientX, dy: edge.y - event.clientY,
-      width: width * scaleX, height: height * scaleY, previousEdge: clientPointToLogical(edge.x, edge.y, dial), entry: emptyHandEntry() };
+    pointerRef.current = {
+      id: event.pointerId,
+      date,
+      zone,
+      focus: props.getFocus(),
+      sx: event.clientX,
+      sy: event.clientY,
+      dx: edge.x - event.clientX,
+      dy: edge.y - event.clientY,
+      width: width * scaleX,
+      height: height * scaleY,
+      previousEdge: clientPointToLogical(edge.x, edge.y, dial),
+      entry: emptyHandEntry(),
+    };
 
-    try { event.currentTarget.setPointerCapture(event.pointerId); } catch { /* pointer already ended */ }
+    try {
+      event.currentTarget.setPointerCapture(event.pointerId);
+    } catch {
+      /* pointer already ended */
+    }
     dragCardRef.current = card;
     movedRef.current = false;
     anchorRef.current = null;
@@ -122,18 +192,34 @@ export function HandFan(props: Readonly<{
       const rect = props.getDialRect();
       const pointer = pointerRef.current;
       if (!card || !rect || !pointer || ev.pointerId !== pointer.id) return;
-            const edgeX = ev.clientX + pointer.dx, edgeY = ev.clientY + pointer.dy;
+      const edgeX = ev.clientX + pointer.dx,
+        edgeY = ev.clientY + pointer.dy;
       const logical = clientPointToLogical(edgeX, edgeY, rect);
       const radius = radiusOf(logical);
-      if (!movedRef.current && Math.hypot(ev.clientX - pointer.sx, ev.clientY - pointer.sy) < 5) return;
-      const advanced = advanceHandEntry(pointer.previousEdge, logical, pointer.focus, pointer.entry);
-      pointer.previousEdge = logical; pointer.entry = advanced.state;
-      setGhost({ x: edgeX - pointer.width / 2, y: edgeY, width: pointer.width, height: pointer.height,
-        title: card.title, color: card.color, label: '拖到表盘放置' });
-      if (pointer.entry.entered && startRadiusRef.current < 0) startRadiusRef.current = pointer.entry.entryRadius;
+      if (!movedRef.current && Math.hypot(ev.clientX - pointer.sx, ev.clientY - pointer.sy) < 5)
+        return;
+      const advanced = advanceHandEntry(
+        pointer.previousEdge,
+        logical,
+        pointer.focus,
+        pointer.entry,
+      );
+      pointer.previousEdge = logical;
+      pointer.entry = advanced.state;
+      setGhost({
+        x: edgeX - pointer.width / 2,
+        y: edgeY,
+        width: pointer.width,
+        height: pointer.height,
+        title: card.title,
+        color: card.color,
+        label: '拖到表盘放置',
+      });
+      if (pointer.entry.entered && startRadiusRef.current < 0)
+        startRadiusRef.current = pointer.entry.entryRadius;
       if (startRadiusRef.current >= 0 && isReclaim(startRadiusRef.current, radius)) {
         reclaimRef.current = true;
-        setGhost(g => g ? { ...g, label: '松手收回手牌' } : g);
+        setGhost((g) => (g ? { ...g, label: '松手收回手牌' } : g));
         return;
       }
       const hit = advanced.hit;
@@ -154,12 +240,17 @@ export function HandFan(props: Readonly<{
             instanceId: card.instanceId,
             version: card.version,
           };
-          void session.start({ subject, date: landing.date, zone: pointer.zone, focusMinute: landing.minuteOfDay });
+          void session.start({
+            subject,
+            date: landing.date,
+            zone: pointer.zone,
+            focusMinute: landing.minuteOfDay,
+          });
         }
       } else if (startRadiusRef.current >= 0) {
         const reclaim = isReclaim(startRadiusRef.current, radius);
         reclaimRef.current = reclaim;
-        setGhost(g => g ? { ...g, label: reclaim ? '松手收回手牌' : '拖到表盘放置' } : g);
+        setGhost((g) => (g ? { ...g, label: reclaim ? '松手收回手牌' : '拖到表盘放置' } : g));
       }
     }
     function up(ev: PointerEvent) {
@@ -172,7 +263,10 @@ export function HandFan(props: Readonly<{
       if (!card || !movedRef.current) return; // a click is handled by the card itself
       if (reclaimRef.current) {
         props.onCancel();
-      } else if ((session.state.status === 'preview' || session.state.status === 'preparing') && activeSubjectId === card.instanceId) {
+      } else if (
+        (session.state.status === 'preview' || session.state.status === 'preparing') &&
+        activeSubjectId === card.instanceId
+      ) {
         // Keep the candidate adjustment open; nothing is scheduled until confirm.
       } else {
         props.onCancel();
@@ -184,7 +278,11 @@ export function HandFan(props: Readonly<{
     window.addEventListener('pointerup', up);
     const cancel = (ev: PointerEvent) => {
       if (!pointerRef.current || ev.pointerId !== pointerRef.current.id) return;
-      pointerRef.current = null; dragCardRef.current = null; setDragId(null); setGhost(null); props.onCancel();
+      pointerRef.current = null;
+      dragCardRef.current = null;
+      setDragId(null);
+      setGhost(null);
+      props.onCancel();
     };
     window.addEventListener('pointercancel', cancel);
     window.addEventListener('lostpointercapture', cancel);
@@ -196,9 +294,10 @@ export function HandFan(props: Readonly<{
     };
   });
 
-  const chosenCandidate = preview?.candidates.find(c => c.id === chosen) ?? null;
+  const chosenCandidate = preview?.candidates.find((c) => c.id === chosen) ?? null;
   const needsAck = !!chosenCandidate && chosenCandidate.state !== 'valid';
-  const showAdjust = ['preparing', 'preview', 'committing'].includes(status) && !!session.state.subject;
+  const showAdjust =
+    ['preparing', 'preview', 'committing'].includes(status) && !!session.state.subject;
 
   async function confirm() {
     const ok = await session.commit(ack);
@@ -223,10 +322,32 @@ export function HandFan(props: Readonly<{
               previewing={activeSubjectId === card.instanceId && status === 'preview'}
               stackCount={counts.get(card.instanceId)}
               sourceDate={props.handMeta?.[card.instanceId]?.sourceDate}
-              onExpand={() => {const key = props.handMeta?.[card.instanceId]?.key; if (key) setOpenStacks(s => ({...s,[key]:true}));}}
-              onCollapse={collapseKeys.has(card.instanceId) ? () => {const key = collapseKeys.get(card.instanceId)!; if (activeSubjectId && grouped.get(key)?.some(c => c.instanceId === activeSubjectId)) props.onCancel(); setOpenStacks(s => ({...s,[key]:false}));} : undefined}
+              onExpand={() => {
+                const key = props.handMeta?.[card.instanceId]?.key;
+                if (key) setOpenStacks((s) => ({ ...s, [key]: true }));
+              }}
+              onCollapse={
+                collapseKeys.has(card.instanceId)
+                  ? () => {
+                      const key = collapseKeys.get(card.instanceId)!;
+                      if (
+                        activeSubjectId &&
+                        grouped.get(key)?.some((c) => c.instanceId === activeSubjectId)
+                      )
+                        props.onCancel();
+                      setOpenStacks((s) => ({ ...s, [key]: false }));
+                    }
+                  : undefined
+              }
               onPointerDown={counts.has(card.instanceId) ? undefined : onPointerDown}
-              onView={card => { if (!movedRef.current) {const key = props.handMeta?.[card.instanceId]?.key; if (key && counts.has(card.instanceId)) setOpenStacks(s => ({...s,[key]:true})); else props.onView(card);} }}
+              onView={(card) => {
+                if (!movedRef.current) {
+                  const key = props.handMeta?.[card.instanceId]?.key;
+                  if (key && counts.has(card.instanceId))
+                    setOpenStacks((s) => ({ ...s, [key]: true }));
+                  else props.onView(card);
+                }
+              }}
               onPlace={props.onPlace}
               onRecordActual={props.onRecordActual}
               disabled={status === 'committing'}
@@ -241,13 +362,29 @@ export function HandFan(props: Readonly<{
         <div className="hand-pager">
           {!expanded ? (
             <>
-              <button type="button" disabled={safePage === 0}
-                onClick={() => setPage(safePage - 1)} aria-label="上一页">‹</button>
-              <span>第 {safePage + 1} / {pageCount} 页 · 共 {hand.length} 张</span>
-              <button type="button" disabled={safePage >= pageCount - 1}
-                onClick={() => setPage(safePage + 1)} aria-label="下一页">›</button>
+              <button
+                type="button"
+                disabled={safePage === 0}
+                onClick={() => setPage(safePage - 1)}
+                aria-label="上一页"
+              >
+                ‹
+              </button>
+              <span>
+                第 {safePage + 1} / {pageCount} 页 · 共 {hand.length} 张
+              </span>
+              <button
+                type="button"
+                disabled={safePage >= pageCount - 1}
+                onClick={() => setPage(safePage + 1)}
+                aria-label="下一页"
+              >
+                ›
+              </button>
             </>
-          ) : <span>共 {hand.length} 张</span>}
+          ) : (
+            <span>共 {hand.length} 张</span>
+          )}
           <button type="button" onClick={() => setExpanded(!expanded)}>
             {expanded ? '收起' : '展开全部'}
           </button>
@@ -255,27 +392,45 @@ export function HandFan(props: Readonly<{
       ) : null}
 
       {ghost ? (
-        <div className="drag-card-ghost" aria-hidden="true" style={{ left: ghost.x, top: ghost.y, width: ghost.width, height: ghost.height, borderTopColor: ghost.color }}>
-          <span data-card-top-edge="true" /><strong>{ghost.title}</strong><small>{ghost.label}</small>
+        <div
+          className="drag-card-ghost"
+          aria-hidden="true"
+          style={{
+            left: ghost.x,
+            top: ghost.y,
+            width: ghost.width,
+            height: ghost.height,
+            borderTopColor: ghost.color,
+          }}
+        >
+          <span data-card-top-edge="true" />
+          <strong>{ghost.title}</strong>
+          <small>{ghost.label}</small>
         </div>
       ) : null}
 
       {error ? (
         <div className="message">
           <span>{error}</span>
-          <button type="button" onClick={props.onCancel}>知道了</button>
+          <button type="button" onClick={props.onCancel}>
+            知道了
+          </button>
         </div>
       ) : null}
 
       {showAdjust ? (
-        <CandidateAdjust onCancel={() => { if (status !== 'committing') props.onCancel(); }}>
+        <CandidateAdjust
+          onCancel={() => {
+            if (status !== 'committing') props.onCancel();
+          }}
+        >
           <h3>选择落点</h3>
           {session.state.busy ? <p role="status">正在检查落点…</p> : null}
           {session.state.unresolved.length ? (
             <div className="message">{session.state.unresolved.join('；')}</div>
           ) : null}
           <div className="adjust-candidates">
-            {preview?.candidates.map(c => (
+            {preview?.candidates.map((c) => (
               <button
                 type="button"
                 key={c.id}
@@ -286,9 +441,18 @@ export function HandFan(props: Readonly<{
                 <input type="radio" tabIndex={-1} checked={chosen === c.id} readOnly />
                 <span>
                   {c.label}
-                  <small>{c.offsetLabel} · {c.state}</small>
+                  <small>
+                    {c.offsetLabel} · {c.state}
+                  </small>
                   {'blockers' in c && c.blockers?.length ? (
-                    <small className="candidate-blockers">{c.reason}；冲突：{c.blockers.map(b => b.title + '（' + b.overlap.startAt + '—' + b.overlap.endAt + '）').join('、')}</small>
+                    <small className="candidate-blockers">
+                      {c.reason}；冲突：
+                      {c.blockers
+                        .map(
+                          (b) => b.title + '（' + b.overlap.startAt + '—' + b.overlap.endAt + '）',
+                        )
+                        .join('、')}
+                    </small>
                   ) : null}
                 </span>
               </button>
@@ -300,13 +464,27 @@ export function HandFan(props: Readonly<{
 
           {needsAck ? (
             <label className="overlap-ack">
-              <input type="checkbox" disabled={session.state.busy} checked={ack} onChange={e => setAck(e.target.checked)} />
+              <input
+                type="checkbox"
+                disabled={session.state.busy}
+                checked={ack}
+                onChange={(e) => setAck(e.target.checked)}
+              />
               我知道当前选择有重叠/冲突，仍按这个落点排期
             </label>
           ) : null}
 
           <div className="adjust-actions">
-            <button type="button" disabled={status === 'committing'} onClick={() => { props.onCancel(); setAck(false); }}>取消</button>
+            <button
+              type="button"
+              disabled={status === 'committing'}
+              onClick={() => {
+                props.onCancel();
+                setAck(false);
+              }}
+            >
+              取消
+            </button>
             <button
               type="button"
               className="primary"
@@ -323,5 +501,15 @@ export function HandFan(props: Readonly<{
 }
 function CandidateAdjust(props: Readonly<{ onCancel: () => void; children: React.ReactNode }>) {
   const focusRef = useFlowFocus(props.onCancel);
-  return <div ref={focusRef} tabIndex={-1} className="candidate-adjust" role="dialog" aria-label="调整落点并确认">{props.children}</div>;
+  return (
+    <div
+      ref={focusRef}
+      tabIndex={-1}
+      className="candidate-adjust"
+      role="dialog"
+      aria-label="调整落点并确认"
+    >
+      {props.children}
+    </div>
+  );
 }

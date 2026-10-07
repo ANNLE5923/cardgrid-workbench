@@ -1,0 +1,260 @@
+/* A6 timeline journal (v0.6). Scoped under .tj6; consumes .app tokens. */
+.tj6 {
+  display: grid;
+  gap: 16px;
+  max-width: 920px;
+}
+
+.tj6-banner {
+  font-size: 12px;
+  color: var(--muted);
+  background: var(--soft);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 10px 14px;
+}
+
+.tj6-controls {
+  display: flex;
+  align-items: flex-end;
+  gap: 14px;
+  flex-wrap: wrap;
+  padding: 13px 16px;
+}
+.tj6-field {
+  display: grid;
+  gap: 5px;
+  font-size: 12px;
+  color: var(--muted);
+}
+.tj6-field input,
+.tj6-field select {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 6px 9px;
+  background: var(--surface);
+  color: inherit;
+  font: inherit;
+}
+.tj6-archive-flag {
+  font-size: 11px;
+  color: #6b5b95;
+  background: color-mix(in srgb, #6b5b95 10%, var(--surface));
+  border: 1px solid color-mix(in srgb, #6b5b95 35%, var(--line));
+  border-radius: 20px;
+  padding: 3px 11px;
+}
+
+.tj6-filebar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 10px 14px;
+  font-size: 12px;
+}
+.tj6-file-synced {
+  color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 8%, var(--surface));
+}
+.tj6-file-pending {
+  color: var(--muted);
+  background: var(--soft);
+}
+.tj6-file-error,
+.tj6-file-permission-required {
+  color: #ab5142;
+  border-color: #d8b8a8;
+  background: color-mix(in srgb, #ab5142 7%, var(--surface));
+}
+.tj6-file-actions {
+  display: flex;
+  gap: 7px;
+  flex-wrap: wrap;
+}
+
+.tj6-compose,
+.tj6-readonly {
+  padding: 15px 18px;
+  display: grid;
+  gap: 9px;
+  margin: 0;
+}
+.tj6-compose label {
+  font-size: 12px;
+  color: var(--muted);
+}
+.tj6-compose textarea {
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  padding: 9px 11px;
+  background: var(--surface);
+  font: inherit;
+  resize: vertical;
+}
+.tj6-readonly {
+  color: var(--muted);
+  font-size: 13px;
+  border: 1px dashed var(--line);
+}
+.tj6-row-actions {
+  display: flex;
+  gap: 7px;
+  flex-wrap: wrap;
+}
+
+.tj6-timeline {
+  display: grid;
+  gap: 12px;
+}
+.tj6-seg,
+.tj6-note,
+.tj6-ref {
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--surface);
+  padding: 13px 16px;
+}
+.tj6-seg {
+  border-left: 4px solid var(--accent);
+}
+.tj6-seg.tj6-status-confirmed {
+  border-left-color: #4f7a5e;
+}
+.tj6-seg.tj6-status-fixed {
+  border-left-color: #6b5b95;
+  background: color-mix(in srgb, #6b5b95 6%, var(--surface));
+}
+.tj6-note {
+  border-left: 4px solid #b98a3f;
+}
+.tj6-ref {
+  border-left: 4px solid #7d8a99;
+}
+
+.tj6-head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.tj6-head time {
+  font-size: 13px;
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+  min-width: 150px;
+}
+.tj6-head strong {
+  font-size: 14px;
+}
+.tj6-note-title {
+  color: var(--muted);
+  font-weight: 600;
+}
+.tj6-tag {
+  font-size: 10px;
+  color: var(--muted);
+  background: var(--soft);
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  padding: 2px 9px;
+}
+.tj6-tag-note {
+  color: #b98a3f;
+}
+
+.tj6-answer {
+  margin: 9px 0 0;
+  font-size: 12px;
+  color: var(--muted);
+  background: var(--soft);
+  border-radius: 8px;
+  padding: 7px 11px;
+}
+.tj6-test-actions {
+  display: flex;
+  gap: 7px;
+  margin-top: 10px;
+  flex-wrap: wrap;
+}
+.act-mini.danger {
+  color: #ab5142;
+  border-color: #d8b8a8;
+}
+
+.tj6-text {
+  margin: 9px 0 0;
+  font-size: 14px;
+  line-height: 1.7;
+  white-space: pre-wrap;
+}
+.tj6-foot {
+  margin-top: 8px;
+  display: flex;
+  justify-content: flex-end;
+}
+.tj6-modified {
+  font-size: 11px;
+  color: var(--muted);
+}
+.tj6-edit {
+  display: grid;
+  gap: 8px;
+  margin-top: 9px;
+}
+.tj6-edit textarea {
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  padding: 8px 10px;
+  background: var(--surface);
+  font: inherit;
+  resize: vertical;
+}
+
+.tj6-form-error {
+  color: #ab5142;
+  font-size: 12px;
+  border: 1px solid #d8b8a8;
+  border-radius: 9px;
+  padding: 9px 12px;
+  background: color-mix(in srgb, #ab5142 7%, var(--surface));
+}
+.tj6-empty {
+  color: var(--muted);
+  font-size: 13px;
+  padding: 6px 2px;
+}
+
+.tj6-legacy {
+  padding: 15px 18px;
+  margin: 0;
+  display: grid;
+  gap: 12px;
+}
+.tj6-legacy h2 {
+  margin: 0;
+  font-size: 15px;
+}
+.tj6-legacy-block {
+  border: 1px solid var(--line);
+  border-left: 4px solid #8a8f86;
+  border-radius: 10px;
+  background: var(--surface);
+  padding: 12px 15px;
+  display: grid;
+  gap: 6px;
+}
+
+@media (max-width: 650px) {
+  .tj6-seg,
+  .tj6-note,
+  .tj6-ref {
+    padding: 12px;
+  }
+  .tj6-head time {
+    min-width: 0;
+  }
+}

@@ -1,6 +1,4 @@
-import type {
-  ActionCard, BookEntry, GenerationRule, Pool,
-} from '../workspace/index.ts';
+import type { ActionCard, BookEntry, GenerationRule, Pool } from '../workspace/index.ts';
 import type { WorkshopContext, WorkshopIssue } from './model.ts';
 
 export type SaveOutcome<T> =

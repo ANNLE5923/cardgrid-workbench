@@ -1,0 +1,10 @@
+.v06-text-files {
+  min-width: 0;
+  max-width: 100%;
+  overflow-wrap: anywhere;
+}
+.v06-text-files button,
+.v06-text-files select {
+  max-width: 100%;
+  margin: 0.25rem;
+}

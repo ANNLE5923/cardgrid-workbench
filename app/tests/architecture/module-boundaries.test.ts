@@ -12,10 +12,10 @@ const files=walk(source).filter(f=>/\.tsx?$/.test(f));
 const relative=(file:string)=>path.relative(source,file).replaceAll('\\','/');
 const owner=(file:string)=>relative(file).split('/')[0];
 const publicEntries=new Set([
-  'app/index.ts','workshop/index.ts','workshop/model.ts','drawing/index.ts','drawing/model.ts',
+  'app/index.ts','workshop/index.ts','workshop/model.ts','drawing/index.ts','drawing/model.ts','drawing/selection.ts','decision/model.ts','decision/ui/index.ts',
   'daily/index.ts','daily/model.ts','daily/time.ts','daily/projection.ts',
-  'journal/index.ts',
-  'workspace/index.ts','workspace/codec.ts','workspace/contracts-v4.ts','workspace/legacy/index.ts','shared/ui/index.ts',
+  'journal/index.ts','journal/model.ts','maintenance/model.ts','text-output/model.ts','text-output/index.ts',
+  'workspace/index.ts','workspace/codec.ts','workspace/v06.ts','workspace/contracts-v4.ts','workspace/legacy/index.ts','shared/ui/index.ts',
 ]);
 const runtimeGraph=new Map<string,string[]>();
 const violations:string[]=[];

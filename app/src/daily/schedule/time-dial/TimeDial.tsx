@@ -37,13 +37,15 @@ const isReal = (f: DialFragment) =>
 
 // Overlaps only between DISTINCT source items, confirmed by UTC range, drawn on the shared half.
 function overlapPaths(owned: readonly Owned[]): readonly MarkPath[] {
-  const real = owned.filter(o => isReal(o.f));
+  const real = owned.filter((o) => isReal(o.f));
   const out: MarkPath[] = [];
   for (let i = 0; i < real.length; i++) {
     for (let j = i + 1; j < real.length; j++) {
-      const A = real[i], B = real[j];
+      const A = real[i],
+        B = real[j];
       if (A.owner === B.owner) continue;
-      const ra = A.f.range, rb = B.f.range;
+      const ra = A.f.range,
+        rb = B.f.range;
       if (!ra || !rb) continue;
       const gs = ra.startAt >= rb.startAt ? ra.startAt : rb.startAt;
       const ge = ra.endAt <= rb.endAt ? ra.endAt : rb.endAt;
@@ -72,8 +74,14 @@ function gapPaths(axis: DialScene['axis']): readonly MarkPath[] {
   for (const half of ['inner', 'outer'] as const) {
     const base = half === 'inner' ? 0 : HALF_MINUTES;
     const valid = axis
-      .filter(a => a.half === half)
-      .map(a => [Math.max(base, a.startMinute), Math.min(base + HALF_MINUTES, a.endMinute)] as [number, number])
+      .filter((a) => a.half === half)
+      .map(
+        (a) =>
+          [Math.max(base, a.startMinute), Math.min(base + HALF_MINUTES, a.endMinute)] as [
+            number,
+            number,
+          ],
+      )
       .sort((a, b) => a[0] - b[0]);
     let cursor = base;
     for (const [s, e] of valid) {
@@ -91,25 +99,36 @@ function gapPaths(axis: DialScene['axis']): readonly MarkPath[] {
 
 type Note = Readonly<{ title: string; items: readonly DialItem[] }>;
 
-export function TimeDial(props: Readonly<{
-  scene: DialScene;
-  focus: number;
-  onFocusChange: (focus: number) => void;
-  candidate?: readonly DialFragment[] | null;
-  /** A gesture preview is active: dial drag moves the landing instead of rotating the reading. */
-  placementActive?: boolean;
-  placementMinute?: number;
-  onPlacementMove?: (minute: number, originDate?: string) => void;
-  onCancelPlacement?: () => void;
-  onRetractItem?: (item: DialItem) => void;
-  onInteractionStart?: () => void;
-  /** Reset to now and resume following (D024). */
-  onResetNow?: () => void;
-  /** Double-click a plan/fixed arc to reschedule it (F05). */
-  onRescheduleItem?: (item: DialItem) => void;
-}>) {
-  const { scene, focus, onFocusChange, candidate, placementActive = false, placementMinute = focus,
-    onPlacementMove, onResetNow, onRescheduleItem } = props;
+export function TimeDial(
+  props: Readonly<{
+    scene: DialScene;
+    focus: number;
+    onFocusChange: (focus: number) => void;
+    candidate?: readonly DialFragment[] | null;
+    /** A gesture preview is active: dial drag moves the landing instead of rotating the reading. */
+    placementActive?: boolean;
+    placementMinute?: number;
+    onPlacementMove?: (minute: number, originDate?: string) => void;
+    onCancelPlacement?: () => void;
+    onRetractItem?: (item: DialItem) => void;
+    onInteractionStart?: () => void;
+    /** Reset to now and resume following (D024). */
+    onResetNow?: () => void;
+    /** Double-click a plan/fixed arc to reschedule it (F05). */
+    onRescheduleItem?: (item: DialItem) => void;
+  }>,
+) {
+  const {
+    scene,
+    focus,
+    onFocusChange,
+    candidate,
+    placementActive = false,
+    placementMinute = focus,
+    onPlacementMove,
+    onResetNow,
+    onRescheduleItem,
+  } = props;
   const [note, setNote] = useState<Note | null>(null);
   const svgRef = useRef<SVGSVGElement | null>(null);
   const focusValueRef = useRef(focus);
@@ -117,12 +136,36 @@ export function TimeDial(props: Readonly<{
 
   // Dial rotation drag state; the anchor carries half for radial half-switch hysteresis (F05).
   const dragRef = useRef<{
-    active: boolean; moved: boolean; anchor: HitAnchor | null; pointerId: number; sx: number; sy: number;
-    initialFocus: number; lastAngle: number; delta: number; startRadius: number; currentRadius: number;
-    date: string; preview: boolean; item: DialItem | null;
-  }>({ active: false, moved: false, anchor: null, pointerId: -1, sx: 0, sy: 0,
-    initialFocus: 0, lastAngle: 0, delta: 0, startRadius: 0, currentRadius: 0,
-    date: '', preview: false, item: null });
+    active: boolean;
+    moved: boolean;
+    anchor: HitAnchor | null;
+    pointerId: number;
+    sx: number;
+    sy: number;
+    initialFocus: number;
+    lastAngle: number;
+    delta: number;
+    startRadius: number;
+    currentRadius: number;
+    date: string;
+    preview: boolean;
+    item: DialItem | null;
+  }>({
+    active: false,
+    moved: false,
+    anchor: null,
+    pointerId: -1,
+    sx: 0,
+    sy: 0,
+    initialFocus: 0,
+    lastAngle: 0,
+    delta: 0,
+    startRadius: 0,
+    currentRadius: 0,
+    date: '',
+    preview: false,
+    item: null,
+  });
 
   const pose = geometry.pose(focus);
   const nowMinute = useMemo(
@@ -130,12 +173,12 @@ export function TimeDial(props: Readonly<{
     [scene.now, scene.zone],
   );
 
-  const allFragments = useMemo(
-    () => scene.items.flatMap(i => i.fragments),
-    [scene.items],
-  );
+  const allFragments = useMemo(() => scene.items.flatMap((i) => i.fragments), [scene.items]);
   const owned = useMemo(
-    () => scene.items.flatMap(item => item.fragments.map(f => ({ owner: JSON.stringify([item.source, item.id]), f }))),
+    () =>
+      scene.items.flatMap((item) =>
+        item.fragments.map((f) => ({ owner: JSON.stringify([item.source, item.id]), f })),
+      ),
     [scene.items],
   );
   const overlaps = useMemo(() => overlapPaths(owned), [owned]);
@@ -145,9 +188,9 @@ export function TimeDial(props: Readonly<{
     () =>
       new Set(
         scene.items
-          .flatMap(i => i.fragments)
-          .filter(f => f.startMinute <= focus && focus < f.endMinute)
-          .map(f => f.id),
+          .flatMap((i) => i.fragments)
+          .filter((f) => f.startMinute <= focus && focus < f.endMinute)
+          .map((f) => f.id),
       ),
     [scene.items, focus],
   );
@@ -173,7 +216,7 @@ export function TimeDial(props: Readonly<{
   const barSegments = allFragments.filter(isReal);
 
   const coveringAtMinute = (m: number) =>
-    scene.items.filter(i => i.fragments.some(f => f.startMinute <= m && m < f.endMinute));
+    scene.items.filter((i) => i.fragments.some((f) => f.startMinute <= m && m < f.endMinute));
 
   function pointFromEvent(clientX: number, clientY: number) {
     const svg = svgRef.current;
@@ -189,15 +232,26 @@ export function TimeDial(props: Readonly<{
     if (ev.pointerType === 'mouse' && ev.button !== 0) return;
     const point = pointFromEvent(ev.clientX, ev.clientY);
     const radius = Math.hypot(point.x - 200, point.y - 200);
-    const angle = Math.atan2(point.x - 200, 200 - point.y) * 180 / Math.PI;
+    const angle = (Math.atan2(point.x - 200, 200 - point.y) * 180) / Math.PI;
     const path = (ev.target as Element).closest('[data-fragment-id]');
-    const item = scene.items.find(i => i.fragments.some(f => f.id === path?.getAttribute('data-fragment-id')));
+    const item = scene.items.find((i) =>
+      i.fragments.some((f) => f.id === path?.getAttribute('data-fragment-id')),
+    );
     const h = geometry.hit(point, geometry.pose(focus), defaultMetrics, null);
     dragRef.current = {
-      active: true, moved: false, pointerId: ev.pointerId, sx: ev.clientX, sy: ev.clientY,
+      active: true,
+      moved: false,
+      pointerId: ev.pointerId,
+      sx: ev.clientX,
+      sy: ev.clientY,
       anchor: h ? { half: h.half, minuteOfHalf: h.minuteOfHalf } : null,
-      initialFocus: focus, lastAngle: angle, delta: 0, startRadius: radius,
-      currentRadius: radius, date: scene.date, preview: placementActive,
+      initialFocus: focus,
+      lastAngle: angle,
+      delta: 0,
+      startRadius: radius,
+      currentRadius: radius,
+      date: scene.date,
+      preview: placementActive,
       item: item?.source === 'plan' && !item.readOnly ? item : null,
     };
     props.onInteractionStart?.();
@@ -208,11 +262,15 @@ export function TimeDial(props: Readonly<{
     if (!st.moved) {
       if (Math.hypot(ev.clientX - st.sx, ev.clientY - st.sy) < 5) return;
       st.moved = true;
-      try { ev.currentTarget.setPointerCapture(ev.pointerId); } catch { /* detached pointer */ }
+      try {
+        ev.currentTarget.setPointerCapture(ev.pointerId);
+      } catch {
+        /* detached pointer */
+      }
     }
     const point = pointFromEvent(ev.clientX, ev.clientY);
     st.currentRadius = Math.hypot(point.x - 200, point.y - 200);
-    const angle = Math.atan2(point.x - 200, 200 - point.y) * 180 / Math.PI;
+    const angle = (Math.atan2(point.x - 200, 200 - point.y) * 180) / Math.PI;
     st.delta += ((angle - st.lastAngle + 540) % 360) - 180;
     st.lastAngle = angle;
     if (st.preview) {
@@ -233,7 +291,10 @@ export function TimeDial(props: Readonly<{
       if (st.preview) props.onCancelPlacement?.();
       else if (st.item) props.onRetractItem?.(st.item);
     }
-    if (st.moved) window.setTimeout(() => { if (dragRef.current === st) st.moved = false; }, 0);
+    if (st.moved)
+      window.setTimeout(() => {
+        if (dragRef.current === st) st.moved = false;
+      }, 0);
   }
   // Wheel over the dial moves the focus 5 minutes (native, non-passive to prevent page scroll) (F05).
   useEffect(() => {
@@ -244,7 +305,8 @@ export function TimeDial(props: Readonly<{
       const scale = ev.deltaMode === 1 ? 3 : 1;
       const dir = ev.deltaY > 0 ? 1 : -1;
       const next = Math.max(0, Math.min(DAY_MINUTES, focusValueRef.current + dir * 5 * scale));
-      if (placementActive) onPlacementMove?.(next, scene.date); else onFocusChange(next);
+      if (placementActive) onPlacementMove?.(next, scene.date);
+      else onFocusChange(next);
     };
     svg.addEventListener('wheel', handler, { passive: false });
     return () => svg.removeEventListener('wheel', handler);
@@ -254,10 +316,13 @@ export function TimeDial(props: Readonly<{
     setNote({ title: clockLabel(minute), items: coveringAtMinute(minute) });
   }
   function openHour(hour: number) {
-    const s = hour * 60, e = s + 60;
+    const s = hour * 60,
+      e = s + 60;
     setNote({
       title: clockLabel(hour * 60),
-      items: scene.items.filter(i => i.fragments.some(f => f.startMinute < e && f.endMinute > s)),
+      items: scene.items.filter((i) =>
+        i.fragments.some((f) => f.startMinute < e && f.endMinute > s),
+      ),
     });
   }
   function openItem(item: DialItem) {
@@ -265,8 +330,12 @@ export function TimeDial(props: Readonly<{
   }
 
   const shift = (delta: number) => {
-    const next = Math.max(0, Math.min(DAY_MINUTES, (placementActive ? placementMinute : focus) + delta));
-    if (placementActive) onPlacementMove?.(next, scene.date); else onFocusChange(next);
+    const next = Math.max(
+      0,
+      Math.min(DAY_MINUTES, (placementActive ? placementMinute : focus) + delta),
+    );
+    if (placementActive) onPlacementMove?.(next, scene.date);
+    else onFocusChange(next);
   };
 
   return (
@@ -274,8 +343,11 @@ export function TimeDial(props: Readonly<{
       <div className="dial-caption">
         <span className="eyebrow">TODAY / TIME</span>
         <span className="dial-caption-right">
-          {allFragments.some(f => f.source === 'empty') ? (
-            <span className="dial-empty-key"><i />红色＝空时间</span>
+          {allFragments.some((f) => f.source === 'empty') ? (
+            <span className="dial-empty-key">
+              <i />
+              红色＝空时间
+            </span>
           ) : null}
           <span>按住表盘旋转 · 指针固定 · 双击改期</span>
         </span>
@@ -309,7 +381,9 @@ export function TimeDial(props: Readonly<{
                 aria-label={`查看${segment.title}，${clockLabel(segment.startMinute)}—${clockLabel(segment.endMinute)}`}
                 title={`${segment.title} · ${clockLabel(segment.startMinute)}`}
                 onClick={() => {
-                  const item = scene.items.find(i => i.fragments.some(f => f.id === segment.id));
+                  const item = scene.items.find((i) =>
+                    i.fragments.some((f) => f.id === segment.id),
+                  );
                   if (item) openItem(item);
                 }}
               />
@@ -332,8 +406,13 @@ export function TimeDial(props: Readonly<{
             </span>
           </div>
           {note ? (
-            <DayOverview title={note.title} date={scene.date} zone={scene.zone}
-              items={note.items} onClose={() => setNote(null)} />
+            <DayOverview
+              title={note.title}
+              date={scene.date}
+              zone={scene.zone}
+              items={note.items}
+              onClose={() => setNote(null)}
+            />
           ) : null}
           <small>点色段只读 · 点“现在”复位</small>
         </div>
@@ -347,9 +426,9 @@ export function TimeDial(props: Readonly<{
             aria-label={`${scene.date} 可旋转双环时间盘，内外两圈分别代表前12小时和后12小时`}
             onPointerDown={onDialPointerDown}
             onPointerMove={onDialPointerMove}
-            onPointerUp={ev => endDial(ev)}
-            onPointerCancel={ev => endDial(ev, true)}
-            onLostPointerCapture={ev => endDial(ev, true)}
+            onPointerUp={(ev) => endDial(ev)}
+            onPointerCancel={(ev) => endDial(ev, true)}
+            onLostPointerCapture={(ev) => endDial(ev, true)}
           >
             <circle cx="200" cy="200" r="158" className="dial-boundary" />
             <circle cx="200" cy="200" r={defaultMetrics.innerRadius} className="dial-track" />
@@ -359,19 +438,27 @@ export function TimeDial(props: Readonly<{
               {Array.from({ length: 12 }, (_, i) => {
                 const [x1, y1] = ringPoint(152, i * 30);
                 const [x2, y2] = ringPoint(i % 3 ? 158 : 164, i * 30);
-                return <line key={`tick${i}`} x1={x1} y1={y1} x2={x2} y2={y2} className="dial-tick" />;
+                return (
+                  <line key={`tick${i}`} x1={x1} y1={y1} x2={x2} y2={y2} className="dial-tick" />
+                );
               })}
               {Array.from({ length: 12 }, (_, hour) => {
                 const [x, y] = ringPoint(171, hour * 30);
                 return (
-                  <text key={`num${hour}`} x={x} y={y} textAnchor="middle" dominantBaseline="middle"
-                    className="dial-number">
+                  <text
+                    key={`num${hour}`}
+                    x={x}
+                    y={y}
+                    textAnchor="middle"
+                    dominantBaseline="middle"
+                    className="dial-number"
+                  >
                     {hour === 0 ? 12 : hour}
                   </text>
                 );
               })}
 
-              {ringPaths.map(p => (
+              {ringPaths.map((p) => (
                 <path
                   key={p.key}
                   d={p.d}
@@ -380,18 +467,23 @@ export function TimeDial(props: Readonly<{
                   role="button"
                   tabIndex={0}
                   aria-label={`${p.title} ${clockLabel(p.startMinute)}`}
-                  onClick={ev => {
+                  onClick={(ev) => {
                     if (dragRef.current.moved) return; // a rotation drag is not a click
                     const minute = pointerMinuteFromEvent(ev, pointFromEvent, focus);
                     openCovering(minute ?? Math.round((p.startMinute + p.endMinute) / 2));
                   }}
                   onDoubleClick={() => {
-                    if (placementActive) { props.onCancelPlacement?.(); return; }
+                    if (placementActive) {
+                      props.onCancelPlacement?.();
+                      return;
+                    }
                     if (p.source !== 'plan' && p.source !== 'fixed') return;
-                    const item = scene.items.find(i => i.fragments.some(f => f.id === p.fragmentId));
+                    const item = scene.items.find((i) =>
+                      i.fragments.some((f) => f.id === p.fragmentId),
+                    );
                     if (item) onRescheduleItem?.(item);
                   }}
-                  onKeyDown={e => {
+                  onKeyDown={(e) => {
                     if (e.key === 'Enter' || e.key === ' ') {
                       e.preventDefault();
                       openCovering(Math.round((p.startMinute + p.endMinute) / 2));
@@ -400,7 +492,7 @@ export function TimeDial(props: Readonly<{
                 />
               ))}
 
-              {gaps.map(g => (
+              {gaps.map((g) => (
                 <path
                   key={g.key}
                   d={geometry.arcPath(g.half, g.start, g.end, defaultMetrics)}
@@ -409,7 +501,7 @@ export function TimeDial(props: Readonly<{
                 />
               ))}
 
-              {overlaps.map(o => (
+              {overlaps.map((o) => (
                 <path
                   key={o.key}
                   d={geometry.arcPath(o.half, o.start, o.end, defaultMetrics)}
@@ -419,7 +511,7 @@ export function TimeDial(props: Readonly<{
               ))}
 
               {candidate
-                ? candidate.map(f => {
+                ? candidate.map((f) => {
                     const half = halfOf(f);
                     const [ls, le] = localEdges(f);
                     return (
@@ -436,21 +528,31 @@ export function TimeDial(props: Readonly<{
             </g>
 
             <circle cx="200" cy="200" r="63" className="dial-center" />
-            <text x="200" y="183" textAnchor="middle" className="dial-center-label">当前刻度</text>
-            <text x="200" y="215" textAnchor="middle" className="dial-center-time">{clockLabel(focus)}</text>
+            <text x="200" y="183" textAnchor="middle" className="dial-center-label">
+              当前刻度
+            </text>
+            <text x="200" y="215" textAnchor="middle" className="dial-center-time">
+              {clockLabel(focus)}
+            </text>
             <text x="200" y="237" textAnchor="middle" className="dial-center-label">
               {focus < HALF_MINUTES ? '前 12 小时' : '后 12 小时'}
             </text>
             <path d="M200 391 L193 378 L207 378 Z" className="dial-viewer" />
           </svg>
 
-          <span className="ring-label ring-label-a">前 12 小时 <strong>00–12</strong></span>
-          <span className="ring-label ring-label-b">后 12 小时 <strong>12–24</strong></span>
+          <span className="ring-label ring-label-a">
+            前 12 小时 <strong>00–12</strong>
+          </span>
+          <span className="ring-label ring-label-b">
+            后 12 小时 <strong>12–24</strong>
+          </span>
         </div>
       </div>
 
       <div className="focus-controls">
-        <button type="button" onClick={() => shift(-5)} aria-label="向前 5 分钟">−5 分钟</button>
+        <button type="button" onClick={() => shift(-5)} aria-label="向前 5 分钟">
+          −5 分钟
+        </button>
         <input
           type="range"
           className="dial-slider"
@@ -459,9 +561,15 @@ export function TimeDial(props: Readonly<{
           step={5}
           value={focus}
           aria-label="拖动选择时间"
-          onChange={e => { const next = Number(e.target.value); if (placementActive) onPlacementMove?.(next, scene.date); else onFocusChange(next); }}
+          onChange={(e) => {
+            const next = Number(e.target.value);
+            if (placementActive) onPlacementMove?.(next, scene.date);
+            else onFocusChange(next);
+          }}
         />
-        <button type="button" onClick={() => shift(5)} aria-label="向后 5 分钟">+5 分钟</button>
+        <button type="button" onClick={() => shift(5)} aria-label="向后 5 分钟">
+          +5 分钟
+        </button>
       </div>
     </div>
   );
