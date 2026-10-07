@@ -95,10 +95,8 @@ async function offlineUpdate(page,context,{observerDelayMs=0}={}){
     const registration=await navigator.serviceWorker.getRegistration();
     return registration?.active?.state==='activated'&&navigator.serviceWorker.controller===registration.active;
   });
-  // Begin the update scenario in a new controlled client after that barrier.
-  const registeringPage=page;page=await context.newPage();await page.goto(origin);
-  await page.waitForFunction(()=>navigator.serviceWorker.controller?.state==='activated');
-  await registeringPage.close();
+  // The registering document is now a confirmed controlled client. Use it for
+  // the update instead of adding a separate new-document adoption race.
   const before=await read(page);assert.equal(await page.locator('meta[name="test-prior-shell"]').count(),1);
   const expectedCache=(await fs.readFile(path.join(root,'dist/sw.js'),'utf8')).match(/const CACHE='([^']+)'/)[1];
   // Arm before changing the server's worker bytes and requesting the update.
