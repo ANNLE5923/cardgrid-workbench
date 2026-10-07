@@ -73,9 +73,12 @@ try {
     await page.getByLabel('日记正文').waitFor();
     await page.locator('button[title="2026-10-03"]').click();
     await page.getByText('这篇写于时区 America/New_York',{exact:true}).waitFor();
+    // The view renders its zone before the autosave effect adopts the loaded text.
+    await page.waitForFunction(() => document.querySelector('.journal-textarea')?.value === 'prior saved entry');
     assert.equal(await page.getByLabel('日记正文').inputValue(),'prior saved entry');
     await page.evaluate(async () => {window.__review.unmount();for(let i=0;i<10;i++)await Promise.resolve();});
     assert.equal(await page.evaluate(() => window.__review.entries.length),1,'opening a historic fallback and leaving must not create a new current-zone diary');
+    assert.deepEqual(await page.evaluate(() => window.__review.calls),[],'browsing a historic fallback must not submit a save');
   },{entries:entries.map(e=>({...e,zone:'America/New_York'}))});
   await check('R06-replacement-discards-old-workspace-draft',async page => {
     const text = page.getByLabel('日记正文'); await text.waitFor();

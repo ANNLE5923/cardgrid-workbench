@@ -67,8 +67,12 @@ try {
   const desktop = {viewport: {width: 1280, height: 900}};
   const narrow = {viewport: {width: 320, height: 680}};
 
+  // Action-library cards share the grid styling; deck checks must select deck controls.
+  const deckCards = page => page.locator('.we2-grid .act-card').filter({
+    has: page.getByRole('button', {name: '编辑牌堆', exact: true}),
+  });
   const cardByName = (page, name) =>
-    page.locator('.we2-grid .act-card', {has: page.locator('.act-titles strong', {hasText: name})});
+    deckCards(page).filter({has: page.locator('.act-titles strong', {hasText: name})});
   const openDeckMembers = async (page, name) => {
     await cardByName(page, name).getByRole('button', {name: '管理成员'}).click();
     return page.locator('.we2-modal');
@@ -86,7 +90,8 @@ try {
   await test('full-workshop-editing-flow', desktop, async page => {
     // 1. Initial matrix (6 decks; empty list renders its empty state).
     assert.equal(await page.getByText(/内存编辑模式/).count(), 1);
-    assert.equal(await page.locator('.we2-grid .act-card').count(), 6);
+    assert.equal(await deckCards(page).count(), 6);
+    assert.equal(await page.getByRole('region', {name: '行动原库'}).locator('.act-card').count(), 3);
     assert.match(await cardByName(page, '空清单').innerText(), /空牌堆/);
     await shot(page, '01-matrix.png');
 
@@ -95,7 +100,7 @@ try {
     let form = page.locator('.we2-form');
     await form.locator('input').first().fill('周末计划');
     await form.getByRole('button', {name: '创建牌堆'}).click();
-    assert.equal(await page.locator('.we2-grid .act-card').count(), 7);
+    assert.equal(await deckCards(page).count(), 7);
     await shot(page, '02-create-deck.png');
 
     // 3-4. Two entries into the new deck.
@@ -184,7 +189,7 @@ try {
   /* ---------- Narrow (320), each self-contained ---------- */
 
   await test('narrow-matrix-renders', narrow, async page => {
-    assert.equal(await page.locator('.we2-grid .act-card').count(), 6);
+    assert.equal(await deckCards(page).count(), 6);
     await shot(page, 'm01-matrix.png');
   });
 
@@ -193,7 +198,7 @@ try {
     const form = page.locator('.we2-form');
     await form.locator('input').first().fill('窄屏堆');
     await form.getByRole('button', {name: '创建牌堆'}).click();
-    assert.equal(await page.locator('.we2-grid .act-card').count(), 7);
+    assert.equal(await deckCards(page).count(), 7);
     await shot(page, 'm02-create.png');
   });
 
