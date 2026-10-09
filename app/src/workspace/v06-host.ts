@@ -24,7 +24,7 @@ import type {
 } from './contracts-v06.ts';
 import type { V06Command } from './ports-v06.ts';
 import type { DataV4 } from './contracts-v4.ts';
-import { createWorkspaceStore, type WorkspaceStore } from './store.ts';
+import { createWorkspaceStore, type WorkspaceStore, type WorkspaceSlotChange } from './store.ts';
 import {
   inspectSnapshot,
   checkToken,
@@ -286,7 +286,8 @@ export function createV06Host(
         needV5(isV5(s.raw), 'UNSUPPORTED_VERSION', '请先备份、预览并显式升级通用卡牌格式');
         return { token: s.token, data: s.raw.data };
       }),
-    subscribe: (listener: (external: boolean) => void) => store.subscribe(listener),
+    subscribe: (listener: (external: boolean, changes?: readonly WorkspaceSlotChange[]) => void) =>
+      store.subscribe(listener),
     close() {
       planner.close();
       invalidate();

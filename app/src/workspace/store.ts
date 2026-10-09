@@ -8,6 +8,8 @@ import {
 } from './legacy/domain.ts';
 const DB = 'cardgrid-workspace';
 export type Recovery = { createdAt: string; reason: string; raw: unknown };
+/** Storage slots a finished write touched. Omitted entirely means "unknown change": listeners must treat everything as dirty. */
+export type WorkspaceSlotChange = 'workspace' | 'maintenance' | 'text-output' | 'archive';
 let connection: IDBDatabase | null = null;
 export async function openDatabase(): Promise<IDBDatabase> {
   if (connection) return connection;
@@ -91,7 +93,9 @@ export interface WorkspaceStore {
   read(): Promise<unknown>;
   readRecovery(): Promise<readonly Readonly<{ key: IDBValidKey; value: unknown }>[]>;
   atomic<T>(reduce: (raw: unknown) => AtomicChange<T>): Promise<T>;
-  subscribe(listener: (external: boolean) => void): () => void;
+  subscribe(
+    listener: (external: boolean, changes?: readonly WorkspaceSlotChange[]) => void,
+  ): () => void;
   readMaintenance?(key: string): Promise<unknown>;
   atomicMaintenance?<T>(
     key: string,
@@ -124,18 +128,49 @@ export function createWorkspaceStore(
   const name = options.name ?? DB;
   let opening: Promise<IDBDatabase> | undefined;
   let closed = false;
-  const listeners = new Set<(external: boolean) => void>();
+  const listeners = new Set<
+    (external: boolean, changes?: readonly WorkspaceSlotChange[]) => void
+  >();
   const bus = typeof BroadcastChannel === 'undefined' ? null : new BroadcastChannel(`${name}:v4`);
-  const emit = (external: boolean = false) => {
+  const postBus = (changes?: readonly WorkspaceSlotChange[]) => {
+    try {
+      bus?.postMessage(changes ? ['changed', [...changes]] : 'changed');
+    } catch {}
+  };
+  // 'changed' alone (or anything unexpected) means "unknown change": older windows and older messages stay safe.
+  const decodeBus = (data: unknown): readonly WorkspaceSlotChange[] | undefined => {
+    if (
+      !Array.isArray(data) ||
+      data.length !== 2 ||
+      data[0] !== 'changed' ||
+      !Array.isArray(data[1]) ||
+      data[1].length === 0
+    )
+      return undefined;
+    const rawChanges: readonly unknown[] = data[1];
+    const changes: WorkspaceSlotChange[] = [];
+    for (const slot of rawChanges) {
+      if (
+        slot !== 'workspace' &&
+        slot !== 'maintenance' &&
+        slot !== 'text-output' &&
+        slot !== 'archive'
+      )
+        return undefined;
+      changes.push(slot);
+    }
+    return changes;
+  };
+  const emit = (external: boolean = false, changes?: readonly WorkspaceSlotChange[]) => {
     for (const listener of listeners) {
       try {
-        listener(external);
+        listener(external, changes);
       } catch {
         /* notification cannot turn a committed write into failure */
       }
     }
   };
-  if (bus) bus.onmessage = () => emit(true);
+  if (bus) bus.onmessage = (event) => emit(true, decodeBus(event.data));
   const focus = () => emit(true);
   if (typeof window !== 'undefined') window.addEventListener('focus', focus);
   function open(): Promise<IDBDatabase> {
@@ -234,10 +269,8 @@ export function createWorkspaceStore(
         };
         tx.oncomplete = () => {
           if (change && Object.hasOwn(change, 'write')) {
-            emit(false);
-            try {
-              bus?.postMessage('changed');
-            } catch {}
+            emit(false, ['workspace']);
+            postBus(['workspace']);
           }
           resolve(change!.result);
         };
@@ -417,10 +450,8 @@ export function createWorkspaceStore(
         for (const r of [...requests, current]) r.onsuccess = received;
         tx.oncomplete = () => {
           if (change && (Object.hasOwn(change, 'write') || change.archiveWrites?.length)) {
-            emit(false);
-            try {
-              bus?.postMessage('changed');
-            } catch {}
+            emit(false, ['workspace', 'archive']);
+            postBus(['workspace', 'archive']);
           }
           resolve(change!.result);
         };

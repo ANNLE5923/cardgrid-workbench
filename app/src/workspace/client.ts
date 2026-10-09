@@ -39,7 +39,7 @@ import {
   type RestoreTarget,
 } from './format.ts';
 import { prepareMigration, type MigrationChoices, type MigrationSource } from './migration.ts';
-import { createWorkspaceStore, type WorkspaceStore } from './store.ts';
+import { createWorkspaceStore, type WorkspaceStore, type WorkspaceSlotChange } from './store.ts';
 import { compatibilityView, projectDay } from '../daily/projection.ts';
 import { dateAt, resolveLocal } from '../daily/time.ts';
 import type { Config } from './legacy/domain.ts';
@@ -291,7 +291,7 @@ export function createWorkspaceClient(
     readCompatibilityView(snapshot: Parameters<typeof compatibilityView>[0]) {
       return compatibilityView(snapshot);
     },
-    subscribe(listener: (external: boolean) => void) {
+    subscribe(listener: (external: boolean, changes?: readonly WorkspaceSlotChange[]) => void) {
       return store.subscribe(listener);
     },
     invalidateCapabilities: invalidate,
