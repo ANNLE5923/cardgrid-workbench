@@ -171,7 +171,13 @@ export function App() {
         </nav>
         <div className="sidebar-bottom">
           <span className="dot" />
-          数据保存在本机<div className="version">v0.5 · 每日日记</div>
+          数据保存在本机
+          <div className="version">
+            {import.meta.env.VITE_CARDGRID_VERSION
+              ? `v${import.meta.env.VITE_CARDGRID_VERSION}`
+              : '开发构建'}
+            {' · 每日日记'}
+          </div>
         </div>
       </aside>
       <main>

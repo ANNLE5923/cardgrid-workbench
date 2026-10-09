@@ -253,6 +253,11 @@ export function V06App({
     <div className={`app ${data?.settings.preferences.theme ?? 'paper'} comfortable`}>
       <main className="v06-app">
         <h1>CardGrid</h1>
+        <p className="version">
+          {import.meta.env.VITE_CARDGRID_VERSION
+            ? `v${import.meta.env.VITE_CARDGRID_VERSION}`
+            : '开发构建'}
+        </p>
         <nav aria-label="主导航">
           {(Object.keys(labels) as Page[]).map((p) => (
             <button

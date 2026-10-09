@@ -1,5 +1,8 @@
 import { defineConfig, type Plugin } from 'vite';
 import { createHash } from 'node:crypto';
+import { readFileSync } from 'node:fs';
+
+const { version } = JSON.parse(readFileSync(new URL('../package.json', import.meta.url), 'utf8'));
 // Precache only this build's public application assets. No personal data enters it.
 // CORS servers may return Vary: Origin. Precache and module fetches carry different
 // Origin headers; ignore that variation only inside the public build asset whitelist.
@@ -34,6 +37,7 @@ function offline(): Plugin {
 }
 export default defineConfig({
   base: './',
+  define: { 'import.meta.env.VITE_CARDGRID_VERSION': JSON.stringify(version) },
   plugins: [offline()],
   build: { target: 'es2022' },
   server: { host: '127.0.0.1', port: 4173, strictPort: true },
