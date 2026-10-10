@@ -173,3 +173,13 @@ export const handUnavailableText = (reason: V06ErrorCode | 'INCOMPLETE' | null) 
       : reason === 'ENTRY_UNAVAILABLE'
         ? '素材不能直接打出'
         : (reason ?? '');
+
+/** Short badge for the collapsed/at-a-glance hand view. */
+export const handUnavailableBadge = (reason: V06ErrorCode | 'INCOMPLETE' | null) =>
+  reason === 'MATERIAL_EXPIRED'
+    ? '已到期'
+    : reason === 'INCOMPLETE'
+      ? '待补字段'
+      : reason === 'ENTRY_UNAVAILABLE'
+        ? '不可直接打出'
+        : '不可用';

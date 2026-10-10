@@ -15,6 +15,7 @@ import {
 import { legacyDockItems, type HandPlayRequest } from '../daily/model.ts';
 import { JournalWorkbench } from '../journal/index.ts';
 import { ActionHand } from './ActionWorkspace.tsx';
+import { SafeRecoveryView } from './SafeRecoveryView.tsx';
 import './style.css';
 import '../journal/journal.css';
 export function App() {
@@ -84,6 +85,7 @@ export function App() {
     saveSettings,
   } = useWorkspaceApp();
   const [handRequest, setHandRequest] = useState<HandPlayRequest | null>(null);
+  const [safeOpen, setSafeOpen] = useState(false);
   const handRoute = useRef(tab);
   handRoute.current = tab;
   const handLock = useRef(false);
@@ -101,13 +103,27 @@ export function App() {
       return;
     navigation(next);
   }
-  if (fatal)
+  if (fatal) {
+    if (safeOpen)
+      return (
+        <SafeRecoveryView
+          client={client}
+          onExit={() => setSafeOpen(false)}
+          onRetry={() => {
+            setSafeOpen(false);
+            void reload();
+          }}
+        />
+      );
     return (
       <div className="failure">
         <h1>本地数据暂时无法打开</h1>
         <p>{fatal}</p>
         <p>原记录没有被空白数据覆盖。</p>
         <button onClick={() => void reload()}>重试</button>
+        <button type="button" onClick={() => setSafeOpen(true)}>
+          安全打开（只读）
+        </button>
         <button
           onClick={() =>
             void client.exportRaw().then((r) => {
@@ -119,6 +135,7 @@ export function App() {
         </button>
       </div>
     );
+  }
   if (!snapshot) return <div className="failure">正在打开本地工作台…</div>;
   const data = client.readCompatibilityView(snapshot),
     p = data.config.preferences,

@@ -1,6 +1,6 @@
 import { useEffect, useId, useRef, useState } from 'react';
 import type { HandDockItem, HandDockView } from './unified.ts';
-import { handUnavailableText } from './unified.ts';
+import { handUnavailableText, handUnavailableBadge } from './unified.ts';
 import './global-hand-dock.css';
 
 const kinds = ['action', 'answer', 'composite', 'entry'] as const;
@@ -32,7 +32,8 @@ export function GlobalHandDock({
     previewButton = useRef<HTMLButtonElement | null>(null),
     epoch = useRef(view?.token.epoch);
   const items = view?.items ?? [],
-    preview = items.find((i) => i.key === previewKey);
+    preview = items.find((i) => i.key === previewKey),
+    blocked = items.filter((i) => !i.usableInToday).length;
   const close = () => {
     setOpen(false);
     setPreviewKey(null);
@@ -76,12 +77,13 @@ export function GlobalHandDock({
         ref={button}
         type="button"
         className="cg-hand-dock"
-        aria-label={`手牌 ${items.length} 张，${open ? '收起' : '展开'}`}
+        aria-label={`手牌 ${items.length} 张${blocked ? `，${blocked} 张待处理` : ''}，${open ? '收起' : '展开'}`}
         aria-expanded={open}
         aria-controls={panelId}
         onClick={() => (open ? close() : setOpen(true))}
       >
         手牌 <b>{items.length}</b>
+        {blocked > 0 ? <span className="cg-hand-warn">·{blocked} 待处理</span> : null}
       </button>
       {open && (
         <section
@@ -123,8 +125,18 @@ export function GlobalHandDock({
                   </h2>
                   <ul>
                     {cards.map((item) => (
-                      <li key={item.key} data-hand-id={item.id} data-hand-key={item.key}>
+                      <li
+                        key={item.key}
+                        className={item.usableInToday ? undefined : 'is-blocked'}
+                        data-hand-id={item.id}
+                        data-hand-key={item.key}
+                      >
                         <strong>{item.title}</strong>
+                        {!item.usableInToday ? (
+                          <span className="cg-hand-badge">
+                            {handUnavailableBadge(item.unavailableReason)}
+                          </span>
+                        ) : null}
                         <small>{item.source}</small>
                         <small>
                           本次 {item.id} · v{item.version}

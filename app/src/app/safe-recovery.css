@@ -1,0 +1,78 @@
+.safe-recovery {
+  max-width: 760px;
+}
+.safe-banner {
+  padding: 12px 14px;
+  border-radius: 10px;
+  background: #fdf6ec;
+  border: 1px solid #f0dcb4;
+  line-height: 1.7;
+}
+.safe-error {
+  color: #b43a32;
+}
+.safe-meta {
+  color: #6b7280;
+  font-size: 12px;
+  margin-top: 12px;
+}
+.safe-summary {
+  font-size: 14px;
+}
+.safe-problems {
+  padding-left: 20px;
+  line-height: 1.9;
+  color: #9a443d;
+}
+.safe-problems code,
+.safe-collection code {
+  font-size: 11px;
+  background: #f3f4f6;
+  padding: 1px 5px;
+  border-radius: 4px;
+  margin-right: 6px;
+}
+.safe-collection {
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 10px 14px;
+  margin-bottom: 10px;
+  background: var(--surface);
+}
+.safe-collection summary {
+  cursor: pointer;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.safe-count {
+  margin-left: auto;
+  font-size: 12px;
+  font-weight: 400;
+  color: #1a7f4b;
+}
+.safe-count.bad {
+  color: #b43a32;
+}
+.safe-collection ul {
+  margin: 10px 0 4px;
+  padding-left: 18px;
+  line-height: 1.9;
+}
+.safe-collection li span {
+  overflow-wrap: anywhere;
+}
+.safe-empty {
+  color: #6b7280;
+  font-size: 12px;
+}
+.safe-actions {
+  margin-top: 16px;
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.safe-actions button {
+  margin-right: 0;
+}

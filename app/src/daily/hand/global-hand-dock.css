@@ -14,6 +14,27 @@
 .cg-hand-dock b {
   padding-left: 8px;
 }
+.cg-hand-warn {
+  padding-left: 6px;
+  color: #b43a32;
+  font-size: 12px;
+  font-weight: 600;
+}
+.cg-hand-badge {
+  display: inline-block;
+  margin-left: 8px;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: #fdeceb;
+  color: #b43a32;
+  font-size: 11px;
+  font-weight: 600;
+  vertical-align: middle;
+}
+.cg-hand-panel li.is-blocked {
+  border-color: #f3c2be;
+  background: #fdf7f6;
+}
 .cg-hand-panel {
   position: fixed;
   right: max(16px, env(safe-area-inset-right));

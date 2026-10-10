@@ -3,6 +3,11 @@ export { createWorkshopHost } from './workshop-host.ts';
 export { createV06Host, type V06Host } from './v06-host.ts';
 export { createV06DecisionSession, type V06DecisionSession } from './v06-decision-session.ts';
 export { MAX_INPUT_BYTES, MAX_BACKUP_BYTES } from './format.ts';
+export {
+  parseSafeRecovery,
+  friendlyCollectionName,
+  type SafeRecoveryReport,
+} from './safe-recovery.ts';
 export type * from './contracts.ts';
 export type * from './contracts-v3.ts';
 export type * from './contracts-v4.ts';
