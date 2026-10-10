@@ -23,6 +23,12 @@ export function BackupRestore({ host, busy, onMessage, onSubmit }: Props) {
   const [filename, setFilename] = useState('');
   const selection = useRef(0);
   const preparation = useRef(0);
+  const [recoveryPoints, setRecoveryPoints] = useState<
+    readonly { pointKey: string; createdAt: string; reason: string }[]
+  >([]);
+  const [recoveryTarget, setRecoveryTarget] = useState<Awaited<
+    ReturnType<V06Host['previewRecoveryPoint']>
+  > | null>(null);
   useEffect(
     () => () => {
       ++selection.current;
@@ -30,6 +36,25 @@ export function BackupRestore({ host, busy, onMessage, onSubmit }: Props) {
     },
     [],
   );
+  const refreshRecoveryPoints = async () => {
+    const result = await host.readRecoveryPoints();
+    if (result.ok) setRecoveryPoints(result.value);
+  };
+  useEffect(() => {
+    void refreshRecoveryPoints();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [host]);
+  const askGoBack = async (pointKey: string) => {
+    const snapshot = await host.loadV5();
+    if (!snapshot.ok) {
+      onMessage(snapshot.message);
+      return;
+    }
+    const result = await host.previewRecoveryPoint({ token: snapshot.value.token, pointKey });
+    if (!result.ok) onMessage(result.message);
+    else if (result.value.blocked) onMessage(result.value.message);
+    else setRecoveryTarget(result);
+  };
 
   const prepare = async () => {
     const seq = ++preparation.current;
@@ -144,6 +169,56 @@ export function BackupRestore({ host, busy, onMessage, onSubmit }: Props) {
             确认丢弃草稿并恢复
           </button>
         </>
+      )}
+      <h3>本机恢复点</h3>
+      {recoveryPoints.length ? (
+        recoveryPoints.map((point) => (
+          <div
+            key={point.pointKey}
+            style={{
+              display: 'flex',
+              gap: 8,
+              flexWrap: 'wrap',
+              alignItems: 'center',
+              margin: '6px 0',
+            }}
+          >
+            <span style={{ minWidth: 72 }}>{point.pointKey}</span>
+            <button disabled={busy} onClick={() => void askGoBack(point.pointKey)}>
+              回到刚才
+            </button>
+          </div>
+        ))
+      ) : (
+        <p>尚无恢复点。</p>
+      )}
+      {recoveryTarget?.ok && (
+        <div role="alert">
+          <p>回到恢复点「{recoveryTarget.value.pointKey}」？</p>
+          <p>会放弃这之后的全部改动；已确认事实不会被回退。</p>
+          <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+            <button
+              disabled={busy}
+              onClick={() => {
+                const target = recoveryTarget.value;
+                setRecoveryTarget(null);
+                void onSubmit({
+                  commandId: crypto.randomUUID(),
+                  type: 'RestoreRecoveryPoint',
+                  expected: target.token,
+                  payload: {
+                    pointKey: target.pointKey,
+                    targetFingerprint: target.targetFingerprint,
+                    confirmed: true,
+                  },
+                }).then(() => void refreshRecoveryPoints());
+              }}
+            >
+              确认回到刚才
+            </button>
+            <button onClick={() => setRecoveryTarget(null)}>取消</button>
+          </div>
+        </div>
       )}
     </section>
   );

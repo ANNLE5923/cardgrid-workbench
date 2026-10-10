@@ -429,7 +429,7 @@ export type LifecycleReceipt = Readonly<{
   payloadFingerprint: string;
   previousToken: Token;
   resultToken: Token;
-  type: 'RestoreWorkspace' | 'ClearWorkspace' | 'CommitMigration';
+  type: 'RestoreWorkspace' | 'ClearWorkspace' | 'CommitMigration' | 'RestoreRecoveryPoint';
 }>;
 export type EnvelopeV4 = Readonly<{
   schemaVersion: 4;
@@ -538,6 +538,11 @@ export type CommandPayloads = {
     discardDraftsConfirmed: true;
   }>;
   ClearWorkspace: Readonly<{ backup: BackupEvidence; discardDraftsConfirmed: true }>;
+  RestoreRecoveryPoint: Readonly<{
+    pointKey: string;
+    targetFingerprint: string;
+    confirmed: true;
+  }>;
   CommitMigration: Readonly<{
     previewId: Id;
     backup: BackupEvidence;

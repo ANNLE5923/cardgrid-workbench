@@ -1,7 +1,11 @@
-import type { RefObject } from 'react';
-import type { MigrationPreview } from '../contracts.ts';
+import { useState, type RefObject } from 'react';
+import type { MigrationPreview, Token } from '../contracts.ts';
 import type { WorkspaceClient, BackupPreparation } from '../client.ts';
 import type { WorkspacePreview } from '../session-types.ts';
+import type { RecoveryVerdict } from '../recovery-restore.ts';
+/** A recovery confirmation is bound to both the inspected point content and the
+ * exact workspace token inspected, so it can never fire against another workspace. */
+type RecoveryDecision = RecoveryVerdict & { expected: Token };
 type Props = {
   client: WorkspaceClient;
   readOnly: boolean;
@@ -33,6 +37,7 @@ type Props = {
   setDiscard: (value: boolean) => void;
   busy: boolean;
   execute: () => Promise<void>;
+  restorePoint: (pointKey: string, targetFingerprint: string, expected: Token) => Promise<boolean>;
 };
 export function DataPage({
   client,
@@ -65,7 +70,22 @@ export function DataPage({
   setDiscard,
   busy,
   execute,
+  restorePoint,
 }: Props) {
+  const [recoverPoint, setRecoverPoint] = useState<RecoveryDecision | null>(null);
+  function askRecovery(pointKey: string) {
+    void client.inspectRecoveryPoint(pointKey).then((r) => {
+      if (!r.ok) setMessage(r.message);
+      else if (r.value.blocked) setMessage(r.value.message);
+      else setRecoverPoint(r.value);
+    });
+  }
+  async function confirmRecovery() {
+    if (!recoverPoint) return;
+    const { pointKey, targetFingerprint, expected } = recoverPoint;
+    setRecoverPoint(null);
+    await restorePoint(pointKey, targetFingerprint, expected);
+  }
   return (
     <>
       <div className="datagrid">
@@ -112,23 +132,50 @@ export function DataPage({
         <section className="panel">
           <h2>本机恢复点</h2>
           {recovery.length ? (
-            recovery.map((point, i) => (
-              <button
-                key={i}
-                onClick={() =>
-                  void client.exportRecovery(point.key).then((r) => {
-                    if (r.ok) download('CardGrid-恢复点-' + String(point.key) + '.json', r.value);
-                    else setMessage(r.message);
-                  })
-                }
-              >
-                导出 {String(point.key)} 原文
-              </button>
-            ))
+            recovery.map((point, i) => {
+              const pointKey = String(point.key);
+              return (
+                <div
+                  key={i}
+                  style={{
+                    display: 'flex',
+                    gap: 8,
+                    flexWrap: 'wrap',
+                    alignItems: 'center',
+                    margin: '6px 0',
+                  }}
+                >
+                  <span style={{ minWidth: 72 }}>{pointKey}</span>
+                  <button
+                    onClick={() =>
+                      void client.exportRecovery(point.key).then((r) => {
+                        if (r.ok) download('CardGrid-恢复点-' + pointKey + '.json', r.value);
+                        else setMessage(r.message);
+                      })
+                    }
+                  >
+                    导出原文
+                  </button>
+                  <button disabled={readOnly} onClick={() => askRecovery(pointKey)}>
+                    回到刚才
+                  </button>
+                </div>
+              );
+            })
           ) : (
             <p>尚无恢复点。</p>
           )}
-          <p>清空或恢复会移除全部本机恢复点。</p>
+          {recoverPoint && (
+            <div className="panel" role="alert" style={{ marginTop: 8 }}>
+              <p>回到恢复点「{recoverPoint.pointKey}」？</p>
+              <p>会放弃这之后的全部改动；已确认事实不会被回退。</p>
+              <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+                <button onClick={() => void confirmRecovery()}>确认回到刚才</button>
+                <button onClick={() => setRecoverPoint(null)}>取消</button>
+              </div>
+            </div>
+          )}
+          <p>清空工作台会移除全部恢复点；“回到刚才”会保留恢复点。</p>
         </section>
       </div>
       {readOnly && (

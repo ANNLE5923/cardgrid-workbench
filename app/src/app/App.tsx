@@ -3,7 +3,7 @@ import { useWorkspaceApp } from './use-workspace-app.ts';
 import { TAB_META } from './navigation.ts';
 import { download } from './files.ts';
 import { ActionLibrary, ConfigurationPanel, WorkshopEditor } from '../workshop/index.ts';
-import { DataPage, MAX_INPUT_BYTES } from '../workspace/index.ts';
+import { DataPage, MAX_INPUT_BYTES, type Token } from '../workspace/index.ts';
 import {
   DayBoard,
   GlobalHandDock,
@@ -454,6 +454,7 @@ export function App() {
         )}
         {tab === 'data' && (
           <DataPage
+            key={workspaceEpoch}
             dataVersion={snapshot?.data?.version}
             {...{
               client,
@@ -485,6 +486,12 @@ export function App() {
               setDiscard,
               busy,
               execute,
+              restorePoint: (pointKey: string, targetFingerprint: string, expected: Token) =>
+                command(
+                  'RestoreRecoveryPoint',
+                  { pointKey, targetFingerprint, confirmed: true },
+                  expected,
+                ),
             }}
           />
         )}

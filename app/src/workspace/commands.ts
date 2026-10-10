@@ -196,6 +196,7 @@ export function assertCommand(command: Command): void {
     ImportDefinitions: 'previewId,mode,backup',
     RestoreWorkspace: 'previewId,backup,discardDraftsConfirmed',
     ClearWorkspace: 'backup,discardDraftsConfirmed',
+    RestoreRecoveryPoint: 'confirmed,pointKey,targetFingerprint',
     CommitMigration: 'previewId,backup,discardDraftsConfirmed',
     SaveJournalEntry: 'date,text,zone',
   };

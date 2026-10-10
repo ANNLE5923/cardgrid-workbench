@@ -231,11 +231,17 @@ export function useWorkspaceApp() {
       setBusy(false);
     }
   }
-  function command(type: Command['type'], payload: unknown) {
+  // expected defaults to the live token; lifecycle confirmations (recovery) pass the
+  // token captured at preflight so a stale dialog cannot act on a switched workspace.
+  function command(
+    type: Command['type'],
+    payload: unknown,
+    expected: Command['expected'] | undefined = snapshot!.token,
+  ) {
     if (!snapshot) return Promise.resolve(false);
     return submit({
       commandId: crypto.randomUUID(),
-      expected: snapshot.token,
+      expected,
       type,
       payload,
     } as Command);

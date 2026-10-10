@@ -90,6 +90,11 @@ import {
 } from '../text-output/index.ts';
 import { createV06Archives, type ArchiveRuntime } from './v06-archives.ts';
 import { createV06TextSource } from './v06-text-source.ts';
+import {
+  inspectV5RecoveryPoint,
+  guardedV5Target,
+  contentFingerprint,
+} from './v5-recovery-restore.ts';
 
 type V5Envelope = Readonly<{
   schemaVersion: 4;
@@ -387,6 +392,40 @@ export function createV06Host(
               ? await archives.coverage(target.data)
               : null,
         };
+      }),
+    readRecoveryPoints: () =>
+      wrap(async () => {
+        const s = await snapshot();
+        needV5(isV5(s.raw), 'UNSUPPORTED_VERSION', '请先显式升级到 Data v5');
+        return (await store.readRecovery())
+          .filter((p) => typeof p.key === 'string')
+          .map((p) => ({
+            pointKey: p.key as string,
+            createdAt:
+              p.value && typeof p.value === 'object' && 'createdAt' in p.value
+                ? String((p.value as { createdAt: unknown }).createdAt)
+                : '',
+            reason:
+              p.value && typeof p.value === 'object' && 'reason' in p.value
+                ? String((p.value as { reason: unknown }).reason)
+                : '',
+          }));
+      }),
+    previewRecoveryPoint: (input: { token: Token; pointKey: string }) =>
+      wrap(async () => {
+        const s = await snapshot();
+        checkToken(s.token, input.token);
+        needV5(isV5(s.raw), 'UNSUPPORTED_VERSION', '请先显式升级到 Data v5');
+        const point = (await store.readRecovery()).find(
+          (p) => typeof p.key === 'string' && p.key === input.pointKey,
+        );
+        needV5(point, 'INVALID_INPUT', '该恢复点已不存在');
+        const verdict = await inspectV5RecoveryPoint({
+          pointKey: input.pointKey,
+          value: point.value,
+          current: (s.raw as V5Envelope).data,
+        });
+        return { ...verdict, token: s.token };
       }),
     previewPlacement: planner.previewPlacement,
     previewActual: planner.previewActual,
@@ -919,7 +958,12 @@ export function createV06Host(
             },
           });
         }
-        if (isLifecycle || isToday || (isDaily && command.type !== 'TakeDailyMaterial'))
+        if (
+          isLifecycle ||
+          isToday ||
+          command.type === 'RestoreRecoveryPoint' ||
+          (isDaily && command.type !== 'TakeDailyMaterial')
+        )
           assertCommand(command as Command);
         else if (command.type !== 'TakeDailyMaterial') validateV06CommandInput(command);
         const digest = await fingerprint({ type: command.type, payload: command.payload }),
@@ -928,6 +972,95 @@ export function createV06Host(
         assertInstant(at);
         operationZone = (before.data as DataV5 | null)?.settings?.zone ?? 'UTC';
         const epoch = isLifecycle ? id() : before.token.epoch;
+        if (command.type === 'RestoreRecoveryPoint') {
+          needV5(isV5(before.raw), 'UNSUPPORTED_VERSION', '请先显式升级到 Data v5');
+          // Lost-reply replay first: once this exact restore is committed, its receipt is
+          // on the live envelope. Checking the (rotated) recovery point before the receipt
+          // would wrongly reject the retried confirmation of an already-finished restore.
+          const priorReceipt = (before.raw as V5Envelope).lifecycleReceipt;
+          if (priorReceipt?.commandId === command.commandId) {
+            needV5(
+              priorReceipt.type === command.type &&
+                priorReceipt.payloadFingerprint === digest &&
+                same(priorReceipt.previousToken, command.expected) &&
+                same(priorReceipt.resultToken, before.token),
+              'COMMAND_ID_REUSED',
+              '请求标识用于另一操作',
+            );
+            return { token: before.token, resultRefs: [], replayed: true };
+          }
+          const point = (await store.readRecovery()).find(
+            (p) => typeof p.key === 'string' && p.key === command.payload.pointKey,
+          );
+          needV5(
+            point && point.value && typeof point.value === 'object' && 'raw' in point.value,
+            'INVALID_INPUT',
+            '该恢复点不含可恢复工作区，请保留导出原文',
+          );
+          const pointRaw = (point.value as { raw: unknown }).raw;
+          // Pre-validate the exact bytes: fact lock, content binding, source digests.
+          const preTarget = guardedV5Target(before.data as DataV5, pointRaw);
+          needV5(
+            contentFingerprint(preTarget.data) === command.payload.targetFingerprint,
+            'PREVIEW_STALE',
+            '恢复点已变化，请重新确认',
+          );
+          await validateV5Fingerprints(preTarget.data);
+          const recoveryEpoch = id();
+          return store.atomic<TodaySubmitValue>((raw) => {
+            const envelope = raw as V5Envelope | undefined,
+              receipt = envelope?.schemaVersion === 4 ? envelope.lifecycleReceipt : null;
+            const current =
+              envelope?.schemaVersion === 4
+                ? { epoch: envelope.epoch, revision: envelope.revision }
+                : before.token;
+            if (receipt?.commandId === command.commandId) {
+              needV5(
+                receipt.type === command.type &&
+                  receipt.payloadFingerprint === digest &&
+                  same(receipt.previousToken, command.expected),
+                'COMMAND_ID_REUSED',
+                '请求标识用于另一操作',
+              );
+              return { result: { token: current, resultRefs: [], replayed: true } };
+            }
+            checkToken(current, command.expected);
+            needV5(
+              (raw === undefined ? 'uninitialized' : canonicalJson(raw)) === before.rawKey,
+              'REVISION_CONFLICT',
+              '工作区已变化',
+            );
+            needV5(isV5(raw), 'UNSUPPORTED_VERSION', '请先显式升级到 Data v5');
+            const target = guardedV5Target((raw as V5Envelope).data, pointRaw);
+            needV5(
+              contentFingerprint(target.data) === command.payload.targetFingerprint,
+              'PREVIEW_STALE',
+              '恢复点已变化，请重新确认',
+            );
+            const token = { epoch: recoveryEpoch, revision: 1 },
+              write = {
+                schemaVersion: 4,
+                ...token,
+                mode: 'current' as const,
+                dataFormat: 'action-v5' as const,
+                data: structuredClone(target.data),
+                lifecycleReceipt: {
+                  commandId: command.commandId,
+                  type: command.type,
+                  payloadFingerprint: digest,
+                  previousToken: current,
+                  resultToken: token,
+                },
+              } as V5Envelope;
+            capture(write, token, at, true);
+            return {
+              write,
+              at,
+              reason: command.type,
+              result: { token, resultRefs: [], replayed: false },
+            };
+          });
+        }
         if (command.type === 'CommitMonthlyArchive') {
           const r = await archives.commit(
             command as Extract<V06Command, { type: 'CommitMonthlyArchive' }>,

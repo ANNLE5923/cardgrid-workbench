@@ -256,7 +256,7 @@ export function inspectEnvelope(raw: unknown): WorkspaceInspection {
       string(receipt.payloadFingerprint, '$.lifecycleReceipt.payloadFingerprint');
       oneOf(
         receipt.type,
-        ['RestoreWorkspace', 'ClearWorkspace', 'CommitMigration'],
+        ['RestoreWorkspace', 'ClearWorkspace', 'CommitMigration', 'RestoreRecoveryPoint'],
         '$.lifecycleReceipt.type',
       );
       for (const key of ['previousToken', 'resultToken']) {
@@ -1987,6 +1987,11 @@ export function validateCommandPayload(command: Command): void {
     ImportDefinitions: shape({ previewId: nonempty, mode: literal('merge', 'replace'), backup }),
     RestoreWorkspace: shape({ previewId: nonempty, backup, discardDraftsConfirmed: literal(true) }),
     ClearWorkspace: shape({ backup, discardDraftsConfirmed: literal(true) }),
+    RestoreRecoveryPoint: shape({
+      pointKey: nonempty,
+      targetFingerprint: nonempty,
+      confirmed: literal(true),
+    }),
     CommitMigration: shape({ previewId: nonempty, backup, discardDraftsConfirmed: literal(true) }),
     SaveJournalEntry: shape({ date: dateValue, zone: zoneValue, text: textValue }),
   };

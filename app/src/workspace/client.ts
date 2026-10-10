@@ -39,6 +39,11 @@ import {
   type RestoreTarget,
 } from './format.ts';
 import { prepareMigration, type MigrationChoices, type MigrationSource } from './migration.ts';
+import {
+  inspectRecoveryPoint,
+  guardedRecoveryTarget,
+  contentFingerprint,
+} from './recovery-restore.ts';
 import { createWorkspaceStore, type WorkspaceStore, type WorkspaceSlotChange } from './store.ts';
 import { compatibilityView, projectDay } from '../daily/projection.ts';
 import { dateAt, resolveLocal } from '../daily/time.ts';
@@ -280,6 +285,125 @@ export function createWorkspaceClient(
       },
     };
   }
+  // One-click "go back": reuses the internal recovery point, but re-checks the fact lock
+  // inside the transaction so confirmed facts can never be rolled back.
+  async function submitRecoveryPoint(
+    input: Extract<Command, { type: 'RestoreRecoveryPoint' }>,
+  ): Promise<SubmitResult> {
+    const command = structuredClone(input);
+    assertCommand(command);
+    requireValue(command.payload.confirmed === true, 'INVALID_INPUT', '请确认会放弃这之后的改动');
+    const payloadFingerprint = await fingerprint({ type: command.type, payload: command.payload }),
+      before = await service.readSnapshot();
+    requireValue(before.data, 'LEGACY_READ_ONLY', '旧工作区只读');
+    // Lost-reply retry comes first: if this exact restore is already the committed
+    // result of the live workspace, replay its receipt before reading the recovery
+    // point (which rotates on every write and would otherwise reject the retry).
+    const priorReceipt =
+      before.raw && typeof before.raw === 'object' && (before.raw as EnvelopeV4).schemaVersion === 4
+        ? (before.raw as EnvelopeV4).lifecycleReceipt
+        : null;
+    if (priorReceipt?.commandId === command.commandId) {
+      requireValue(
+        priorReceipt.type === command.type &&
+          priorReceipt.payloadFingerprint === payloadFingerprint &&
+          sameValue(priorReceipt.previousToken, command.expected) &&
+          sameValue(priorReceipt.resultToken, before.token),
+        'COMMAND_ID_REUSED',
+        '请求标识已用于另一操作',
+      );
+      return { ok: true, value: { token: before.token, resultRefs: [], replayed: true } };
+    }
+    const point = (await store.readRecovery()).find(
+      (item) => typeof item.key === 'string' && item.key === command.payload.pointKey,
+    );
+    requireValue(
+      point && point.value && typeof point.value === 'object' && 'raw' in point.value,
+      'INVALID_INPUT',
+      '该恢复点不含可恢复工作区，请保留导出原文',
+    );
+    const pointRaw = (point.value as { raw: unknown }).raw;
+    // Pre-validate the exact bytes we intend to write: fact lock, content binding, source digests.
+    const preTarget = guardedRecoveryTarget(before.data, pointRaw);
+    requireValue(
+      contentFingerprint(preTarget.data) === command.payload.targetFingerprint,
+      'INVALID_INPUT',
+      '恢复点已变化，请重新确认',
+    );
+    await validateSourceFingerprints(preTarget.data);
+    const epoch = id(),
+      at = now();
+    const response = await store.atomic((raw) => {
+      const envelope = raw as EnvelopeV4 | undefined,
+        receipt = envelope?.schemaVersion === 4 ? envelope.lifecycleReceipt : null;
+      const token =
+        envelope?.schemaVersion === 4
+          ? { epoch: envelope.epoch, revision: envelope.revision }
+          : before.token;
+      if (receipt?.commandId === command.commandId) {
+        requireValue(
+          receipt.type === command.type &&
+            receipt.payloadFingerprint === payloadFingerprint &&
+            sameValue(receipt.previousToken, command.expected),
+          'COMMAND_ID_REUSED',
+          '请求标识已用于另一操作',
+        );
+        return {
+          result: {
+            ok: true,
+            value: { token, resultRefs: [], replayed: true },
+          } as SubmitResult,
+        };
+      }
+      checkToken(token, command.expected);
+      checkToken(before.token, command.expected);
+      requireValue(
+        (raw === undefined ? 'uninitialized' : canonicalJson(raw)) === before.rawKey,
+        'BACKUP_STALE',
+        '工作区已改变，请重新选择恢复点',
+      );
+      requireValue(
+        envelope?.schemaVersion === 4 && envelope.mode === 'current',
+        'LEGACY_READ_ONLY',
+        '当前工作区不是可恢复的当前工作区',
+      );
+      const target = guardedRecoveryTarget(
+        (envelope as Extract<EnvelopeV4, { mode: 'current' }>).data,
+        pointRaw,
+      );
+      requireValue(
+        contentFingerprint(target.data) === command.payload.targetFingerprint,
+        'INVALID_INPUT',
+        '恢复点已变化，请重新确认',
+      );
+      const resultToken = { epoch, revision: 1 };
+      const write = {
+        schemaVersion: 4,
+        ...resultToken,
+        mode: 'current' as const,
+        dataFormat: target.dataFormat,
+        data: structuredClone(target.data),
+        lifecycleReceipt: {
+          commandId: command.commandId,
+          type: command.type,
+          payloadFingerprint,
+          previousToken: token,
+          resultToken,
+        },
+      } as EnvelopeV4;
+      return {
+        write,
+        at,
+        reason: command.type,
+        result: {
+          ok: true,
+          value: { token: resultToken, resultRefs: [], replayed: false },
+        } as SubmitResult,
+      };
+    });
+    if (response.ok) invalidate();
+    return response;
+  }
   const client = {
     ...drawingQueries(
       service.readSnapshot,
@@ -401,6 +525,24 @@ export function createWorkspaceClient(
       });
     },
     exportRaw: () => result(() => store.read()),
+    inspectRecoveryPoint(pointKey: string) {
+      return result(async () => {
+        const snapshot = await service.readSnapshot();
+        requireValue(snapshot.data, 'LEGACY_READ_ONLY', '旧工作区需先升级');
+        const point = (await store.readRecovery()).find(
+          (item) => typeof item.key === 'string' && item.key === pointKey,
+        );
+        requireValue(point, 'INVALID_INPUT', '该恢复点已不存在');
+        const verdict = await inspectRecoveryPoint({
+          pointKey,
+          value: point.value,
+          current: snapshot.data,
+        });
+        // Bind the confirmation to the exact workspace token inspected, so a stale
+        // confirmation can never restore over a different (switched/replaced) workspace.
+        return { ...verdict, expected: snapshot.token };
+      });
+    },
     previewRestore(input: { token: Token; text: string }) {
       return result(async () => {
         const snapshot = await service.readSnapshot();
@@ -631,6 +773,13 @@ export function createWorkspaceClient(
       });
     },
     async submit(input: Command): Promise<SubmitResult> {
+      if (input?.type === 'RestoreRecoveryPoint') {
+        try {
+          return await submitRecoveryPoint(input);
+        } catch (error) {
+          return commandFailure(error);
+        }
+      }
       if (!['RestoreWorkspace', 'ClearWorkspace', 'CommitMigration'].includes(input?.type))
         return service.submit(input);
       try {
