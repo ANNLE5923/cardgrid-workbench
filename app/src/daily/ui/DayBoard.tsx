@@ -68,13 +68,15 @@ export function DayBoard(
   props: Readonly<{
     client: TodayClient;
     preparationRevision?: number;
+    /** App（非 DayBoard 自身）成功提交了会影响表盘投影的命令（如今日收尾面板）后递增。 */
+    externalWriteTick?: number;
     initialView?: DayBoardView;
     onViewChange?: (view: DayBoardView) => void;
     handRequest?: HandPlayRequest | null;
     onHandRequestHandled?: () => void;
   }>,
 ) {
-  const { client, preparationRevision } = props;
+  const { client, preparationRevision, externalWriteTick } = props;
   const initialView = useRef(props.initialView).current;
   const onViewChange = useRef(props.onViewChange);
   onViewChange.current = props.onViewChange;
@@ -160,9 +162,11 @@ export function DayBoard(
 
   // PrepareDay is submitted by the app. Other local writes refresh their own
   // projection once; a second subscription refresh can remove the focus target.
+  // App-level writes that DayBoard did not submit itself (today close panel,
+  // references) are signalled via externalWriteTick so the board never goes stale.
   useEffect(() => {
     void reloadDay();
-  }, [reloadDay, preparationRevision]);
+  }, [reloadDay, preparationRevision, externalWriteTick]);
 
   // D024/B25: detect the real date crossing midnight. Following now advances the view;
   // manual mode keeps the viewed date and only shows a "new day" notice.

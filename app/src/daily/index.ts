@@ -9,3 +9,19 @@ export { ScheduleView } from './compatibility/ScheduleView.tsx';
 export { InboxView } from './inbox/InboxView.tsx';
 
 export type { HandPlayRequest } from './hand/unified.ts';
+
+export { buildCloseChecklist, projectExpectedRoutines } from './close/close-checklist.ts';
+export type {
+  CloseChecklist,
+  CloseChecklistInput,
+  CloseHandItem,
+  CloseRecap,
+  UnverifiedPlan,
+  LockedUnverifiedPlan,
+  CloseMaterialBinding,
+  MakeupRoutine,
+  RetainedHandItem,
+  WithdrawBlockedReason,
+  ExpectedRoutineItem,
+} from './close/close-checklist.ts';
+export { buildCloseChecklistFromV5, materialBindings } from './close/close-input.ts';

@@ -18,6 +18,7 @@ import { V06Archives } from './V06Archives.tsx';
 import { V06Configuration } from './V06Configuration.tsx';
 import { BackupRestore } from './BackupRestore.tsx';
 import { ReferencePlacement } from './ReferencePlacement.tsx';
+import { V06DayClose } from './V06DayClose.tsx';
 import '../style.css';
 type Page = 'today' | 'workshop' | 'cards' | 'journal' | 'maintenance' | 'data';
 type HostCommand = Parameters<V06Host['submit']>[0];
@@ -47,7 +48,9 @@ export function V06App({
     [day, setDay] = useState<Awaited<ReturnType<V06Host['readDay']>> | null>(null),
     [message, setMessage] = useState(''),
     [busy, setBusy] = useState(false),
-    [handRequest, setHandRequest] = useState<HandPlayRequest | null>(null);
+    [handRequest, setHandRequest] = useState<HandPlayRequest | null>(null),
+    [closeOpen, setCloseOpen] = useState(false),
+    [boardTick, setBoardTick] = useState(0);
   const [answer, setAnswer] = useState<{
       id: string;
       version: number;
@@ -156,6 +159,9 @@ export function V06App({
       retry.current = null;
       setMessage(r.value.replayed ? '原请求已保存，已读取回执' : '已保存到本机');
       await refresh();
+      // DayBoard 只对“外部（其他标签页）”修订或它自己提交的命令刷新；App 代发的
+      // 命令（如今日收尾面板、答案参考）需显式给它一个刷新信号，避免表盘停留旧投影。
+      setBoardTick((t) => t + 1);
       return true;
     } catch (error) {
       setMessage(error instanceof Error ? error.message : '保存结果尚未收到，请重试原请求');
@@ -229,6 +235,7 @@ export function V06App({
     }
   };
   const archivedJournal = !!data?.archiveIndex.some((i) => i.coveredDates.includes(journal.date));
+  const viewingToday = !!view && view.date === dateAt(new Date().toISOString(), view.zone);
   const futureJournal =
     journal.date > dateAt(new Date().toISOString(), data?.settings.zone ?? journal.zone);
   const [monthlyReminder, setMonthlyReminder] = useState<readonly string[]>([]),
@@ -292,12 +299,24 @@ export function V06App({
         )}
         {page === 'today' && view && (
           <>
+            {viewingToday && (
+              <div className="v06-day-close-entry">
+                <button
+                  type="button"
+                  aria-expanded={closeOpen}
+                  onClick={() => setCloseOpen((v) => !v)}
+                >
+                  {closeOpen ? '收起收尾面板' : '结束今天 · 收尾检查'}
+                </button>
+              </div>
+            )}
             <DayBoard
               client={today}
               initialView={view}
               onViewChange={setView}
               handRequest={handRequest}
               onHandRequestHandled={() => setHandRequest(null)}
+              externalWriteTick={boardTick}
             />
             <section aria-label="答案参考">
               <h2>答案参考 · 不重复计时</h2>
@@ -331,6 +350,20 @@ export function V06App({
                     </p>
                   ))}
             </section>
+            {closeOpen && viewingToday && data && day?.ok && (
+              <V06DayClose
+                key={JSON.stringify([epoch, day.value.token.revision, view.date, view.zone])}
+                data={data}
+                day={day.value}
+                now={day.value.now}
+                busy={busy}
+                onAction={named}
+                onFocusBoard={(focusTime) =>
+                  setView((v) => (v ? { ...v, focusTime, followNow: false } : v))
+                }
+                onClose={() => setCloseOpen(false)}
+              />
+            )}
           </>
         )}
         {page === 'workshop' && (
