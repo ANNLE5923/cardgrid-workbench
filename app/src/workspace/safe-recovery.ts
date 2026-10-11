@@ -35,6 +35,61 @@ export type SafeRecoveryReport = Readonly<{
   }>;
 }>;
 
+/** 一个可在安全面只读浏览/导出的恢复点（previous / pre-p1a 等）。 */
+export type SafeRecoveryPointInfo = Readonly<{
+  key: string;
+  reason: string;
+  createdAt: string;
+  report: SafeRecoveryReport;
+  rawText: string | null;
+}>;
+
+/** 只读安全打开诊断：当前信封 + 全部恢复点，均为解析结果/原文文本，不含任何写能力。 */
+export type SafeOpenDiagnostic = Readonly<{
+  report: SafeRecoveryReport;
+  rawText: string | null;
+  recoveryPoints: readonly SafeRecoveryPointInfo[];
+}>;
+
+/** 永不抛错的 JSON 序列化；无法序列化（循环引用等）时返回 null。 */
+export function safeJsonText(value: unknown): string | null {
+  try {
+    return value === undefined ? null : JSON.stringify(value, null, 2);
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * 恢复点在 recovery 仓里有两种封装：
+ *  - previous：{ raw: 信封, reason, createdAt }
+ *  - pre-p1a 等迁移备份：直接存信封
+ * 统一解包出信封原文。
+ */
+export function unwrapRecoveryPoint(value: unknown): unknown {
+  if (
+    typeof value === 'object' &&
+    value !== null &&
+    !Array.isArray(value) &&
+    Object.hasOwn(value, 'raw')
+  ) {
+    return (value as { raw: unknown }).raw;
+  }
+  return value;
+}
+
+/** 从恢复点封装里取元信息（reason/createdAt 可能不存在）。 */
+export function recoveryPointMeta(value: unknown): { reason: string; createdAt: string } {
+  if (typeof value === 'object' && value !== null && !Array.isArray(value)) {
+    const v = value as { reason?: unknown; createdAt?: unknown };
+    return {
+      reason: typeof v.reason === 'string' ? v.reason : '',
+      createdAt: typeof v.createdAt === 'string' ? v.createdAt : '',
+    };
+  }
+  return { reason: '', createdAt: '' };
+}
+
 const isRecord = (v: unknown): v is Record<string, unknown> =>
   typeof v === 'object' && v !== null && !Array.isArray(v);
 

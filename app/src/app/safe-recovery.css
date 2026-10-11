@@ -76,3 +76,26 @@
 .safe-actions button {
   margin-right: 0;
 }
+.safe-recovery .safe-fatal {
+  margin: 12px 0;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--surface);
+  padding: 8px 12px;
+}
+.safe-recovery .safe-fatal pre {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  font-size: 12px;
+  margin: 8px 0 4px;
+}
+.safe-recovery .safe-points-title {
+  margin-top: 18px;
+  font-size: 15px;
+}
+.safe-recovery .safe-point summary {
+  font-weight: 500;
+}
+.safe-recovery .safe-point button {
+  margin-top: 6px;
+}

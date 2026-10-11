@@ -6,7 +6,12 @@ export { MAX_INPUT_BYTES, MAX_BACKUP_BYTES } from './format.ts';
 export {
   parseSafeRecovery,
   friendlyCollectionName,
+  safeJsonText,
+  unwrapRecoveryPoint,
+  recoveryPointMeta,
   type SafeRecoveryReport,
+  type SafeRecoveryPointInfo,
+  type SafeOpenDiagnostic,
 } from './safe-recovery.ts';
 export type * from './contracts.ts';
 export type * from './contracts-v3.ts';

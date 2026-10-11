@@ -2,10 +2,13 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { createV06Host } from '../workspace/index.ts';
 import { App as LegacyApp } from './App.tsx';
 import { V06App } from './v06/V06App.tsx';
+import { V06SafeOpen } from './V06SafeOpen.tsx';
 import { download } from './files.ts';
 export function RootApp() {
   const host = useMemo(() => createV06Host(), []),
     flush = useRef<() => Promise<boolean>>(async () => true);
+  // 安全面“重试正常打开”只重新读一次，绝不重跑 effect（重跑会触发 cleanup 关闭 host）。
+  const retryRef = useRef<() => void>(() => {});
   const [current, setCurrent] = useState<{ version: number; epoch: string } | null>(null),
     [error, setError] = useState(''),
     [preview, setPreview] = useState<Awaited<ReturnType<typeof host.previewMigrationV5>> | null>(
@@ -25,6 +28,7 @@ export function RootApp() {
         setError(r.message);
         return;
       }
+      setError('');
       setCurrent({
         version:
           r.value.data && typeof r.value.data === 'object' && 'version' in r.value.data
@@ -35,6 +39,10 @@ export function RootApp() {
     };
     void read();
     const off = host.subscribe(() => void read());
+    retryRef.current = () => {
+      setError('');
+      void read();
+    };
     return () => {
       active = false;
       off();
@@ -84,7 +92,10 @@ export function RootApp() {
       setError('');
     }
   };
-  if (!current) return <p role="status">{error || '正在读取本地工作区'}</p>;
+  if (!current) {
+    if (error) return <V06SafeOpen host={host} fatal={error} onRetry={() => retryRef.current()} />;
+    return <p role="status">正在读取本地工作区</p>;
+  }
   if (current.version === 5)
     return (
       <V06App

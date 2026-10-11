@@ -58,6 +58,13 @@ import {
 import { exportConfigV4, readConfiguration } from './v5-config.ts';
 import { prepareV5Migration } from './v5-migration.ts';
 import {
+  parseSafeRecovery,
+  safeJsonText,
+  unwrapRecoveryPoint,
+  recoveryPointMeta,
+  type SafeOpenDiagnostic,
+} from './safe-recovery.ts';
+import {
   applyV5Command,
   materialContext,
   sourceAction,
@@ -291,6 +298,40 @@ export function createV06Host(
         needV5(isV5(s.raw), 'UNSUPPORTED_VERSION', '请先备份、预览并显式升级通用卡牌格式');
         return { token: s.token, data: s.raw.data };
       }),
+    // v0.6.5 P0-A 只读安全打开端口：不经过 snapshot/校验器、不需要令牌，
+    // 只走 readonly 事务直读当前信封与 recovery/*，任何存储/序列化异常都收敛为
+    // ok:false，绝不抛业务错误、绝不写入或隐式升级。用于当前数据认证失败时的安全面。
+    readSafeOpen: async (): Promise<V06Result<SafeOpenDiagnostic>> => {
+      try {
+        const [raw, points] = await Promise.all([
+          store.read().catch(() => undefined),
+          store.readRecovery().catch(() => [] as readonly { key: IDBValidKey; value: unknown }[]),
+        ]);
+        const recoveryPoints = points
+          .filter((p) => typeof p.key === 'string')
+          .map((p) => {
+            const pointRaw = unwrapRecoveryPoint(p.value),
+              meta = recoveryPointMeta(p.value);
+            return {
+              key: p.key as string,
+              reason: meta.reason,
+              createdAt: meta.createdAt,
+              report: parseSafeRecovery(pointRaw),
+              rawText: safeJsonText(pointRaw),
+            };
+          });
+        return {
+          ok: true,
+          value: {
+            report: parseSafeRecovery(raw),
+            rawText: safeJsonText(raw),
+            recoveryPoints,
+          },
+        };
+      } catch (e) {
+        return commandFailure(e);
+      }
+    },
     subscribe: (listener: (external: boolean, changes?: readonly WorkspaceSlotChange[]) => void) =>
       store.subscribe(listener),
     close() {
